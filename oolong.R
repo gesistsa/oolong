@@ -1,9 +1,8 @@
 require(stm)
-
-stm_models <- readRDS("~/dev/jcmc/stm_models.RDS")
-
-
-###stm_models[[2]]
+require(purrr)
+require(tibble)
+require(shiny)
+require(miniUI)
 
 
 
@@ -24,56 +23,64 @@ gen_candidates <- function(i, terms, n_top_terms = 5, bottom_terms_percentile = 
     insert(good_terms, intruder, position) -> res
     res$t <- i
     res$intruder <- res$candidates[[1]][res$position]
+    res$answer <- NA
     return(res)
 }
 
-require(purrr)
-require(tibble)
 
-gen_oolong <- function(input_stm, n_top_terms = 5, bottom_terms_percentile = 0.6)
+generate_oolong_test <- function(input_stm, n_top_terms = 5, bottom_terms_percentile = 0.6) {
+    terms <- labelTopics(input_stm, n = input_stm$settings$dim$V)
+    all_terms <- unique(as.vector(terms$frex[,seq_len(n_top_terms)]))
+    oolong_test <- map_dfr(seq_len(input_stm$settings$dim$K), gen_candidates, terms = terms, all_terms = all_terms, bottom_terms_percentile = bottom_terms_percentile)
+    res <- list()
+    res$oolong_test <- oolong_test
+    class(res) <- c(class(res), "oolong_test")
+    return(res)
+}
 
-input_stm <- stm_models[[2]]
-terms <- labelTopics(input_stm, n = input_stm$settings$dim$V)
-all_terms <- unique(as.vector(terms$frex[,1:n_top_terms]))
 
-
-
-
-
-oolong_res <- map_dfr(1:input_stm$settings$dim$K, gen_candidates, terms = terms, all_terms = all_terms)
-
-require(shiny)
-require(miniUI)
-
-code_oolong <- function(oolong_res) {
+.code_oolong <- function(oolong_res) {
     ui <- miniPage(
         gadgetTitleBar("Oolong"),
         miniContentPanel(
             textOutput("current_topic"),
             uiOutput("intruder_choice"),
-            actionButton("confirm", "confirm")
+            actionButton("confirm", "confirm"),
+            actionButton("nextq", "next")
         )
     )
+    .ren_choices <- function(oolong, res) {
+        renderUI({
+    radioButtons("intruder", label = "Which of the following is an intruder word?", choices = oolong$candidates[[res$current_row]], selected = res$intruders[res$current_row])
+        })
+    }
+    .ren_topic_bar <- function(oolong, res) {
+        renderText({
+            paste("Topic ", res$current_row, "of", nrow(oolong), ifelse(is.na(res$intruders[res$current_row]), "", " [coded]"))
+        })
+    }
+    .ren <- function(output, oolong, res) {
+        output$intruder_choice <- .ren_choices(oolong, res)
+        output$current_topic <- .ren_topic_bar(oolong, res)
+        return(output)
+    }
     server <- function(input, output, session) {
-        res <- reactiveValues(intruders = rep(NA, nrow(oolong_res)), current_row = 1)
-        output$intruder_choice <- renderUI({
-            radioButtons("intruder", label = "Which of the following is the intruder word?", choices = oolong_res$candidates[[res$current_row]])
-        })
-        output$current_topic <- renderText({
-            paste("Topic ", res$current_row, "of", nrow(oolong_res))
-        })
+        res <- reactiveValues(intruders = oolong_res$answer, current_row = 1)
+        output <- .ren(output, oolong_res, res)
         observeEvent(input$confirm, {
             res$intruders[res$current_row] <- input$intruder
             res$current_row <- res$current_row + 1
             if (res$current_row > nrow(oolong_res)) {
                 res$current_row <- 1
             }
-            output$intruder_choice <- renderUI({
-                radioButtons("intruder", label = "Which of the following is the intruder word?", choices = oolong_res$candidates[[res$current_row]])
-            })
-            output$current_topic <- renderText({
-                paste("Topic ", res$current_row, "of", nrow(oolong_res))
-            })
+            output <- .ren(output, oolong_res, res)
+        })
+        observeEvent(input$nextq, {
+            res$current_row <- res$current_row + 1
+            if (res$current_row > nrow(oolong_res)) {
+                res$current_row <- 1
+            }
+            output <- .ren(output, oolong_res, res)
         })
         observeEvent(input$done, (
             stopApp(res$intruders)
@@ -83,33 +90,17 @@ code_oolong <- function(oolong_res) {
     runGadget(ui, server)
 }
 
-code_oolong(oolong_res[1:2,])
+#' @export
+do_oolong_test <- function(oolong_test) {
+    oolong_test$answer <- .code_oolong(oolong_test$oolong_test)
+    return(oolong_test)
+}
 
+stm_models <- readRDS("~/dev/jcmc2/stm_models.RDS")
+oolong_test <- generate_oolong_test(input_stm = stm_models[[2]], n_top_terms = 5)
 
-## output <- rep(NA, nrow(res))
+print.oolong_test <- function(oolong_test) {
+    cat(paste0("An oolong test object with k = ", nrow(oolong_test$oolong_test), ", ", sum(!is.na(oolong_test$oolong_test$answer)), " coded.\n"))
+}
 
-## for(i in 1:nrow(res)) {
-##     output[i] <- display_data(res$candidates[[i]])
-## }
-
-## testing <- function() {
-##     ui <- miniPage(
-##         gadgetTitleBar("test"),
-##         miniContentPanel(
-##             textInput('test', label = "input something"),
-##             textOutput("data"),
-##             actionButton("confirm", "confirm")
-##         )
-##     )
-##     server <- function(input, output, session) {
-##         pointer <- reactiveValues(pointer = 0)
-##         observeEvent(input$done, (
-##             stopApp(pointer$pointer)
-##         ))
-##         observeEvent(input$confirm, {
-##             pointer$pointer <- pointer$pointer + 1
-##         })
-
-##     }
-##     runGadget(ui, server)
-## }
+do_oolong_test(oolong_test)
