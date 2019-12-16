@@ -3,10 +3,11 @@ require(purrr)
 require(tibble)
 require(shiny)
 require(miniUI)
+require(text2vec)
 
 
 
-insert <- function(good_terms, intruder, position) {
+.insert <- function(good_terms, intruder, position) {
     length_test_items <- length(c(good_terms, intruder))
     res <- rep(NA, length_test_items)
     res[position] <- intruder
@@ -15,27 +16,28 @@ insert <- function(good_terms, intruder, position) {
 }
 
 
-gen_candidates <- function(i, terms, n_top_terms = 5, bottom_terms_percentile = 0.6, all_terms) {
-    good_terms <- head(terms$frex[i,], n_top_terms)
-    term_pos <- match(all_terms, terms$frex[i,])
-    intruder <- sample(all_terms[term_pos > quantile(term_pos, bottom_terms_percentile)], 1)
+.gen_candidates <- function(i, terms, n_top_terms = 5, bottom_terms_percentile = 0.6, all_terms) {
+    good_terms <- head(terms[i,], n_top_terms)
+    term_pos <- match(all_terms, terms[i,])
+    candidates <- tibble(all_terms, term_pos)
+    non_na_candidates <- candidates[!is.na(candidates$term_pos),]
+    intruder <- sample(non_na_candidates$all_terms[non_na_candidates$term_pos > quantile(non_na_candidates$term_pos, bottom_terms_percentile, na.rm = TRUE)], 1)
     position <- sample(1:(n_top_terms + 1), 1)
-    insert(good_terms, intruder, position) -> res
+    .insert(good_terms, intruder, position) -> res
     res$t <- i
     res$intruder <- res$candidates[[1]][res$position]
     res$answer <- NA
     return(res)
 }
 
-
-generate_oolong_test <- function(input_stm, n_top_terms = 5, bottom_terms_percentile = 0.6) {
-    terms <- labelTopics(input_stm, n = input_stm$settings$dim$V)
-    all_terms <- unique(as.vector(terms$frex[,seq_len(n_top_terms)]))
-    oolong_test <- map_dfr(seq_len(input_stm$settings$dim$K), gen_candidates, terms = terms, all_terms = all_terms, bottom_terms_percentile = bottom_terms_percentile)
-    res <- list()
-    res$oolong_test <- oolong_test
-    class(res) <- c(class(res), "oolong_test")
-    return(res)
+.cal_oolong_correct <- function(oolong_test) {
+    if (all(is.na(oolong_test$answer))) {
+        return(0)
+    } else {
+        base <- sum(!is.na(oolong_test$answer))
+        n_correct <- sum(oolong_test$answer[!is.na(oolong_test$answer)] == oolong_test$intruder[!is.na(oolong_test$answer)])
+        return(n_correct / base)
+    }
 }
 
 
@@ -91,16 +93,34 @@ generate_oolong_test <- function(input_stm, n_top_terms = 5, bottom_terms_percen
 }
 
 #' @export
+print.oolong_test <- function(oolong_test) {
+    
+    cat(paste0("An oolong test object with k = ", nrow(oolong_test$oolong_test), ", ", sum(!is.na(oolong_test$oolong_test$answer)), " coded. (", round(.cal_oolong_correct(oolong_test$oolong_test), 3)," accuracy)\n"))
+}
+
+#' @export
+generate_oolong_test <- function(model, n_top_terms = 5, bottom_terms_percentile = 0.6) {
+    if ("WarpLDA" %in% class(model)) {
+        K <- model$.__enclos_env__$private$n_topics
+        V <- length(model$.__enclos_env__$private$vocabulary)
+        terms <- t(model$get_top_words(n = V))
+        all_terms <- unique(as.vector(terms[,seq_len(n_top_terms)]))
+    } else if ("STM" %in% class(model)) {
+        K <- model$settings$dim$K
+        V <- model$settings$dim$V
+        terms <- labelTopics(model, n = model$settings$dim$V)$frex
+        all_terms <- unique(as.vector(terms[,seq_len(n_top_terms)]))
+    }
+    oolong_test <- map_dfr(seq_len(K), .gen_candidates, terms = terms, all_terms = all_terms, bottom_terms_percentile = bottom_terms_percentile)
+    res <- list()
+    res$oolong_test <- oolong_test
+    class(res) <- c(class(res), "oolong_test")
+    return(res)
+}
+
+#' @export
 do_oolong_test <- function(oolong_test) {
-    oolong_test$answer <- .code_oolong(oolong_test$oolong_test)
+    oolong_test$oolong_test$answer <- .code_oolong(oolong_test$oolong_test)
     return(oolong_test)
 }
 
-stm_models <- readRDS("~/dev/jcmc2/stm_models.RDS")
-oolong_test <- generate_oolong_test(input_stm = stm_models[[2]], n_top_terms = 5)
-
-print.oolong_test <- function(oolong_test) {
-    cat(paste0("An oolong test object with k = ", nrow(oolong_test$oolong_test), ", ", sum(!is.na(oolong_test$oolong_test$answer)), " coded.\n"))
-}
-
-do_oolong_test(oolong_test)
