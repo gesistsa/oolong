@@ -4,7 +4,7 @@ require(tibble)
 require(shiny)
 require(miniUI)
 require(text2vec)
-
+require(digest)
 
 
 .insert <- function(good_terms, intruder, position) {
@@ -111,9 +111,10 @@ generate_oolong_test <- function(model, n_top_terms = 5, bottom_terms_percentile
         terms <- labelTopics(model, n = model$settings$dim$V)$frex
         all_terms <- unique(as.vector(terms[,seq_len(n_top_terms)]))
     }
-    oolong_test <- map_dfr(seq_len(K), .gen_candidates, terms = terms, all_terms = all_terms, bottom_terms_percentile = bottom_terms_percentile)
+    oolong_test <- purrr::map_dfr(seq_len(K), .gen_candidates, terms = terms, all_terms = all_terms, bottom_terms_percentile = bottom_terms_percentile)
     res <- list()
     res$oolong_test <- oolong_test
+    res$hash <- digest::digest(oolong_test, "sha512")
     class(res) <- c(class(res), "oolong_test")
     return(res)
 }
