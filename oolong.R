@@ -125,3 +125,21 @@ do_oolong_test <- function(oolong_test) {
     return(oolong_test)
 }
 
+require(R6)
+Oolong_test <- R6Class(
+    "oolong_test",
+    public = list(
+        test_content = NULL,
+        initialize = function(model, n_top_terms = 5, bottom_terms_percentile = 0.6) {
+            self$test_content <- generate_oolong_test(model, n_top_terms = n_top_terms, bottom_terms_percentile = bottom_terms_percentile)
+        },
+        do_test = function() {
+            self$test_content <- do_oolong_test(self$test_content)
+        }
+    )
+)
+
+x <- readRDS("~/dev/jcmc3/stm_models_ori.RDS")
+
+oolong <- Oolong_test$new(x[[2]])
+oolong$do_test()
