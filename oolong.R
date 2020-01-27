@@ -5,7 +5,7 @@ require(shiny)
 require(miniUI)
 require(text2vec)
 require(digest)
-
+require(R6)
 
 .insert <- function(good_terms, intruder, position) {
     length_test_items <- length(c(good_terms, intruder))
@@ -93,10 +93,10 @@ require(digest)
 }
 
 #' @export
-print.oolong_test <- function(oolong_test) {
+## print.oolong_test <- function(oolong_test) {
     
-    cat(paste0("An oolong test object with k = ", nrow(oolong_test$oolong_test), ", ", sum(!is.na(oolong_test$oolong_test$answer)), " coded. (", round(.cal_oolong_correct(oolong_test$oolong_test), 3)," accuracy)\n"))
-}
+##     cat(paste0("An oolong test object with k = ", nrow(oolong_test$oolong_test), ", ", sum(!is.na(oolong_test$oolong_test$answer)), " coded. (", round(.cal_oolong_correct(oolong_test$oolong_test), 3)," accuracy)\n"))
+## }
 
 #' @export
 generate_oolong_test <- function(model, n_top_terms = 5, bottom_terms_percentile = 0.6) {
@@ -111,21 +111,20 @@ generate_oolong_test <- function(model, n_top_terms = 5, bottom_terms_percentile
         terms <- labelTopics(model, n = model$settings$dim$V)$frex
         all_terms <- unique(as.vector(terms[,seq_len(n_top_terms)]))
     }
-    oolong_test <- purrr::map_dfr(seq_len(K), .gen_candidates, terms = terms, all_terms = all_terms, bottom_terms_percentile = bottom_terms_percentile)
-    res <- list()
-    res$oolong_test <- oolong_test
-    res$hash <- digest::digest(oolong_test, "sha512")
-    class(res) <- c(class(res), "oolong_test")
-    return(res)
+    test_content <- purrr::map_dfr(seq_len(K), .gen_candidates, terms = terms, all_terms = all_terms, bottom_terms_percentile = bottom_terms_percentile)
+    ###res <- list()
+    ##res$oolong_test <- oolong_test
+    ##res$hash <- digest::digest(oolong_test, "sha512")
+    ##class(res) <- c(class(res), "oolong_test")
+    return(test_content)
 }
 
 #' @export
-do_oolong_test <- function(oolong_test) {
-    oolong_test$oolong_test$answer <- .code_oolong(oolong_test$oolong_test)
-    return(oolong_test)
+do_oolong_test <- function(test_content) {
+    test_content$answer <- .code_oolong(test_content)
+    return(test_content)
 }
-
-require(R6)
+### TODO: generate the hash in the private field.
 Oolong_test <- R6Class(
     "oolong_test",
     public = list(
@@ -133,9 +132,15 @@ Oolong_test <- R6Class(
         initialize = function(model, n_top_terms = 5, bottom_terms_percentile = 0.6) {
             self$test_content <- generate_oolong_test(model, n_top_terms = n_top_terms, bottom_terms_percentile = bottom_terms_percentile)
         },
+        print = function() {
+            cat(paste0("An oolong test object with k = ", nrow(self$test_content), ", ", sum(!is.na(self$test_content$answer)), " coded. (", round(.cal_oolong_correct(self$test_content), 3)," accuracy)\n Use the method $do_test() to do the coding.\n"))
+        },
         do_test = function() {
             self$test_content <- do_oolong_test(self$test_content)
         }
+    ),
+    private = list(
+        hash = NULL
     )
 )
 
