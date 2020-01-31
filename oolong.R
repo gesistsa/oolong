@@ -36,7 +36,7 @@ require(R6)
     } else {
         base <- sum(!is.na(oolong_test$answer))
         n_correct <- sum(oolong_test$answer[!is.na(oolong_test$answer)] == oolong_test$intruder[!is.na(oolong_test$answer)])
-        return(n_correct / base)
+        return(round((n_correct / base) * 100, 2))
     }
 }
 
@@ -98,17 +98,16 @@ require(R6)
 ##     cat(paste0("An oolong test object with k = ", nrow(oolong_test$oolong_test), ", ", sum(!is.na(oolong_test$oolong_test$answer)), " coded. (", round(.cal_oolong_correct(oolong_test$oolong_test), 3)," accuracy)\n"))
 ## }
 
-#' @export
-generate_oolong_test <- function(model, n_top_terms = 5, bottom_terms_percentile = 0.6) {
+.generate_word_intrusion_test <- function(model, n_top_terms = 5, bottom_terms_percentile = 0.6, difficulty = 0.8) {
     if ("WarpLDA" %in% class(model)) {
         K <- model$.__enclos_env__$private$n_topics
         V <- length(model$.__enclos_env__$private$vocabulary)
-        terms <- t(model$get_top_words(n = V))
+        terms <- t(model$get_top_words(n = V, lambda = difficulty))
         all_terms <- unique(as.vector(terms[,seq_len(n_top_terms)]))
     } else if ("STM" %in% class(model)) {
         K <- model$settings$dim$K
         V <- model$settings$dim$V
-        terms <- labelTopics(model, n = model$settings$dim$V)$frex
+        terms <- labelTopics(model, n = model$settings$dim$V, frexweight = difficulty)$frex
         all_terms <- unique(as.vector(terms[,seq_len(n_top_terms)]))
     }
     test_content <- purrr::map_dfr(seq_len(K), .gen_candidates, terms = terms, all_terms = all_terms, bottom_terms_percentile = bottom_terms_percentile)
@@ -119,32 +118,38 @@ generate_oolong_test <- function(model, n_top_terms = 5, bottom_terms_percentile
     return(test_content)
 }
 
-#' @export
-do_oolong_test <- function(test_content) {
+.do_oolong_test <- function(test_content) {
     test_content$answer <- .code_oolong(test_content)
     return(test_content)
 }
-### TODO: generate the hash in the private field.
+
 Oolong_test <- R6Class(
     "oolong_test",
     public = list(
-        test_content = NULL,
         initialize = function(model, n_top_terms = 5, bottom_terms_percentile = 0.6) {
-            self$test_content <- generate_oolong_test(model, n_top_terms = n_top_terms, bottom_terms_percentile = bottom_terms_percentile)
+            private$test_content <- .generate_word_intrusion_test(model, n_top_terms = n_top_terms, bottom_terms_percentile = bottom_terms_percentile)
+            private$hash <- digest::digest(private$test_content, algo = "sha1")
         },
         print = function() {
-            cat(paste0("An oolong test object with k = ", nrow(self$test_content), ", ", sum(!is.na(self$test_content$answer)), " coded. (", round(.cal_oolong_correct(self$test_content), 3)," accuracy)\n Use the method $do_test() to do the coding.\n"))
+            cat(paste0("An oolong test object with k = ", nrow(private$test_content), ", ", sum(!is.na(private$test_content$answer)), " coded. (", round(.cal_oolong_correct(private$test_content), 3),"%  accuracy)\n Use the method $do_word_intrusion_test() to start coding.\n"))
         },
-        do_test = function() {
-            self$test_content <- do_oolong_test(self$test_content)
+        do_word_intrusion_test = function() {
+            private$test_content <- .do_oolong_test(private$test_content)
         }
     ),
     private = list(
-        hash = NULL
+        hash = NULL,
+        test_content = NULL
     )
 )
 
-x <- readRDS("~/dev/jcmc3/stm_models_ori.RDS")
+newsgroup_stm <- readRDS("newsgroup_stm.RDS")
+newsgroup_lda <- readRDS("newsgroup_wraplda.RDS")
 
-oolong <- Oolong_test$new(x[[2]])
-oolong$do_test()
+set.seed(12121)
+
+oolong <- Oolong_test$new(newsgroup_lda)
+oolong$do_word_intrusion_test()
+
+oolong_stm <- Oolong_test$new(newsgroup_stm)
+oolong_stm$do_word_intrusion_test()
