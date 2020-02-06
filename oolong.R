@@ -12,7 +12,7 @@ require(R6)
     res <- rep(NA, length_test_items)
     res[position] <- intruder
     res[setdiff(1:length_test_items, position)] <- sample(good_terms)
-    return(tibble(position = position, candidates = list(res)))
+    return(tibble::tibble(position = position, candidates = list(res)))
 }
 
 
@@ -107,7 +107,7 @@ require(R6)
     } else if ("STM" %in% class(model)) {
         K <- model$settings$dim$K
         V <- model$settings$dim$V
-        terms <- labelTopics(model, n = model$settings$dim$V, frexweight = difficulty)$frex
+        terms <- stm::labelTopics(model, n = model$settings$dim$V, frexweight = difficulty)$frex
         all_terms <- unique(as.vector(terms[,seq_len(n_top_terms)]))
     }
     test_content <- purrr::map_dfr(seq_len(K), .gen_candidates, terms = terms, all_terms = all_terms, bottom_terms_percentile = bottom_terms_percentile)
@@ -123,7 +123,7 @@ require(R6)
     return(test_content)
 }
 
-Oolong_test <- R6Class(
+Oolong_test <- R6::R6Class(
     "oolong_test",
     public = list(
         initialize = function(model, n_top_terms = 5, bottom_terms_percentile = 0.6) {
@@ -147,9 +147,8 @@ newsgroup_stm <- readRDS("newsgroup_stm.RDS")
 newsgroup_lda <- readRDS("newsgroup_wraplda.RDS")
 
 set.seed(12121)
-
 oolong <- Oolong_test$new(newsgroup_lda)
-oolong$do_word_intrusion_test()
-
 oolong_stm <- Oolong_test$new(newsgroup_stm)
+
+oolong$do_word_intrusion_test()
 oolong_stm$do_word_intrusion_test()
