@@ -1,11 +1,11 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-oolong <img src="man/figures/oolong_logo.png" align="right" height="220" />
+oolong <img src="man/figures/oolong_logo.png" align="right" height="200" />
 ===========================================================================
 
 <!-- badges: start -->
 <!-- badges: end -->
-The goal of oolong (烏龍, literally means "Dark Dragon", is a semi-oxidized tea from Asia. It is very popular in Taiwan, Japan and Hong Kong) is to generate and adminstrate validation tests easily for typical automated content analysis tools such as topic models and dictionary-based tools.
+The goal of oolong [1] is to generate and adminstrate validation tests easily for typical automated content analysis tools such as topic models and dictionary-based tools.
 
 Installation
 ------------
@@ -49,3 +49,5 @@ After the coding, you can look at the accuracy rate by printing the oolong test.
 ``` r
 oolong_test
 ```
+
+[1] /ˈuːlʊŋ/ 烏龍, literally means "Dark Dragon", is a semi-oxidized tea from Asia. It is very popular in Taiwan, Japan and Hong Kong
