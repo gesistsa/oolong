@@ -1,6 +1,6 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-oolong <img src="man/figures/oolong_logo.png" align="right" height="150" />
+oolong <img src="man/figures/oolong_logo.png" align="right" height="220" />
 ===========================================================================
 
 <!-- badges: start -->

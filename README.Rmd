@@ -13,7 +13,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-# oolong <img src="man/figures/oolong_logo.png" align="right" height="150" />
+# oolong <img src="man/figures/oolong_logo.png" align="right" height="220" />
 
 <!-- badges: start -->
 <!-- badges: end -->
