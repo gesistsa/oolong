@@ -35,17 +35,28 @@
     }
 }
 
+.UI_WORD_INTRUSION_TEST <- miniUI::miniPage(
+                                 miniUI::gadgetTitleBar("oolong"),
+                                 miniUI::miniContentPanel(
+                                             shiny::textOutput("current_topic"),
+                                             shiny::uiOutput("intruder_choice"),
+                                             shiny::actionButton("confirm", "confirm"),
+                                             shiny::actionButton("nextq", "skip")
+                                         )
+                             )
 
-.code_oolong <- function(test_content) {
-    ui <- miniUI::miniPage(
-        miniUI::gadgetTitleBar("oolong"),
-        miniUI::miniContentPanel(
-            shiny::textOutput("current_topic"),
-            shiny::uiOutput("intruder_choice"),
-            shiny::actionButton("confirm", "confirm"),
-            shiny::actionButton("nextq", "skip")
-        )
-    )
+.UI_TOPIC_INTRUSION_TEST <- miniUI::miniPage(
+                                        miniUI::gadgetTitleBar("oolong"),
+                                        miniUI::miniContentPanel(
+                                                    shiny::textOutput("current_topic"),
+                                                    shiny::uiOutput("text_content"),
+                                                    shiny::uiOutput("intruder_choice"),
+                                                    shiny::actionButton("confirm", "confirm"),
+                                                    shiny::actionButton("nextq", "skip")
+                                                )
+                                    )
+
+.ren_word_intrusion_test <- function(output, test_content, res) {
     .ren_choices <- function(test_content, res) {
         shiny::renderUI({
     radioButtons("intruder", label = "Which of the following is an intruder word?", choices = test_content$candidates[[res$current_row]], selected = res$intruder[res$current_row])
@@ -56,11 +67,35 @@
             paste("Topic ", res$current_row, "of", nrow(test_content), ifelse(is.na(res$intruder[res$current_row]), "", " [coded]"))
         })
     }
-    .ren <- function(output, test_content, res) {
-        output$intruder_choice <- .ren_choices(test_content, res)
-        output$current_topic <- .ren_topic_bar(test_content, res)
-        return(output)
+    output$intruder_choice <- .ren_choices(test_content, res)
+    output$current_topic <- .ren_topic_bar(test_content, res)
+    return(output)
+}
+
+.ren_topic_intrusion_test <- function(output, test_content, res) {
+    .ren_choices <- function(test_content, res) {
+        shiny::renderUI({
+            radioButtons("intruder", label = "Which of the following is an intruder topic?", choiceNames = test_content$topic_labels[[res$current_row]], choiceValues = test_content$candidates[[res$current_row]], selected = res$intruder[res$current_row])
+        })
     }
+    .ren_topic_bar <- function(test_content, res) {
+        shiny::renderText({
+            paste("Case ", res$current_row, "of", nrow(test_content), ifelse(is.na(res$intruder[res$current_row]), "", " [coded]"))
+        })
+    }
+    .ren_text_content <- function(test_content, res) {
+        shiny::renderUI({
+            shiny::pre(test_content$text[res$current_row])
+        })
+    }
+    output$intruder_choice <- .ren_choices(test_content, res)
+    output$current_topic <- .ren_topic_bar(test_content, res)
+    output$text_content <- .ren_text_content(test_content, res)
+    return(output)
+}
+
+### It must take a UI and render function. For new test_content type, please prepare a new pair of .UI_XXX_test (in cap) and .ren_xxx_test
+.code_oolong <- function(test_content, ui = .UI_WORD_INTRUSION_TEST, .ren = .ren_word_intrusion_test) {
     server <- function(input, output, session) {
         res <- shiny::reactiveValues(intruder = test_content$answer, current_row = 1)
         output <- .ren(output, test_content, res)
@@ -189,69 +224,3 @@ create_oolong <- function(model, n_top_terms = 5, bottom_terms_percentile = 0.6,
     test_content <- purrr::map_dfr(seq_len(exact_n), .generate_topic_frame, target_text = target_text, target_theta = target_theta, model_terms = model_terms, k = k, n_top_topics = n_top_topics, n_top_words = n_top_words)
     return(test_content)
 }
-
-
-### actually the server() is 100% similar to the .code_oolong. Some refractoring can merge the two.
-.code_oolong2 <- function(test_content) {
-    ui <- miniUI::miniPage(
-        miniUI::gadgetTitleBar("oolong"),
-        miniUI::miniContentPanel(
-                    shiny::textOutput("current_topic"),
-                    shiny::uiOutput("text_content"),
-                    shiny::uiOutput("intruder_choice"),
-                    shiny::actionButton("confirm", "confirm"),
-                    shiny::actionButton("nextq", "skip")
-        )
-    )
-    .ren_choices <- function(test_content, res) {
-        shiny::renderUI({
-            radioButtons("intruder", label = "Which of the following is an intruder topic?", choiceNames = test_content$topic_labels[[res$current_row]], choiceValues = test_content$candidates[[res$current_row]], selected = res$intruder[res$current_row])
-        })
-    }
-    .ren_topic_bar <- function(test_content, res) {
-        shiny::renderText({
-            paste("Case ", res$current_row, "of", nrow(test_content), ifelse(is.na(res$intruder[res$current_row]), "", " [coded]"))
-        })
-    }
-    .ren_text_content <- function(test_content, res) {
-        shiny::renderUI({
-            shiny::pre(test_content$text[res$current_row])
-        })
-    }
-    .ren <- function(output, test_content, res) {
-        output$intruder_choice <- .ren_choices(test_content, res)
-        output$current_topic <- .ren_topic_bar(test_content, res)
-        output$text_content <- .ren_text_content(test_content, res)
-        return(output)
-    }
-    server <- function(input, output, session) {
-        res <- shiny::reactiveValues(intruder = test_content$answer, current_row = 1)
-        output <- .ren(output, test_content, res)
-        shiny::observeEvent(input$confirm, {
-            res$intruder[res$current_row] <- input$intruder
-            res$current_row <- res$current_row + 1
-            if (res$current_row > nrow(test_content)) {
-                res$current_row <- 1
-            }
-            output <- .ren(output, test_content, res)
-        })
-        shiny::observeEvent(input$nextq, {
-            res$current_row <- res$current_row + 1
-            if (res$current_row > nrow(test_content)) {
-                res$current_row <- 1
-            }
-            output <- .ren(output, test_content, res)
-        })
-        shiny::observeEvent(input$done, (
-            shiny::stopApp(res$intruder)
-        ))
-
-    }
-    shiny::runGadget(ui, server)
-}
-
-## load("../data/newsgroup5.rda")
-## load("../data/newsgroup_stm.rda")
-
-## test_content <- .generate_topic_instrusion_test(newsgroup_stm, newsgroup5$text, exact_n = 10)
-## .code_oolong2(test_content)
