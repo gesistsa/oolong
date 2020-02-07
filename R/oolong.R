@@ -40,7 +40,7 @@
 }
 
 
-.code_oolong <- function(oolong_res) {
+.code_oolong <- function(test_content) {
     ui <- miniUI::miniPage(
         miniUI::gadgetTitleBar("oolong"),
         miniUI::miniContentPanel(
@@ -50,38 +50,38 @@
             shiny::actionButton("nextq", "skip")
         )
     )
-    .ren_choices <- function(oolong, res) {
+    .ren_choices <- function(test_content, res) {
         shiny::renderUI({
-    radioButtons("intruder", label = "Which of the following is an intruder word?", choices = oolong$candidates[[res$current_row]], selected = res$intruder[res$current_row])
+    radioButtons("intruder", label = "Which of the following is an intruder word?", choices = test_content$candidates[[res$current_row]], selected = res$intruder[res$current_row])
         })
     }
-    .ren_topic_bar <- function(oolong, res) {
+    .ren_topic_bar <- function(test_content, res) {
         shiny::renderText({
-            paste("Topic ", res$current_row, "of", nrow(oolong), ifelse(is.na(res$intruder[res$current_row]), "", " [coded]"))
+            paste("Topic ", res$current_row, "of", nrow(test_content), ifelse(is.na(res$intruder[res$current_row]), "", " [coded]"))
         })
     }
-    .ren <- function(output, oolong, res) {
-        output$intruder_choice <- .ren_choices(oolong, res)
-        output$current_topic <- .ren_topic_bar(oolong, res)
+    .ren <- function(output, test_content, res) {
+        output$intruder_choice <- .ren_choices(test_content, res)
+        output$current_topic <- .ren_topic_bar(test_content, res)
         return(output)
     }
     server <- function(input, output, session) {
-        res <- shiny::reactiveValues(intruder = oolong_res$answer, current_row = 1)
-        output <- .ren(output, oolong_res, res)
+        res <- shiny::reactiveValues(intruder = test_content$answer, current_row = 1)
+        output <- .ren(output, test_content, res)
         shiny::observeEvent(input$confirm, {
             res$intruder[res$current_row] <- input$intruder
             res$current_row <- res$current_row + 1
-            if (res$current_row > nrow(oolong_res)) {
+            if (res$current_row > nrow(test_content)) {
                 res$current_row <- 1
             }
-            output <- .ren(output, oolong_res, res)
+            output <- .ren(output, test_content, res)
         })
         shiny::observeEvent(input$nextq, {
             res$current_row <- res$current_row + 1
-            if (res$current_row > nrow(oolong_res)) {
+            if (res$current_row > nrow(test_content)) {
                 res$current_row <- 1
             }
-            output <- .ren(output, oolong_res, res)
+            output <- .ren(output, test_content, res)
         })
         shiny::observeEvent(input$done, (
             shiny::stopApp(res$intruder)
@@ -158,6 +158,10 @@ create_oolong <- function(model, n_top_terms = 5, bottom_terms_percentile = 0.6,
 
 
 .sample_corpus <- function(corpus, exact_n = 30, frac = NULL) {
+    if (!is.NULL(frac)) {
+        stopifnot(frac >= 0 & frac <= 1)
+        exact_n <- floor(length(corpus) * frac)
+    }
     sample(seq_len(length(corpus)), exact_n)
 }
 
