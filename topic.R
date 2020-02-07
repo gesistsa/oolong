@@ -7,14 +7,6 @@ require(stm)
     sample(seq_len(length(corpus)), exact_n)
 }
 
-.insert <- function(good_terms, intruder, position) {
-    length_test_items <- length(c(good_terms, intruder))
-    res <- rep(NA, length_test_items)
-    res[position] <- intruder
-    res[setdiff(1:length_test_items, position)] <- sample(good_terms)
-    return(tibble::tibble(position = position, candidates = list(res)))
-}
-
 .get_intruder_by_position <- function(candidates, position) {
     candidates[position]
 }

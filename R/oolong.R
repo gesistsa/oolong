@@ -1,3 +1,11 @@
+### CODING STYLE
+### function names: use full name, except ren for render
+### data structures: use singular, except list-column.
+
+
+
+
+
 .insert <- function(good_terms, intruder, position) {
     length_test_items <- length(c(good_terms, intruder))
     res <- rep(NA, length_test_items)
@@ -7,7 +15,7 @@
 }
 
 
-.gen_candidates <- function(i, terms, n_top_terms = 5, bottom_terms_percentile = 0.6, all_terms) {
+.generate_candidates <- function(i, terms, n_top_terms = 5, bottom_terms_percentile = 0.6, all_terms) {
     good_terms <- head(terms[i,], n_top_terms)
     term_pos <- match(all_terms, terms[i,])
     candidates <- tibble::tibble(all_terms, term_pos)
@@ -34,22 +42,22 @@
 
 .code_oolong <- function(oolong_res) {
     ui <- miniUI::miniPage(
-        miniUI::gadgetTitleBar("Oolong"),
+        miniUI::gadgetTitleBar("oolong"),
         miniUI::miniContentPanel(
             shiny::textOutput("current_topic"),
             shiny::uiOutput("intruder_choice"),
             shiny::actionButton("confirm", "confirm"),
-            shiny::actionButton("nextq", "next")
+            shiny::actionButton("nextq", "skip")
         )
     )
     .ren_choices <- function(oolong, res) {
         shiny::renderUI({
-    radioButtons("intruder", label = "Which of the following is an intruder word?", choices = oolong$candidates[[res$current_row]], selected = res$intruders[res$current_row])
+    radioButtons("intruder", label = "Which of the following is an intruder word?", choices = oolong$candidates[[res$current_row]], selected = res$intruder[res$current_row])
         })
     }
     .ren_topic_bar <- function(oolong, res) {
         shiny::renderText({
-            paste("Topic ", res$current_row, "of", nrow(oolong), ifelse(is.na(res$intruders[res$current_row]), "", " [coded]"))
+            paste("Topic ", res$current_row, "of", nrow(oolong), ifelse(is.na(res$intruder[res$current_row]), "", " [coded]"))
         })
     }
     .ren <- function(output, oolong, res) {
@@ -58,10 +66,10 @@
         return(output)
     }
     server <- function(input, output, session) {
-        res <- shiny::reactiveValues(intruders = oolong_res$answer, current_row = 1)
+        res <- shiny::reactiveValues(intruder = oolong_res$answer, current_row = 1)
         output <- .ren(output, oolong_res, res)
         shiny::observeEvent(input$confirm, {
-            res$intruders[res$current_row] <- input$intruder
+            res$intruder[res$current_row] <- input$intruder
             res$current_row <- res$current_row + 1
             if (res$current_row > nrow(oolong_res)) {
                 res$current_row <- 1
@@ -76,7 +84,7 @@
             output <- .ren(output, oolong_res, res)
         })
         shiny::observeEvent(input$done, (
-            shiny::stopApp(res$intruders)
+            shiny::stopApp(res$intruder)
         ))
 
     }
@@ -96,7 +104,7 @@
         terms <- stm::labelTopics(model, n = model$settings$dim$V, frexweight = difficulty)$frex
         all_terms <- unique(as.vector(terms[,seq_len(n_top_terms)]))
     }
-    test_content <- purrr::map_dfr(seq_len(K), .gen_candidates, terms = terms, all_terms = all_terms, bottom_terms_percentile = bottom_terms_percentile)
+    test_content <- purrr::map_dfr(seq_len(K), .generate_candidates, terms = terms, all_terms = all_terms, bottom_terms_percentile = bottom_terms_percentile)
     ###res <- list()
     ##res$oolong_test <- oolong_test
     ##res$hash <- digest::digest(oolong_test, "sha512")
@@ -148,3 +156,36 @@ create_oolong <- function(model, n_top_terms = 5, bottom_terms_percentile = 0.6,
 #' This is a subset of the famous "newsgroup 20" dataset.
 "newsgroup5"
 
+
+.sample_corpus <- function(corpus, exact_n = 30, frac = NULL) {
+    sample(seq_len(length(corpus)), exact_n)
+}
+
+.get_intruder_by_position <- function(candidates, position) {
+    candidates[position]
+}
+
+.generate_topic_frame <- function(i, target_text, target_theta, model_terms, k = k, n_top_topics = 3, n_top_words = 8) {
+    text <- target_text[i]
+    theta_rank <- rank(target_theta[i,])
+    theta_pos <- which(theta_rank > (k - n_top_topics))
+    intruder_pos <- sample(setdiff(seq_len(k), theta_pos), 1)
+    position <- sample(seq_len(n_top_topics + 1), 1)
+    topic_frame <- .insert(theta_pos, intruder_pos, position)
+    topic_frame$text <- text
+    topic_frame$topic_labels <- list(apply(model_terms[topic_frame$candidates[[1]],], 1, paste0, collapse = ", "))
+    topic_frame$thetas <- list(target_theta[i, topic_frame$candidates[[1]]])
+    topic_frame$answer <- NA
+    topic_frame$intruder <- map2_int(topic_frame$candidates, topic_frame$position, .get_intruder_by_position)
+    return(topic_frame)
+}
+
+.generate_topic_instrusion_test <- function(model, corpus, exact_n = 30, frac = NULL, n_top_topics = 3, n_top_words = 8, difficulty = 0.8) {
+    sample_vec <- .sample_corpus(corpus, exact_n)
+    model_terms <- stm::labelTopics(model, n = n_top_words, frexweight = difficulty)$frex
+    target_theta <- model$theta[sample_vec, ]
+    k <- ncol(target_theta)
+    target_text <- corpus[sample_vec]
+    test_content <- purrr::map_dfr(seq_len(exact_n), .generate_topic_frame, target_text = target_text, target_theta = target_theta, model_terms = model_terms, k = k, n_top_topics = n_top_topics, n_top_words = n_top_words)
+    return(test_content)
+}
