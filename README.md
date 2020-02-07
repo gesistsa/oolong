@@ -5,7 +5,7 @@ oolong <img src="man/figures/oolong_logo.png" align="right" height="200" />
 
 <!-- badges: start -->
 <!-- badges: end -->
-The goal of oolong [1] is to generate and adminstrate validation tests easily for typical automated content analysis tools such as topic models and dictionary-based tools.
+The goal of oolong [1] is to generate and administrate validation tests easily for typical automated content analysis tools such as topic models and dictionary-based tools.
 
 Installation
 ------------

@@ -15,6 +15,10 @@ require(stm)
     return(tibble::tibble(position = position, candidates = list(res)))
 }
 
+.get_intruder_by_position <- function(candidates, position) {
+    candidates[position]
+}
+
 .generate_topic_frame <- function(i, target_text, target_theta, model_terms, k = k, n_top_topics = 3, n_top_words = 8) {
     text <- target_text[i]
     theta_rank <- rank(target_theta[i,])
@@ -26,7 +30,7 @@ require(stm)
     topic_frame$topic_labels <- list(apply(model_terms[topic_frame$candidates[[1]],], 1, paste0, collapse = ", "))
     topic_frame$thetas <- list(target_theta[i, topic_frame$candidates[[1]]])
     topic_frame$answer <- NA
-    colnames(topic_frame)[1] <- "intruder"
+    topic_frame$intruder <- map2_int(topic_frame$candidates, topic_frame$position, .get_intruder_by_position)
     return(topic_frame)
 }
 

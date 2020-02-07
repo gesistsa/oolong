@@ -18,7 +18,7 @@ knitr::opts_chunk$set(
 <!-- badges: start -->
 <!-- badges: end -->
 
-The goal of oolong ^[/ˈuːlʊŋ/ 烏龍, literally means "Dark Dragon", is a semi-oxidized tea from Asia. It is very popular in Taiwan, Japan and Hong Kong] is to generate and adminstrate validation tests easily for typical automated content analysis tools such as topic models and dictionary-based tools.
+The goal of oolong ^[/ˈuːlʊŋ/ 烏龍, literally means "Dark Dragon", is a semi-oxidized tea from Asia. It is very popular in Taiwan, Japan and Hong Kong] is to generate and administrate validation tests easily for typical automated content analysis tools such as topic models and dictionary-based tools.
 
 ## Installation
 
