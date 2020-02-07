@@ -156,7 +156,7 @@ Oolong_test <- R6::R6Class(
             private$hash <- digest::digest(private$test_content, algo = "sha1")
         },
         print = function() {
-            cat(paste0("An oolong test object with k = ", nrow(private$test_content), ", ", sum(!is.na(private$test_content$answer)), " coded. (", round(.cal_oolong_correct(private$test_content), 3),"%  precision)\n Use the method $do_word_intrusion_test() to start word instrusion test.\n"))
+            cat(paste0("An oolong test object with k = ", nrow(private$test_content), ", ", sum(!is.na(private$test_content$answer)), " coded. (", round(.cal_oolong_correct(private$test_content), 3),"%  precision)\n Use the method $do_word_intrusion_test() to start word intrusion test.\n"))
         },
         do_word_intrusion_test = function() {
             private$test_content <- .do_oolong_test(private$test_content)
@@ -170,11 +170,11 @@ Oolong_test <- R6::R6Class(
 
 #' Generate a oolong test for a topic model
 #'
-#' Currently, this function generates a oolong test object that contains a word instrusion test. Future version will provide additional tests such as topic instrusion test.
+#' Currently, this function generates a oolong test object that contains a word intrusion test. Future version will provide additional tests such as topic intrusion test.
 #'
 #' @param model a STM or WrapLDA object
 #' @param n_top_terms integer, number of top topic words to be included in the candidates
-#' @param bottm_terms_percentile double, a term is considered to be an instruder when its theta less than the percentile of this theta, must be within the range of 0 to 1.
+#' @param bottm_terms_percentile double, a term is considered to be an intruder when its theta less than the percentile of this theta, must be within the range of 0 to 1.
 #' @param difficulty double, to adjust the difficulty of the test. Higher value indicates higher difficulty, must be within the range of 0 to 1.
 #' @export
 create_oolong <- function(model, n_top_terms = 5, bottom_terms_percentile = 0.6, difficulty = 0.8) {
@@ -215,7 +215,7 @@ create_oolong <- function(model, n_top_terms = 5, bottom_terms_percentile = 0.6,
     return(topic_frame)
 }
 
-.generate_topic_instrusion_test <- function(model, corpus, exact_n = 30, frac = NULL, n_top_topics = 3, n_top_words = 8, difficulty = 0.8) {
+.generate_topic_intrusion_test <- function(model, corpus, exact_n = 30, frac = NULL, n_top_topics = 3, n_top_words = 8, difficulty = 0.8) {
     sample_vec <- .sample_corpus(corpus, exact_n)
     model_terms <- stm::labelTopics(model, n = n_top_words, frexweight = difficulty)$frex
     target_theta <- model$theta[sample_vec, ]
