@@ -31,6 +31,8 @@ devtools::install_github("chainsawriot/oolong")
 
 ## Example
 
+### Word intrusion test
+
 `newsgroup_stm` is an example topic model trained with the data `newsgroup5` using the `stm` package. Currently, this package supports structural topic models / correlated topic models from `stm` and Wrap LDA models from `text2vec`.
 
 ```{r example}
@@ -50,9 +52,26 @@ As instructed, use the method `$do_word_intrusion_test()` to start coding. If yo
 
 <img src="man/figures/oolong_demo.gif" align="center" />
 
-After the coding, you can look at the accuracy rate by printing the oolong test.
+After the coding, you can look at the model precision by printing the oolong test.
 
 ```{r, eval = FALSE}
 oolong_test
 ```
+
+### Topic intrusion test
+
+For example, `newsgroup_stm` was generated with the corpus `newsgroup5$text`
+
+```{r newgroup5}
+library(tibble)
+newsgroup5
+```
+
+Create the oolong test object with the corpus used for training the topic model will generate topic intrusion test cases. 
+
+```{r createtest2}
+oolong_test <- create_oolong(newsgroup_stm, newsgroup5$text)
+oolong_test
+```
+
 

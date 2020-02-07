@@ -4,18 +4,29 @@
 \alias{create_oolong}
 \title{Generate a oolong test for a topic model}
 \usage{
-create_oolong(model, n_top_terms = 5, bottom_terms_percentile = 0.6,
-  difficulty = 0.8)
+create_oolong(model, corpus = NULL, n_top_terms = 5,
+  bottom_terms_percentile = 0.6, exact_n = 15, frac = NULL,
+  n_top_topics = 3, n_top_words = 8, difficulty = 0.8)
 }
 \arguments{
 \item{model}{a STM or WrapLDA object}
 
-\item{n_top_terms}{integer, number of top topic words to be included in the candidates}
+\item{corpus}{the corpus to generate the model object, if not NULL, topic intrusion test cases are generated}
 
-\item{difficulty}{double, to adjust the difficulty of the test. Higher value indicates higher difficulty, must be within the range of 0 to 1.}
+\item{n_top_terms}{integer, number of top topic words to be included in the candidates of word intrusion test}
 
-\item{bottm_terms_percentile}{double, a term is considered to be an instruder when its theta less than the percentile of this theta, must be within the range of 0 to 1.}
+\item{exact_n}{integer, number of topic intrusion test cases to generate, ignore if frac is not NULL}
+
+\item{frac}{double, fraction of test cases to be generated from the corpus}
+
+\item{n_top_words}{integer, number of topic words to be shown as the topic label}
+
+\item{difficulty}{double, to adjust the difficulty of the test. Higher value indicates higher difficulty, must be within the range of 0 to 1}
+
+\item{bottm_terms_percentile}{double, a term is considered to be an word intruder when its theta less than the percentile of this theta, must be within the range of 0 to 1}
+
+\item{n_top_topic}{integer, number of most relevant topics to be shown alongside the intruder topic}
 }
 \description{
-Currently, this function generates a oolong test object that contains a word instrusion test. Future version will provide additional tests such as topic instrusion test.
+Currently, this function generates a oolong test object that contains a word intrusion test. Future version will provide additional tests such as topic intrusion test.
 }

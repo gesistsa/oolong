@@ -143,50 +143,6 @@
     return(test_content)
 }
 
-.do_oolong_test <- function(test_content) {
-    test_content$answer <- .code_oolong(test_content)
-    return(test_content)
-}
-
-Oolong_test <- R6::R6Class(
-    "oolong_test",
-    public = list(
-        initialize = function(model, n_top_terms = 5, bottom_terms_percentile = 0.6, difficulty = 0.8) {
-            private$test_content <- .generate_word_intrusion_test(model, n_top_terms = n_top_terms, bottom_terms_percentile = bottom_terms_percentile, difficulty = difficulty)
-            private$hash <- digest::digest(private$test_content, algo = "sha1")
-        },
-        print = function() {
-            cat(paste0("An oolong test object with k = ", nrow(private$test_content), ", ", sum(!is.na(private$test_content$answer)), " coded. (", round(.cal_oolong_correct(private$test_content), 3),"%  precision)\n Use the method $do_word_intrusion_test() to start word intrusion test.\n"))
-        },
-        do_word_intrusion_test = function() {
-            private$test_content <- .do_oolong_test(private$test_content)
-        }
-    ),
-    private = list(
-        hash = NULL,
-        test_content = NULL
-    )
-)
-
-#' Generate a oolong test for a topic model
-#'
-#' Currently, this function generates a oolong test object that contains a word intrusion test. Future version will provide additional tests such as topic intrusion test.
-#'
-#' @param model a STM or WrapLDA object
-#' @param n_top_terms integer, number of top topic words to be included in the candidates
-#' @param bottm_terms_percentile double, a term is considered to be an intruder when its theta less than the percentile of this theta, must be within the range of 0 to 1.
-#' @param difficulty double, to adjust the difficulty of the test. Higher value indicates higher difficulty, must be within the range of 0 to 1.
-#' @export
-create_oolong <- function(model, n_top_terms = 5, bottom_terms_percentile = 0.6, difficulty = 0.8) {
-    return(Oolong_test$new(model, n_top_terms, bottom_terms_percentile, difficulty))
-}
-
-
-#' Newsgroup text dataset
-#'
-#' This is a subset of the famous "newsgroup 20" dataset.
-"newsgroup5"
-
 
 .sample_corpus <- function(corpus, exact_n = 30, frac = NULL) {
     if (!is.null(frac)) {
@@ -215,7 +171,7 @@ create_oolong <- function(model, n_top_terms = 5, bottom_terms_percentile = 0.6,
     return(topic_frame)
 }
 
-.generate_topic_intrusion_test <- function(model, corpus, exact_n = 30, frac = NULL, n_top_topics = 3, n_top_words = 8, difficulty = 0.8) {
+.generate_topic_intrusion_test <- function(model, corpus, exact_n = 15, frac = NULL, n_top_topics = 3, n_top_words = 8, difficulty = 0.8) {
     sample_vec <- .sample_corpus(corpus, exact_n)
     model_terms <- stm::labelTopics(model, n = n_top_words, frexweight = difficulty)$frex
     target_theta <- model$theta[sample_vec, ]
@@ -224,3 +180,67 @@ create_oolong <- function(model, n_top_terms = 5, bottom_terms_percentile = 0.6,
     test_content <- purrr::map_dfr(seq_len(exact_n), .generate_topic_frame, target_text = target_text, target_theta = target_theta, model_terms = model_terms, k = k, n_top_topics = n_top_topics, n_top_words = n_top_words)
     return(test_content)
 }
+
+
+.do_oolong_test <- function(test_content, ui = .UI_WORD_INTRUSION_TEST, .ren = .ren_word_intrusion_test) {
+    test_content$answer <- .code_oolong(test_content, ui = ui, .ren = .ren)
+    return(test_content)
+}
+
+Oolong_test <- R6::R6Class(
+    "oolong_test",
+    public = list(
+        initialize = function(model, corpus = NULL, n_top_terms = 5, bottom_terms_percentile = 0.6, exact_n = 15, frac = NULL, n_top_topics = 3, n_top_words = 8, difficulty = 0.8) {
+            private$test_content$word <- .generate_word_intrusion_test(model, n_top_terms = n_top_terms, bottom_terms_percentile = bottom_terms_percentile, difficulty = difficulty)
+            if (is.null(corpus)) {
+                private$test_content$topic <- NULL
+            } else {
+                private$test_content$topic <- .generate_topic_intrusion_test(model = model, corpus = corpus, exact_n = exact_n, frac = frac, n_top_topics = n_top_topics, n_top_words = n_top_words, difficulty = difficulty)
+            }
+            private$hash <- digest::digest(private$test_content, algo = "sha1")
+        },
+        print = function() {
+            cat(paste0("An oolong test object with k = ", nrow(private$test_content$word), ", ", sum(!is.na(private$test_content$word$answer)), " coded. (", round(.cal_oolong_correct(private$test_content$word), 3),"%  precision)\n Use the method $do_word_intrusion_test() to start word intrusion test.\n"))
+            if (!is.null(private$test_content$topic)) {
+                cat(paste0("With ", nrow(private$test_content$topic) , " cases of topic intrusion test. ", sum(!is.na(private$test_content$topic$answer)), " coded. Use the method $do_topic_intrusion_test() to start topic intrusion test.\n"))
+            }
+        },
+        do_word_intrusion_test = function() {
+            private$test_content$word <- .do_oolong_test(private$test_content$word)
+        },
+        do_topic_intrusion_test = function() {
+            if (is.null(private$test_content$topic)) {
+                stop("No topic intrusion test cases. Create the oolong test with the corpus to generate topic intrusion test cases.")
+            }
+            private$test_content$topic <- .do_oolong_test(private$test_content$topic, ui = .UI_TOPIC_INTRUSION_TEST, .ren = .ren_topic_intrusion_test)
+        }
+    ),
+    private = list(
+        hash = NULL,
+        test_content = list()
+    )
+)
+
+#' Generate a oolong test for a topic model
+#'
+#' Currently, this function generates a oolong test object that contains a word intrusion test. Future version will provide additional tests such as topic intrusion test.
+#'
+#' @param model a STM or WrapLDA object
+#' @param corpus the corpus to generate the model object, if not NULL, topic intrusion test cases are generated
+#' @param n_top_terms integer, number of top topic words to be included in the candidates of word intrusion test
+#' @param bottm_terms_percentile double, a term is considered to be an word intruder when its theta less than the percentile of this theta, must be within the range of 0 to 1
+#' @param exact_n integer, number of topic intrusion test cases to generate, ignore if frac is not NULL
+#' @param frac double, fraction of test cases to be generated from the corpus
+#' @param n_top_topic integer, number of most relevant topics to be shown alongside the intruder topic
+#' @param n_top_words integer, number of topic words to be shown as the topic label
+#' @param difficulty double, to adjust the difficulty of the test. Higher value indicates higher difficulty, must be within the range of 0 to 1
+#' @export
+create_oolong <- function(model, corpus = NULL, n_top_terms = 5, bottom_terms_percentile = 0.6, exact_n = 15, frac = NULL, n_top_topics = 3, n_top_words = 8, difficulty = 0.8) {
+    return(Oolong_test$new(model = model, corpus = corpus, n_top_terms = n_top_terms, bottom_terms_percentile = bottom_terms_percentile, exact_n = exact_n, frac = frac, n_top_topics = n_top_topics, n_top_words = n_top_words, difficulty = difficulty))
+}
+
+
+#' Newsgroup text dataset
+#'
+#' This is a subset of the famous "newsgroup 20" dataset.
+"newsgroup5"
