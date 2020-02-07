@@ -36,8 +36,8 @@ To create an oolong test, use the function `create_oolong_test`.
 ``` r
 oolong_test <- create_oolong(newsgroup_stm)
 oolong_test
-#> An oolong test object with k = 10, 0 coded. (0%  accuracy)
-#>  Use the method $do_word_intrusion_test() to start coding.
+#> An oolong test object with k = 10, 0 coded. (0%  precision)
+#>  Use the method $do_word_intrusion_test() to start word instrusion test.
 ```
 
 As instructed, use the method `$do_word_intrusion_test()` to start coding. If you are running this in RStudio, you should see a test screen similar to this:
