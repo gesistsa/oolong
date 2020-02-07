@@ -2,10 +2,6 @@
 ### function names: use full name, except ren for render
 ### data structures: use singular, except list-column.
 
-
-
-
-
 .insert <- function(good_terms, intruder, position) {
     length_test_items <- length(c(good_terms, intruder))
     res <- rep(NA, length_test_items)
@@ -125,7 +121,7 @@ Oolong_test <- R6::R6Class(
             private$hash <- digest::digest(private$test_content, algo = "sha1")
         },
         print = function() {
-            cat(paste0("An oolong test object with k = ", nrow(private$test_content), ", ", sum(!is.na(private$test_content$answer)), " coded. (", round(.cal_oolong_correct(private$test_content), 3),"%  accuracy)\n Use the method $do_word_intrusion_test() to start coding.\n"))
+            cat(paste0("An oolong test object with k = ", nrow(private$test_content), ", ", sum(!is.na(private$test_content$answer)), " coded. (", round(.cal_oolong_correct(private$test_content), 3),"%  precision)\n Use the method $do_word_intrusion_test() to start word instrusion test.\n"))
         },
         do_word_intrusion_test = function() {
             private$test_content <- .do_oolong_test(private$test_content)
@@ -158,7 +154,7 @@ create_oolong <- function(model, n_top_terms = 5, bottom_terms_percentile = 0.6,
 
 
 .sample_corpus <- function(corpus, exact_n = 30, frac = NULL) {
-    if (!is.NULL(frac)) {
+    if (!is.null(frac)) {
         stopifnot(frac >= 0 & frac <= 1)
         exact_n <- floor(length(corpus) * frac)
     }
@@ -180,7 +176,7 @@ create_oolong <- function(model, n_top_terms = 5, bottom_terms_percentile = 0.6,
     topic_frame$topic_labels <- list(apply(model_terms[topic_frame$candidates[[1]],], 1, paste0, collapse = ", "))
     topic_frame$thetas <- list(target_theta[i, topic_frame$candidates[[1]]])
     topic_frame$answer <- NA
-    topic_frame$intruder <- map2_int(topic_frame$candidates, topic_frame$position, .get_intruder_by_position)
+    topic_frame$intruder <- purrr::map2_int(topic_frame$candidates, topic_frame$position, .get_intruder_by_position)
     return(topic_frame)
 }
 
@@ -193,3 +189,69 @@ create_oolong <- function(model, n_top_terms = 5, bottom_terms_percentile = 0.6,
     test_content <- purrr::map_dfr(seq_len(exact_n), .generate_topic_frame, target_text = target_text, target_theta = target_theta, model_terms = model_terms, k = k, n_top_topics = n_top_topics, n_top_words = n_top_words)
     return(test_content)
 }
+
+
+### actually the server() is 100% similar to the .code_oolong. Some refractoring can merge the two.
+.code_oolong2 <- function(test_content) {
+    ui <- miniUI::miniPage(
+        miniUI::gadgetTitleBar("oolong"),
+        miniUI::miniContentPanel(
+                    shiny::textOutput("current_topic"),
+                    shiny::uiOutput("text_content"),
+                    shiny::uiOutput("intruder_choice"),
+                    shiny::actionButton("confirm", "confirm"),
+                    shiny::actionButton("nextq", "skip")
+        )
+    )
+    .ren_choices <- function(test_content, res) {
+        shiny::renderUI({
+            radioButtons("intruder", label = "Which of the following is an intruder topic?", choiceNames = test_content$topic_labels[[res$current_row]], choiceValues = test_content$candidates[[res$current_row]], selected = res$intruder[res$current_row])
+        })
+    }
+    .ren_topic_bar <- function(test_content, res) {
+        shiny::renderText({
+            paste("Case ", res$current_row, "of", nrow(test_content), ifelse(is.na(res$intruder[res$current_row]), "", " [coded]"))
+        })
+    }
+    .ren_text_content <- function(test_content, res) {
+        shiny::renderUI({
+            shiny::pre(test_content$text[res$current_row])
+        })
+    }
+    .ren <- function(output, test_content, res) {
+        output$intruder_choice <- .ren_choices(test_content, res)
+        output$current_topic <- .ren_topic_bar(test_content, res)
+        output$text_content <- .ren_text_content(test_content, res)
+        return(output)
+    }
+    server <- function(input, output, session) {
+        res <- shiny::reactiveValues(intruder = test_content$answer, current_row = 1)
+        output <- .ren(output, test_content, res)
+        shiny::observeEvent(input$confirm, {
+            res$intruder[res$current_row] <- input$intruder
+            res$current_row <- res$current_row + 1
+            if (res$current_row > nrow(test_content)) {
+                res$current_row <- 1
+            }
+            output <- .ren(output, test_content, res)
+        })
+        shiny::observeEvent(input$nextq, {
+            res$current_row <- res$current_row + 1
+            if (res$current_row > nrow(test_content)) {
+                res$current_row <- 1
+            }
+            output <- .ren(output, test_content, res)
+        })
+        shiny::observeEvent(input$done, (
+            shiny::stopApp(res$intruder)
+        ))
+
+    }
+    shiny::runGadget(ui, server)
+}
+
+## load("../data/newsgroup5.rda")
+## load("../data/newsgroup_stm.rda")
+
+## test_content <- .generate_topic_instrusion_test(newsgroup_stm, newsgroup5$text, exact_n = 10)
+## .code_oolong2(test_content)
