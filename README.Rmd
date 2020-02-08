@@ -52,9 +52,10 @@ As instructed, use the method `$do_word_intrusion_test()` to start coding. If yo
 
 <img src="man/figures/oolong_demo.gif" align="center" />
 
-After the coding, you can look at the model precision by printing the oolong test.
+After the coding, you need to first finalize the test. Then, you can look at the model precision by printing the oolong test.
 
 ```{r, eval = FALSE}
+oolong_test$finalize()
 oolong_test
 ```
 
@@ -73,5 +74,4 @@ Create the oolong test object with the corpus used for training the topic model 
 oolong_test <- create_oolong(newsgroup_stm, newsgroup5$text)
 oolong_test
 ```
-
 

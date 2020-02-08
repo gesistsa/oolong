@@ -187,10 +187,25 @@
     return(test_content)
 }
 
+### print the ... if boolean_test is true
+.cp <- function(boolean_test, ...) {
+    if (boolean_test) {
+        cat(paste0(..., "\n"))
+    }
+}
+
+### stop if boolean_test is true and print the ...
+.cstop <- function(boolean_test, ...) {
+    if (boolean_test) {
+        stop(...)
+    }
+}
+
 Oolong_test <- R6::R6Class(
     "oolong_test",
     public = list(
         initialize = function(model, corpus = NULL, n_top_terms = 5, bottom_terms_percentile = 0.6, exact_n = 15, frac = NULL, n_top_topics = 3, n_top_words = 8, difficulty = 0.8) {
+            ### TODO: spin off these to make it testable.
             private$test_content$word <- .generate_word_intrusion_test(model, n_top_terms = n_top_terms, bottom_terms_percentile = bottom_terms_percentile, difficulty = difficulty)
             if (is.null(corpus)) {
                 private$test_content$topic <- NULL
@@ -200,24 +215,36 @@ Oolong_test <- R6::R6Class(
             private$hash <- digest::digest(private$test_content, algo = "sha1")
         },
         print = function() {
-            cat(paste0("An oolong test object with k = ", nrow(private$test_content$word), ", ", sum(!is.na(private$test_content$word$answer)), " coded. (", round(.cal_oolong_correct(private$test_content$word), 3),"%  precision)\n Use the method $do_word_intrusion_test() to start word intrusion test.\n"))
-            if (!is.null(private$test_content$topic)) {
-                cat(paste0("With ", nrow(private$test_content$topic) , " cases of topic intrusion test. ", sum(!is.na(private$test_content$topic$answer)), " coded. Use the method $do_topic_intrusion_test() to start topic intrusion test.\n"))
-            }
+            .cp(TRUE, "An oolong test object with k = ", nrow(private$test_content$word), ", ", sum(!is.na(private$test_content$word$answer)), " coded.")
+            .cp(private$finalized, round(.cal_oolong_correct(private$test_content$word), 3),"%  precision")
+            .cp(!private$finalized, "Use the method $do_word_intrusion_test() to do word intrusion test.")
+            .cp(!is.null(private$test_content$topic), "With ", nrow(private$test_content$topic) , " cases of topic intrusion test. ", sum(!is.na(private$test_content$topic$answer)), " coded.")
+            .cp(!is.null(private$test_content$topic) & !private$finalized, "Use the method $do_topic_intrusion_test() to do topic intrusion test.")
+            .cp(!private$finalized, "Use the method $finalize() to finalize this object and see the results.")
+        },
+        finalize = function(force = FALSE) {
+            ### TODO, implement force
+            private$finalized <- TRUE
+        },
+        finalise = function() {
+            self$finalize()
         },
         do_word_intrusion_test = function() {
+            private$check_finalized()
             private$test_content$word <- .do_oolong_test(private$test_content$word)
         },
         do_topic_intrusion_test = function() {
-            if (is.null(private$test_content$topic)) {
-                stop("No topic intrusion test cases. Create the oolong test with the corpus to generate topic intrusion test cases.")
-            }
+            .cstop(is.null(private$test_content$topic), "No topic intrusion test cases. Create the oolong test with the corpus to generate topic intrusion test cases.")
             private$test_content$topic <- .do_oolong_test(private$test_content$topic, ui = .UI_TOPIC_INTRUSION_TEST, .ren = .ren_topic_intrusion_test)
         }
     ),
     private = list(
         hash = NULL,
-        test_content = list()
+        test_content = list(),
+        finalized = FALSE,
+        check_finalized = function() {
+            .cstop(private$finalized, "You can no longer modify this finalized test.")
+        }
     )
 )
 
