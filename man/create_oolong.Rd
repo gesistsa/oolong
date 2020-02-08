@@ -6,7 +6,7 @@
 \usage{
 create_oolong(model, corpus = NULL, n_top_terms = 5,
   bottom_terms_percentile = 0.6, exact_n = 15, frac = NULL,
-  n_top_topics = 3, n_top_words = 8, difficulty = 0.8)
+  n_top_topics = 3, n_topiclabel_words = 8, difficulty = 0.8)
 }
 \arguments{
 \item{model}{a STM or WrapLDA object}
@@ -19,7 +19,7 @@ create_oolong(model, corpus = NULL, n_top_terms = 5,
 
 \item{frac}{double, fraction of test cases to be generated from the corpus}
 
-\item{n_top_words}{integer, number of topic words to be shown as the topic label}
+\item{n_topiclabel_words}{integer, number of topic words to be shown as the topic label}
 
 \item{difficulty}{double, to adjust the difficulty of the test. Higher value indicates higher difficulty, must be within the range of 0 to 1}
 

@@ -152,7 +152,7 @@
     candidates[position]
 }
 
-.generate_topic_frame <- function(i, target_text, target_theta, model_terms, k = k, n_top_topics = 3, n_top_words = 8) {
+.generate_topic_frame <- function(i, target_text, target_theta, model_terms, k = k, n_top_topics = 3, n_topiclabel_words = 8) {
     text <- target_text[i]
     theta_rank <- rank(target_theta[i,])
     theta_pos <- which(theta_rank > (k - n_top_topics))
@@ -167,13 +167,13 @@
     return(topic_frame)
 }
 
-.generate_topic_intrusion_test <- function(model, corpus, exact_n = 15, frac = NULL, n_top_topics = 3, n_top_words = 8, difficulty = 0.8) {
+.generate_topic_intrusion_test <- function(model, corpus, exact_n = 15, frac = NULL, n_top_topics = 3, n_topiclabel_words = 8, difficulty = 0.8) {
     sample_vec <- .sample_corpus(corpus, exact_n)
-    model_terms <- stm::labelTopics(model, n = n_top_words, frexweight = difficulty)$frex
+    model_terms <- stm::labelTopics(model, n = n_topiclabel_words, frexweight = difficulty)$frex
     target_theta <- model$theta[sample_vec, ]
     k <- ncol(target_theta)
     target_text <- corpus[sample_vec]
-    test_content <- purrr::map_dfr(seq_len(exact_n), .generate_topic_frame, target_text = target_text, target_theta = target_theta, model_terms = model_terms, k = k, n_top_topics = n_top_topics, n_top_words = n_top_words)
+    test_content <- purrr::map_dfr(seq_len(exact_n), .generate_topic_frame, target_text = target_text, target_theta = target_theta, model_terms = model_terms, k = k, n_top_topics = n_top_topics, n_topiclabel_words = n_topiclabel_words)
     return(test_content)
 }
 
@@ -197,13 +197,13 @@
     }
 }
 
-.generate_test_content <- function(model, corpus = NULL, n_top_terms = 5, bottom_terms_percentile = 0.6, exact_n = 15, frac = NULL, n_top_topics = 3, n_top_words = 8, difficulty = 0.8) {
+.generate_test_content <- function(model, corpus = NULL, n_top_terms = 5, bottom_terms_percentile = 0.6, exact_n = 15, frac = NULL, n_top_topics = 3, n_topiclabel_words = 8, difficulty = 0.8) {
     test_content <- list()
     test_content$word <- .generate_word_intrusion_test(model, n_top_terms = n_top_terms, bottom_terms_percentile = bottom_terms_percentile, difficulty = difficulty)
     if (is.null(corpus)) {
         test_content$topic <- NULL
     } else {
-        test_content$topic <- .generate_topic_intrusion_test(model = model, corpus = corpus, exact_n = exact_n, frac = frac, n_top_topics = n_top_topics, n_top_words = n_top_words, difficulty = difficulty)
+        test_content$topic <- .generate_topic_intrusion_test(model = model, corpus = corpus, exact_n = exact_n, frac = frac, n_top_topics = n_top_topics, n_topiclabel_words = n_topiclabel_words, difficulty = difficulty)
     }
     return(test_content)
 }
@@ -211,8 +211,8 @@
 Oolong_test <- R6::R6Class(
     "oolong_test",
     public = list(
-        initialize = function(model, corpus = NULL, n_top_terms = 5, bottom_terms_percentile = 0.6, exact_n = 15, frac = NULL, n_top_topics = 3, n_top_words = 8, difficulty = 0.8) {
-            private$test_content <- .generate_test_content(model, corpus, n_top_terms, bottom_terms_percentile, exact_n, frac, n_top_topics, n_top_words, difficulty)
+        initialize = function(model, corpus = NULL, n_top_terms = 5, bottom_terms_percentile = 0.6, exact_n = 15, frac = NULL, n_top_topics = 3, n_topiclabel_words = 8, difficulty = 0.8) {
+            private$test_content <- .generate_test_content(model, corpus, n_top_terms, bottom_terms_percentile, exact_n, frac, n_top_topics, n_topiclabel_words, difficulty)
             private$hash <- digest::digest(private$test_content, algo = "sha1")
         },
         print = function() {
@@ -260,11 +260,11 @@ Oolong_test <- R6::R6Class(
 #' @param exact_n integer, number of topic intrusion test cases to generate, ignore if frac is not NULL
 #' @param frac double, fraction of test cases to be generated from the corpus
 #' @param n_top_topic integer, number of most relevant topics to be shown alongside the intruder topic
-#' @param n_top_words integer, number of topic words to be shown as the topic label
+#' @param n_topiclabel_words integer, number of topic words to be shown as the topic label
 #' @param difficulty double, to adjust the difficulty of the test. Higher value indicates higher difficulty, must be within the range of 0 to 1
 #' @export
-create_oolong <- function(model, corpus = NULL, n_top_terms = 5, bottom_terms_percentile = 0.6, exact_n = 15, frac = NULL, n_top_topics = 3, n_top_words = 8, difficulty = 0.8) {
-    return(Oolong_test$new(model = model, corpus = corpus, n_top_terms = n_top_terms, bottom_terms_percentile = bottom_terms_percentile, exact_n = exact_n, frac = frac, n_top_topics = n_top_topics, n_top_words = n_top_words, difficulty = difficulty))
+create_oolong <- function(model, corpus = NULL, n_top_terms = 5, bottom_terms_percentile = 0.6, exact_n = 15, frac = NULL, n_top_topics = 3, n_topiclabel_words = 8, difficulty = 0.8) {
+    return(Oolong_test$new(model = model, corpus = corpus, n_top_terms = n_top_terms, bottom_terms_percentile = bottom_terms_percentile, exact_n = exact_n, frac = frac, n_top_topics = n_top_topics, n_topiclabel_words = n_topiclabel_words, difficulty = difficulty))
 }
 
 
