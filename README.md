@@ -87,7 +87,7 @@ newsgroup5
 #> # … with 4,172 more rows
 ```
 
-Create the oolong test object with the corpus used for training the
+Creating the oolong test object with the corpus used for training the
 topic model will generate topic intrusion test cases.
 
 ``` r
