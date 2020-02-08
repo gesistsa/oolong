@@ -4,14 +4,14 @@
 \alias{create_oolong}
 \title{Generate a oolong test for a topic model}
 \usage{
-create_oolong(model, corpus = NULL, n_top_terms = 5,
+create_oolong(input_model, input_corpus = NULL, n_top_terms = 5,
   bottom_terms_percentile = 0.6, exact_n = 15, frac = NULL,
   n_top_topics = 3, n_topiclabel_words = 8, difficulty = 0.8)
 }
 \arguments{
-\item{model}{a STM or WrapLDA object}
+\item{input_model}{a STM or WrapLDA object}
 
-\item{corpus}{the corpus to generate the model object, if not NULL, topic intrusion test cases are generated}
+\item{input_corpus}{the corpus to generate the model object, if not NULL, topic intrusion test cases are generated}
 
 \item{n_top_terms}{integer, number of top topic words to be included in the candidates of word intrusion test}
 

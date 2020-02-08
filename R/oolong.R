@@ -123,16 +123,16 @@
 }
 
 
-.generate_word_intrusion_test <- function(model, n_top_terms = 5, bottom_terms_percentile = 0.6, difficulty = 0.8) {
-    if ("WarpLDA" %in% class(model)) {
-        K <- model$.__enclos_env__$private$n_topics
-        V <- length(model$.__enclos_env__$private$vocabulary)
-        terms <- t(model$get_top_words(n = V, lambda = difficulty))
+.generate_word_intrusion_test <- function(input_model, n_top_terms = 5, bottom_terms_percentile = 0.6, difficulty = 0.8) {
+    if ("WarpLDA" %in% class(input_model)) {
+        K <- input_model$.__enclos_env__$private$n_topics
+        V <- length(input_model$.__enclos_env__$private$vocabulary)
+        terms <- t(input_model$get_top_words(n = V, lambda = difficulty))
         all_terms <- unique(as.vector(terms[,seq_len(n_top_terms)]))
-    } else if ("STM" %in% class(model)) {
-        K <- model$settings$dim$K
-        V <- model$settings$dim$V
-        terms <- stm::labelTopics(model, n = model$settings$dim$V, frexweight = difficulty)$frex
+    } else if ("STM" %in% class(input_model)) {
+        K <- input_model$settings$dim$K
+        V <- input_model$settings$dim$V
+        terms <- stm::labelTopics(input_model, n = input_model$settings$dim$V, frexweight = difficulty)$frex
         all_terms <- unique(as.vector(terms[,seq_len(n_top_terms)]))
     }
     test_content <- purrr::map_dfr(seq_len(K), .generate_candidates, terms = terms, all_terms = all_terms, bottom_terms_percentile = bottom_terms_percentile)
@@ -140,12 +140,12 @@
 }
 
 
-.sample_corpus <- function(corpus, exact_n = 30, frac = NULL) {
+.sample_corpus <- function(input_corpus, exact_n = 30, frac = NULL) {
     if (!is.null(frac)) {
         stopifnot(frac >= 0 & frac <= 1)
-        exact_n <- floor(length(corpus) * frac)
+        exact_n <- floor(length(input_corpus) * frac)
     }
-    sample(seq_len(length(corpus)), exact_n)
+    sample(seq_len(length(input_corpus)), exact_n)
 }
 
 .get_intruder_by_position <- function(candidates, position) {
@@ -167,12 +167,15 @@
     return(topic_frame)
 }
 
-.generate_topic_intrusion_test <- function(model, corpus, exact_n = 15, frac = NULL, n_top_topics = 3, n_topiclabel_words = 8, difficulty = 0.8) {
-    sample_vec <- .sample_corpus(corpus, exact_n)
-    model_terms <- stm::labelTopics(model, n = n_topiclabel_words, frexweight = difficulty)$frex
-    target_theta <- model$theta[sample_vec, ]
+.generate_topic_intrusion_test <- function(input_model, input_corpus, exact_n = 15, frac = NULL, n_top_topics = 3, n_topiclabel_words = 8, difficulty = 0.8) {
+    if ("corpus" %in% class(input_corpus)) {
+        input_corpus <- as.vector(input_corpus)
+    }
+    sample_vec <- .sample_corpus(input_corpus, exact_n)
+    model_terms <- stm::labelTopics(input_model, n = n_topiclabel_words, frexweight = difficulty)$frex
+    target_theta <- input_model$theta[sample_vec, ]
     k <- ncol(target_theta)
-    target_text <- corpus[sample_vec]
+    target_text <- input_corpus[sample_vec]
     test_content <- purrr::map_dfr(seq_len(exact_n), .generate_topic_frame, target_text = target_text, target_theta = target_theta, model_terms = model_terms, k = k, n_top_topics = n_top_topics, n_topiclabel_words = n_topiclabel_words)
     return(test_content)
 }
@@ -197,13 +200,13 @@
     }
 }
 
-.generate_test_content <- function(model, corpus = NULL, n_top_terms = 5, bottom_terms_percentile = 0.6, exact_n = 15, frac = NULL, n_top_topics = 3, n_topiclabel_words = 8, difficulty = 0.8) {
+.generate_test_content <- function(input_model, input_corpus = NULL, n_top_terms = 5, bottom_terms_percentile = 0.6, exact_n = 15, frac = NULL, n_top_topics = 3, n_topiclabel_words = 8, difficulty = 0.8) {
     test_content <- list()
-    test_content$word <- .generate_word_intrusion_test(model, n_top_terms = n_top_terms, bottom_terms_percentile = bottom_terms_percentile, difficulty = difficulty)
-    if (is.null(corpus)) {
+    test_content$word <- .generate_word_intrusion_test(input_model, n_top_terms = n_top_terms, bottom_terms_percentile = bottom_terms_percentile, difficulty = difficulty)
+    if (is.null(input_corpus)) {
         test_content$topic <- NULL
     } else {
-        test_content$topic <- .generate_topic_intrusion_test(model = model, corpus = corpus, exact_n = exact_n, frac = frac, n_top_topics = n_top_topics, n_topiclabel_words = n_topiclabel_words, difficulty = difficulty)
+        test_content$topic <- .generate_topic_intrusion_test(input_model = input_model, input_corpus = input_corpus, exact_n = exact_n, frac = frac, n_top_topics = n_top_topics, n_topiclabel_words = n_topiclabel_words, difficulty = difficulty)
     }
     return(test_content)
 }
@@ -211,8 +214,8 @@
 Oolong_test <- R6::R6Class(
     "oolong_test",
     public = list(
-        initialize = function(model, corpus = NULL, n_top_terms = 5, bottom_terms_percentile = 0.6, exact_n = 15, frac = NULL, n_top_topics = 3, n_topiclabel_words = 8, difficulty = 0.8) {
-            private$test_content <- .generate_test_content(model, corpus, n_top_terms, bottom_terms_percentile, exact_n, frac, n_top_topics, n_topiclabel_words, difficulty)
+        initialize = function(input_model, input_corpus = NULL, n_top_terms = 5, bottom_terms_percentile = 0.6, exact_n = 15, frac = NULL, n_top_topics = 3, n_topiclabel_words = 8, difficulty = 0.8) {
+            private$test_content <- .generate_test_content(input_model, input_corpus, n_top_terms, bottom_terms_percentile, exact_n, frac, n_top_topics, n_topiclabel_words, difficulty)
             private$hash <- digest::digest(private$test_content, algo = "sha1")
         },
         print = function() {
@@ -253,8 +256,8 @@ Oolong_test <- R6::R6Class(
 #'
 #' Currently, this function generates a oolong test object that contains a word intrusion test. Future version will provide additional tests such as topic intrusion test.
 #'
-#' @param model a STM or WrapLDA object
-#' @param corpus the corpus to generate the model object, if not NULL, topic intrusion test cases are generated
+#' @param input_model a STM or WrapLDA object
+#' @param input_corpus the corpus to generate the model object, if not NULL, topic intrusion test cases are generated
 #' @param n_top_terms integer, number of top topic words to be included in the candidates of word intrusion test
 #' @param bottm_terms_percentile double, a term is considered to be an word intruder when its theta less than the percentile of this theta, must be within the range of 0 to 1
 #' @param exact_n integer, number of topic intrusion test cases to generate, ignore if frac is not NULL
@@ -263,8 +266,8 @@ Oolong_test <- R6::R6Class(
 #' @param n_topiclabel_words integer, number of topic words to be shown as the topic label
 #' @param difficulty double, to adjust the difficulty of the test. Higher value indicates higher difficulty, must be within the range of 0 to 1
 #' @export
-create_oolong <- function(model, corpus = NULL, n_top_terms = 5, bottom_terms_percentile = 0.6, exact_n = 15, frac = NULL, n_top_topics = 3, n_topiclabel_words = 8, difficulty = 0.8) {
-    return(Oolong_test$new(model = model, corpus = corpus, n_top_terms = n_top_terms, bottom_terms_percentile = bottom_terms_percentile, exact_n = exact_n, frac = frac, n_top_topics = n_top_topics, n_topiclabel_words = n_topiclabel_words, difficulty = difficulty))
+create_oolong <- function(input_model, input_corpus = NULL, n_top_terms = 5, bottom_terms_percentile = 0.6, exact_n = 15, frac = NULL, n_top_topics = 3, n_topiclabel_words = 8, difficulty = 0.8) {
+    return(Oolong_test$new(input_model = input_model, input_corpus = input_corpus, n_top_terms = n_top_terms, bottom_terms_percentile = bottom_terms_percentile, exact_n = exact_n, frac = frac, n_top_topics = n_top_topics, n_topiclabel_words = n_topiclabel_words, difficulty = difficulty))
 }
 
 
