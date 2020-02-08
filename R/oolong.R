@@ -169,7 +169,7 @@
 
 .generate_topic_intrusion_test <- function(input_model, input_corpus, exact_n = 15, frac = NULL, n_top_topics = 3, n_topiclabel_words = 8, difficulty = 0.8) {
     if ("corpus" %in% class(input_corpus)) {
-        input_corpus <- as.vector(input_corpus)
+        input_corpus <- quanteda::texts(input_corpus)
     }
     sample_vec <- .sample_corpus(input_corpus, exact_n)
     model_terms <- stm::labelTopics(input_model, n = n_topiclabel_words, frexweight = difficulty)$frex
@@ -257,7 +257,7 @@ Oolong_test <- R6::R6Class(
 #' Currently, this function generates a oolong test object that contains a word intrusion test. Future version will provide additional tests such as topic intrusion test.
 #'
 #' @param input_model a STM or WrapLDA object
-#' @param input_corpus the corpus to generate the model object, if not NULL, topic intrusion test cases are generated
+#' @param input_corpus the corpus (character vector or quanteda::corpus object) to generate the model object, if not NULL, topic intrusion test cases are generated
 #' @param n_top_terms integer, number of top topic words to be included in the candidates of word intrusion test
 #' @param bottm_terms_percentile double, a term is considered to be an word intruder when its theta less than the percentile of this theta, must be within the range of 0 to 1
 #' @param exact_n integer, number of topic intrusion test cases to generate, ignore if frac is not NULL

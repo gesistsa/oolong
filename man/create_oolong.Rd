@@ -11,7 +11,7 @@ create_oolong(input_model, input_corpus = NULL, n_top_terms = 5,
 \arguments{
 \item{input_model}{a STM or WrapLDA object}
 
-\item{input_corpus}{the corpus to generate the model object, if not NULL, topic intrusion test cases are generated}
+\item{input_corpus}{the corpus (character vector or quanteda::corpus object) to generate the model object, if not NULL, topic intrusion test cases are generated}
 
 \item{n_top_terms}{integer, number of top topic words to be included in the candidates of word intrusion test}
 
