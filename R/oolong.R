@@ -59,7 +59,7 @@
 .ren_word_intrusion_test <- function(output, test_content, res) {
     .ren_choices <- function(test_content, res) {
         shiny::renderUI({
-    radioButtons("intruder", label = "Which of the following is an intruder word?", choices = test_content$candidates[[res$current_row]], selected = res$intruder[res$current_row])
+            shiny::radioButtons("intruder", label = "Which of the following is an intruder word?", choices = test_content$candidates[[res$current_row]], selected = res$intruder[res$current_row])
         })
     }
     .ren_topic_bar <- function(test_content, res) {
@@ -75,7 +75,7 @@
 .ren_topic_intrusion_test <- function(output, test_content, res) {
     .ren_choices <- function(test_content, res) {
         shiny::renderUI({
-            radioButtons("intruder", label = "Which of the following is an intruder topic?", choiceNames = test_content$topic_labels[[res$current_row]], choiceValues = test_content$candidates[[res$current_row]], selected = res$intruder[res$current_row])
+            shiny::radioButtons("intruder", label = "Which of the following is an intruder topic?", choiceNames = test_content$topic_labels[[res$current_row]], choiceValues = test_content$candidates[[res$current_row]], selected = res$intruder[res$current_row])
         })
     }
     .ren_topic_bar <- function(test_content, res) {
@@ -136,10 +136,6 @@
         all_terms <- unique(as.vector(terms[,seq_len(n_top_terms)]))
     }
     test_content <- purrr::map_dfr(seq_len(K), .generate_candidates, terms = terms, all_terms = all_terms, bottom_terms_percentile = bottom_terms_percentile)
-    ###res <- list()
-    ##res$oolong_test <- oolong_test
-    ##res$hash <- digest::digest(oolong_test, "sha512")
-    ##class(res) <- c(class(res), "oolong_test")
     return(test_content)
 }
 
@@ -201,17 +197,22 @@
     }
 }
 
+.generate_test_content <- function(model, corpus = NULL, n_top_terms = 5, bottom_terms_percentile = 0.6, exact_n = 15, frac = NULL, n_top_topics = 3, n_top_words = 8, difficulty = 0.8) {
+    test_content <- list()
+    test_content$word <- .generate_word_intrusion_test(model, n_top_terms = n_top_terms, bottom_terms_percentile = bottom_terms_percentile, difficulty = difficulty)
+    if (is.null(corpus)) {
+        test_content$topic <- NULL
+    } else {
+        test_content$topic <- .generate_topic_intrusion_test(model = model, corpus = corpus, exact_n = exact_n, frac = frac, n_top_topics = n_top_topics, n_top_words = n_top_words, difficulty = difficulty)
+    }
+    return(test_content)
+}
+
 Oolong_test <- R6::R6Class(
     "oolong_test",
     public = list(
         initialize = function(model, corpus = NULL, n_top_terms = 5, bottom_terms_percentile = 0.6, exact_n = 15, frac = NULL, n_top_topics = 3, n_top_words = 8, difficulty = 0.8) {
-            ### TODO: spin off these to make it testable.
-            private$test_content$word <- .generate_word_intrusion_test(model, n_top_terms = n_top_terms, bottom_terms_percentile = bottom_terms_percentile, difficulty = difficulty)
-            if (is.null(corpus)) {
-                private$test_content$topic <- NULL
-            } else {
-                private$test_content$topic <- .generate_topic_intrusion_test(model = model, corpus = corpus, exact_n = exact_n, frac = frac, n_top_topics = n_top_topics, n_top_words = n_top_words, difficulty = difficulty)
-            }
+            private$test_content <- .generate_test_content(model, corpus, n_top_terms, bottom_terms_percentile, exact_n, frac, n_top_topics, n_top_words, difficulty)
             private$hash <- digest::digest(private$test_content, algo = "sha1")
         },
         print = function() {
