@@ -123,7 +123,7 @@
 }
 
 
-.generate_word_intrusion_test <- function(input_model, n_top_terms = 5, bottom_terms_percentile = 0.6, difficulty = 0.8) {
+.generate_word_intrusion_test <- function(input_model, n_top_terms = 5, bottom_terms_percentile = 0.6, difficulty = 1, use_frex_words= FALSE) {
     if ("WarpLDA" %in% class(input_model)) {
         K <- input_model$.__enclos_env__$private$n_topics
         V <- length(input_model$.__enclos_env__$private$vocabulary)
@@ -132,7 +132,11 @@
     } else if ("STM" %in% class(input_model)) {
         K <- input_model$settings$dim$K
         V <- input_model$settings$dim$V
-        terms <- stm::labelTopics(input_model, n = input_model$settings$dim$V, frexweight = difficulty)$frex
+        if (use_frex_words) {
+            terms <- stm::labelTopics(input_model, n = input_model$settings$dim$V, frexweight = difficulty)$frex
+        } else {
+            terms <- stm::labelTopics(input_model, n = input_model$settings$dim$V)$prob
+        }
         all_terms <- unique(as.vector(terms[,seq_len(n_top_terms)]))
     }
     test_content <- purrr::map_dfr(seq_len(K), .generate_candidates, terms = terms, all_terms = all_terms, bottom_terms_percentile = bottom_terms_percentile)
@@ -167,12 +171,16 @@
     return(topic_frame)
 }
 
-.generate_topic_intrusion_test <- function(input_model, input_corpus, exact_n = 15, frac = NULL, n_top_topics = 3, n_topiclabel_words = 8, difficulty = 0.8) {
+.generate_topic_intrusion_test <- function(input_model, input_corpus, exact_n = 15, frac = NULL, n_top_topics = 3, n_topiclabel_words = 8, difficulty = 1, use_frex_words = FALSE) {
     if ("corpus" %in% class(input_corpus)) {
         input_corpus <- quanteda::texts(input_corpus)
     }
     sample_vec <- .sample_corpus(input_corpus, exact_n)
-    model_terms <- stm::labelTopics(input_model, n = n_topiclabel_words, frexweight = difficulty)$frex
+    if (use_frex_words) {
+        model_terms <- stm::labelTopics(input_model, n = n_topiclabel_words, frexweight = difficulty)$frex
+    } else {
+        model_terms <- stm::labelTopics(input_model, n = n_topiclabel_words)$prob
+    }
     target_theta <- input_model$theta[sample_vec, ]
     k <- ncol(target_theta)
     target_text <- input_corpus[sample_vec]
@@ -200,13 +208,13 @@
     }
 }
 
-.generate_test_content <- function(input_model, input_corpus = NULL, n_top_terms = 5, bottom_terms_percentile = 0.6, exact_n = 15, frac = NULL, n_top_topics = 3, n_topiclabel_words = 8, difficulty = 0.8) {
+.generate_test_content <- function(input_model, input_corpus = NULL, n_top_terms = 5, bottom_terms_percentile = 0.6, exact_n = 15, frac = NULL, n_top_topics = 3, n_topiclabel_words = 8, difficulty = 1, use_frex_words = FALSE) {
     test_content <- list()
-    test_content$word <- .generate_word_intrusion_test(input_model, n_top_terms = n_top_terms, bottom_terms_percentile = bottom_terms_percentile, difficulty = difficulty)
+    test_content$word <- .generate_word_intrusion_test(input_model, n_top_terms = n_top_terms, bottom_terms_percentile = bottom_terms_percentile, difficulty = difficulty, use_frex_words = use_frex_words)
     if (is.null(input_corpus)) {
         test_content$topic <- NULL
     } else {
-        test_content$topic <- .generate_topic_intrusion_test(input_model = input_model, input_corpus = input_corpus, exact_n = exact_n, frac = frac, n_top_topics = n_top_topics, n_topiclabel_words = n_topiclabel_words, difficulty = difficulty)
+        test_content$topic <- .generate_topic_intrusion_test(input_model = input_model, input_corpus = input_corpus, exact_n = exact_n, frac = frac, n_top_topics = n_top_topics, n_topiclabel_words = n_topiclabel_words, difficulty = difficulty, use_frex_words = use_frex_words)
     }
     return(test_content)
 }
@@ -214,8 +222,8 @@
 Oolong_test <- R6::R6Class(
     "oolong_test",
     public = list(
-        initialize = function(input_model, input_corpus = NULL, n_top_terms = 5, bottom_terms_percentile = 0.6, exact_n = 15, frac = NULL, n_top_topics = 3, n_topiclabel_words = 8, difficulty = 0.8) {
-            private$test_content <- .generate_test_content(input_model, input_corpus, n_top_terms, bottom_terms_percentile, exact_n, frac, n_top_topics, n_topiclabel_words, difficulty)
+        initialize = function(input_model, input_corpus = NULL, n_top_terms = 5, bottom_terms_percentile = 0.6, exact_n = 15, frac = NULL, n_top_topics = 3, n_topiclabel_words = 8, difficulty = 1, use_frex_words = use_frex_words) {
+            private$test_content <- .generate_test_content(input_model, input_corpus, n_top_terms, bottom_terms_percentile, exact_n, frac, n_top_topics, n_topiclabel_words, difficulty, use_frex_words = use_frex_words)
             private$hash <- digest::digest(private$test_content, algo = "sha1")
         },
         print = function() {
@@ -254,7 +262,7 @@ Oolong_test <- R6::R6Class(
 
 #' Generate a oolong test for a topic model
 #'
-#' Currently, this function generates a oolong test object that contains a word intrusion test. Future version will provide additional tests such as topic intrusion test.
+#' Currently, this function generates a oolong test object that contains word intrusion test and topic intrusion test.
 #'
 #' @param input_model a STM or WrapLDA object
 #' @param input_corpus the corpus (character vector or quanteda::corpus object) to generate the model object, if not NULL, topic intrusion test cases are generated
@@ -264,10 +272,11 @@ Oolong_test <- R6::R6Class(
 #' @param frac double, fraction of test cases to be generated from the corpus
 #' @param n_top_topic integer, number of most relevant topics to be shown alongside the intruder topic
 #' @param n_topiclabel_words integer, number of topic words to be shown as the topic label
-#' @param difficulty double, to adjust the difficulty of the test. Higher value indicates higher difficulty, must be within the range of 0 to 1
+#' @param use_frex_words logical, for a STM object, use FREX words if TRUE, use PROB words if FALSE
+#' @param difficulty double, to adjust the difficulty of the test. Higher value indicates higher difficulty, must be within the range of 0 to 1, no effect for STM if use_frex_words is FALSE
 #' @export
-create_oolong <- function(input_model, input_corpus = NULL, n_top_terms = 5, bottom_terms_percentile = 0.6, exact_n = 15, frac = NULL, n_top_topics = 3, n_topiclabel_words = 8, difficulty = 0.8) {
-    return(Oolong_test$new(input_model = input_model, input_corpus = input_corpus, n_top_terms = n_top_terms, bottom_terms_percentile = bottom_terms_percentile, exact_n = exact_n, frac = frac, n_top_topics = n_top_topics, n_topiclabel_words = n_topiclabel_words, difficulty = difficulty))
+create_oolong <- function(input_model, input_corpus = NULL, n_top_terms = 5, bottom_terms_percentile = 0.6, exact_n = 15, frac = NULL, n_top_topics = 3, n_topiclabel_words = 8, use_frex_words = FALSE, difficulty = 1) {
+    return(Oolong_test$new(input_model = input_model, input_corpus = input_corpus, n_top_terms = n_top_terms, bottom_terms_percentile = bottom_terms_percentile, exact_n = exact_n, frac = frac, n_top_topics = n_top_topics, n_topiclabel_words = n_topiclabel_words, difficulty = difficulty, use_frex_words = use_frex_words))
 }
 
 

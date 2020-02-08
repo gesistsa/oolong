@@ -68,7 +68,7 @@ library(tibble)
 newsgroup5
 ```
 
-Create the oolong test object with the corpus used for training the topic model will generate topic intrusion test cases. 
+Creating the oolong test object with the corpus used for training the topic model will generate topic intrusion test cases. 
 
 ```{r createtest2}
 oolong_test <- create_oolong(newsgroup_stm, newsgroup5$text)

@@ -6,7 +6,8 @@
 \usage{
 create_oolong(input_model, input_corpus = NULL, n_top_terms = 5,
   bottom_terms_percentile = 0.6, exact_n = 15, frac = NULL,
-  n_top_topics = 3, n_topiclabel_words = 8, difficulty = 0.8)
+  n_top_topics = 3, n_topiclabel_words = 8, use_frex_words = FALSE,
+  difficulty = 1)
 }
 \arguments{
 \item{input_model}{a STM or WrapLDA object}
@@ -21,12 +22,14 @@ create_oolong(input_model, input_corpus = NULL, n_top_terms = 5,
 
 \item{n_topiclabel_words}{integer, number of topic words to be shown as the topic label}
 
-\item{difficulty}{double, to adjust the difficulty of the test. Higher value indicates higher difficulty, must be within the range of 0 to 1}
+\item{use_frex_words}{logical, for a STM object, use FREX words if TRUE, use PROB words if FALSE}
+
+\item{difficulty}{double, to adjust the difficulty of the test. Higher value indicates higher difficulty, must be within the range of 0 to 1, no effect for STM if use_frex_words is FALSE}
 
 \item{bottm_terms_percentile}{double, a term is considered to be an word intruder when its theta less than the percentile of this theta, must be within the range of 0 to 1}
 
 \item{n_top_topic}{integer, number of most relevant topics to be shown alongside the intruder topic}
 }
 \description{
-Currently, this function generates a oolong test object that contains a word intrusion test. Future version will provide additional tests such as topic intrusion test.
+Currently, this function generates a oolong test object that contains word intrusion test and topic intrusion test.
 }
