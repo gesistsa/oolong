@@ -219,6 +219,10 @@
     return(test_content)
 }
 
+.check_test_content_complete <- function(test_content) {
+    all(purrr::map_lgl(test_content, ~all(!is.na(.$answer))))
+}
+
 Oolong_test <- R6::R6Class(
     "oolong_test",
     public = list(
@@ -232,14 +236,13 @@ Oolong_test <- R6::R6Class(
             .cp(!private$finalized, "Use the method $do_word_intrusion_test() to do word intrusion test.")
             .cp(!is.null(private$test_content$topic), "With ", nrow(private$test_content$topic) , " cases of topic intrusion test. ", sum(!is.na(private$test_content$topic$answer)), " coded.")
             .cp(!is.null(private$test_content$topic) & !private$finalized, "Use the method $do_topic_intrusion_test() to do topic intrusion test.")
-            .cp(!private$finalized, "Use the method $finalize() to finalize this object and see the results.")
+            .cp(!private$finalized, "Use the method $lock() to finalize this object and see the results.")
         },
-        finalize = function(force = FALSE) {
-            ### TODO, implement force
+        lock = function(force = FALSE) {
+            if (!.check_test_content_complete(private$test_content) & !force) {
+                stop("Not all tests are completed. Do all the tests or use $lock(force = TRUE) to bypass this.")
+            }
             private$finalized <- TRUE
-        },
-        finalise = function() {
-            self$finalize()
         },
         do_word_intrusion_test = function() {
             private$check_finalized()

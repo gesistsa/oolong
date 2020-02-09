@@ -33,7 +33,7 @@ LDA models from `text2vec`.
 ``` r
 library(oolong)
 library(stm)
-#> stm v1.3.3 (2018-1-26) successfully loaded. See ?stm for help. 
+#> stm v1.3.5 successfully loaded. See ?stm for help. 
 #>  Papers, resources, and other materials at structuraltopicmodel.com
 newsgroup_stm
 #> A topic model with 10 topics, 4182 documents and a 8920 word dictionary.
@@ -46,7 +46,7 @@ oolong_test <- create_oolong(newsgroup_stm)
 oolong_test
 #> An oolong test object with k = 10, 0 coded.
 #> Use the method $do_word_intrusion_test() to do word intrusion test.
-#> Use the method $finalize() to finalize this object and see the results.
+#> Use the method $lock() to finalize this object and see the results.
 ```
 
 As instructed, use the method `$do_word_intrusion_test()` to start
@@ -55,11 +55,11 @@ similar to this:
 
 <img src="man/figures/oolong_demo.gif" align="center" />
 
-After the coding, you need to first finalize the test. Then, you can
-look at the model precision by printing the oolong test.
+After the coding, you need to first lock the test. Then, you can look at
+the model precision by printing the oolong test.
 
 ``` r
-oolong_test$finalize()
+oolong_test$lock()
 oolong_test
 ```
 
@@ -97,7 +97,7 @@ oolong_test
 #> Use the method $do_word_intrusion_test() to do word intrusion test.
 #> With 15 cases of topic intrusion test. 0 coded.
 #> Use the method $do_topic_intrusion_test() to do topic intrusion test.
-#> Use the method $finalize() to finalize this object and see the results.
+#> Use the method $lock() to finalize this object and see the results.
 ```
 
 1.  /ˈuːlʊŋ/ 烏龍, literally means “Dark Dragon”, is a semi-oxidized tea

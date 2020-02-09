@@ -1,6 +1,6 @@
 Package: oolong
 Title: Create Validation Tests For Automated Content Analysis Methods
-Version: 0.0.4
+Version: 0.0.5
 Authors@R: 
     person(given = "Chung-hong",
            family = "Chan",
