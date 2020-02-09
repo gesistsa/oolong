@@ -222,6 +222,17 @@
     all(purrr::map_lgl(test_content, ~all(!is.na(.$answer))))
 }
 
+.cal_lr_diff <- function(i, test_content) {
+    intruder_idx <- which(test_content$candidates[[i]] == test_content$intruder[i])
+    answer_idx <- which(test_content$candidates[[i]] == test_content$answer[i])
+    log(test_content$thetas[[i]][intruder_idx]) - log(test_content$thetas[[i]][answer_idx])
+}
+
+.cal_tlo <- function(test_content) {
+    mean(purrr::map_dbl(seq_len(nrow(test_content[!is.na(test_content$answer),])), .cal_lr_diff, test_content = test_content[!is.na(test_content$answer),]))
+}
+
+
 Oolong_test <- R6::R6Class(
     "oolong_test",
     public = list(
@@ -235,6 +246,7 @@ Oolong_test <- R6::R6Class(
             .cp(!private$finalized, "Use the method $do_word_intrusion_test() to do word intrusion test.")
             .cp(!is.null(private$test_content$topic), "With ", nrow(private$test_content$topic) , " cases of topic intrusion test. ", sum(!is.na(private$test_content$topic$answer)), " coded.")
             .cp(!is.null(private$test_content$topic) & !private$finalized, "Use the method $do_topic_intrusion_test() to do topic intrusion test.")
+            .cp(private$finalized & !is.null(private$test_content$topic), "TLO: ", round(.cal_tlo(private$test_content$topic), 3))
             .cp(!private$finalized, "Use the method $lock() to finalize this object and see the results.")
         },
         lock = function(force = FALSE) {

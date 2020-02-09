@@ -75,3 +75,13 @@ oolong_test <- create_oolong(newsgroup_stm, newsgroup5$text)
 oolong_test
 ```
 
+Similarly, use the `$do_topic_intrusion_test` to code the test cases, lock the test with `$lock()` and then you can look at the TLO (topic log odds) value by printing the oolong test.
+
+```{r, eval = FALSE}
+oolong_test$lock()
+oolong_test
+```
+
+## References
+
+1. Chang, J., Gerrish, S., Wang, C., Boyd-Graber, J. L., & Blei, D. M. (2009). Reading tea leaves: How humans interpret topic models. In Advances in neural information processing systems (pp. 288-296).

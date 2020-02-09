@@ -100,5 +100,22 @@ oolong_test
 #> Use the method $lock() to finalize this object and see the results.
 ```
 
+Similarly, use the `$do_topic_intrusion_test` to code the test cases,
+lock the test with `$lock()` and then you can look at the TLO (topic log
+odds) value by printing the oolong test.
+
+``` r
+oolong_test$lock()
+oolong_test
+```
+
+## References
+
+1.  Chang, J., Gerrish, S., Wang, C., Boyd-Graber, J. L., & Blei, D. M.
+    (2009). Reading tea leaves: How humans interpret topic models. In
+    Advances in neural information processing systems (pp. 288-296).
+
+<!-- end list -->
+
 1.  /ˈuːlʊŋ/ 烏龍, literally means “Dark Dragon”, is a semi-oxidized tea
     from Asia. It is very popular in Taiwan, Japan and Hong Kong
