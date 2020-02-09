@@ -95,7 +95,7 @@ oolong_test <- create_oolong(newsgroup_stm, newsgroup5$text)
 oolong_test
 #> An oolong test object with k = 10, 0 coded.
 #> Use the method $do_word_intrusion_test() to do word intrusion test.
-#> With 15 cases of topic intrusion test. 0 coded.
+#> With 41 cases of topic intrusion test. 0 coded.
 #> Use the method $do_topic_intrusion_test() to do topic intrusion test.
 #> Use the method $lock() to finalize this object and see the results.
 ```

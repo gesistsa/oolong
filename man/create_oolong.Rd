@@ -5,7 +5,7 @@
 \title{Generate a oolong test for a topic model}
 \usage{
 create_oolong(input_model, input_corpus = NULL, n_top_terms = 5,
-  bottom_terms_percentile = 0.6, exact_n = 15, frac = NULL,
+  bottom_terms_percentile = 0.6, exact_n = NULL, frac = 0.01,
   n_top_topics = 3, n_topiclabel_words = 8, use_frex_words = FALSE,
   difficulty = 1)
 }
