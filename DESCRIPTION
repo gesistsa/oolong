@@ -1,6 +1,6 @@
 Package: oolong
 Title: Create Validation Tests For Automated Content Analysis Methods
-Version: 0.0.6
+Version: 0.0.7
 Authors@R: 
     person(given = "Chung-hong",
            family = "Chan",
@@ -20,7 +20,8 @@ Imports:
     text2vec,
     digest,
     R6,
-    quanteda
+    quanteda,
+    irr
 RoxygenNote: 6.1.1
 Suggests: 
     testthat (>= 2.1.0)

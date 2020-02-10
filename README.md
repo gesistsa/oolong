@@ -96,6 +96,45 @@ oolong_test$lock()
 oolong_test
 ```
 
+Suggested workflow
+------------------
+
+The test makes more sense if more than one coder is involved. A suggested workflow is to create the test, then clone the oolong object. Ask multiple coders to do the test(s) and then summarize the results.
+
+Create a new oolong object.
+
+``` r
+oolong_test_rater1 <- create_oolong(newsgroup_stm)
+```
+
+Clone the oolong object to be used by other raters.
+
+``` r
+oolong_test_rater2 <- clone_oolong(oolong_test_rater1)
+```
+
+Ask different coders to code each object and then lock the object.
+
+``` r
+## Let rater 1 do the test.
+oolong_test_rater1$do_word_intrusion_test()
+oolong_test_rater1$lock()
+
+## Let rater 2 do the test.
+oolong_test_rater2$do_word_intrusion_test()
+oolong_test_rater2$lock()
+```
+
+Get a summary of the two objects.
+
+``` r
+summarize_oolong(oolong_test_rater1, oolong_test_rater2)
+#> Mean model precision: 0.95
+#> Quantiles of Model precision: 0.9, 0.925, 0.95, 0.975, 1
+#> Krippendorf's alpha: 0
+#> K Precision: 0.5, 1, 1, 1, 1, 1, 1, 1, 1, 1
+```
+
 About Warp LDA
 --------------
 
@@ -180,10 +219,10 @@ newsgroup5_dfm
 
 ``` r
 oolong_test <- create_oolong(newsgroup_warplda, newsgroup5$text, input_dfm = newsgroup5_dfm)
-#> INFO [2020-02-10 12:42:19] iter 5 loglikelihood = -4755051.332
-#> INFO [2020-02-10 12:42:19] iter 10 loglikelihood = -4747951.458
-#> INFO [2020-02-10 12:42:19] iter 15 loglikelihood = -4749358.099
-#> INFO [2020-02-10 12:42:19] early stopping at 15 iteration
+#> INFO [2020-02-10 16:46:38] iter 5 loglikelihood = -4756410.989
+#> INFO [2020-02-10 16:46:38] iter 10 loglikelihood = -4749312.486
+#> INFO [2020-02-10 16:46:38] iter 15 loglikelihood = -4749334.684
+#> INFO [2020-02-10 16:46:38] early stopping at 15 iteration
 oolong_test
 #> An oolong test object with k = 10, 0 coded.
 #> Use the method $do_word_intrusion_test() to do word intrusion test.

@@ -82,6 +82,49 @@ oolong_test$lock()
 oolong_test
 ```
 
+## Suggested workflow
+
+The test makes more sense if more than one coder is involved. A suggested workflow is to create the test, then clone the oolong object. Ask multiple coders to do the test(s) and then summarize the results.
+
+Create a new oolong object.
+
+```{r step1}
+oolong_test_rater1 <- create_oolong(newsgroup_stm)
+```
+
+Clone the oolong object to be used by other raters.
+
+```{r step2}
+oolong_test_rater2 <- clone_oolong(oolong_test_rater1)
+```
+
+Ask different coders to code each object and then lock the object.
+
+```{r, eval = FALSE}
+## Let rater 1 do the test.
+oolong_test_rater1$do_word_intrusion_test()
+oolong_test_rater1$lock()
+
+## Let rater 2 do the test.
+oolong_test_rater2$do_word_intrusion_test()
+oolong_test_rater2$lock()
+```
+
+```{r, include = FALSE}
+### Mock this process
+oolong_test_rater1$.__enclos_env__$private$test_content$word$answer <- oolong_test_rater1$.__enclos_env__$private$test_content$word$intruder
+oolong_test_rater1$lock()
+oolong_test_rater2$.__enclos_env__$private$test_content$word$answer <- oolong_test_rater2$.__enclos_env__$private$test_content$word$intruder
+oolong_test_rater2$.__enclos_env__$private$test_content$word$answer[1] <- "wronganswer"
+oolong_test_rater2$lock()
+```
+
+Get a summary of the two objects.
+
+```{r, step3}
+summarize_oolong(oolong_test_rater1, oolong_test_rater2)
+```
+
 ## About Warp LDA
 
 There is a subtle difference between the support for `stm` and for `text2vec`.
