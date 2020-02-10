@@ -33,7 +33,7 @@ devtools::install_github("chainsawriot/oolong")
 
 ### Word intrusion test
 
-`newsgroup_stm` is an example topic model trained with the data `newsgroup5` using the `stm` package. Currently, this package supports structural topic models / correlated topic models from `stm` and Wrap LDA models from `text2vec`.
+`newsgroup_stm` is an example topic model trained with the data `newsgroup5` using the `stm` package. Currently, this package supports structural topic models / correlated topic models from `stm` and Warp LDA models from `text2vec`.
 
 ```{r example}
 library(oolong)
@@ -82,6 +82,36 @@ oolong_test$lock()
 oolong_test
 ```
 
+## About Warp LDA
+
+There is a subtle difference between the support for `stm` and for `text2vec`.
+
+`newsgroup_warplda` is a Warp LDA object trained with the same dataset as the `newsgroup_stm`
+
+```{r warplda}
+newsgroup_warplda
+```
+
+All the API endpoints are the same, except the one for the creation of topic intrusion test cases. You must supply also the `input_dfm`.
+
+```{r warplda2}
+### Just word intrusion test.
+oolong_test <- create_oolong(newsgroup_warplda)
+oolong_test
+```
+
+
+```{r warplda3}
+newsgroup5_dfm
+```
+
+```{r warplda4}
+oolong_test <- create_oolong(newsgroup_warplda, newsgroup5$text, input_dfm = newsgroup5_dfm)
+oolong_test
+```
+
 ## References
 
 1. Chang, J., Gerrish, S., Wang, C., Boyd-Graber, J. L., & Blei, D. M. (2009). Reading tea leaves: How humans interpret topic models. In Advances in neural information processing systems (pp. 288-296).
+
+---
