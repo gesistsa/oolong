@@ -7,10 +7,10 @@
 create_oolong(input_model, input_corpus = NULL, n_top_terms = 5,
   bottom_terms_percentile = 0.6, exact_n = NULL, frac = 0.01,
   n_top_topics = 3, n_topiclabel_words = 8, use_frex_words = FALSE,
-  difficulty = 1)
+  difficulty = 1, input_dfm = NULL)
 }
 \arguments{
-\item{input_model}{a STM or WrapLDA object}
+\item{input_model}{a STM or WarpLDA object}
 
 \item{input_corpus}{the corpus (character vector or quanteda::corpus object) to generate the model object, if not NULL, topic intrusion test cases are generated}
 
@@ -25,6 +25,8 @@ create_oolong(input_model, input_corpus = NULL, n_top_terms = 5,
 \item{use_frex_words}{logical, for a STM object, use FREX words if TRUE, use PROB words if FALSE}
 
 \item{difficulty}{double, to adjust the difficulty of the test. Higher value indicates higher difficulty, must be within the range of 0 to 1, no effect for STM if use_frex_words is FALSE}
+
+\item{input_dfm}{a dfm object used for training the input_model, if input_model is a WarpLDA object}
 
 \item{bottm_terms_percentile}{double, a term is considered to be an word intruder when its theta less than the percentile of this theta, must be within the range of 0 to 1}
 
