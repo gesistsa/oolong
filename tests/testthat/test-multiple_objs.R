@@ -1,8 +1,8 @@
 context("check_correctness")
 test_that("check_calculation", {
     obj1 <- create_oolong(newsgroup_stm)
-    obj2 <- oolong_clone(obj1)
-    obj3 <- oolong_clone(obj1)
+    obj2 <- clone_oolong(obj1)
+    obj3 <- clone_oolong(obj1)
     ## Mocking coding
 
     obj1$.__enclos_env__$private$test_content$word$answer <- obj1$.__enclos_env__$private$test_content$word$intruder
@@ -16,5 +16,7 @@ obj2$lock()
     res <- summarize_oolong(obj1, obj2, obj3)
     expect_length(res$rater_precision, 3)
     expect_length(res$k_precision, 10)
+    res <- summarize_oolong(obj1)
+    expect_length(res$rater_precision, 1)
 })
 

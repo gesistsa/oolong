@@ -62,7 +62,7 @@ summarize_oolong <- function(...) {
     all_word_answers <- purrr::map_dfc(obj_list, ~ .$.__enclos_env__$private$test_content$word$answer)
     word_intruder <- obj_list[[1]]$.__enclos_env__$private$test_content$word$intruder
     correction_matrix <- all_word_answers == word_intruder
-    res$kripp_alpha <- irr::kripp.alpha(t(ifelse(correction_matrix, 2, 1)))$value
+    ##res$kripp_alpha <- irr::kripp.alpha(t(ifelse(correction_matrix, 2, 1)))$value
     res$k_precision <- apply(correction_matrix, 1, sum) / ncol(correction_matrix)
     res$rater_precision <- as.vector(apply(correction_matrix, 2, sum) / nrow(correction_matrix))
     class(res) <- append(class(res), "oolong_summary")
@@ -73,6 +73,6 @@ summarize_oolong <- function(...) {
 print.oolong_summary <- function(oolong_summary) {
     .cp(TRUE, "Mean model precision: ", mean(oolong_summary$rater_precision))
     .cp(TRUE, "Quantiles of Model precision: ", paste(quantile(oolong_summary$rater_precision), collapse = ", "))
-    .cp(TRUE, "Krippendorf's alpha: ", oolong_summary$kripp_alpha)
+    ##.cp(TRUE, "Krippendorf's alpha: ", oolong_summary$kripp_alpha)
     .cp(TRUE, "K Precision: ", paste(round(oolong_summary$k_precision, 1), collapse = ", "))
 }
