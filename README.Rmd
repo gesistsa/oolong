@@ -21,8 +21,6 @@ set.seed(42)
 
 The goal of oolong ^[/ˈuːlʊŋ/ 烏龍, literally means "Dark Dragon", is a semi-oxidized tea from Asia. It is very popular in Taiwan, Japan and Hong Kong] is to generate and administrate validation tests easily for typical automated content analysis tools such as topic models and dictionary-based tools.
 
-Currently, this package supports topic models from `stm`, `text2vec` and `topicmodels`.
-
 ## Installation
 
 You can install the development version from [GitHub](https://github.com/) with:
@@ -36,7 +34,7 @@ devtools::install_github("chainsawriot/oolong")
 
 ### Word intrusion test
 
-`newsgroup_stm` is an example topic model trained with the data `newsgroup5` using the `stm` package. Currently, this package supports structural topic models / correlated topic models from `stm` and Warp LDA models from `text2vec`.
+`newsgroup_stm` is an example topic model trained with the data `newsgroup5` using the `stm` package. Currently, this package supports structural topic models / correlated topic models from `stm`, Warp LDA models from `text2vec` and LDA/CTM models from `topicmodels`.
 
 ```{r example}
 library(oolong)
