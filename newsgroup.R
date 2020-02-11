@@ -3,6 +3,7 @@ require(quanteda)
 require(stm)
 require(oolong)
 
+
 ##newsgroup <- rio::import("20_newsgroup.csv") %>% as_tibble
 
 ## set.seed(42)
@@ -33,3 +34,24 @@ newsgroup_warplda <- lda_model
 
 
 usethis::use_data(newsgroup_warplda)
+
+###
+require(topicmodels)
+
+newsgroup5_tm <- convert(newsgroup5_dfm, to = "topicmodels")
+
+newsgroup_lda <- LDA(newsgroup5_tm, k = 10)
+
+saveRDS(newsgroup_lda, "newsgroup_topicmodels.RDS")
+
+terms(newsgroup_lda)
+
+K <- newsgroup_lda@k
+theta <- posterior(newsgroup_lda)$topic
+V <- length(newsgroup_lda@terms)
+
+
+####
+devtools::load_all()
+
+oolong_test <- create_oolong(newsgroup_topicmodels)

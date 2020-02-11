@@ -7,6 +7,8 @@ oolong <img src="man/figures/oolong_logo.png" align="right" height="200" />
 <!-- badges: end -->
 The goal of oolong [1] is to generate and administrate validation tests easily for typical automated content analysis tools such as topic models and dictionary-based tools.
 
+Currently, this package supports topic models from `stm`, `text2vec` and `topicmodels`.
+
 Installation
 ------------
 
@@ -246,10 +248,10 @@ newsgroup5_dfm
 
 ``` r
 oolong_test <- create_oolong(newsgroup_warplda, newsgroup5$text, input_dfm = newsgroup5_dfm)
-#> INFO [2020-02-11 16:29:35] iter 5 loglikelihood = -4757175.780
-#> INFO [2020-02-11 16:29:35] iter 10 loglikelihood = -4749225.601
-#> INFO [2020-02-11 16:29:35] iter 15 loglikelihood = -4748823.584
-#> INFO [2020-02-11 16:29:35] early stopping at 15 iteration
+#> INFO [2020-02-11 17:19:01] iter 5 loglikelihood = -4757175.780
+#> INFO [2020-02-11 17:19:02] iter 10 loglikelihood = -4749225.601
+#> INFO [2020-02-11 17:19:02] iter 15 loglikelihood = -4748823.584
+#> INFO [2020-02-11 17:19:02] early stopping at 15 iteration
 oolong_test
 #> An oolong test object with k = 10, 0 coded.
 #> Use the method $do_word_intrusion_test() to do word intrusion test.

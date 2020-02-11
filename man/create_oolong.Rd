@@ -10,7 +10,7 @@ create_oolong(input_model, input_corpus = NULL, n_top_terms = 5,
   difficulty = 1, input_dfm = NULL)
 }
 \arguments{
-\item{input_model}{a STM or WarpLDA object}
+\item{input_model}{a STM, WarpLDA or topicmodels object}
 
 \item{input_corpus}{the corpus (character vector or quanteda::corpus object) to generate the model object, if not NULL, topic intrusion test cases are generated}
 
@@ -24,7 +24,7 @@ create_oolong(input_model, input_corpus = NULL, n_top_terms = 5,
 
 \item{use_frex_words}{logical, for a STM object, use FREX words if TRUE, use PROB words if FALSE}
 
-\item{difficulty}{double, to adjust the difficulty of the test. Higher value indicates higher difficulty, must be within the range of 0 to 1, no effect for STM if use_frex_words is FALSE}
+\item{difficulty}{double, to adjust the difficulty of the test. Higher value indicates higher difficulty, must be within the range of 0 to 1, no effect for STM if use_frex_words is FALSE. Ignore for topicmodels objects.}
 
 \item{input_dfm}{a dfm object used for training the input_model, if input_model is a WarpLDA object}
 

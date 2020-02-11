@@ -138,6 +138,11 @@
             terms <- stm::labelTopics(input_model, n = input_model$settings$dim$V)$prob
         }
         all_terms <- unique(as.vector(terms[,seq_len(n_top_terms)]))
+    } else if ("topicmodels" == attr(class(input_model), "package")) {
+        K <- input_model@k
+        V <- length(input_model@terms)
+        terms <- t(topicmodels::terms(input_model, k = V))
+        all_terms <- unique(as.vector(terms[,seq_len(n_top_terms)]))
     }
     test_content <- purrr::map_dfr(seq_len(K), .generate_candidates, terms = terms, all_terms = all_terms, bottom_terms_percentile = bottom_terms_percentile)
     return(test_content)
@@ -189,6 +194,9 @@
             model_terms <- stm::labelTopics(input_model, n = n_topiclabel_words)$prob
         }
         target_theta <- input_model$theta[sample_vec, ]
+    } else if ("topicmodels" == attr(class(input_model), "package")) {
+        model_terms <- t(topicmodels::terms(input_model, k = n_topiclabel_words))
+        target_theta <- topicmodels::posterior(input_model)$topic[sample_vec,]
     }
     k <- ncol(target_theta)
     target_text <- input_corpus[sample_vec]
@@ -290,7 +298,7 @@ Oolong_test <- R6::R6Class(
 #'
 #' Currently, this function generates a oolong test object that contains word intrusion test and topic intrusion test.
 #'
-#' @param input_model a STM or WarpLDA object
+#' @param input_model a STM, WarpLDA or topicmodels object
 #' @param input_corpus the corpus (character vector or quanteda::corpus object) to generate the model object, if not NULL, topic intrusion test cases are generated
 #' @param n_top_terms integer, number of top topic words to be included in the candidates of word intrusion test
 #' @param bottm_terms_percentile double, a term is considered to be an word intruder when its theta less than the percentile of this theta, must be within the range of 0 to 1
@@ -299,7 +307,7 @@ Oolong_test <- R6::R6Class(
 #' @param n_top_topic integer, number of most relevant topics to be shown alongside the intruder topic
 #' @param n_topiclabel_words integer, number of topic words to be shown as the topic label
 #' @param use_frex_words logical, for a STM object, use FREX words if TRUE, use PROB words if FALSE
-#' @param difficulty double, to adjust the difficulty of the test. Higher value indicates higher difficulty, must be within the range of 0 to 1, no effect for STM if use_frex_words is FALSE
+#' @param difficulty double, to adjust the difficulty of the test. Higher value indicates higher difficulty, must be within the range of 0 to 1, no effect for STM if use_frex_words is FALSE. Ignore for topicmodels objects.
 #' @param input_dfm a dfm object used for training the input_model, if input_model is a WarpLDA object
 #' @export
 create_oolong <- function(input_model, input_corpus = NULL, n_top_terms = 5, bottom_terms_percentile = 0.6, exact_n = NULL, frac = 0.01, n_top_topics = 3, n_topiclabel_words = 8, use_frex_words = FALSE, difficulty = 1, input_dfm = NULL) {
