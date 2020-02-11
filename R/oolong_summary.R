@@ -62,9 +62,20 @@ summarize_oolong <- function(...) {
     all_word_answers <- purrr::map_dfc(obj_list, ~ .$.__enclos_env__$private$test_content$word$answer)
     word_intruder <- obj_list[[1]]$.__enclos_env__$private$test_content$word$intruder
     correction_matrix <- all_word_answers == word_intruder
-    ##res$kripp_alpha <- irr::kripp.alpha(t(ifelse(correction_matrix, 2, 1)))$value
+    if (length(obj_list) == 1) {
+        res$kripp_alpha <- NA
+    } else {
+        res$kripp_alpha <- irr::kripp.alpha(t(ifelse(correction_matrix, 2, 1)))$value
+    }
     res$k_precision <- apply(correction_matrix, 1, sum) / ncol(correction_matrix)
     res$rater_precision <- as.vector(apply(correction_matrix, 2, sum) / nrow(correction_matrix))
+    res$n_models <- length(obj_list)
+    all_topic_test_content <- purrr::map(obj_list, ~ .$.__enclos_env__$private$test_content$topic)
+    if (any(purrr::map_lgl(all_topic_test_content, is.null))) {
+        res$tlo <- NA
+    } else {
+        res$tlo <- .cal_tlo(purrr::map_dfr(all_topic_test_content, ~.), mean_value = FALSE) ### it should not be just the mean.
+    }
     class(res) <- append(class(res), "oolong_summary")
     return(res)
 }
@@ -72,7 +83,9 @@ summarize_oolong <- function(...) {
 #' @export
 print.oolong_summary <- function(oolong_summary) {
     .cp(TRUE, "Mean model precision: ", mean(oolong_summary$rater_precision))
-    .cp(TRUE, "Quantiles of Model precision: ", paste(quantile(oolong_summary$rater_precision), collapse = ", "))
-    ##.cp(TRUE, "Krippendorf's alpha: ", oolong_summary$kripp_alpha)
+    .cp(oolong_summary$n_models > 1, "Quantiles of Model precision: ", paste(quantile(oolong_summary$rater_precision), collapse = ", "))
+    .cp(oolong_summary$n_models > 1, "Krippendorff's alpha: ", oolong_summary$kripp_alpha)
     .cp(TRUE, "K Precision: ", paste(round(oolong_summary$k_precision, 1), collapse = ", "))
+    .cp(!is.na(oolong_summary$tlo[1]), "Mean TLO: ", round(mean(oolong_summary$tlo), 2))
+    .cp(!is.na(oolong_summary$tlo[1]), "Quantiles of TLO: ", paste(quantile(oolong_summary$tlo), collapse = ", "))
 }

@@ -10,7 +10,8 @@ knitr::opts_chunk$set(
   comment = "#>",
   fig.path = "man/figures/README-",
   out.width = "100%"
-)
+  )
+set.seed(42)
 ```
 
 # oolong <img src="man/figures/oolong_logo.png" align="right" height="200" />
@@ -48,13 +49,25 @@ oolong_test <- create_oolong(newsgroup_stm)
 oolong_test
 ```
 
-As instructed, use the method `$do_word_intrusion_test()` to start coding. If you are running this in RStudio, you should see a test screen similar to this:
+As instructed, use the method `$do_word_intrusion_test()` to start coding. 
+
+```{r, eval = FALSE}
+oolong_test$do_word_intrusion_test()
+```
+
+If you are running this in RStudio, you should see a test screen similar to this:
 
 <img src="man/figures/oolong_demo.gif" align="center" />
 
 After the coding, you need to first lock the test. Then, you can look at the model precision by printing the oolong test.
 
-```{r, eval = FALSE}
+```{r, include = FALSE}
+### Mock this process
+oolong_test$.__enclos_env__$private$test_content$word$answer <- oolong_test$.__enclos_env__$private$test_content$word$intruder
+oolong_test$.__enclos_env__$private$test_content$word$answer[1] <- "wronganswer"
+```
+
+```{r lock}
 oolong_test$lock()
 oolong_test
 ```
@@ -78,13 +91,42 @@ oolong_test
 Similarly, use the `$do_topic_intrusion_test` to code the test cases, lock the test with `$lock()` and then you can look at the TLO (topic log odds) value by printing the oolong test.
 
 ```{r, eval = FALSE}
+oolong_test$do_topic_intrusion_test()
 oolong_test$lock()
+```
+
+```{r, include = FALSE}
+genius_topic <- function(obj1) {
+    obj1$.__enclos_env__$private$test_content$topic$answer <- obj1$.__enclos_env__$private$test_content$topic$intruder
+    return(obj1)
+}
+genius_word <- function(obj1) {
+    obj1$.__enclos_env__$private$test_content$word$answer <- obj1$.__enclos_env__$private$test_content$word$intruder
+    return(obj1)
+}
+oolong_test <- genius_word(genius_topic(oolong_test))
+oolong_test$.__enclos_env__$private$test_content$topic$answer[2] <- sample(oolong_test$.__enclos_env__$private$test_content$topic$candidates[[2]], 1)
+oolong_test$lock()
+```
+
+```{r topic_res}
 oolong_test
 ```
 
 ## Suggested workflow
 
 The test makes more sense if more than one coder is involved. A suggested workflow is to create the test, then clone the oolong object. Ask multiple coders to do the test(s) and then summarize the results.
+
+Train a topic model.
+
+```{r step0, eval = FALSE}
+require(quanteda)
+require(stm)
+dfm(newsgroup5$text, tolower = TRUE, stem = TRUE, remove = stopwords('english'), remove_punct = TRUE, remove_numbers = TRUE, remove_symbols = TRUE, remove_hyphens = TRUE) %>% dfm_trim(min_docfreq = 5, max_docfreq = 1000) %>% dfm_select(min_nchar = 3, pattern = "^[a-zA-Z]+$", valuetype = "regex") -> newsgroup5_dfm
+docvars(newsgroup5_dfm, "title") <- newsgroup5$title
+newsgroup5_dfm %>% convert(to = "stm", omit_empty = FALSE) -> newsgroup5_stm
+newsgroup_stm <- stm(newsgroup5_stm$documents, newsgroup5_stm$vocab, data =newsgroup5_stm$meta, K = 10, seed = 42)
+```
 
 Create a new oolong object.
 

@@ -43,7 +43,13 @@ oolong_test
 #> Use the method $lock() to finalize this object and see the results.
 ```
 
-As instructed, use the method `$do_word_intrusion_test()` to start coding. If you are running this in RStudio, you should see a test screen similar to this:
+As instructed, use the method `$do_word_intrusion_test()` to start coding.
+
+``` r
+oolong_test$do_word_intrusion_test()
+```
+
+If you are running this in RStudio, you should see a test screen similar to this:
 
 <img src="man/figures/oolong_demo.gif" align="center" />
 
@@ -52,6 +58,8 @@ After the coding, you need to first lock the test. Then, you can look at the mod
 ``` r
 oolong_test$lock()
 oolong_test
+#> An oolong test object with k = 10, 10 coded.
+#> 90%  precision
 ```
 
 ### Topic intrusion test
@@ -92,14 +100,33 @@ oolong_test
 Similarly, use the `$do_topic_intrusion_test` to code the test cases, lock the test with `$lock()` and then you can look at the TLO (topic log odds) value by printing the oolong test.
 
 ``` r
+oolong_test$do_topic_intrusion_test()
 oolong_test$lock()
+```
+
+``` r
 oolong_test
+#> An oolong test object with k = 10, 10 coded.
+#> 100%  precision
+#> With 41 cases of topic intrusion test. 41 coded.
+#> TLO: -0.019
 ```
 
 Suggested workflow
 ------------------
 
 The test makes more sense if more than one coder is involved. A suggested workflow is to create the test, then clone the oolong object. Ask multiple coders to do the test(s) and then summarize the results.
+
+Train a topic model.
+
+``` r
+require(quanteda)
+require(stm)
+dfm(newsgroup5$text, tolower = TRUE, stem = TRUE, remove = stopwords('english'), remove_punct = TRUE, remove_numbers = TRUE, remove_symbols = TRUE, remove_hyphens = TRUE) %>% dfm_trim(min_docfreq = 5, max_docfreq = 1000) %>% dfm_select(min_nchar = 3, pattern = "^[a-zA-Z]+$", valuetype = "regex") -> newsgroup5_dfm
+docvars(newsgroup5_dfm, "title") <- newsgroup5$title
+newsgroup5_dfm %>% convert(to = "stm", omit_empty = FALSE) -> newsgroup5_stm
+newsgroup_stm <- stm(newsgroup5_stm$documents, newsgroup5_stm$vocab, data =newsgroup5_stm$meta, K = 10, seed = 42)
+```
 
 Create a new oolong object.
 
@@ -131,6 +158,7 @@ Get a summary of the two objects.
 summarize_oolong(oolong_test_rater1, oolong_test_rater2)
 #> Mean model precision: 0.95
 #> Quantiles of Model precision: 0.9, 0.925, 0.95, 0.975, 1
+#> Krippendorff's alpha: 0
 #> K Precision: 0.5, 1, 1, 1, 1, 1, 1, 1, 1, 1
 ```
 
@@ -218,10 +246,10 @@ newsgroup5_dfm
 
 ``` r
 oolong_test <- create_oolong(newsgroup_warplda, newsgroup5$text, input_dfm = newsgroup5_dfm)
-#> INFO [2020-02-11 11:26:01] iter 5 loglikelihood = -4757802.438
-#> INFO [2020-02-11 11:26:01] iter 10 loglikelihood = -4749214.840
-#> INFO [2020-02-11 11:26:01] iter 15 loglikelihood = -4749424.291
-#> INFO [2020-02-11 11:26:01] early stopping at 15 iteration
+#> INFO [2020-02-11 16:29:35] iter 5 loglikelihood = -4757175.780
+#> INFO [2020-02-11 16:29:35] iter 10 loglikelihood = -4749225.601
+#> INFO [2020-02-11 16:29:35] iter 15 loglikelihood = -4748823.584
+#> INFO [2020-02-11 16:29:35] early stopping at 15 iteration
 oolong_test
 #> An oolong test object with k = 10, 0 coded.
 #> Use the method $do_word_intrusion_test() to do word intrusion test.
