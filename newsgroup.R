@@ -32,8 +32,9 @@ theta <- lda_model$fit_transform(x = newsgroup5_dfm, convergence_tol = 0.001, n_
 
 newsgroup_warplda <- lda_model
 
-
 usethis::use_data(newsgroup_warplda)
+
+lsa_model <- LSA$new(n_topics = 10)
 
 ###
 require(topicmodels)
@@ -41,6 +42,8 @@ require(topicmodels)
 newsgroup5_tm <- convert(newsgroup5_dfm, to = "topicmodels")
 
 newsgroup_lda <- LDA(newsgroup5_tm, k = 10)
+
+newsgroup_ctm <- CTM(newsgroup5_tm, k = 10)
 
 saveRDS(newsgroup_lda, "newsgroup_topicmodels.RDS")
 

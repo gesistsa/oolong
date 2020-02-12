@@ -73,10 +73,10 @@ summarize_oolong <- function(...) {
     res$rater_precision <- as.vector(n_correct / nrow(correction_matrix))
     if (length(obj_list) == 1) {
         res$kripp_alpha <- NA
-        ##res$multiple_test <- NA
+        res$multiple_test <- NA
     } else {
         res$kripp_alpha <- irr::kripp.alpha(t(ifelse(correction_matrix, 2, 1)))$value
-        ##res$multiple_test <- purrr::map(n_correct, ~binom.test(., n = nrow(correction_matrix), p = 1/n_choices, alternative = "greater"))
+        res$multiple_test <- purrr::map(n_correct, ~binom.test(., n = nrow(correction_matrix), p = 1/n_choices, alternative = "greater"))
     }    
     res$n_models <- length(obj_list)
     all_topic_test_content <- purrr::map(obj_list, ~ .$.__enclos_env__$private$test_content$topic)
@@ -92,9 +92,17 @@ summarize_oolong <- function(...) {
 #' @export
 print.oolong_summary <- function(oolong_summary) {
     .cp(TRUE, "Mean model precision: ", mean(oolong_summary$rater_precision))
-    .cp(oolong_summary$n_models > 1, "Quantiles of Model precision: ", paste(quantile(oolong_summary$rater_precision), collapse = ", "))
+    .cp(oolong_summary$n_models > 1, "Quantiles of model precision: ", paste(quantile(oolong_summary$rater_precision), collapse = ", "))
+    .cp(oolong_summary$n_models > 1, "P-value of model precision (better than random guess): ", combine_p_fisher(purrr::map_dbl(oolong_summary$multiple_test, "p.value")))
     .cp(oolong_summary$n_models > 1, "Krippendorff's alpha: ", oolong_summary$kripp_alpha)
     .cp(TRUE, "K Precision: ", paste(round(oolong_summary$k_precision, 1), collapse = ", "))
     .cp(!is.na(oolong_summary$tlo[1]), "Mean TLO: ", round(mean(oolong_summary$tlo), 2))
     .cp(!is.na(oolong_summary$tlo[1]), "Quantiles of TLO: ", paste(quantile(oolong_summary$tlo), collapse = ", "))
+}
+
+combine_p_fisher <- function(p_values) {
+    chisq <- (-2) * sum(log(p_values))
+    df <- 2 * length(p_values)
+    p <- pchisq(chisq, df, lower.tail = FALSE)
+    return(p)
 }
