@@ -58,6 +58,7 @@ summarize_oolong <- function(...) {
         warning("Some input objects were locked forcibly. Summary results might not make sense.")
     }
     obj_list <- list(...)
+    n_choices <- length(obj_list[[1]]$.__enclos_env__$private$test_content$word$candidates[[1]])
     res <- list()
     all_word_answers <- purrr::map_dfc(obj_list, ~ .$.__enclos_env__$private$test_content$word$answer)
     word_intruder <- obj_list[[1]]$.__enclos_env__$private$test_content$word$intruder
@@ -68,7 +69,15 @@ summarize_oolong <- function(...) {
         res$kripp_alpha <- irr::kripp.alpha(t(ifelse(correction_matrix, 2, 1)))$value
     }
     res$k_precision <- apply(correction_matrix, 1, sum) / ncol(correction_matrix)
-    res$rater_precision <- as.vector(apply(correction_matrix, 2, sum) / nrow(correction_matrix))
+    n_correct <- apply(correction_matrix, 2, sum)
+    res$rater_precision <- as.vector(n_correct / nrow(correction_matrix))
+    if (length(obj_list) == 1) {
+        res$kripp_alpha <- NA
+        ##res$multiple_test <- NA
+    } else {
+        res$kripp_alpha <- irr::kripp.alpha(t(ifelse(correction_matrix, 2, 1)))$value
+        ##res$multiple_test <- purrr::map(n_correct, ~binom.test(., n = nrow(correction_matrix), p = 1/n_choices, alternative = "greater"))
+    }    
     res$n_models <- length(obj_list)
     all_topic_test_content <- purrr::map(obj_list, ~ .$.__enclos_env__$private$test_content$topic)
     if (any(purrr::map_lgl(all_topic_test_content, is.null))) {

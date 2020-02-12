@@ -31,3 +31,11 @@ test_that("check_complete", {
     z <- create_oolong(newsgroup_topicmodels)
     expect_error(z$lock())
 })
+
+
+test_that("github issue #8", {
+    library(topicmodels)
+    data("AssociatedPress")
+    lda <- LDA(AssociatedPress[1:20,], k = 5)
+    expect_error(create_oolong(lda), NA)
+})
