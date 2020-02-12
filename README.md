@@ -157,7 +157,8 @@ Get a summary of the two objects.
 ``` r
 summarize_oolong(oolong_test_rater1, oolong_test_rater2)
 #> Mean model precision: 0.95
-#> Quantiles of Model precision: 0.9, 0.925, 0.95, 0.975, 1
+#> Quantiles of model precision: 0.9, 0.925, 0.95, 0.975, 1
+#> P-value of model precision (better than random guess): 4.5897123411172e-13
 #> Krippendorff's alpha: 0
 #> K Precision: 0.5, 1, 1, 1, 1, 1, 1, 1, 1, 1
 ```
@@ -246,10 +247,10 @@ newsgroup5_dfm
 
 ``` r
 oolong_test <- create_oolong(newsgroup_warplda, newsgroup5$text, input_dfm = newsgroup5_dfm)
-#> INFO [2020-02-11 17:25:53] iter 5 loglikelihood = -4757175.780
-#> INFO [2020-02-11 17:25:53] iter 10 loglikelihood = -4749225.601
-#> INFO [2020-02-11 17:25:54] iter 15 loglikelihood = -4748823.584
-#> INFO [2020-02-11 17:25:54] early stopping at 15 iteration
+#> INFO [2020-02-12 16:30:14] iter 5 loglikelihood = -4757175.780
+#> INFO [2020-02-12 16:30:14] iter 10 loglikelihood = -4749225.601
+#> INFO [2020-02-12 16:30:15] iter 15 loglikelihood = -4748823.584
+#> INFO [2020-02-12 16:30:15] early stopping at 15 iteration
 oolong_test
 #> An oolong test object with k = 10, 0 coded.
 #> Use the method $do_word_intrusion_test() to do word intrusion test.
