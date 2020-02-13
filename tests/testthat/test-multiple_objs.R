@@ -60,8 +60,4 @@ test_that("check_calculation_word_intrusion", {
     ### Single object
     res <- summarize_oolong(obj1)
     expect_length(res$rater_precision, 1)
-    res <- summarize_oolong(obj1, obj2, obj3)
-    res2 <- summarise_oolong(obj1, obj2, obj3)
-    expect_equal(res, res2)
 })
-

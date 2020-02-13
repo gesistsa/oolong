@@ -86,6 +86,7 @@ summarize_oolong <- function(...) {
     } else {
         res$tlo <- .cal_tlo(purrr::map_dfr(all_topic_test_content, ~.), mean_value = FALSE) ### it should not be just the mean.
     }
+    res$obj_list <- obj_list
     class(res) <- append(class(res), "oolong_summary")
     return(res)
 }
@@ -99,17 +100,41 @@ summarise_oolong <- function(...) {
 print.oolong_summary <- function(oolong_summary) {
     .cp(TRUE, "Mean model precision: ", mean(oolong_summary$rater_precision))
     .cp(oolong_summary$n_models > 1, "Quantiles of model precision: ", paste(quantile(oolong_summary$rater_precision), collapse = ", "))
-    .cp(oolong_summary$n_models > 1, "P-value of model precision (H0: Not better than random guess): ", combine_p_fisher(purrr::map_dbl(oolong_summary$multiple_test, "p.value")))
+    .cp(oolong_summary$n_models > 1, "P-value of model precision (H0: Model precision is not better than random guess): ", .combine_p_fisher(purrr::map_dbl(oolong_summary$multiple_test, "p.value")))
     .cp(oolong_summary$n_models > 1, "Krippendorff's alpha: ", oolong_summary$kripp_alpha)
     .cp(TRUE, "K Precision: ", paste(round(oolong_summary$k_precision, 1), collapse = ", "))
     .cp(!is.na(oolong_summary$tlo[1]), "Mean TLO: ", round(mean(oolong_summary$tlo), 2))
+    .cp(!is.na(oolong_summary$tlo[1]), "Median TLO: ", round(median(oolong_summary$tlo), 2))
     .cp(!is.na(oolong_summary$tlo[1]), "Quantiles of TLO: ", paste(quantile(oolong_summary$tlo), collapse = ", "))
+    if (!is.na(oolong_summary$tlo[1])) {
+        monkey_median <- unlist(replicate(1000, .monkey_median(oolong_summary$obj_list)))
+        .cp(TRUE, "P-Value of the median TLO (H0: Median TLO is not better than random guess): ", sum(monkey_median > median(oolong_summary$tlo)) / 1000)
+    }
 }
 
-combine_p_fisher <- function(p_values) {
+.combine_p_fisher <- function(p_values) {
     chisq <- (-2) * sum(log(p_values))
     df <- 2 * length(p_values)
     p <- pchisq(chisq, df, lower.tail = FALSE)
     return(p)
 }
 
+.monkey_test <- function(oolong, intelligent = 0) {
+    oolong$.__enclos_env__$private$test_content$word$answer <- purrr::map_chr(oolong$.__enclos_env__$private$test_content$word$candidates, ~ sample(., 1))
+    correct <- rep(FALSE, nrow(oolong$.__enclos_env__$private$test_content$word))
+    correct[sample(seq_along(correct), size = floor(length(correct) * intelligent))] <- TRUE
+    oolong$.__enclos_env__$private$test_content$word$answer[correct] <- oolong$.__enclos_env__$private$test_content$word$intruder[correct]
+    if (!is.null(oolong$.__enclos_env__$private$test_content$topic)) {
+        oolong$.__enclos_env__$private$test_content$topic$answer <- purrr::map_int(oolong$.__enclos_env__$private$test_content$topic$candidates, ~ sample(., 1))
+        correct <- rep(FALSE, nrow(oolong$.__enclos_env__$private$test_content$topic))
+        correct[sample(seq_along(correct), size = floor(length(correct) * intelligent))] <- TRUE
+        oolong$.__enclos_env__$private$test_content$topic$answer[correct] <- oolong$.__enclos_env__$private$test_content$topic$intruder[correct]
+    }
+    return(oolong)
+}
+
+.monkey_median <- function(obj_list) {
+    monkeyed_obj_list <- purrr::map(obj_list, .monkey_test)
+    all_topic_test_content <- purrr::map(monkeyed_obj_list, ~ .$.__enclos_env__$private$test_content$topic)
+    median(.cal_tlo(purrr::map_dfr(all_topic_test_content, ~.), mean_value = FALSE))
+}

@@ -131,7 +131,7 @@ newsgroup_stm <- stm(newsgroup5_stm$documents, newsgroup5_stm$vocab, data =newsg
 Create a new oolong object.
 
 ```{r step1}
-oolong_test_rater1 <- create_oolong(newsgroup_stm)
+oolong_test_rater1 <- create_oolong(newsgroup_stm, newsgroup5$text)
 ```
 
 Clone the oolong object to be used by other raters.
@@ -145,19 +145,21 @@ Ask different coders to code each object and then lock the object.
 ```{r, eval = FALSE}
 ## Let rater 1 do the test.
 oolong_test_rater1$do_word_intrusion_test()
+oolong_test_rater1$do_topic_intrusion_test()
 oolong_test_rater1$lock()
 
 ## Let rater 2 do the test.
 oolong_test_rater2$do_word_intrusion_test()
+oolong_test_rater2$do_topic_intrusion_test()
 oolong_test_rater2$lock()
 ```
 
 ```{r, include = FALSE}
 ### Mock this process
-oolong_test_rater1$.__enclos_env__$private$test_content$word$answer <- oolong_test_rater1$.__enclos_env__$private$test_content$word$intruder
+set.seed(46709394)
+oolong_test_rater1 <- oolong:::.monkey_test(oolong_test_rater1, intelligent = 0.3)
+oolong_test_rater2 <- oolong:::.monkey_test(oolong_test_rater2, intelligent = 0)
 oolong_test_rater1$lock()
-oolong_test_rater2$.__enclos_env__$private$test_content$word$answer <- oolong_test_rater2$.__enclos_env__$private$test_content$word$intruder
-oolong_test_rater2$.__enclos_env__$private$test_content$word$answer[1] <- "wronganswer"
 oolong_test_rater2$lock()
 ```
 
@@ -166,6 +168,23 @@ Get a summary of the two objects.
 ```{r, step3}
 summarize_oolong(oolong_test_rater1, oolong_test_rater2)
 ```
+
+## About the p-values
+
+The test for model precision (MP) is based on the one-tailed, one-sample binomial test for each rater. In a multiple-rater situation, the p-values from all raters are combined using the Fisher's method (a.k.a. Fisher's omnibus test).
+
+H0: MP is not better than 1/ n\_top\_terms
+
+H1: MP is better than 1/ n\_top\_terms
+
+
+The test for the median of TLO is based on a resampling under the null hypothesis method.
+
+H0: Median TLO is not better than random guess.
+
+H1: Median TLO is better than random guess.
+
+One must notice that the two statistical tests are testing the bear minimum. A significant test only indicates the topic model performs better than random guess. It is not an indication of good topic interpretability. Also, one should use a very conservative significant level, e.g. $\alpha < 0.001$.
 
 ## About Warp LDA
 

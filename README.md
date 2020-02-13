@@ -131,7 +131,7 @@ newsgroup_stm <- stm(newsgroup5_stm$documents, newsgroup5_stm$vocab, data =newsg
 Create a new oolong object.
 
 ``` r
-oolong_test_rater1 <- create_oolong(newsgroup_stm)
+oolong_test_rater1 <- create_oolong(newsgroup_stm, newsgroup5$text)
 ```
 
 Clone the oolong object to be used by other raters.
@@ -145,10 +145,12 @@ Ask different coders to code each object and then lock the object.
 ``` r
 ## Let rater 1 do the test.
 oolong_test_rater1$do_word_intrusion_test()
+oolong_test_rater1$do_topic_intrusion_test()
 oolong_test_rater1$lock()
 
 ## Let rater 2 do the test.
 oolong_test_rater2$do_word_intrusion_test()
+oolong_test_rater2$do_topic_intrusion_test()
 oolong_test_rater2$lock()
 ```
 
@@ -156,12 +158,33 @@ Get a summary of the two objects.
 
 ``` r
 summarize_oolong(oolong_test_rater1, oolong_test_rater2)
-#> Mean model precision: 0.95
-#> Quantiles of model precision: 0.9, 0.925, 0.95, 0.975, 1
-#> P-value of model precision (better than random guess): 4.5897123411172e-13
-#> Krippendorff's alpha: 0
-#> K Precision: 0.5, 1, 1, 1, 1, 1, 1, 1, 1, 1
+#> Mean model precision: 0.25
+#> Quantiles of model precision: 0.1, 0.175, 0.25, 0.325, 0.4
+#> P-value of model precision (H0: Not better than random guess): 0.224470246788736
+#> Krippendorff's alpha: 0.24
+#> K Precision: 0, 0.5, 1, 0, 0, 0, 0, 0.5, 0, 0.5
+#> Mean TLO: -2.32
+#> Median TLO: -2.06
+#> Quantiles of TLO: -9.02803350279604, -3.67855193382253, -2.05776648588221, 0, 0
+#> P-Value of the median TLO (H0: The median TLO is not better than random guess): 0.014
 ```
+
+About the p-values
+------------------
+
+The test for model precision (MP) is based on the one-tailed, one-sample binomial test for each rater. In a multiple-rater situation, the p-values from all raters are combined using the Fisher's method (a.k.a. Fisher's omnibus test).
+
+H0: MP is not better than 1/ n\_top\_terms
+
+H1: MP is better than 1/ n\_top\_terms
+
+The test for the median of TLO is based on a resampling under the null hypothesis method.
+
+H0: Median TLO is not better than random guess.
+
+H1: Median TLO is better than random guess.
+
+One must notice that the two statistical tests are testing the bear minimum. A significant test only indicates the topic model performs better than random guess. It is not an indication of good topic interpretability. Also, one should use a very conservative significant level, e.g. *α* &lt; 0.001.
 
 About Warp LDA
 --------------
@@ -247,10 +270,10 @@ newsgroup5_dfm
 
 ``` r
 oolong_test <- create_oolong(newsgroup_warplda, newsgroup5$text, input_dfm = newsgroup5_dfm)
-#> INFO [2020-02-12 16:30:14] iter 5 loglikelihood = -4757175.780
-#> INFO [2020-02-12 16:30:14] iter 10 loglikelihood = -4749225.601
-#> INFO [2020-02-12 16:30:15] iter 15 loglikelihood = -4748823.584
-#> INFO [2020-02-12 16:30:15] early stopping at 15 iteration
+#> INFO [2020-02-13 15:42:01] iter 5 loglikelihood = -4757721.265
+#> INFO [2020-02-13 15:42:01] iter 10 loglikelihood = -4749743.867
+#> INFO [2020-02-13 15:42:01] iter 15 loglikelihood = -4749478.674
+#> INFO [2020-02-13 15:42:01] early stopping at 15 iteration
 oolong_test
 #> An oolong test object with k = 10, 0 coded.
 #> Use the method $do_word_intrusion_test() to do word intrusion test.
