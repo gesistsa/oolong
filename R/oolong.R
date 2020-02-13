@@ -180,6 +180,13 @@
         stopifnot(frac >= 0 & frac <= 1)
         exact_n <- floor(length(input_corpus) * frac)
     }
+    if (exact_n <=1 ) {
+        stop("exact_n or frac are too small for your sample size. Please increase either the exact_n or frac.")
+    }
+    if (exact_n > length(input_corpus)) {
+        warning("exact_n is larger than the size of input_corpus. Switch to frac = 1")
+        exact_n <- length(input_corpus)
+    }
     sample_vec <- .sample_corpus(input_corpus, exact_n)
     if ("WarpLDA" %in% class(input_model)) {
         if (is.null(input_dfm)) {
@@ -196,6 +203,7 @@
         target_theta <- input_model$theta[sample_vec, ]
     } else if ("topicmodels" == attr(class(input_model), "package")) {
         model_terms <- t(topicmodels::terms(input_model, k = n_topiclabel_words))
+        dimnames(model_terms)[[1]] <- NULL
         target_theta <- topicmodels::posterior(input_model)$topic[sample_vec,]
     }
     k <- ncol(target_theta)

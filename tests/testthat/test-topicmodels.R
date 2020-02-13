@@ -33,9 +33,10 @@ test_that("check_complete", {
 })
 
 
-test_that("github issue #8", {
+test_that("github issue #8 - word", {
     library(topicmodels)
     data("AssociatedPress")
     lda <- LDA(AssociatedPress[1:20,], k = 5)
     expect_error(create_oolong(lda), NA)
 })
+
