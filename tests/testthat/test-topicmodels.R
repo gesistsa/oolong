@@ -40,3 +40,13 @@ test_that("github issue #8 - word", {
     expect_error(create_oolong(lda), NA)
 })
 
+test_that("github issue #8 - topic", {
+    library(topicmodels)
+    library(quanteda)
+    test_corpus <- corpus(newsgroup5[1:10,], text_field = "text")
+    test_dfm <- dfm(test_corpus)
+    topicmodels_dfm <- convert(test_dfm, to = "topicmodels")
+    lda <- LDA(topicmodels_dfm, k = 5)
+    expect_error(create_oolong(lda, newsgroup5$text[1:10], exact_n = 5), NA)
+})
+
