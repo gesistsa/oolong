@@ -3,4 +3,5 @@
 S3method(print,oolong_summary)
 export(clone_oolong)
 export(create_oolong)
+export(summarise_oolong)
 export(summarize_oolong)

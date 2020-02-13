@@ -160,13 +160,13 @@ Get a summary of the two objects.
 summarize_oolong(oolong_test_rater1, oolong_test_rater2)
 #> Mean model precision: 0.25
 #> Quantiles of model precision: 0.1, 0.175, 0.25, 0.325, 0.4
-#> P-value of model precision (H0: Not better than random guess): 0.224470246788736
+#> P-value of the model precision (H0: Model precision is not better than random guess): 0.224470246788736
 #> Krippendorff's alpha: 0.24
 #> K Precision: 0, 0.5, 1, 0, 0, 0, 0, 0.5, 0, 0.5
 #> Mean TLO: -2.32
 #> Median TLO: -2.06
 #> Quantiles of TLO: -9.02803350279604, -3.67855193382253, -2.05776648588221, 0, 0
-#> P-Value of the median TLO (H0: The median TLO is not better than random guess): 0.014
+#> P-Value of the median TLO (H0: Median TLO is not better than random guess): 0.0273333333333333
 ```
 
 About the p-values
@@ -270,10 +270,12 @@ newsgroup5_dfm
 
 ``` r
 oolong_test <- create_oolong(newsgroup_warplda, newsgroup5$text, input_dfm = newsgroup5_dfm)
-#> INFO [2020-02-13 15:42:01] iter 5 loglikelihood = -4757721.265
-#> INFO [2020-02-13 15:42:01] iter 10 loglikelihood = -4749743.867
-#> INFO [2020-02-13 15:42:01] iter 15 loglikelihood = -4749478.674
-#> INFO [2020-02-13 15:42:01] early stopping at 15 iteration
+#> INFO [2020-02-13 16:18:03] iter 5 loglikelihood = -4757147.553
+#> INFO [2020-02-13 16:18:03] iter 10 loglikelihood = -4749907.129
+#> INFO [2020-02-13 16:18:03] iter 15 loglikelihood = -4750161.342
+#> INFO [2020-02-13 16:18:03] early stopping at 15 iteration
+#> Warning in res[setdiff(1:length_test_items, position)] <- sample(good_terms):
+#> number of items to replace is not a multiple of replacement length
 oolong_test
 #> An oolong test object with k = 10, 0 coded.
 #> Use the method $do_word_intrusion_test() to do word intrusion test.

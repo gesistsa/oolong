@@ -100,15 +100,15 @@ summarise_oolong <- function(...) {
 print.oolong_summary <- function(oolong_summary) {
     .cp(TRUE, "Mean model precision: ", mean(oolong_summary$rater_precision))
     .cp(oolong_summary$n_models > 1, "Quantiles of model precision: ", paste(quantile(oolong_summary$rater_precision), collapse = ", "))
-    .cp(oolong_summary$n_models > 1, "P-value of model precision (H0: Model precision is not better than random guess): ", .combine_p_fisher(purrr::map_dbl(oolong_summary$multiple_test, "p.value")))
+    .cp(oolong_summary$n_models > 1, "P-value of the model precision (H0: Model precision is not better than random guess): ", .combine_p_fisher(purrr::map_dbl(oolong_summary$multiple_test, "p.value")))
     .cp(oolong_summary$n_models > 1, "Krippendorff's alpha: ", oolong_summary$kripp_alpha)
     .cp(TRUE, "K Precision: ", paste(round(oolong_summary$k_precision, 1), collapse = ", "))
     .cp(!is.na(oolong_summary$tlo[1]), "Mean TLO: ", round(mean(oolong_summary$tlo), 2))
     .cp(!is.na(oolong_summary$tlo[1]), "Median TLO: ", round(median(oolong_summary$tlo), 2))
     .cp(!is.na(oolong_summary$tlo[1]), "Quantiles of TLO: ", paste(quantile(oolong_summary$tlo), collapse = ", "))
     if (!is.na(oolong_summary$tlo[1])) {
-        monkey_median <- unlist(replicate(1000, .monkey_median(oolong_summary$obj_list)))
-        .cp(TRUE, "P-Value of the median TLO (H0: Median TLO is not better than random guess): ", sum(monkey_median > median(oolong_summary$tlo)) / 1000)
+        monkey_median <- unlist(replicate(3000, .monkey_median(oolong_summary$obj_list)))
+        .cp(TRUE, "P-Value of the median TLO (H0: Median TLO is not better than random guess): ", sum(monkey_median > median(oolong_summary$tlo)) / 3000)
     }
 }
 
