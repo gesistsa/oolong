@@ -31,8 +31,10 @@ test_that("defensive programming", {
     obj1$lock()
     obj2$lock()
     obj3$lock()
+    ## obj1/obj2 are different from obj3
     expect_error(summarise_oolong(obj1, obj2, obj3))
-    expect_error(summarise_oolong(obj1, obj2))
+    ## obj2 is a clone of obj1
+    expect_error(summarise_oolong(obj1, obj2), NA)
     ## Warning about premature locking
     obj1 <- create_oolong(newsgroup_stm)
     obj1$lock(force = TRUE)
@@ -58,5 +60,8 @@ test_that("check_calculation_word_intrusion", {
     ### Single object
     res <- summarize_oolong(obj1)
     expect_length(res$rater_precision, 1)
+    res <- summarize_oolong(obj1, obj2, obj3)
+    res2 <- summarise_oolong(obj1, obj2, obj3)
+    expect_equal(res, res2)
 })
 
