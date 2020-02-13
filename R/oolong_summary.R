@@ -21,6 +21,7 @@
     all(purrr::map_lgl(list(...), ~ .check_finished(.)))
 }
 
+### check whether the oolong object is in a new state. (i.e. Not yet coded in either word and topic tests.)
 .check_new <- function(oolong) {
     word_clean <- is.null(oolong$.__enclos_env__$private$test_content$word) | (!is.null(oolong$.__enclos_env__$private$test_content$word) & all(is.na(oolong$.__enclos_env__$private$test_content$word$answer)))
     topic_clean <- is.null(oolong$.__enclos_env__$private$test_content$topic) | (!is.null(oolong$.__enclos_env__$private$test_content$topic) & all(is.na(oolong$.__enclos_env__$private$test_content$topic$answer)))
@@ -90,10 +91,15 @@ summarize_oolong <- function(...) {
 }
 
 #' @export
+summarise_oolong <- function(...) {
+    summarize_oolong(...)
+}
+
+#' @export
 print.oolong_summary <- function(oolong_summary) {
     .cp(TRUE, "Mean model precision: ", mean(oolong_summary$rater_precision))
     .cp(oolong_summary$n_models > 1, "Quantiles of model precision: ", paste(quantile(oolong_summary$rater_precision), collapse = ", "))
-    .cp(oolong_summary$n_models > 1, "P-value of model precision (better than random guess): ", combine_p_fisher(purrr::map_dbl(oolong_summary$multiple_test, "p.value")))
+    .cp(oolong_summary$n_models > 1, "P-value of model precision (H0: Not better than random guess): ", combine_p_fisher(purrr::map_dbl(oolong_summary$multiple_test, "p.value")))
     .cp(oolong_summary$n_models > 1, "Krippendorff's alpha: ", oolong_summary$kripp_alpha)
     .cp(TRUE, "K Precision: ", paste(round(oolong_summary$k_precision, 1), collapse = ", "))
     .cp(!is.na(oolong_summary$tlo[1]), "Mean TLO: ", round(mean(oolong_summary$tlo), 2))
@@ -106,3 +112,4 @@ combine_p_fisher <- function(p_values) {
     p <- pchisq(chisq, df, lower.tail = FALSE)
     return(p)
 }
+
