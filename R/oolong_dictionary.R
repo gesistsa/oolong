@@ -34,10 +34,10 @@
                                                 )
                                     )
 
-.ren_gold_standard_test <- function(output, test_content, res, construct = "sentiment") {
-    .ren_choices <- function(test_content, res, construct) {
+.ren_gold_standard_test <- function(output, test_content, res, construct = "positive") {
+    .ren_choices <- function(test_content, res, construct, max_score) {        
         shiny::renderUI({
-            shiny::sliderInput("score_slider", label = paste("How strong is", construct, "in the above text?"), min = 1, max = 5, value = 3)
+            shiny::sliderInput("intruder", label = paste("How ", construct, "is this text?"), min = 1, max = 5, value = ifelse(is.na(res$intruder[res$current_row]), 3, res$intruder[res$current_row]), ticks = FALSE)
         })
     }
     .ren_topic_bar <- function(test_content, res) {
@@ -55,10 +55,3 @@
     output$text_content <- .ren_text_content(test_content, res)
     return(output)
 }
-
-.do_oolong_test <- function(test_content, ui = .UI_WORD_INTRUSION_TEST, .ren = .ren_word_intrusion_test) {
-    test_content$answer <- .code_oolong(test_content, ui = ui, .ren = .ren)
-    return(test_content)
-}
-
-.do_oolong_test(test_content, ui = .UI_GOLD_STANDARD_TEST, .ren = .ren_gold_standard_test)
