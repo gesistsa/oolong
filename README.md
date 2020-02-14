@@ -306,10 +306,10 @@ newsgroup5_dfm
 
 ``` r
 oolong_test <- create_oolong(newsgroup_warplda, newsgroup5$text, input_dfm = newsgroup5_dfm)
-#> INFO [2020-02-14 14:53:36] iter 5 loglikelihood = -4757147.553
-#> INFO [2020-02-14 14:53:37] iter 10 loglikelihood = -4749907.129
-#> INFO [2020-02-14 14:53:37] iter 15 loglikelihood = -4750161.342
-#> INFO [2020-02-14 14:53:37] early stopping at 15 iteration
+#> INFO [2020-02-14 15:24:35] iter 5 loglikelihood = -4757147.553
+#> INFO [2020-02-14 15:24:35] iter 10 loglikelihood = -4749907.129
+#> INFO [2020-02-14 15:24:35] iter 15 loglikelihood = -4750161.342
+#> INFO [2020-02-14 15:24:35] early stopping at 15 iteration
 #> Warning in res[setdiff(1:length_test_items, position)] <- sample(good_terms):
 #> number of items to replace is not a multiple of replacement length
 oolong_test

@@ -60,7 +60,15 @@
     res <- quanteda::corpus(test_content$gold_standard$text)
     quanteda::docvars(res, "answer") <- test_content$gold_standard$answer
     quanteda::docvars(res, "target_value") <- test_content$gold_standard$target_value
+    class(res) <- append("oolong_gold_standard", class(res))
     return(res)
+}
+
+
+#' @export
+print.oolong_gold_standard <- function(obj) {
+    quanteda:::print.corpus(obj)
+    .cp(TRUE, "Access the answer from the coding with quanteda::docvars(obj, 'answer')")
 }
 
 Oolong_test_gs <-
