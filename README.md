@@ -172,19 +172,19 @@ summarize_oolong(oolong_test_rater1, oolong_test_rater2)
 About the p-values
 ------------------
 
-The test for model precision (MP) is based on the one-tailed, one-sample binomial test for each rater. In a multiple-rater situation, the p-values from all raters are combined using the Fisher's method (a.k.a. Fisher's omnibus test).
+The test for model precision (MP) is based on an one-tailed, one-sample binomial test for each rater. In a multiple-rater situation, the p-values from all raters are combined using the Fisher's method (a.k.a. Fisher's omnibus test).
 
 H0: MP is not better than 1/ n\_top\_terms
 
 H1: MP is better than 1/ n\_top\_terms
 
-The test for the median of TLO is based on a resampling under the null hypothesis method.
+The test for the median of TLO is based on a permutation test.
 
 H0: Median TLO is not better than random guess.
 
 H1: Median TLO is better than random guess.
 
-One must notice that the two statistical tests are testing the bear minimum. A significant test only indicates the topic model performs better than random guess. It is not an indication of good topic interpretability. Also, one should use a very conservative significant level, e.g. *α* &lt; 0.001.
+One must notice that the two statistical tests are testing the bear minimum. A significant test only indicates the topic model can make the rater(s) perform better than random guess. It is not an indication of good topic interpretability. Also, one should use a very conservative significant level, e.g. *α* &lt; 0.001.
 
 About Warp LDA
 --------------
@@ -270,10 +270,10 @@ newsgroup5_dfm
 
 ``` r
 oolong_test <- create_oolong(newsgroup_warplda, newsgroup5$text, input_dfm = newsgroup5_dfm)
-#> INFO [2020-02-13 16:18:03] iter 5 loglikelihood = -4757147.553
-#> INFO [2020-02-13 16:18:03] iter 10 loglikelihood = -4749907.129
-#> INFO [2020-02-13 16:18:03] iter 15 loglikelihood = -4750161.342
-#> INFO [2020-02-13 16:18:03] early stopping at 15 iteration
+#> INFO [2020-02-14 13:36:21] iter 5 loglikelihood = -4757147.553
+#> INFO [2020-02-14 13:36:22] iter 10 loglikelihood = -4749907.129
+#> INFO [2020-02-14 13:36:22] iter 15 loglikelihood = -4750161.342
+#> INFO [2020-02-14 13:36:22] early stopping at 15 iteration
 #> Warning in res[setdiff(1:length_test_items, position)] <- sample(good_terms):
 #> number of items to replace is not a multiple of replacement length
 oolong_test
