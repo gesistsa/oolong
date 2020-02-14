@@ -11,9 +11,9 @@ The validation test is called "oolong test" (for reading tea leaves). Creating o
 
 <table>
 <colgroup>
+<col width="8%" />
 <col width="9%" />
-<col width="9%" />
-<col width="80%" />
+<col width="82%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -26,12 +26,12 @@ The validation test is called "oolong test" (for reading tea leaves). Creating o
 <tr class="odd">
 <td>Not NULL</td>
 <td align="center">NULL</td>
-<td>oolong test for a topic model with <a href="#word-intrusion-test">word intrusion test</a></td>
+<td>oolong test for validating a topic model with <a href="#word-intrusion-test">word intrusion test</a></td>
 </tr>
 <tr class="even">
 <td>Not NULL</td>
 <td align="center">Not NULL</td>
-<td>oolong test for a topic model with <a href="#word-intrusion-test">word intrusion test</a> and <a href="#topic-intrusion-test">topic intrusion test</a></td>
+<td>oolong test for validating a topic model with <a href="#word-intrusion-test">word intrusion test</a> and <a href="#topic-intrusion-test">topic intrusion test</a></td>
 </tr>
 <tr class="odd">
 <td>NULL</td>
@@ -306,10 +306,10 @@ newsgroup5_dfm
 
 ``` r
 oolong_test <- create_oolong(newsgroup_warplda, newsgroup5$text, input_dfm = newsgroup5_dfm)
-#> INFO [2020-02-14 14:08:31] iter 5 loglikelihood = -4757147.553
-#> INFO [2020-02-14 14:08:32] iter 10 loglikelihood = -4749907.129
-#> INFO [2020-02-14 14:08:32] iter 15 loglikelihood = -4750161.342
-#> INFO [2020-02-14 14:08:32] early stopping at 15 iteration
+#> INFO [2020-02-14 14:10:09] iter 5 loglikelihood = -4757147.553
+#> INFO [2020-02-14 14:10:09] iter 10 loglikelihood = -4749907.129
+#> INFO [2020-02-14 14:10:10] iter 15 loglikelihood = -4750161.342
+#> INFO [2020-02-14 14:10:10] early stopping at 15 iteration
 #> Warning in res[setdiff(1:length_test_items, position)] <- sample(good_terms):
 #> number of items to replace is not a multiple of replacement length
 oolong_test

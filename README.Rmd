@@ -23,12 +23,12 @@ The goal of oolong ^[/ˈuːlʊŋ/ 烏龍, literally means "Dark Dragon", is a se
 
 The validation test is called "oolong test" (for reading tea leaves). Creating oolong test for topic models and dictionary-based uses the same function: `create_oolong()`. The most important parameters are `input_model` and `input_corpus`. Setting each of them to `NULL` generates different tests.
 
-| input\_model | input\_corpus | output                                                                                                                           |
-|--------------|:-------------:|----------------------------------------------------------------------------------------------------------------------------------|
-| Not NULL     | NULL          | oolong test for a topic model with [word intrusion test](#word-intrusion-test)                                                   |
-| Not NULL     | Not NULL      | oolong test for a topic model with [word intrusion test](#word-intrusion-test) and [topic intrusion test](#topic-intrusion-test) |
-| NULL         | Not NULL      | oolong test for [creating gold standard](#creating-gold-standard)                                                                |
-| NULL         | NULL          | error                                                                                                                            |
+| input\_model | input\_corpus | output                                                                                                                                      |
+|--------------|:-------------:|---------------------------------------------------------------------------------------------------------------------------------------------|
+| Not NULL     | NULL          | oolong test for validating a topic model with [word intrusion test](#word-intrusion-test)                                                   |
+| Not NULL     | Not NULL      | oolong test for validating a topic model with [word intrusion test](#word-intrusion-test) and [topic intrusion test](#topic-intrusion-test) |
+| NULL         | Not NULL      | oolong test for [creating gold standard](#creating-gold-standard)                                                                           |
+| NULL         | NULL          | error                                                                                                                                       |
 
 ## Installation
 
