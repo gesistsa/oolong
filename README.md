@@ -306,10 +306,10 @@ newsgroup5_dfm
 
 ``` r
 oolong_test <- create_oolong(newsgroup_warplda, newsgroup5$text, input_dfm = newsgroup5_dfm)
-#> INFO [2020-02-14 15:24:35] iter 5 loglikelihood = -4757147.553
-#> INFO [2020-02-14 15:24:35] iter 10 loglikelihood = -4749907.129
-#> INFO [2020-02-14 15:24:35] iter 15 loglikelihood = -4750161.342
-#> INFO [2020-02-14 15:24:35] early stopping at 15 iteration
+#> INFO [2020-02-14 15:44:45] iter 5 loglikelihood = -4757147.553
+#> INFO [2020-02-14 15:44:45] iter 10 loglikelihood = -4749907.129
+#> INFO [2020-02-14 15:44:45] iter 15 loglikelihood = -4750161.342
+#> INFO [2020-02-14 15:44:45] early stopping at 15 iteration
 #> Warning in res[setdiff(1:length_test_items, position)] <- sample(good_terms):
 #> number of items to replace is not a multiple of replacement length
 oolong_test
@@ -374,11 +374,12 @@ oolong_test
 #> Use the method $turn_gold() to convert the test results into a quanteda corpus.
 ```
 
-A locked oolong test can be converted into a quanteda corpus for further analysis. The corpus contains two `docvars`, 'answer' and 'target\_value'.
+A locked oolong test can be converted into a quanteda-compatible corpus for further analysis. The corpus contains two `docvars`, 'answer' and 'target\_value'.
 
 ``` r
 oolong_test$turn_gold()
 #> Corpus consisting of 20 documents and 2 docvars.
+#> Access the answer from the coding with quanteda::docvars(obj, 'answer')
 ```
 
 ``` r
@@ -394,7 +395,11 @@ require(dplyr)
 #> 
 #>     intersect, setdiff, setequal, union
 gold_standard <- oolong_test$turn_gold()
-dfm(gold_standard, remove_punct = TRUE) %>% dfm_lookup(afinn) %>% quanteda::convert(to = "data.frame") %>% mutate(matching_word_valence = (neg5 * -5) + (neg4 * -4) + (neg3 * -3) + (neg2 * -2) + (neg1 * -1) + (zero * 0) + (pos1 * 1) + (pos2 * 2) + (pos3 * 3) + (pos4 * 4) + (pos5 * 5), base = ntoken(gold_standard, remove_punct = TRUE), afinn_score = matching_word_valence / base) %>% pull(afinn_score) -> all_afinn_score
+dfm(gold_standard, remove_punct = TRUE) %>% dfm_lookup(afinn) %>% quanteda::convert(to = "data.frame") %>%
+    mutate(matching_word_valence = (neg5 * -5) + (neg4 * -4) + (neg3 * -3) + (neg2 * -2) + (neg1 * -1)
+           + (zero * 0) + (pos1 * 1) + (pos2 * 2) + (pos3 * 3) + (pos4 * 4) + (pos5 * 5),
+           base = ntoken(gold_standard, remove_punct = TRUE), afinn_score = matching_word_valence / base) %>%
+    pull(afinn_score) -> all_afinn_score
 all_afinn_score
 #>       text1       text2       text3       text4       text5       text6 
 #>  0.29411765 -0.09090909 -0.16666667  0.38461538  0.00000000  0.00000000 

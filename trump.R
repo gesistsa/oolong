@@ -1,9 +1,7 @@
 devtools::load_all()
 
-oolong_test <- create_oolong(input_corpus = trump2k, exact_n = 20, construct = "positive")
+oolong_test <- readRDS('trump_coded.RDS')
 
-require(quanteda)
+oolong_test$lock()
 
-
-
-
+oolong_test$turn_gold()
