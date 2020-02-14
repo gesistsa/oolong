@@ -261,11 +261,15 @@ oolong_test$lock()
 oolong_test
 ```
 
+### Example: Validating AFINN using the gold standard
+
 A locked oolong test can be converted into a quanteda-compatible corpus for further analysis. The corpus contains two `docvars`, 'answer' and 'target_value'.
 
 ```{r}
 oolong_test$turn_gold()
 ```
+
+As instructed, put back the score you would like to validate into the `docvars` "target_value". In this example, we calculate the AFINN score for each tweet using quanteda. The dictionary `afinn` is bundle with this package.
 
 ```{r}
 require(quanteda)
@@ -278,6 +282,8 @@ dfm(gold_standard, remove_punct = TRUE) %>% dfm_lookup(afinn) %>% quanteda::conv
     pull(afinn_score) -> all_afinn_score
 all_afinn_score
 ```
+
+Put back the vector of AFINN score into the respective `docvars` and study the correlation between the gold standard and AFINN.
 
 ```{r}
 docvars(gold_standard, "target_value") <- all_afinn_score

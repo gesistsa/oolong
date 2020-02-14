@@ -306,10 +306,10 @@ newsgroup5_dfm
 
 ``` r
 oolong_test <- create_oolong(newsgroup_warplda, newsgroup5$text, input_dfm = newsgroup5_dfm)
-#> INFO [2020-02-14 16:06:29] iter 5 loglikelihood = -4757147.553
-#> INFO [2020-02-14 16:06:29] iter 10 loglikelihood = -4749907.129
-#> INFO [2020-02-14 16:06:29] iter 15 loglikelihood = -4750161.342
-#> INFO [2020-02-14 16:06:29] early stopping at 15 iteration
+#> INFO [2020-02-14 16:13:05] iter 5 loglikelihood = -4757147.553
+#> INFO [2020-02-14 16:13:06] iter 10 loglikelihood = -4749907.129
+#> INFO [2020-02-14 16:13:06] iter 15 loglikelihood = -4750161.342
+#> INFO [2020-02-14 16:13:06] early stopping at 15 iteration
 #> Warning in res[setdiff(1:length_test_items, position)] <- sample(good_terms):
 #> number of items to replace is not a multiple of replacement length
 oolong_test
@@ -374,6 +374,8 @@ oolong_test
 #> Use the method $turn_gold() to convert the test results into a quanteda corpus.
 ```
 
+### Example: Validating AFINN using the gold standard
+
 A locked oolong test can be converted into a quanteda-compatible corpus for further analysis. The corpus contains two `docvars`, 'answer' and 'target\_value'.
 
 ``` r
@@ -382,6 +384,8 @@ oolong_test$turn_gold()
 #> Access the answer from the coding with quanteda::docvars(obj, 'answer')
 #> Put back the test score you would like to validate into quanteda::docvars(obj, 'target_value')
 ```
+
+As instructed, put back the score you would like to validate into the `docvars` "target\_value". In this example, we calculate the AFINN score for each tweet using quanteda. The dictionary `afinn` is bundle with this package.
 
 ``` r
 require(quanteda)
@@ -411,6 +415,8 @@ all_afinn_score
 #>      text19      text20 
 #>  0.33333333  0.38888889
 ```
+
+Put back the vector of AFINN score into the respective `docvars` and study the correlation between the gold standard and AFINN.
 
 ``` r
 docvars(gold_standard, "target_value") <- all_afinn_score
