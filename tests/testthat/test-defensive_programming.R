@@ -10,6 +10,10 @@ genius_topic <- function(obj1) {
     return(obj1)
 }
 
+test_that("precondiction", {
+    expect_error(create_oolong())
+    expect_error(create_oolong(input_model = NULL, input_corpus = NULL))
+})
 
 test_that("locking", {
     ## premature locking

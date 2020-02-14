@@ -43,6 +43,9 @@ Oolong_test <- R6::R6Class(
 #' @param input_dfm a dfm object used for training the input_model, if input_model is a WarpLDA object
 #' @export
 create_oolong <- function(input_model = NULL, input_corpus = NULL, n_top_terms = 5, bottom_terms_percentile = 0.6, exact_n = NULL, frac = 0.01, n_top_topics = 3, n_topiclabel_words = 8, use_frex_words = FALSE, difficulty = 1, input_dfm = NULL, target_value = NULL, construct = "positive") {
+    if (is.null(input_model) & is.null(input_corpus)) {
+        stop("input_model and input_corpus cannot be both NULL.")
+    }
     if (!is.null(input_model)) {
         return(Oolong_test_tm$new(input_model = input_model, input_corpus = input_corpus, n_top_terms = n_top_terms, bottom_terms_percentile = bottom_terms_percentile, exact_n = exact_n, frac = frac, n_top_topics = n_top_topics, n_topiclabel_words = n_topiclabel_words, difficulty = difficulty, use_frex_words = use_frex_words, input_dfm = input_dfm))
     } else {

@@ -7,6 +7,45 @@ oolong <img src="man/figures/oolong_logo.png" align="right" height="200" />
 <!-- badges: end -->
 The goal of oolong [1] is to generate and administrate validation tests easily for typical automated content analysis tools such as topic models and dictionary-based tools.
 
+The validation test is called "oolong test" (for reading tea leaves). Creating oolong test for topic models and dictionary-based uses the same function: `create_oolong()`. The most important parameters are `input_model` and `input_corpus`. Setting each of them to `NULL` generates different tests.
+
+<table>
+<colgroup>
+<col width="13%" />
+<col width="14%" />
+<col width="72%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>input_model</th>
+<th align="center">input_corpus</th>
+<th>output</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Not NULL</td>
+<td align="center">NULL</td>
+<td>oolong test for a topic model with word intrusion test</td>
+</tr>
+<tr class="even">
+<td>Not NULL</td>
+<td align="center">Not NULL</td>
+<td>oolong test for a topic model with word intrusion test and topic intrusion test</td>
+</tr>
+<tr class="odd">
+<td>NULL</td>
+<td align="center">Not NULL</td>
+<td>oolong test for creating gold standard</td>
+</tr>
+<tr class="even">
+<td>NULL</td>
+<td align="center">NULL</td>
+<td>error</td>
+</tr>
+</tbody>
+</table>
+
 Installation
 ------------
 
@@ -267,10 +306,10 @@ newsgroup5_dfm
 
 ``` r
 oolong_test <- create_oolong(newsgroup_warplda, newsgroup5$text, input_dfm = newsgroup5_dfm)
-#> INFO [2020-02-14 13:41:39] iter 5 loglikelihood = -4757147.553
-#> INFO [2020-02-14 13:41:39] iter 10 loglikelihood = -4749907.129
-#> INFO [2020-02-14 13:41:40] iter 15 loglikelihood = -4750161.342
-#> INFO [2020-02-14 13:41:40] early stopping at 15 iteration
+#> INFO [2020-02-14 13:56:38] iter 5 loglikelihood = -4757147.553
+#> INFO [2020-02-14 13:56:38] iter 10 loglikelihood = -4749907.129
+#> INFO [2020-02-14 13:56:38] iter 15 loglikelihood = -4750161.342
+#> INFO [2020-02-14 13:56:38] early stopping at 15 iteration
 #> Warning in res[setdiff(1:length_test_items, position)] <- sample(good_terms):
 #> number of items to replace is not a multiple of replacement length
 oolong_test
@@ -284,7 +323,9 @@ oolong_test
 Validating Dictionary-based Methods
 -----------------------------------
 
-Coming soon.
+### Creating gold standard
+
+`trump2k` is a dataset of 2,000 tweets from @realdonaldtrump.
 
 References
 ----------

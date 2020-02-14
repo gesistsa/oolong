@@ -21,6 +21,15 @@ set.seed(42)
 
 The goal of oolong ^[/ˈuːlʊŋ/ 烏龍, literally means "Dark Dragon", is a semi-oxidized tea from Asia. It is very popular in Taiwan, Japan and Hong Kong] is to generate and administrate validation tests easily for typical automated content analysis tools such as topic models and dictionary-based tools.
 
+The validation test is called "oolong test" (for reading tea leaves). Creating oolong test for topic models and dictionary-based uses the same function: `create_oolong()`. The most important parameters are `input_model` and `input_corpus`. Setting each of them to `NULL` generates different tests.
+
+| input\_model | input\_corpus | output                                                                          |
+|--------------|:-------------:|---------------------------------------------------------------------------------|
+| Not NULL     | NULL          | oolong test for a topic model with word intrusion test                          |
+| Not NULL     | Not NULL      | oolong test for a topic model with word intrusion test and topic intrusion test |
+| NULL         | Not NULL      | oolong test for creating gold standard                                          |
+| NULL         | NULL          | error                                                                           |
+
 ## Installation
 
 You can install the development version from [GitHub](https://github.com/) with:
@@ -216,7 +225,11 @@ oolong_test
 
 ## Validating Dictionary-based Methods
 
-Coming soon.
+### Creating gold standard
+
+`trump2k` is a dataset of 2,000 tweets from @realdonaldtrump.
+
+
 
 ## References
 
