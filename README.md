@@ -17,10 +17,10 @@ You can install the development version from [GitHub](https://github.com/) with:
 devtools::install_github("chainsawriot/oolong")
 ```
 
-Example
--------
+Validating Topic Models
+-----------------------
 
-### Word intrusion test
+#### Word intrusion test
 
 `newsgroup_stm` is an example topic model trained with the data `newsgroup5` using the `stm` package. Currently, this package supports structural topic models / correlated topic models from `stm`, Warp LDA models from `text2vec` and LDA/CTM models from `topicmodels`.
 
@@ -62,7 +62,7 @@ oolong_test
 #> 90%  precision
 ```
 
-### Topic intrusion test
+#### Topic intrusion test
 
 For example, `newsgroup_stm` was generated with the corpus `newsgroup5$text`
 
@@ -112,8 +112,7 @@ oolong_test
 #> TLO: -0.019
 ```
 
-Suggested workflow
-------------------
+### Suggested workflow
 
 The test makes more sense if more than one coder is involved. A suggested workflow is to create the test, then clone the oolong object. Ask multiple coders to do the test(s) and then summarize the results.
 
@@ -169,8 +168,7 @@ summarize_oolong(oolong_test_rater1, oolong_test_rater2)
 #> P-Value of the median TLO (H0: Median TLO is not better than random guess): 0.0273333333333333
 ```
 
-About the p-values
-------------------
+### About the p-values
 
 The test for model precision (MP) is based on an one-tailed, one-sample binomial test for each rater. In a multiple-rater situation, the p-values from all raters are combined using the Fisher's method (a.k.a. Fisher's omnibus test).
 
@@ -186,8 +184,7 @@ H1: Median TLO is better than random guess.
 
 One must notice that the two statistical tests are testing the bear minimum. A significant test only indicates the topic model can make the rater(s) perform better than random guess. It is not an indication of good topic interpretability. Also, one should use a very conservative significant level, e.g. *α* &lt; 0.001.
 
-About Warp LDA
---------------
+### About Warp LDA
 
 There is a subtle difference between the support for `stm` and for `text2vec`.
 
@@ -270,10 +267,10 @@ newsgroup5_dfm
 
 ``` r
 oolong_test <- create_oolong(newsgroup_warplda, newsgroup5$text, input_dfm = newsgroup5_dfm)
-#> INFO [2020-02-14 13:36:21] iter 5 loglikelihood = -4757147.553
-#> INFO [2020-02-14 13:36:22] iter 10 loglikelihood = -4749907.129
-#> INFO [2020-02-14 13:36:22] iter 15 loglikelihood = -4750161.342
-#> INFO [2020-02-14 13:36:22] early stopping at 15 iteration
+#> INFO [2020-02-14 13:41:39] iter 5 loglikelihood = -4757147.553
+#> INFO [2020-02-14 13:41:39] iter 10 loglikelihood = -4749907.129
+#> INFO [2020-02-14 13:41:40] iter 15 loglikelihood = -4750161.342
+#> INFO [2020-02-14 13:41:40] early stopping at 15 iteration
 #> Warning in res[setdiff(1:length_test_items, position)] <- sample(good_terms):
 #> number of items to replace is not a multiple of replacement length
 oolong_test
@@ -283,6 +280,11 @@ oolong_test
 #> Use the method $do_topic_intrusion_test() to do topic intrusion test.
 #> Use the method $lock() to finalize this object and see the results.
 ```
+
+Validating Dictionary-based Methods
+-----------------------------------
+
+Coming soon.
 
 References
 ----------

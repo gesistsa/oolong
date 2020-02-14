@@ -30,9 +30,9 @@ You can install the development version from [GitHub](https://github.com/) with:
 devtools::install_github("chainsawriot/oolong")
 ```
 
-## Example
+## Validating Topic Models
 
-### Word intrusion test
+#### Word intrusion test
 
 `newsgroup_stm` is an example topic model trained with the data `newsgroup5` using the `stm` package. Currently, this package supports structural topic models / correlated topic models from `stm`, Warp LDA models from `text2vec` and LDA/CTM models from `topicmodels`.
 
@@ -72,7 +72,7 @@ oolong_test$lock()
 oolong_test
 ```
 
-### Topic intrusion test
+#### Topic intrusion test
 
 For example, `newsgroup_stm` was generated with the corpus `newsgroup5$text`
 
@@ -113,7 +113,7 @@ oolong_test$lock()
 oolong_test
 ```
 
-## Suggested workflow
+### Suggested workflow
 
 The test makes more sense if more than one coder is involved. A suggested workflow is to create the test, then clone the oolong object. Ask multiple coders to do the test(s) and then summarize the results.
 
@@ -169,7 +169,7 @@ Get a summary of the two objects.
 summarize_oolong(oolong_test_rater1, oolong_test_rater2)
 ```
 
-## About the p-values
+### About the p-values
 
 The test for model precision (MP) is based on an one-tailed, one-sample binomial test for each rater. In a multiple-rater situation, the p-values from all raters are combined using the Fisher's method (a.k.a. Fisher's omnibus test).
 
@@ -186,7 +186,7 @@ H1: Median TLO is better than random guess.
 
 One must notice that the two statistical tests are testing the bear minimum. A significant test only indicates the topic model can make the rater(s) perform better than random guess. It is not an indication of good topic interpretability. Also, one should use a very conservative significant level, e.g. $\alpha < 0.001$.
 
-## About Warp LDA
+### About Warp LDA
 
 There is a subtle difference between the support for `stm` and for `text2vec`.
 
@@ -213,6 +213,10 @@ newsgroup5_dfm
 oolong_test <- create_oolong(newsgroup_warplda, newsgroup5$text, input_dfm = newsgroup5_dfm)
 oolong_test
 ```
+
+## Validating Dictionary-based Methods
+
+Coming soon.
 
 ## References
 
