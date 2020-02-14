@@ -306,10 +306,10 @@ newsgroup5_dfm
 
 ``` r
 oolong_test <- create_oolong(newsgroup_warplda, newsgroup5$text, input_dfm = newsgroup5_dfm)
-#> INFO [2020-02-14 16:13:05] iter 5 loglikelihood = -4757147.553
-#> INFO [2020-02-14 16:13:06] iter 10 loglikelihood = -4749907.129
-#> INFO [2020-02-14 16:13:06] iter 15 loglikelihood = -4750161.342
-#> INFO [2020-02-14 16:13:06] early stopping at 15 iteration
+#> INFO [2020-02-14 16:22:52] iter 5 loglikelihood = -4757147.553
+#> INFO [2020-02-14 16:22:53] iter 10 loglikelihood = -4749907.129
+#> INFO [2020-02-14 16:22:53] iter 15 loglikelihood = -4750161.342
+#> INFO [2020-02-14 16:22:53] early stopping at 15 iteration
 #> Warning in res[setdiff(1:length_test_items, position)] <- sample(good_terms):
 #> number of items to replace is not a multiple of replacement length
 oolong_test
@@ -425,6 +425,27 @@ summarize_gold_standard(gold_standard)
 ```
 
 Future version will provide `summarize_oolong` to summarize multiple oolong objects and simplify the validation process.
+
+### Inadvisable workflow
+
+*NOTE: This workflow is not recommended!*
+
+This workflow violates the "validation first" principle. You can supply the `target_value` at the creation of oolong test.
+
+``` r
+dfm(trump2k, remove_punct = TRUE) %>% dfm_lookup(afinn) %>% quanteda::convert(to = "data.frame") %>%
+    mutate(matching_word_valence = (neg5 * -5) + (neg4 * -4) + (neg3 * -3) + (neg2 * -2) + (neg1 * -1)
+           + (zero * 0) + (pos1 * 1) + (pos2 * 2) + (pos3 * 3) + (pos4 * 4) + (pos5 * 5),
+           base = ntoken(trump2k, remove_punct = TRUE), afinn_score = matching_word_valence / base) %>%
+    pull(afinn_score) -> trump2k_afinn_score
+oolong_test <- create_oolong(input_corpus = trump2k, construct = "positive", target_value = trump2k_afinn_score)
+#> Warning in .generate_gold_standard(input_corpus, exact_n, frac, target_value):
+#> Specifying target_value before coding is not recommended.
+oolong_test
+#> An oolong test object (gold standard generation) with 20 cases, 0 coded.
+#> Use the method $do_gold_standard_test() to generate gold standard.
+#> Use the method $lock() to finalize this object and see the results.
+```
 
 References
 ----------

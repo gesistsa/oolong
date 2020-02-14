@@ -14,8 +14,8 @@
     sample_vec <- .sample_corpus(input_corpus, exact_n)
     target_text <- input_corpus[sample_vec]
     if (!is.null(target_value)) {
-        warning("Specifying test_value before coding is not recommended.")
-        target_value <- test_value[sample_vec]
+        warning("Specifying target_value before coding is not recommended.")
+        target_value <- target_value[sample_vec]
     } else {
         target_value <- NA
     }
