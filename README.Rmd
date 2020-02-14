@@ -229,7 +229,61 @@ oolong_test
 
 `trump2k` is a dataset of 2,000 tweets from @realdonaldtrump.
 
+```{r trump2k}
+tibble(text = trump2k)
+```
 
+For example, you are interested in studying the sentiment of these tweets. One can use tools such as AFINN to automatically extract sentiment in these tweets. However, oolong recommends to generate gold standard by human coding first using a subset. By default, oolong selects 1% of the origin corpus as test cases. The parameter `construct` should be an adjective, e.g. positive, liberal, populistic, etc.
+
+```{r goldstandard}
+oolong_test <- create_oolong(input_corpus = trump2k, construct = "positive")
+oolong_test
+```
+
+As instructed, use the method `$do_gold_standard_test()` to start coding.
+
+```{r, eval = FALSE}
+oolong_test$do_gold_standard_test()
+```
+
+The test screen should be similar to this:
+
+<img src="man/figures/trump_coding.png" align="center" />
+
+After the coding, you need to first lock the test and then the `$turn_gold()` method is available.
+
+```{r, include = FALSE}
+oolong_test <- readRDS("trump_coded.RDS")
+```
+
+```{r gs_locking}
+oolong_test$lock()
+oolong_test
+```
+
+A locked oolong test can be converted into a quanteda corpus for further analysis. The corpus contains two `docvars`, 'answer' and 'target_value'.
+
+```{r}
+oolong_test$turn_gold()
+```
+
+```{r}
+require(quanteda)
+require(dplyr)
+gold_standard <- oolong_test$turn_gold()
+dfm(gold_standard, remove_punct = TRUE) %>% dfm_lookup(afinn) %>% quanteda::convert(to = "data.frame") %>% mutate(matching_word_valence = (neg5 * -5) + (neg4 * -4) + (neg3 * -3) + (neg2 * -2) + (neg1 * -1) + (zero * 0) + (pos1 * 1) + (pos2 * 2) + (pos3 * 3) + (pos4 * 4) + (pos5 * 5), base = ntoken(gold_standard, remove_punct = TRUE), afinn_score = matching_word_valence / base) %>% pull(afinn_score) -> all_afinn_score
+all_afinn_score
+```
+
+```{r}
+cor(all_afinn_score, docvars(gold_standard, "answer"))
+```
+
+```{r cor_afinn}
+plot( docvars(gold_standard, "answer"), all_afinn_score)
+```
+
+Future version will provide `summarize_oolong` to summarize multiple oolong objects and simplify the validation process.
 
 ## References
 

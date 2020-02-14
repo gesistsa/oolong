@@ -306,10 +306,10 @@ newsgroup5_dfm
 
 ``` r
 oolong_test <- create_oolong(newsgroup_warplda, newsgroup5$text, input_dfm = newsgroup5_dfm)
-#> INFO [2020-02-14 14:10:09] iter 5 loglikelihood = -4757147.553
-#> INFO [2020-02-14 14:10:09] iter 10 loglikelihood = -4749907.129
-#> INFO [2020-02-14 14:10:10] iter 15 loglikelihood = -4750161.342
-#> INFO [2020-02-14 14:10:10] early stopping at 15 iteration
+#> INFO [2020-02-14 14:53:36] iter 5 loglikelihood = -4757147.553
+#> INFO [2020-02-14 14:53:37] iter 10 loglikelihood = -4749907.129
+#> INFO [2020-02-14 14:53:37] iter 15 loglikelihood = -4750161.342
+#> INFO [2020-02-14 14:53:37] early stopping at 15 iteration
 #> Warning in res[setdiff(1:length_test_items, position)] <- sample(good_terms):
 #> number of items to replace is not a multiple of replacement length
 oolong_test
@@ -326,6 +326,98 @@ Validating Dictionary-based Methods
 ### Creating gold standard
 
 `trump2k` is a dataset of 2,000 tweets from @realdonaldtrump.
+
+``` r
+tibble(text = trump2k)
+#> # A tibble: 2,000 x 1
+#>    text                                                                         
+#>    <chr>                                                                        
+#>  1 "In just out book, Secret Service Agent Gary Byrne doesn't believe that Croo…
+#>  2 "Hillary Clinton has announced that she is letting her husband out to campai…
+#>  3 "\"@TheBrodyFile: Always great to visit with  @TheBrodyFile one-on-one with …
+#>  4 "Explain to @brithume and @megynkelly, who know nothing, that I will beat Hi…
+#>  5 "Nobody beats me on National Security. \nhttps://t.co/sCrj4Ha1I5"            
+#>  6 "\"@realbill2016: @realDonaldTrump @Brainykid2010 @shl Trump leading LA Time…
+#>  7 "\"@teapartynews: Trump Wins Tea Party Group's 'Nashville Straw Poll' - News…
+#>  8 "Big Republican Dinner tonight at Mar-a-Lago in Palm Beach. I will be there!"
+#>  9 ".@HillaryClinton loves to lie. America has had enough of the CLINTON'S! It …
+#> 10 "\"@brianstoya: @realDonaldTrump For POTUS #2016\""                          
+#> # … with 1,990 more rows
+```
+
+For example, you are interested in studying the sentiment of these tweets. One can use tools such as AFINN to automatically extract sentiment in these tweets. However, oolong recommends to generate gold standard by human coding first using a subset. By default, oolong selects 1% of the origin corpus as test cases. The parameter `construct` should be an adjective, e.g. positive, liberal, populistic, etc.
+
+``` r
+oolong_test <- create_oolong(input_corpus = trump2k, construct = "positive")
+oolong_test
+#> An oolong test object (gold standard generation) with 20 cases, 0 coded.
+#> Use the method $do_gold_standard_test() to generate gold standard.
+#> Use the method $lock() to finalize this object and see the results.
+```
+
+As instructed, use the method `$do_gold_standard_test()` to start coding.
+
+``` r
+oolong_test$do_gold_standard_test()
+```
+
+The test screen should be similar to this:
+
+<img src="man/figures/trump_coding.png" align="center" />
+
+After the coding, you need to first lock the test and then the `$turn_gold()` method is available.
+
+``` r
+oolong_test$lock()
+oolong_test
+#> An oolong test object (gold standard generation) with 20 cases, 20 coded.
+#> Use the method $turn_gold() to convert the test results into a quanteda corpus.
+```
+
+A locked oolong test can be converted into a quanteda corpus for further analysis. The corpus contains two `docvars`, 'answer' and 'target\_value'.
+
+``` r
+oolong_test$turn_gold()
+#> Corpus consisting of 20 documents and 2 docvars.
+```
+
+``` r
+require(quanteda)
+require(dplyr)
+#> Loading required package: dplyr
+#> 
+#> Attaching package: 'dplyr'
+#> The following objects are masked from 'package:stats':
+#> 
+#>     filter, lag
+#> The following objects are masked from 'package:base':
+#> 
+#>     intersect, setdiff, setequal, union
+gold_standard <- oolong_test$turn_gold()
+dfm(gold_standard, remove_punct = TRUE) %>% dfm_lookup(afinn) %>% quanteda::convert(to = "data.frame") %>% mutate(matching_word_valence = (neg5 * -5) + (neg4 * -4) + (neg3 * -3) + (neg2 * -2) + (neg1 * -1) + (zero * 0) + (pos1 * 1) + (pos2 * 2) + (pos3 * 3) + (pos4 * 4) + (pos5 * 5), base = ntoken(gold_standard, remove_punct = TRUE), afinn_score = matching_word_valence / base) %>% pull(afinn_score) -> all_afinn_score
+all_afinn_score
+#>       text1       text2       text3       text4       text5       text6 
+#>  0.29411765 -0.09090909 -0.16666667  0.38461538  0.00000000  0.00000000 
+#>       text7       text8       text9      text10      text11      text12 
+#>  0.16666667  0.38461538  0.00000000  0.38461538 -0.29166667  0.00000000 
+#>      text13      text14      text15      text16      text17      text18 
+#>  0.50000000  0.07142857  0.00000000 -0.12000000  0.22222222  0.16000000 
+#>      text19      text20 
+#>  0.33333333  0.38888889
+```
+
+``` r
+cor(all_afinn_score, docvars(gold_standard, "answer"))
+#> [1] 0.7097023
+```
+
+``` r
+plot( docvars(gold_standard, "answer"), all_afinn_score)
+```
+
+<img src="man/figures/README-cor_afinn-1.png" width="100%" />
+
+Future version will provide `summarize_oolong` to summarize multiple oolong objects and simplify the validation process.
 
 References
 ----------
