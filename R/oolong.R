@@ -262,34 +262,16 @@
 
 
 Oolong_test <- R6::R6Class(
-    "oolong_test",
+    "oolong_generic",
     public = list(
-        initialize = function(input_model, input_corpus = NULL, n_top_terms = 5, bottom_terms_percentile = 0.6, exact_n = 15, frac = NULL, n_top_topics = 3, n_topiclabel_words = 8, difficulty = 1, use_frex_words = FALSE, input_dfm = NULL) {
-            private$test_content <- .generate_test_content(input_model, input_corpus, n_top_terms, bottom_terms_percentile, exact_n, frac, n_top_topics, n_topiclabel_words, difficulty, use_frex_words = use_frex_words, input_dfm = input_dfm)
-            private$hash <- digest::digest(private$test_content, algo = "sha1")
-        },
-        print = function() {
-            .cp(TRUE, "An oolong test object with k = ", nrow(private$test_content$word), ", ", sum(!is.na(private$test_content$word$answer)), " coded.")
-            .cp(private$finalized, round(.cal_model_precision(private$test_content$word), 3),"%  precision")
-            .cp(!private$finalized, "Use the method $do_word_intrusion_test() to do word intrusion test.")
-            .cp(!is.null(private$test_content$topic), "With ", nrow(private$test_content$topic) , " cases of topic intrusion test. ", sum(!is.na(private$test_content$topic$answer)), " coded.")
-            .cp(!is.null(private$test_content$topic) & !private$finalized, "Use the method $do_topic_intrusion_test() to do topic intrusion test.")
-            .cp(private$finalized & !is.null(private$test_content$topic), "TLO: ", round(.cal_tlo(private$test_content$topic, mean_value = TRUE), 3))
-            .cp(!private$finalized, "Use the method $lock() to finalize this object and see the results.")
+        initialize = function(input_model, input_corpus = NULL) {
+            private$test_content <- list()
         },
         lock = function(force = FALSE) {
             if (!.check_test_content_complete(private$test_content) & !force) {
                 stop("Not all tests are completed. Do all the tests or use $lock(force = TRUE) to bypass this.")
             }
             private$finalized <- TRUE
-        },
-        do_word_intrusion_test = function() {
-            private$check_finalized()
-            private$test_content$word <- .do_oolong_test(private$test_content$word)
-        },
-        do_topic_intrusion_test = function() {
-            .cstop(is.null(private$test_content$topic), "No topic intrusion test cases. Create the oolong test with the corpus to generate topic intrusion test cases.")
-            private$test_content$topic <- .do_oolong_test(private$test_content$topic, ui = .UI_TOPIC_INTRUSION_TEST, .ren = .ren_topic_intrusion_test)
         }
     ),
     private = list(
@@ -301,6 +283,45 @@ Oolong_test <- R6::R6Class(
         }
     )
 )
+
+Oolong_test_tm <-
+    R6::R6Class(
+            "oolong_test_tm",
+            inherit = Oolong_test,
+            public = list(
+                initialize = function(input_model, input_corpus = NULL, n_top_terms = 5, bottom_terms_percentile = 0.6, exact_n = 15, frac = NULL, n_top_topics = 3, n_topiclabel_words = 8, difficulty = 1, use_frex_words = FALSE, input_dfm = NULL) {
+                    private$test_content <- .generate_test_content(input_model, input_corpus, n_top_terms, bottom_terms_percentile, exact_n, frac, n_top_topics, n_topiclabel_words, difficulty, use_frex_words = use_frex_words, input_dfm = input_dfm)
+                    private$hash <- digest::digest(private$test_content, algo = "sha1")
+                },
+                print = function() {
+                    .cp(TRUE, "An oolong test object with k = ", nrow(private$test_content$word), ", ", sum(!is.na(private$test_content$word$answer)), " coded.")
+                    .cp(private$finalized, round(.cal_model_precision(private$test_content$word), 3),"%  precision")
+                    .cp(!private$finalized, "Use the method $do_word_intrusion_test() to do word intrusion test.")
+                    .cp(!is.null(private$test_content$topic), "With ", nrow(private$test_content$topic) , " cases of topic intrusion test. ", sum(!is.na(private$test_content$topic$answer)), " coded.")
+                    .cp(!is.null(private$test_content$topic) & !private$finalized, "Use the method $do_topic_intrusion_test() to do topic intrusion test.")
+                    .cp(private$finalized & !is.null(private$test_content$topic), "TLO: ", round(.cal_tlo(private$test_content$topic, mean_value = TRUE), 3))
+                    .cp(!private$finalized, "Use the method $lock() to finalize this object and see the results.")
+                },
+                do_word_intrusion_test = function() {
+                    private$check_finalized()
+                    private$test_content$word <- .do_oolong_test(private$test_content$word)
+                },
+                do_topic_intrusion_test = function() {
+                    private$check_finalized()
+                    .cstop(is.null(private$test_content$topic), "No topic intrusion test cases. Create the oolong test with the corpus to generate topic intrusion test cases.")
+                    private$test_content$topic <- .do_oolong_test(private$test_content$topic, ui = .UI_TOPIC_INTRUSION_TEST, .ren = .ren_topic_intrusion_test)
+                }
+            ),
+            private = list(
+                hash = NULL,
+                test_content = list(),
+                finalized = FALSE,
+                check_finalized = function() {
+                    .cstop(private$finalized, "You can no longer modify this finalized test.")
+                }
+            )
+        )
+
 
 #' Generate a oolong test for a topic model
 #'
@@ -319,7 +340,7 @@ Oolong_test <- R6::R6Class(
 #' @param input_dfm a dfm object used for training the input_model, if input_model is a WarpLDA object
 #' @export
 create_oolong <- function(input_model, input_corpus = NULL, n_top_terms = 5, bottom_terms_percentile = 0.6, exact_n = NULL, frac = 0.01, n_top_topics = 3, n_topiclabel_words = 8, use_frex_words = FALSE, difficulty = 1, input_dfm = NULL) {
-    return(Oolong_test$new(input_model = input_model, input_corpus = input_corpus, n_top_terms = n_top_terms, bottom_terms_percentile = bottom_terms_percentile, exact_n = exact_n, frac = frac, n_top_topics = n_top_topics, n_topiclabel_words = n_topiclabel_words, difficulty = difficulty, use_frex_words = use_frex_words, input_dfm = input_dfm))
+    return(Oolong_test_tm$new(input_model = input_model, input_corpus = input_corpus, n_top_terms = n_top_terms, bottom_terms_percentile = bottom_terms_percentile, exact_n = exact_n, frac = frac, n_top_topics = n_top_topics, n_topiclabel_words = n_topiclabel_words, difficulty = difficulty, use_frex_words = use_frex_words, input_dfm = input_dfm))
 }
 
 
