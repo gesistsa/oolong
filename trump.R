@@ -1,6 +1,9 @@
 devtools::load_all()
 
-test_content <- .generate_gold_standard(trump2k, exact_n = 30)
+oolong_test <- create_oolong(input_corpus = trump2k, exact_n = 5, construct = "positive")
 
-res <- .do_oolong_test(test_content, ui = .UI_GOLD_STANDARD_TEST, .ren = .ren_gold_standard_test)
+require(quanteda)
+
+
+
 

@@ -2,17 +2,18 @@
 % Please edit documentation in R/oolong.R
 \name{create_oolong}
 \alias{create_oolong}
-\title{Generate a oolong test for a topic model}
+\title{Generate a oolong test}
 \usage{
-create_oolong(input_model, input_corpus = NULL, n_top_terms = 5,
-  bottom_terms_percentile = 0.6, exact_n = NULL, frac = 0.01,
-  n_top_topics = 3, n_topiclabel_words = 8, use_frex_words = FALSE,
-  difficulty = 1, input_dfm = NULL)
+create_oolong(input_model = NULL, input_corpus = NULL,
+  n_top_terms = 5, bottom_terms_percentile = 0.6, exact_n = NULL,
+  frac = 0.01, n_top_topics = 3, n_topiclabel_words = 8,
+  use_frex_words = FALSE, difficulty = 1, input_dfm = NULL,
+  target_value = NULL, construct = "positive")
 }
 \arguments{
 \item{input_model}{a STM, WarpLDA or topicmodels object}
 
-\item{input_corpus}{the corpus (character vector or quanteda::corpus object) to generate the model object, if not NULL, topic intrusion test cases are generated}
+\item{input_corpus}{if input_model is not null, it should be the corpus (character vector or quanteda::corpus object) to generate the model object, if not NULL, topic intrusion test cases are generated. If input_model is null, it generates gold standard test cases.}
 
 \item{n_top_terms}{integer, number of top topic words to be included in the candidates of word intrusion test}
 
@@ -33,5 +34,5 @@ create_oolong(input_model, input_corpus = NULL, n_top_terms = 5,
 \item{n_top_topic}{integer, number of most relevant topics to be shown alongside the intruder topic}
 }
 \description{
-Currently, this function generates a oolong test object that contains word intrusion test and topic intrusion test.
+This function generates a oolong test object that can either be used for validating a topic model or for creating ground truth (gold standard) of a text corpus.
 }
