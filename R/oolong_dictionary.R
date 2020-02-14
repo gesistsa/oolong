@@ -69,6 +69,15 @@
 print.oolong_gold_standard <- function(obj) {
     quanteda:::print.corpus(obj)
     .cp(TRUE, "Access the answer from the coding with quanteda::docvars(obj, 'answer')")
+    .cp(TRUE, "Put back the test score you would like to validate into quanteda::docvars(obj, 'target_value')")
+}
+
+#' @export
+summarize_gold_standard <- function(obj) {
+    if (all(is.na(quanteda::docvars(obj, "target_value")))) {
+        stop("target_value is not available.")
+    }
+    cor(quanteda::docvars(obj, "target_value"), quanteda::docvars(obj, "answer"))
 }
 
 Oolong_test_gs <-

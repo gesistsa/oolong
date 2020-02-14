@@ -306,10 +306,10 @@ newsgroup5_dfm
 
 ``` r
 oolong_test <- create_oolong(newsgroup_warplda, newsgroup5$text, input_dfm = newsgroup5_dfm)
-#> INFO [2020-02-14 15:44:45] iter 5 loglikelihood = -4757147.553
-#> INFO [2020-02-14 15:44:45] iter 10 loglikelihood = -4749907.129
-#> INFO [2020-02-14 15:44:45] iter 15 loglikelihood = -4750161.342
-#> INFO [2020-02-14 15:44:45] early stopping at 15 iteration
+#> INFO [2020-02-14 16:06:29] iter 5 loglikelihood = -4757147.553
+#> INFO [2020-02-14 16:06:29] iter 10 loglikelihood = -4749907.129
+#> INFO [2020-02-14 16:06:29] iter 15 loglikelihood = -4750161.342
+#> INFO [2020-02-14 16:06:29] early stopping at 15 iteration
 #> Warning in res[setdiff(1:length_test_items, position)] <- sample(good_terms):
 #> number of items to replace is not a multiple of replacement length
 oolong_test
@@ -380,6 +380,7 @@ A locked oolong test can be converted into a quanteda-compatible corpus for furt
 oolong_test$turn_gold()
 #> Corpus consisting of 20 documents and 2 docvars.
 #> Access the answer from the coding with quanteda::docvars(obj, 'answer')
+#> Put back the test score you would like to validate into quanteda::docvars(obj, 'target_value')
 ```
 
 ``` r
@@ -412,15 +413,10 @@ all_afinn_score
 ```
 
 ``` r
-cor(all_afinn_score, docvars(gold_standard, "answer"))
+docvars(gold_standard, "target_value") <- all_afinn_score
+summarize_gold_standard(gold_standard)
 #> [1] 0.7097023
 ```
-
-``` r
-plot( docvars(gold_standard, "answer"), all_afinn_score)
-```
-
-<img src="man/figures/README-cor_afinn-1.png" width="100%" />
 
 Future version will provide `summarize_oolong` to summarize multiple oolong objects and simplify the validation process.
 

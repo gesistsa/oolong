@@ -280,11 +280,8 @@ all_afinn_score
 ```
 
 ```{r}
-cor(all_afinn_score, docvars(gold_standard, "answer"))
-```
-
-```{r cor_afinn}
-plot( docvars(gold_standard, "answer"), all_afinn_score)
+docvars(gold_standard, "target_value") <- all_afinn_score
+summarize_gold_standard(gold_standard)
 ```
 
 Future version will provide `summarize_oolong` to summarize multiple oolong objects and simplify the validation process.
