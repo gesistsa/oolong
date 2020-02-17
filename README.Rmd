@@ -45,9 +45,14 @@ devtools::install_github("chainsawriot/oolong")
 
 `newsgroup_stm` is an example topic model trained with the data `newsgroup5` using the `stm` package. Currently, this package supports structural topic models / correlated topic models from `stm`, Warp LDA models from `text2vec` and LDA/CTM models from `topicmodels`.
 
-```{r example}
+```{r echo = FALSE}
 library(oolong)
 library(stm)
+library(quanteda)
+library(dplyr)
+```
+
+```{r example}
 newsgroup_stm
 ```
 
@@ -129,8 +134,6 @@ The test makes more sense if more than one coder is involved. A suggested workfl
 Train a topic model.
 
 ```{r step0, eval = FALSE}
-require(quanteda)
-require(stm)
 dfm(newsgroup5$text, tolower = TRUE, stem = TRUE, remove = stopwords('english'), remove_punct = TRUE, remove_numbers = TRUE, remove_symbols = TRUE, remove_hyphens = TRUE) %>% dfm_trim(min_docfreq = 5, max_docfreq = 1000) %>% dfm_select(min_nchar = 3, pattern = "^[a-zA-Z]+$", valuetype = "regex") -> newsgroup5_dfm
 docvars(newsgroup5_dfm, "title") <- newsgroup5$title
 newsgroup5_dfm %>% convert(to = "stm", omit_empty = FALSE) -> newsgroup5_stm
@@ -272,8 +275,6 @@ oolong_test$turn_gold()
 As instructed, put back the score you would like to validate into the `docvars` "target_value". In this example, we calculate the AFINN score for each tweet using quanteda. The dictionary `afinn` is bundle with this package.
 
 ```{r}
-require(quanteda)
-require(dplyr)
 gold_standard <- oolong_test$turn_gold()
 dfm(gold_standard, remove_punct = TRUE) %>% dfm_lookup(afinn) %>% quanteda::convert(to = "data.frame") %>%
     mutate(matching_word_valence = (neg5 * -5) + (neg4 * -4) + (neg3 * -3) + (neg2 * -2) + (neg1 * -1)
@@ -298,6 +299,10 @@ Future version will provide `summarize_oolong` to summarize multiple oolong obje
 
 This workflow violates the "validation first" principle. You can supply the `target_value` at the creation of oolong test.
 
+```{r, include = FALSE}
+set.seed(46709394)
+```
+
 ```{r}
 dfm(trump2k, remove_punct = TRUE) %>% dfm_lookup(afinn) %>% quanteda::convert(to = "data.frame") %>%
     mutate(matching_word_valence = (neg5 * -5) + (neg4 * -4) + (neg3 * -3) + (neg2 * -2) + (neg1 * -1)
@@ -313,16 +318,18 @@ oolong_test$do_gold_standard_test()
 ```
 
 ```{r, include = FALSE}
-oolong_test$.__enclos_env__$test_content$gold_standard$answer <- sample(1:5, 20, replace = TRUE)
+oolong_test$.__enclos_env__$private$test_content$gold_standard$answer <- sample(1:5, 20, replace = TRUE)
 ```
 
 ```{r}
 oolong_test$lock()
-oolong_test$
+gold_standard <- oolong_test$turn_gold()
+docvars(gold_standard, "target_value")
 ```
 
-
-
+```{r}
+summarize_gold_standard(gold_standard)
+```
 
 ## References
 

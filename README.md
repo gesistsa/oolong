@@ -63,11 +63,26 @@ Validating Topic Models
 
 `newsgroup_stm` is an example topic model trained with the data `newsgroup5` using the `stm` package. Currently, this package supports structural topic models / correlated topic models from `stm`, Warp LDA models from `text2vec` and LDA/CTM models from `topicmodels`.
 
+    #> stm v1.3.5 successfully loaded. See ?stm for help. 
+    #>  Papers, resources, and other materials at structuraltopicmodel.com
+    #> Package version: 1.9.9009
+    #> Parallel computing: 2 of 4 threads used.
+    #> See https://quanteda.io for tutorials and examples.
+    #> 
+    #> Attaching package: 'quanteda'
+    #> The following object is masked from 'package:utils':
+    #> 
+    #>     View
+    #> 
+    #> Attaching package: 'dplyr'
+    #> The following objects are masked from 'package:stats':
+    #> 
+    #>     filter, lag
+    #> The following objects are masked from 'package:base':
+    #> 
+    #>     intersect, setdiff, setequal, union
+
 ``` r
-library(oolong)
-library(stm)
-#> stm v1.3.5 successfully loaded. See ?stm for help. 
-#>  Papers, resources, and other materials at structuraltopicmodel.com
 newsgroup_stm
 #> A topic model with 10 topics, 4182 documents and a 8920 word dictionary.
 ```
@@ -158,8 +173,6 @@ The test makes more sense if more than one coder is involved. A suggested workfl
 Train a topic model.
 
 ``` r
-require(quanteda)
-require(stm)
 dfm(newsgroup5$text, tolower = TRUE, stem = TRUE, remove = stopwords('english'), remove_punct = TRUE, remove_numbers = TRUE, remove_symbols = TRUE, remove_hyphens = TRUE) %>% dfm_trim(min_docfreq = 5, max_docfreq = 1000) %>% dfm_select(min_nchar = 3, pattern = "^[a-zA-Z]+$", valuetype = "regex") -> newsgroup5_dfm
 docvars(newsgroup5_dfm, "title") <- newsgroup5$title
 newsgroup5_dfm %>% convert(to = "stm", omit_empty = FALSE) -> newsgroup5_stm
@@ -283,15 +296,6 @@ oolong_test
 
 ``` r
 newsgroup5_dfm
-#> Loading required package: quanteda
-#> Package version: 1.9.9009
-#> Parallel computing: 2 of 4 threads used.
-#> See https://quanteda.io for tutorials and examples.
-#> 
-#> Attaching package: 'quanteda'
-#> The following object is masked from 'package:utils':
-#> 
-#>     View
 #> Document-feature matrix of: 4,182 documents, 8,920 features (98.9% sparse) and 1 docvar.
 #>        features
 #> docs    agre expens game town note great boss doubl salari buy
@@ -306,10 +310,10 @@ newsgroup5_dfm
 
 ``` r
 oolong_test <- create_oolong(newsgroup_warplda, newsgroup5$text, input_dfm = newsgroup5_dfm)
-#> INFO [2020-02-14 16:22:52] iter 5 loglikelihood = -4757147.553
-#> INFO [2020-02-14 16:22:53] iter 10 loglikelihood = -4749907.129
-#> INFO [2020-02-14 16:22:53] iter 15 loglikelihood = -4750161.342
-#> INFO [2020-02-14 16:22:53] early stopping at 15 iteration
+#> INFO [2020-02-17 14:49:00] iter 5 loglikelihood = -4757147.553
+#> INFO [2020-02-17 14:49:00] iter 10 loglikelihood = -4749907.129
+#> INFO [2020-02-17 14:49:00] iter 15 loglikelihood = -4750161.342
+#> INFO [2020-02-17 14:49:00] early stopping at 15 iteration
 #> Warning in res[setdiff(1:length_test_items, position)] <- sample(good_terms):
 #> number of items to replace is not a multiple of replacement length
 oolong_test
@@ -388,17 +392,6 @@ oolong_test$turn_gold()
 As instructed, put back the score you would like to validate into the `docvars` "target\_value". In this example, we calculate the AFINN score for each tweet using quanteda. The dictionary `afinn` is bundle with this package.
 
 ``` r
-require(quanteda)
-require(dplyr)
-#> Loading required package: dplyr
-#> 
-#> Attaching package: 'dplyr'
-#> The following objects are masked from 'package:stats':
-#> 
-#>     filter, lag
-#> The following objects are masked from 'package:base':
-#> 
-#>     intersect, setdiff, setequal, union
 gold_standard <- oolong_test$turn_gold()
 dfm(gold_standard, remove_punct = TRUE) %>% dfm_lookup(afinn) %>% quanteda::convert(to = "data.frame") %>%
     mutate(matching_word_valence = (neg5 * -5) + (neg4 * -4) + (neg3 * -3) + (neg2 * -2) + (neg1 * -1)
@@ -445,6 +438,25 @@ oolong_test
 #> An oolong test object (gold standard generation) with 20 cases, 0 coded.
 #> Use the method $do_gold_standard_test() to generate gold standard.
 #> Use the method $lock() to finalize this object and see the results.
+```
+
+``` r
+oolong_test$do_gold_standard_test()
+```
+
+``` r
+oolong_test$lock()
+gold_standard <- oolong_test$turn_gold()
+docvars(gold_standard, "target_value")
+#>  [1]  0.17647059  0.08333333  0.16666667  0.00000000  0.00000000 -0.11764706
+#>  [7]  0.00000000  0.00000000 -0.14285714 -0.15000000  0.00000000 -0.36363636
+#> [13]  0.09523810  0.23529412  0.18181818  0.00000000  0.22222222  0.05263158
+#> [19]  0.28571429  0.05555556
+```
+
+``` r
+summarize_gold_standard(gold_standard)
+#> [1] 0.2635675
 ```
 
 References
