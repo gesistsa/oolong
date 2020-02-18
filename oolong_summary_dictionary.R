@@ -1,14 +1,53 @@
 devtools::load_all()
 
-summarize_oolong_diction <- function(...) {
+.minmax <- function(x) {
+    (x - min(x)) / (max(x) - min(x)) 
+}
+
+.corr_plot <- function(answers, target_value) {
+    tibble::tibble(target_value = .minmax(target_value), avg_answer = .minmax(answers$avg_answer)) %>% ggplot2::ggplot(ggplot2::aes(x = avg_answer, y = target_value)) + ggplot2::geom_point() + ggplot2::geom_smooth(method = lm) -> correlation_plot
+    return(correlation_plot)
+}
+
+.ba_plot <- function(answers, target_value) {
+    plot_data <- tibble::tibble(target_value = .minmax(target_value), avg_answer = .minmax(answers$avg_answer))
+    plot_data$diffxy <- plot_data$target_value - plot_data$avg_answer
+    plot_data$meanxy <- (plot_data$target_value + plot_data$avg_answer) / 2
+    mean_diff_xy <- mean(plot_data$diffxy)
+    sd_diff_xy <- sd(plot_data$diffxy)
+    ggplot2::ggplot(plot_data, ggplot2::aes(x = meanxy, y = diffxy)) + ggplot2::geom_point() + ggplot2::geom_hline(yintercept = mean_diff_xy) + ggplot2::geom_hline(yintercept = mean_diff_xy - 1.96 * sd_diff_xy, linetype = 2) + ggplot2::geom_hline(yintercept = mean_diff_xy + 1.96 * sd_diff_xy, linetype = 2)
+}
+
+.length_plot <- function(oolong, target_value, ...) {
+    gold <- oolong$turn_gold()
+    nwords <- ntoken(gold, ...)
+    plot_data <- tibble::tibble(target_value = .minmax(target_value), word_length = nwords)
+    ggplot2::ggplot(plot_data, ggplot2::aes(x = word_length, y = target_value)) + ggplot2::geom_point() + ggplot2::geom_smooth(method = lm)
+}
+
+.cook_plot <- function(answers, target_value) {
+    lmobj <- lm(answers$avg_answer ~ target_value)
+    cutoff <- 4 / (length(target_value) - 2 - 1)
+    ggplot2::ggplot(tibble::tibble(index = seq_along(target_value), cookd = cooks.distance(lmobj)), ggplot2::aes(x = index, y = cookd)) + ggplot2::geom_point() + ggplot2::geom_hline(yintercept = cutoff, linetype = 2)
+}
+
+summarize_oolong_gold_standard <- function(..., target_value = NULL) {
+    if (is.null(target_value)) {
+        warning("target_value is NULL, only the reliability of the answers from the coder(s) are studied.")
+    }
     obj_list <- list(...)
     answers <- purrr::map_dfc(obj_list, ~.$.__enclos_env__$private$test_content$gold_standard$answer)
     colnames(answers) <- paste0("answer", seq_len(ncol(answers)))
     avg_answer <- apply(answers, 1, mean)
     answers$avg_answer <- avg_answer
-    return(answers)
+    p1 <- .corr_plot(answers, target_value)
+    p2 <- .ba_plot(answers, target_value)
+    p3 <- .length_plot(obj_list[[1]], target_value)
+    p4 <- .cook_plot(answers, target_value)
+    plot_grid(p1, p2, p3, p4)
+    ##return(answers)
 }
-
+require(cowplot)
 trump <- create_oolong(input_corpus = trump2k)
 trump2 <- clone_oolong(trump)
 
@@ -32,7 +71,7 @@ dfm(gold_standard, remove_punct = TRUE) %>% dfm_lookup(afinn) %>% quanteda::conv
            base = ntoken(gold_standard, remove_punct = TRUE), afinn_score = matching_word_valence / base) %>%
     pull(afinn_score) -> target_value
 
-answers <- summarize_oolong_diction(trump, trump2)
+summarize_oolong_gold_standard(trump, trump2, target_value = target_value)
 
 require(ggplot2)
 
