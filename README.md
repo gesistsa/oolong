@@ -65,7 +65,7 @@ Validating Topic Models
 
     #> stm v1.3.5 successfully loaded. See ?stm for help. 
     #>  Papers, resources, and other materials at structuraltopicmodel.com
-    #> Package version: 1.9.9009
+    #> Package version: 2.0.0
     #> Parallel computing: 2 of 4 threads used.
     #> See https://quanteda.io for tutorials and examples.
     #> 
@@ -310,18 +310,7 @@ newsgroup5_dfm
 
 ``` r
 oolong_test <- create_oolong(newsgroup_warplda, newsgroup5$text, input_dfm = newsgroup5_dfm)
-#> INFO [2020-02-17 14:49:00] iter 5 loglikelihood = -4757147.553
-#> INFO [2020-02-17 14:49:00] iter 10 loglikelihood = -4749907.129
-#> INFO [2020-02-17 14:49:00] iter 15 loglikelihood = -4750161.342
-#> INFO [2020-02-17 14:49:00] early stopping at 15 iteration
-#> Warning in res[setdiff(1:length_test_items, position)] <- sample(good_terms):
-#> number of items to replace is not a multiple of replacement length
 oolong_test
-#> An oolong test object with k = 10, 0 coded.
-#> Use the method $do_word_intrusion_test() to do word intrusion test.
-#> With 41 cases of topic intrusion test. 0 coded.
-#> Use the method $do_topic_intrusion_test() to do topic intrusion test.
-#> Use the method $lock() to finalize this object and see the results.
 ```
 
 Validating Dictionary-based Methods
@@ -417,7 +406,59 @@ summarize_gold_standard(gold_standard)
 #> [1] 0.7097023
 ```
 
-Future version will provide `summarize_oolong` to summarize multiple oolong objects and simplify the validation process.
+### Suggested workflow
+
+Create an oolong object, clone it for another coder.
+
+``` r
+trump <- create_oolong(input_corpus = trump2k, exact_n = 40)
+trump2 <- clone_oolong(trump)
+```
+
+Instruct two coders to code the tweets and lock the objects.
+
+``` r
+trump$do_gold_standard_test()
+trump2$do_gold_standard_test()
+trump$lock()
+trump2$lock()
+```
+
+Calculate the target value (in this case, the AFINN score) by turning one object into a corpus.
+
+``` r
+gold_standard <- trump$turn_gold()
+dfm(gold_standard, remove_punct = TRUE) %>% dfm_lookup(afinn) %>% quanteda::convert(to = "data.frame") %>%
+    mutate(matching_word_valence = (neg5 * -5) + (neg4 * -4) + (neg3 * -3) + (neg2 * -2) + (neg1 * -1)
+           + (zero * 0) + (pos1 * 1) + (pos2 * 2) + (pos3 * 3) + (pos4 * 4) + (pos5 * 5),
+           base = ntoken(gold_standard, remove_punct = TRUE), afinn_score = matching_word_valence / base) %>%
+    pull(afinn_score) -> target_value
+```
+
+Summarize all oolong objects with the target value.
+
+``` r
+res <- summarize_oolong_gold_standard(trump, trump2, target_value = target_value)
+```
+
+Read the results. The diagnostic plot consists of 4 subplots.
+
+-   Subplot (top left): Raw correction between human judgement and target value. One should want to have a good correlation between the two.
+-   Subplot (top right): Bland-Altman plot. One should want to have no correlation. Also, the dots should be randomly scattering around the mean value. If it is so, the two measurements (human judgement \* and target value) are in good agreement.
+-   Subplot (bottom left): Raw correlation between target value and content length. One should want to have no correlation, as an indication of good reliability against the influence of content length.
+-   Subplot (bottom right): Cook's distance of all data point. One should want to have no dot (or at least very few dots) above the threshold. It is an indication of how the raw correction between human judgement and target value can or cannot be influenced by extreme values in your data.
+
+The textual output contains the Krippendorff's alpha of the codings by your raters. In order to claim validity of your target value, you must first establish the reliability of your gold standard. (See Song et al. \[Forthcoming\])
+
+``` r
+res
+```
+
+<img src="man/figures/README-unnamed-chunk-19-1.png" width="100%" />
+
+    #> Krippendorff's Alpha: 0.741139871924503
+    #> Correlation: 0.559 (p = 0)
+    #> Effect of content length: 0.067 (p = 0.683)
 
 ### Inadvisable workflow
 
@@ -463,6 +504,8 @@ References
 ----------
 
 1.  Chang, J., Gerrish, S., Wang, C., Boyd-Graber, J. L., & Blei, D. M. (2009). Reading tea leaves: How humans interpret topic models. In Advances in neural information processing systems (pp. 288-296).
+2.  Song et al. (2020) In validations we trust? The impact of imperfect human annotations as a gold standard on the quality of validation of automated content analysis. Political Communication. [link](http://www.hyunjinsong.com/supplements/PC_Song_et_al_2020.pdf)
+3.  Bland, J. M., & Altman, D. (1986). Statistical methods for assessing agreement between two methods of clinical measurement. The lancet, 327(8476), 307-310.
 
 ------------------------------------------------------------------------
 
