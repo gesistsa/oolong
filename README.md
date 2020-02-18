@@ -446,7 +446,7 @@ Read the results. The diagnostic plot consists of 4 subplots. It is a good idea 
 -   Subplot (top left): Raw correlation between human judgement and target value. One should want to have a good correlation between the two.
 -   Subplot (top right): Bland-Altman plot. One should want to have no correlation. Also, the dots should be randomly scattering around the mean value. If it is so, the two measurements (human judgement and target value) are in good agreement.
 -   Subplot (bottom left): Raw correlation between target value and content length. One should want to have no correlation, as an indication of good reliability against the influence of content length. (See Chan et al.)
--   Subplot (bottom right): Cook's distance of all data point. One should want to have no dot (or at least very few dots) above the threshold. It is an indication of how the raw correction between human judgement and target value can or cannot be influenced by extreme values in your data.
+-   Subplot (bottom right): Cook's distance of all data point. One should want to have no dot (or at least very few dots) above the threshold. It is an indication of how the raw correlation between human judgement and target value can or cannot be influenced by extreme values in your data.
 
 The textual output contains the Krippendorff's alpha of the codings by your raters. In order to claim validity of your target value, you must first establish the reliability of your gold standard. Song et al. \[Forthcoming\] suggest Krippendorff's Alpha &gt; 0.7 as an acceptable cut-off.
 
