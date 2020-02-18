@@ -441,10 +441,10 @@ Summarize all oolong objects with the target value.
 res <- summarize_oolong_gold_standard(trump, trump2, target_value = target_value)
 ```
 
-Read the results. The diagnostic plot consists of 4 subplots.
+Read the results. The diagnostic plot consists of 4 subplots. It is a good idea to read Bland & Altman (1986) on the difference between correlation and agreement.
 
 -   Subplot (top left): Raw correlation between human judgement and target value. One should want to have a good correlation between the two.
--   Subplot (top right): Bland-Altman plot. One should want to have no correlation. Also, the dots should be randomly scattering around the mean value. If it is so, the two measurements (human judgement \* and target value) are in good agreement.
+-   Subplot (top right): Bland-Altman plot. One should want to have no correlation. Also, the dots should be randomly scattering around the mean value. If it is so, the two measurements (human judgement and target value) are in good agreement.
 -   Subplot (bottom left): Raw correlation between target value and content length. One should want to have no correlation, as an indication of good reliability against the influence of content length. (See Chan et al.)
 -   Subplot (bottom right): Cook's distance of all data point. One should want to have no dot (or at least very few dots) above the threshold. It is an indication of how the raw correction between human judgement and target value can or cannot be influenced by extreme values in your data.
 
@@ -506,7 +506,7 @@ References
 1.  Chang, J., Gerrish, S., Wang, C., Boyd-Graber, J. L., & Blei, D. M. (2009). Reading tea leaves: How humans interpret topic models. In Advances in neural information processing systems (pp. 288-296).
 2.  Song et al. (2020) In validations we trust? The impact of imperfect human annotations as a gold standard on the quality of validation of automated content analysis. Political Communication. [link](http://www.hyunjinsong.com/supplements/PC_Song_et_al_2020.pdf)
 3.  Bland, J. M., & Altman, D. (1986). Statistical methods for assessing agreement between two methods of clinical measurement. The lancet, 327(8476), 307-310.
-4.  Chan et al. (2020) It is not listed here, because it is still under review.
+4.  Chan et al. (2020) It is not listed here, because it is still under review. Do it faster! Reviewers!
 
 ------------------------------------------------------------------------
 
