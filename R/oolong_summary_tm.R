@@ -83,10 +83,10 @@ clone_oolong <- function(oolong) {
         res$tlo <- NA
     } else {
         res$tlo <- .cal_tlo(purrr::map_dfr(all_topic_test_content, ~.), mean_value = FALSE) ### it should not be just the mean.
+        monkey_median <- unlist(replicate(3000, .monkey_median(obj_list)))
+        res$tlo_p_value <- sum(monkey_median > median(res$tlo)) / 3000
     }
     res$obj_list <- obj_list
-    monkey_median <- unlist(replicate(3000, .monkey_median(obj_list)))
-    res$tlo_p_value <- sum(monkey_median > median(res$tlo)) / 3000
     res$type <- "tm"
     class(res) <- append(class(res), "oolong_summary")
     return(res)

@@ -266,13 +266,13 @@ oolong_test
 
 ### Example: Validating AFINN using the gold standard
 
-A locked oolong test can be converted into a quanteda-compatible corpus for further analysis. The corpus contains two `docvars`, 'answer' and 'target_value'.
+A locked oolong test can be converted into a quanteda-compatible corpus for further analysis. The corpus contains two `docvars`, 'answer'.
 
 ```{r}
 oolong_test$turn_gold()
 ```
 
-As instructed, put back the score you would like to validate into the `docvars` "target_value". In this example, we calculate the AFINN score for each tweet using quanteda. The dictionary `afinn` is bundle with this package.
+In this example, we calculate the AFINN score for each tweet using quanteda. The dictionary `afinn` is bundle with this package.
 
 ```{r}
 gold_standard <- oolong_test$turn_gold()
@@ -287,8 +287,7 @@ all_afinn_score
 Put back the vector of AFINN score into the respective `docvars` and study the correlation between the gold standard and AFINN.
 
 ```{r}
-docvars(gold_standard, "target_value") <- all_afinn_score
-summarize_gold_standard(gold_standard)
+summarize_oolong(oolong_test, target_value = all_afinn_score)
 ```
 
 ### Suggested workflow
@@ -347,44 +346,6 @@ res
 
 ```{r diagnosis}
 plot(res)
-```
-
-### Inadvisable workflow
-
-*NOTE: This workflow is not recommended!*
-
-This workflow violates the "validation first" principle. You can supply the `target_value` at the creation of oolong test.
-
-```{r, include = FALSE}
-set.seed(46709394)
-```
-
-```{r}
-dfm(trump2k, remove_punct = TRUE) %>% dfm_lookup(afinn) %>% quanteda::convert(to = "data.frame") %>%
-    mutate(matching_word_valence = (neg5 * -5) + (neg4 * -4) + (neg3 * -3) + (neg2 * -2) + (neg1 * -1)
-           + (zero * 0) + (pos1 * 1) + (pos2 * 2) + (pos3 * 3) + (pos4 * 4) + (pos5 * 5),
-           base = ntoken(trump2k, remove_punct = TRUE), afinn_score = matching_word_valence / base) %>%
-    pull(afinn_score) -> trump2k_afinn_score
-oolong_test <- create_oolong(input_corpus = trump2k, construct = "positive", target_value = trump2k_afinn_score)
-oolong_test
-```
-
-```{r, eval = FALSE}
-oolong_test$do_gold_standard_test()
-```
-
-```{r, include = FALSE}
-oolong_test$.__enclos_env__$private$test_content$gold_standard$answer <- sample(1:5, 20, replace = TRUE)
-```
-
-```{r}
-oolong_test$lock()
-gold_standard <- oolong_test$turn_gold()
-docvars(gold_standard, "target_value")
-```
-
-```{r}
-summarize_gold_standard(gold_standard)
 ```
 
 ## References

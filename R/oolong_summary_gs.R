@@ -35,7 +35,11 @@
     colnames(answers) <- paste0("answer", seq_len(ncol(answers)))
     avg_answer <- apply(answers, 1, mean)
     answers$avg_answer <- avg_answer
-    kripp <- irr::kripp.alpha(t(as.matrix(answers[,grepl("^answer", colnames(answers))])), method = "ordinal")
+    if (length(obj_list) > 1) {
+        kripp <- irr::kripp.alpha(t(as.matrix(answers[,grepl("^answer", colnames(answers))])), method = "ordinal")
+    } else {
+        kripp <- NA
+    }
     res <- list()
     res$kripp <- kripp
     if (is.null(target_value)) {

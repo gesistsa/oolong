@@ -314,7 +314,7 @@ newsgroup5_dfm
 
 ``` r
 oolong_test <- create_oolong(newsgroup_warplda, newsgroup5$text, input_dfm = newsgroup5_dfm)
-#> INFO  [13:13:14.820] early stopping at 20 iteration
+#> INFO  [13:51:47.826] early stopping at 20 iteration
 #> Warning in res[setdiff(1:length_test_items, position)] <- sample(good_terms):
 #> number of items to replace is not a multiple of replacement length
 
@@ -384,16 +384,15 @@ oolong_test
 
 ### Example: Validating AFINN using the gold standard
 
-A locked oolong test can be converted into a quanteda-compatible corpus for further analysis. The corpus contains two `docvars`, 'answer' and 'target\_value'.
+A locked oolong test can be converted into a quanteda-compatible corpus for further analysis. The corpus contains two `docvars`, 'answer'.
 
 ``` r
 oolong_test$turn_gold()
-#> Corpus consisting of 20 documents and 2 docvars.
+#> Corpus consisting of 20 documents and 1 docvar.
 #> Access the answer from the coding with quanteda::docvars(obj, 'answer')
-#> Put back the test score you would like to validate into quanteda::docvars(obj, 'target_value')
 ```
 
-As instructed, put back the score you would like to validate into the `docvars` "target\_value". In this example, we calculate the AFINN score for each tweet using quanteda. The dictionary `afinn` is bundle with this package.
+In this example, we calculate the AFINN score for each tweet using quanteda. The dictionary `afinn` is bundle with this package.
 
 ``` r
 gold_standard <- oolong_test$turn_gold()
@@ -416,9 +415,9 @@ all_afinn_score
 Put back the vector of AFINN score into the respective `docvars` and study the correlation between the gold standard and AFINN.
 
 ``` r
-docvars(gold_standard, "target_value") <- all_afinn_score
-summarize_gold_standard(gold_standard)
-#> [1] 0.7097023
+summarize_oolong(oolong_test, target_value = all_afinn_score)
+#> Correlation: 0.71 (p = 0)
+#> Effect of content length: -0.285 (p = 0.224)
 ```
 
 ### Suggested workflow
@@ -467,6 +466,8 @@ The textual output contains the Krippendorff's alpha of the codings by your rate
 
 ``` r
 res
+#> Warning in if (boolean_test) {: the condition has length > 1 and only the first
+#> element will be used
 #> Krippendorff's Alpha: 0.741139871924503
 #> Correlation: 0.559 (p = 0)
 #> Effect of content length: 0.067 (p = 0.683)
@@ -477,46 +478,6 @@ plot(res)
 ```
 
 <img src="man/figures/README-diagnosis-1.png" width="100%" />
-
-### Inadvisable workflow
-
-*NOTE: This workflow is not recommended!*
-
-This workflow violates the "validation first" principle. You can supply the `target_value` at the creation of oolong test.
-
-``` r
-dfm(trump2k, remove_punct = TRUE) %>% dfm_lookup(afinn) %>% quanteda::convert(to = "data.frame") %>%
-    mutate(matching_word_valence = (neg5 * -5) + (neg4 * -4) + (neg3 * -3) + (neg2 * -2) + (neg1 * -1)
-           + (zero * 0) + (pos1 * 1) + (pos2 * 2) + (pos3 * 3) + (pos4 * 4) + (pos5 * 5),
-           base = ntoken(trump2k, remove_punct = TRUE), afinn_score = matching_word_valence / base) %>%
-    pull(afinn_score) -> trump2k_afinn_score
-oolong_test <- create_oolong(input_corpus = trump2k, construct = "positive", target_value = trump2k_afinn_score)
-#> Warning in .generate_gold_standard(input_corpus, exact_n, frac, target_value):
-#> Specifying target_value before coding is not recommended.
-oolong_test
-#> An oolong test object (gold standard generation) with 20 cases, 0 coded.
-#> Use the method $do_gold_standard_test() to generate gold standard.
-#> Use the method $lock() to finalize this object and see the results.
-```
-
-``` r
-oolong_test$do_gold_standard_test()
-```
-
-``` r
-oolong_test$lock()
-gold_standard <- oolong_test$turn_gold()
-docvars(gold_standard, "target_value")
-#>  [1]  0.17647059  0.08333333  0.16666667  0.00000000  0.00000000 -0.11764706
-#>  [7]  0.00000000  0.00000000 -0.14285714 -0.15000000  0.00000000 -0.36363636
-#> [13]  0.09523810  0.23529412  0.18181818  0.00000000  0.22222222  0.05263158
-#> [19]  0.28571429  0.05555556
-```
-
-``` r
-summarize_gold_standard(gold_standard)
-#> [1] 0.2635675
-```
 
 References
 ----------
