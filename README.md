@@ -314,7 +314,10 @@ newsgroup5_dfm
 
 ``` r
 oolong_test <- create_oolong(newsgroup_warplda, newsgroup5$text, input_dfm = newsgroup5_dfm)
-#> INFO  [12:53:51.837] early stopping at 20 iteration
+#> INFO  [13:13:14.820] early stopping at 20 iteration
+#> Warning in res[setdiff(1:length_test_items, position)] <- sample(good_terms):
+#> number of items to replace is not a multiple of replacement length
+
 #> Warning in res[setdiff(1:length_test_items, position)] <- sample(good_terms):
 #> number of items to replace is not a multiple of replacement length
 oolong_test

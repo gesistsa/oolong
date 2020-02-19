@@ -70,9 +70,12 @@ clone_oolong <- function(oolong) {
     if (length(obj_list) == 1) {
         res$kripp_alpha <- NA
         res$multiple_test <- NA
+        res$rater_precision_p_value <- NA
     } else {
         res$kripp_alpha <- irr::kripp.alpha(t(ifelse(correction_matrix, 2, 1)))$value
         res$multiple_test <- purrr::map(n_correct, ~binom.test(., n = nrow(correction_matrix), p = 1/n_choices, alternative = "greater"))
+        res$rater_precision_p_value <- .combine_p_fisher(purrr::map_dbl(res$multiple_test, "p.value"))
+
     }    
     res$n_models <- length(obj_list)
     all_topic_test_content <- purrr::map(obj_list, ~ .$.__enclos_env__$private$test_content$topic)
@@ -82,12 +85,12 @@ clone_oolong <- function(oolong) {
         res$tlo <- .cal_tlo(purrr::map_dfr(all_topic_test_content, ~.), mean_value = FALSE) ### it should not be just the mean.
     }
     res$obj_list <- obj_list
+    monkey_median <- unlist(replicate(3000, .monkey_median(obj_list)))
+    res$tlo_p_value <- sum(monkey_median > median(res$tlo)) / 3000
     res$type <- "tm"
     class(res) <- append(class(res), "oolong_summary")
     return(res)
 }
-
-
 
 .combine_p_fisher <- function(p_values) {
     chisq <- (-2) * sum(log(p_values))
