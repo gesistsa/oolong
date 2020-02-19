@@ -47,12 +47,29 @@ create_oolong <- function(input_model = NULL, input_corpus = NULL, n_top_terms =
         stop("input_model and input_corpus cannot be both NULL.")
     }
     if (!is.null(input_model)) {
+        if (!.is_topic_model(input_model)) {
+            stop("input_model is not a topic model. If you want to create gold standard with an input_corpus, use: create_oolong(input_corpus = input_corpus)")
+        }
+    }
+    if (!is.null(input_model)) {
         return(Oolong_test_tm$new(input_model = input_model, input_corpus = input_corpus, n_top_terms = n_top_terms, bottom_terms_percentile = bottom_terms_percentile, exact_n = exact_n, frac = frac, n_top_topics = n_top_topics, n_topiclabel_words = n_topiclabel_words, difficulty = difficulty, use_frex_words = use_frex_words, input_dfm = input_dfm))
     } else {
         return(Oolong_test_gs$new(input_corpus = input_corpus, exact_n = exact_n, frac = frac, target_value = target_value, construct = construct))
     }
 }
 
+.is_topic_model <- function(x) {
+    if (any(class(x) %in% c("WarpLDA", "STM"))) {
+        return(TRUE)
+    }
+    if (is.null(attr(class(x), "package"))) {
+        return(FALSE)
+    }
+    if ("topicmodels" == attr(class(x), "package")) {
+        return(TRUE)
+    }
+    return(FALSE)
+}
 
 #' Newsgroup text dataset
 #'

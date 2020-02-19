@@ -18,7 +18,7 @@
 
 .length_plot <- function(oolong, target_value, ...) {
     gold <- oolong$turn_gold()
-    nwords <- ntoken(gold, ...)
+    nwords <- quanteda::ntoken(gold, ...)
     plot_data <- tibble::tibble(target_value = .minmax(target_value), word_length = nwords)
     ggplot2::ggplot(plot_data, ggplot2::aes(x = word_length, y = target_value)) + ggplot2::geom_point() + ggplot2::geom_smooth(method = lm) + ggplot2::xlab("Number of words") + ggplot2::ylab("Target value")
 }
@@ -44,7 +44,8 @@
     res$kripp <- kripp
     if (is.null(target_value)) {
         warning("target_value is NULL, only the reliability of the answers from the coder(s) are studied.")
-        class(res) <- append(class(res), "oolong_res_gs")
+        class(res) <- append(class(res), "oolong_summary")
+        res$type <- "gs"
         return(res)
     }
     p1 <- .corr_plot(answers, target_value)

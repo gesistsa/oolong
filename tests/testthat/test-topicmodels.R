@@ -32,7 +32,6 @@ test_that("check_complete", {
     expect_error(z$lock())
 })
 
-
 test_that("github issue #8 - word", {
     library(topicmodels)
     data("AssociatedPress")
@@ -49,4 +48,3 @@ test_that("github issue #8 - topic", {
     lda <- LDA(topicmodels_dfm, k = 5)
     expect_error(create_oolong(lda, newsgroup5$text[1:10], exact_n = 5), NA)
 })
-

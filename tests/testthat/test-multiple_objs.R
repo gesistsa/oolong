@@ -41,23 +41,3 @@ test_that("defensive programming", {
     expect_warning(summarize_oolong(obj1))
 })
 
-test_that("check_calculation_word_intrusion", {
-    obj1 <- create_oolong(newsgroup_stm)
-    obj2 <- clone_oolong(obj1)
-    obj3 <- clone_oolong(obj1)
-    ## Mocking coding
-    obj1 <- genius_word(obj1)
-    obj1$lock()
-    obj2 <- genius_word(obj2)
-    obj2$.__enclos_env__$private$test_content$word$answer[1] <- "wronganswer"
-    obj2$lock()
-    obj3 <- genius_word(obj3)
-    obj3$.__enclos_env__$private$test_content$word$answer[1:4] <- "wronganswer"
-    obj3$lock()
-    res <- summarize_oolong(obj1, obj2, obj3)
-    expect_length(res$rater_precision, 3)
-    expect_length(res$k_precision, 10)
-    ### Single object
-    res <- summarize_oolong(obj1)
-    expect_length(res$rater_precision, 1)
-})

@@ -45,7 +45,7 @@ devtools::install_github("chainsawriot/oolong")
 
 `newsgroup_stm` is an example topic model trained with the data `newsgroup5` using the `stm` package. Currently, this package supports structural topic models / correlated topic models from `stm`, Warp LDA models from `text2vec` and LDA/CTM models from `topicmodels`.
 
-```{r echo = FALSE}
+```{r}
 library(oolong)
 library(stm)
 library(quanteda)

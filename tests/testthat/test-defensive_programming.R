@@ -13,6 +13,8 @@ genius_topic <- function(obj1) {
 test_that("precondiction", {
     expect_error(create_oolong())
     expect_error(create_oolong(input_model = NULL, input_corpus = NULL))
+    ## Don't use positional if one wants to create gold standard.
+    expect_error(create_oolong(newsgroup5$text))
 })
 
 test_that("locking", {
@@ -44,4 +46,9 @@ test_that("cloning", {
     x$lock(force = TRUE)
     expect_true(x$.__enclos_env__$private$finalized)
     expect_false(y$.__enclos_env__$private$finalized)
+})
+
+test_that("Can't launch $do_topic_intrusion_test() when no test content", {
+    x <- create_oolong(newsgroup_stm)
+    expect_error(x$do_topic_intrusion_test())
 })

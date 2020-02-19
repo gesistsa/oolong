@@ -63,24 +63,30 @@ Validating Topic Models
 
 `newsgroup_stm` is an example topic model trained with the data `newsgroup5` using the `stm` package. Currently, this package supports structural topic models / correlated topic models from `stm`, Warp LDA models from `text2vec` and LDA/CTM models from `topicmodels`.
 
-    #> stm v1.3.5 successfully loaded. See ?stm for help. 
-    #>  Papers, resources, and other materials at structuraltopicmodel.com
-    #> Package version: 2.0.0
-    #> Parallel computing: 2 of 4 threads used.
-    #> See https://quanteda.io for tutorials and examples.
-    #> 
-    #> Attaching package: 'quanteda'
-    #> The following object is masked from 'package:utils':
-    #> 
-    #>     View
-    #> 
-    #> Attaching package: 'dplyr'
-    #> The following objects are masked from 'package:stats':
-    #> 
-    #>     filter, lag
-    #> The following objects are masked from 'package:base':
-    #> 
-    #>     intersect, setdiff, setequal, union
+``` r
+library(oolong)
+library(stm)
+#> stm v1.3.5 successfully loaded. See ?stm for help. 
+#>  Papers, resources, and other materials at structuraltopicmodel.com
+library(quanteda)
+#> Package version: 2.0.0
+#> Parallel computing: 2 of 4 threads used.
+#> See https://quanteda.io for tutorials and examples.
+#> 
+#> Attaching package: 'quanteda'
+#> The following object is masked from 'package:utils':
+#> 
+#>     View
+library(dplyr)
+#> 
+#> Attaching package: 'dplyr'
+#> The following objects are masked from 'package:stats':
+#> 
+#>     filter, lag
+#> The following objects are masked from 'package:base':
+#> 
+#>     intersect, setdiff, setequal, union
+```
 
 ``` r
 newsgroup_stm
@@ -314,10 +320,7 @@ newsgroup5_dfm
 
 ``` r
 oolong_test <- create_oolong(newsgroup_warplda, newsgroup5$text, input_dfm = newsgroup5_dfm)
-#> INFO  [13:51:47.826] early stopping at 20 iteration
-#> Warning in res[setdiff(1:length_test_items, position)] <- sample(good_terms):
-#> number of items to replace is not a multiple of replacement length
-
+#> INFO  [14:40:13.669] early stopping at 20 iteration
 #> Warning in res[setdiff(1:length_test_items, position)] <- sample(good_terms):
 #> number of items to replace is not a multiple of replacement length
 oolong_test
