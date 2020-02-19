@@ -41,11 +41,13 @@
         kripp <- NA
     }
     res <- list()
+    class(res) <- append(class(res), "oolong_summary")
+    res$type <- "gs"
     res$kripp <- kripp
+    res$n_models <- length(obj_list)
+    res$obj_list <- obj_list
     if (is.null(target_value)) {
         warning("target_value is NULL, only the reliability of the answers from the coder(s) are studied.")
-        class(res) <- append(class(res), "oolong_summary")
-        res$type <- "gs"
         return(res)
     }
     p1 <- .corr_plot(answers, target_value)

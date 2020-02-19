@@ -34,7 +34,7 @@ plot.oolong_summary <- function(oolong_summary) {
 }
 
 .print_oolong_summary_gs <- function(oolong_summary) {
-    .cp(!is.na(oolong_summary$kripp), "Krippendorff's Alpha: ", oolong_summary$kripp$value)
+    .cp(oolong_summary$n_models > 1, "Krippendorff's Alpha: ", oolong_summary$kripp$value)
     .cp(!is.null(oolong_summary$cor), "Correlation: ", round(oolong_summary$cor$estimate, 3), " (p = ", round(oolong_summary$cor$p.value,3), ")")
     .cp(!is.null(oolong_summary$cor_length), "Effect of content length: ", round(oolong_summary$cor_length$estimate, 3), " (p = ", round(oolong_summary$cor_length$p.value,3), ")")
 }

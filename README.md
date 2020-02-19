@@ -320,7 +320,7 @@ newsgroup5_dfm
 
 ``` r
 oolong_test <- create_oolong(newsgroup_warplda, newsgroup5$text, input_dfm = newsgroup5_dfm)
-#> INFO  [14:40:13.669] early stopping at 20 iteration
+#> INFO  [14:47:21.568] early stopping at 20 iteration
 #> Warning in res[setdiff(1:length_test_items, position)] <- sample(good_terms):
 #> number of items to replace is not a multiple of replacement length
 oolong_test
@@ -469,8 +469,6 @@ The textual output contains the Krippendorff's alpha of the codings by your rate
 
 ``` r
 res
-#> Warning in if (boolean_test) {: the condition has length > 1 and only the first
-#> element will be used
 #> Krippendorff's Alpha: 0.741139871924503
 #> Correlation: 0.559 (p = 0)
 #> Effect of content length: 0.067 (p = 0.683)
