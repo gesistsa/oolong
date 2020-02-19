@@ -248,38 +248,42 @@ newsgroup_warplda
 #>   Inherits from: <LDA>
 #>   Public:
 #>     clone: function (deep = FALSE) 
-#>     components: 23 355 0 26 59 0 0 0 0 0 0 10 0 48 0 106 0 0 0 19 909 7  ...
+#>     components: 0 91 0 0 2 0 260 0 83 27 0 0 26 96 24 0 0 0 37 0 0 10 14 ...
 #>     fit_transform: function (x, n_iter = 1000, convergence_tol = 0.001, n_check_convergence = 10, 
 #>     get_top_words: function (n = 10, topic_number = 1L:private$n_topics, lambda = 1) 
-#>     initialize: function (n_topics = 10L, doc_topic_prior = 50/n_topics, topic_word_prior = 1/n_topics) 
+#>     initialize: function (n_topics = 10L, doc_topic_prior = 50/n_topics, topic_word_prior = 1/n_topics, 
 #>     plot: function (lambda.step = 0.1, reorder.topics = FALSE, doc_len = private$doc_len, 
-#>     topic_word_distribution: 0.000355366027007818 0.00318117461512268 0 0.00036824587 ...
-#>     transform: function (x, n_iter = 1000, convergence_tol = 0.001, n_check_convergence = 5, 
+#>     topic_word_distribution: 0 0.000858992995903264 0 0 3.24680595464212e-05 0 0.0022 ...
+#>     transform: function (x, n_iter = 1000, convergence_tol = 0.001, n_check_convergence = 10, 
 #>   Private:
 #>     calc_pseudo_loglikelihood: function (ptr = private$ptr) 
 #>     check_convert_input: function (x) 
-#>     components_: 23 355 0 26 59 0 0 0 0 0 0 10 0 48 0 106 0 0 0 19 909 7  ...
+#>     components_: 0 91 0 0 2 0 260 0 83 27 0 0 26 96 24 0 0 0 37 0 0 10 14 ...
 #>     doc_len: 96 1016 142 401 55 364 548 89 48 66 109 61 88 82 163 67  ...
 #>     doc_topic_distribution: function () 
 #>     doc_topic_distribution_with_prior: function () 
-#>     doc_topic_matrix: 4 189 13 3 3 15 11 33 0 0 0 0 0 0 10 0 66 0 0 0 0 20 1 0 ...
+#>     doc_topic_matrix: 0 563 186 343 16 343 1075 7 0 0 236 135 1 0 0 56 0 8 8 4 ...
 #>     doc_topic_prior: 0.1
 #>     fit_transform_internal: function (model_ptr, n_iter, convergence_tol, n_check_convergence, 
 #>     get_c_all: function () 
 #>     get_c_all_local: function () 
+#>     get_doc_topic_matrix: function (prt, nr) 
 #>     get_topic_word_count: function () 
 #>     init_model_dtm: function (x, ptr = private$ptr) 
 #>     internal_matrix_formats: list
 #>     is_initialized: FALSE
+#>     n_iter_inference: 10
 #>     n_topics: 10
 #>     ptr: externalptr
 #>     reset_c_local: function () 
 #>     run_iter_doc: function (update_topics = TRUE, ptr = private$ptr) 
 #>     run_iter_word: function (update_topics = TRUE, ptr = private$ptr) 
+#>     seeds: 1281647796.30637 1224775350.35934
 #>     set_c_all: function (x) 
 #>     set_internal_matrix_formats: function (sparse = NULL, dense = NULL) 
 #>     topic_word_distribution_with_prior: function () 
 #>     topic_word_prior: 0.01
+#>     transform_internal: function (x, n_iter = 1000, convergence_tol = 0.001, n_check_convergence = 10, 
 #>     vocabulary: agre expens game town note great boss doubl salari buy b ...
 ```
 
@@ -310,7 +314,15 @@ newsgroup5_dfm
 
 ``` r
 oolong_test <- create_oolong(newsgroup_warplda, newsgroup5$text, input_dfm = newsgroup5_dfm)
+#> INFO  [12:53:51.837] early stopping at 20 iteration
+#> Warning in res[setdiff(1:length_test_items, position)] <- sample(good_terms):
+#> number of items to replace is not a multiple of replacement length
 oolong_test
+#> An oolong test object with k = 10, 0 coded.
+#> Use the method $do_word_intrusion_test() to do word intrusion test.
+#> With 41 cases of topic intrusion test. 0 coded.
+#> Use the method $do_topic_intrusion_test() to do topic intrusion test.
+#> Use the method $lock() to finalize this object and see the results.
 ```
 
 Validating Dictionary-based Methods
@@ -438,7 +450,7 @@ dfm(gold_standard, remove_punct = TRUE) %>% dfm_lookup(afinn) %>% quanteda::conv
 Summarize all oolong objects with the target value.
 
 ``` r
-res <- summarize_oolong_gold_standard(trump, trump2, target_value = target_value)
+res <- summarize_oolong(trump, trump2, target_value = target_value)
 ```
 
 Read the results. The diagnostic plot consists of 4 subplots. It is a good idea to read Bland & Altman (1986) on the difference between correlation and agreement.
@@ -452,13 +464,16 @@ The textual output contains the Krippendorff's alpha of the codings by your rate
 
 ``` r
 res
+#> Krippendorff's Alpha: 0.741139871924503
+#> Correlation: 0.559 (p = 0)
+#> Effect of content length: 0.067 (p = 0.683)
 ```
 
-<img src="man/figures/README-unnamed-chunk-19-1.png" width="100%" />
+``` r
+plot(res)
+```
 
-    #> Krippendorff's Alpha: 0.741139871924503
-    #> Correlation: 0.559 (p = 0)
-    #> Effect of content length: 0.067 (p = 0.683)
+<img src="man/figures/README-diagnosis-1.png" width="100%" />
 
 ### Inadvisable workflow
 

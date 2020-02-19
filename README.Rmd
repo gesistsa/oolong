@@ -221,7 +221,7 @@ oolong_test
 newsgroup5_dfm
 ```
 
-```{r warplda4, eval = FALSE}
+```{r warplda4}
 oolong_test <- create_oolong(newsgroup_warplda, newsgroup5$text, input_dfm = newsgroup5_dfm)
 oolong_test
 ```
@@ -329,7 +329,7 @@ dfm(gold_standard, remove_punct = TRUE) %>% dfm_lookup(afinn) %>% quanteda::conv
 Summarize all oolong objects with the target value.
 
 ```{r}
-res <- summarize_oolong_gold_standard(trump, trump2, target_value = target_value)
+res <- summarize_oolong(trump, trump2, target_value = target_value)
 ```
 
 Read the results. The diagnostic plot consists of 4 subplots. It is a good idea to read Bland & Altman (1986) on the difference between correlation and agreement.
@@ -343,6 +343,10 @@ The textual output contains the Krippendorff's alpha of the codings by your rate
 
 ```{r}
 res
+```
+
+```{r diagnosis}
+plot(res)
 ```
 
 ### Inadvisable workflow
@@ -379,7 +383,7 @@ gold_standard <- oolong_test$turn_gold()
 docvars(gold_standard, "target_value")
 ```
 
-```{r diagnosis}
+```{r}
 summarize_gold_standard(gold_standard)
 ```
 
