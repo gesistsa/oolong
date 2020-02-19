@@ -58,3 +58,30 @@ V <- length(newsgroup_lda@terms)
 devtools::load_all()
 
 oolong_test <- create_oolong(newsgroup_topicmodels)
+
+
+###
+
+devtools::load_all()
+
+obj1 <- create_oolong(newsgroup_stm, newsgroup5$text)
+obj2 <- clone_oolong(obj1)
+
+genius_word <- function(obj) {
+    obj$.__enclos_env__$private$test_content$word$answer <- obj$.__enclos_env__$private$test_content$word$intruder
+    return(obj)
+}
+
+genius_topic <- function(obj) {
+    obj$.__enclos_env__$private$test_content$topic$answer <- obj$.__enclos_env__$private$test_content$topic$intruder
+    return(obj)
+}
+
+obj1 <- genius_topic(obj1)
+obj1 <- genius_word(obj1)
+
+obj1$.__enclos_env__$private$test_content$topic$answer
+obj1$.__enclos_env__$private$test_content$topic$answer[1] <- NA
+obj1$lock(force = TRUE)
+summarise_oolong(obj1)
+obj1$.__enclos_env__$private$test_content$topic$answer

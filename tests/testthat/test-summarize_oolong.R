@@ -23,7 +23,7 @@ test_that("Correct UI", {
     expect_true(res2$type == "gs")
 })
 
-test_that("check_calculation_word_intrusion", {
+test_that("check_calculation_word_intrusion_multiobject", {
     obj1 <- create_oolong(newsgroup_stm)
     obj2 <- clone_oolong(obj1)
     obj3 <- clone_oolong(obj1)
@@ -44,10 +44,45 @@ test_that("check_calculation_word_intrusion", {
     expect_length(res$rater_precision, 1)
 })
 
-test_that("check_calculation_word_intrusion_only_one_object", {
+test_that("check_calculation_word_intrusion_single_object", {
     obj1 <- create_oolong(newsgroup_stm)
     obj1 <- genius_word(obj1)
     obj1$lock()
     expect_error(summarize_oolong(obj1), NA)
 })
 
+test_that("check_calculation_topic_intrusion_single_object", {
+    obj1 <- create_oolong(newsgroup_stm, newsgroup5$text)
+    obj1 <- genius_word(obj1)
+    obj1 <- genius_topic(obj1)
+    obj1$lock()
+    expect_error(summarize_oolong(obj1), NA)
+})
+
+test_that("check_calculation_topic_intrusion_multiobject", {
+    obj1 <- create_oolong(newsgroup_stm, newsgroup5$text, exact_n = 100)
+    obj2 <- clone_oolong(obj1)
+    obj1 <- genius_word(obj1)
+    obj1 <- genius_topic(obj1)
+    obj1$lock()
+    obj2 <- genius_word(obj2)
+    obj2 <- genius_topic(obj2)
+    obj2$lock()
+    res <- summarize_oolong(obj1, obj2)
+    expect_length(res$tlo_p_value, 1)
+    expect_length(res$tlo, 200)
+})
+
+test_that("Forcibly locking", {
+    ex1 <- create_oolong(newsgroup_stm, newsgroup5$text, exact_n = 100)
+    ex2 <- clone_oolong(ex1)
+    ex1 <- genius_word(ex1)
+    ex1 <- genius_topic(ex1)
+    ex1$lock()
+    ex2 <- genius_word(ex2)
+    ex2 <- genius_topic(ex2)
+    ex2$.__enclos_env__$private$test_content$topic$answer[1] <- NA
+    ex2$lock(force = TRUE)
+    ###expect_warning({ res <- summarize_oolong(ex1, ex2) })
+    ###expect_warning({ res <- summarize_oolong(ex2) })
+})
