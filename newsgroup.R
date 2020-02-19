@@ -32,7 +32,7 @@ theta <- lda_model$fit_transform(x = newsgroup5_dfm, convergence_tol = 0.001, n_
 
 newsgroup_warplda <- lda_model
 
-usethis::use_data(newsgroup_warplda)
+usethis::use_data(newsgroup_warplda, overwrite = TRUE)
 
 lsa_model <- LSA$new(n_topics = 10)
 
