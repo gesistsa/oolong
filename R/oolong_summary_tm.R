@@ -43,6 +43,10 @@ clone_oolong <- function(oolong) {
     oolong$clone(deep = FALSE)
 }
 
+.clone_obj_list <- function(obj_list) {
+    purrr::map(obj_list, ~ .$clone(deep = FALSE))
+}
+
 .summarize_oolong_tm <- function(...) {
     if(!.check_hash_dot(...)) {
         stop("Not all oolong object(s) are created with the same conditions.")
@@ -83,7 +87,7 @@ clone_oolong <- function(oolong) {
         res$tlo <- NA
     } else {
         res$tlo <- .cal_tlo(purrr::map_dfr(all_topic_test_content, ~.), mean_value = FALSE) ### it should not be just the mean.
-        monkey_median <- unlist(replicate(3000, .monkey_median(obj_list)))
+        monkey_median <- unlist(replicate(3000, .monkey_median(.clone_obj_list(obj_list))))
         res$tlo_p_value <- sum(monkey_median > median(res$tlo)) / 3000
     }
     res$obj_list <- obj_list

@@ -82,6 +82,7 @@ obj1 <- genius_word(obj1)
 
 obj1$.__enclos_env__$private$test_content$topic$answer
 obj1$.__enclos_env__$private$test_content$topic$answer[1] <- NA
+obj1$.__enclos_env__$private$test_content$topic$answer
 obj1$lock(force = TRUE)
 summarise_oolong(obj1)
 obj1$.__enclos_env__$private$test_content$topic$answer

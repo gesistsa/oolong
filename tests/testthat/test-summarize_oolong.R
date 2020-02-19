@@ -83,6 +83,17 @@ test_that("Forcibly locking", {
     ex2 <- genius_topic(ex2)
     ex2$.__enclos_env__$private$test_content$topic$answer[1] <- NA
     ex2$lock(force = TRUE)
-    ###expect_warning({ res <- summarize_oolong(ex1, ex2) })
-    ###expect_warning({ res <- summarize_oolong(ex2) })
+    expect_warning({ res <- summarize_oolong(ex1, ex2) })
+    expect_warning({ res <- summarize_oolong(ex2) })
+})
+
+test_that("Monkeying problem #14", {
+    obj1 <- create_oolong(newsgroup_stm, newsgroup5$text)
+    obj1 <- genius_topic(obj1)
+    obj1 <- genius_word(obj1)
+    previous_answer <- obj1$.__enclos_env__$private$test_content$topic$answer
+    obj1$lock(force = TRUE)
+    summarise_oolong(obj1)
+    new_answer <- obj1$.__enclos_env__$private$test_content$topic$answer
+    expect_true(all.equal(previous_answer, new_answer))
 })
