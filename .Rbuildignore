@@ -3,3 +3,4 @@
 ^newsgroup\.R$
 ^trump\.R$
 ^/experimental/
+^\.github/workflows/R-CMD-check\.yaml$
