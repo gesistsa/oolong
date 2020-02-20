@@ -24,3 +24,9 @@ test_that("integration into create_oolong", {
     expect_error(create_oolong(input_corpus = newsgroup5$text, frac = 0.5), NA)
 })
 
+test_that("locking", {
+    x <- create_oolong(input_corpus = quanteda::corpus(newsgroup5$text))
+    x$lock(force = TRUE)
+    expect_error(x$do_gold_standard_test())
+})
+

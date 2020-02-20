@@ -60,7 +60,7 @@ test_that("check_calculation_topic_intrusion_single_object", {
 })
 
 test_that("check_calculation_topic_intrusion_multiobject", {
-    obj1 <- create_oolong(newsgroup_stm, newsgroup5$text, exact_n = 100)
+    obj1 <- create_oolong(newsgroup_stm, newsgroup5$text, exact_n = 10)
     obj2 <- clone_oolong(obj1)
     obj1 <- genius_word(obj1)
     obj1 <- genius_topic(obj1)
@@ -70,7 +70,11 @@ test_that("check_calculation_topic_intrusion_multiobject", {
     obj2$lock()
     res <- summarize_oolong(obj1, obj2)
     expect_length(res$tlo_p_value, 1)
-    expect_length(res$tlo, 200)
+    expect_length(res$tlo, 20)
+    ### Might be better to move this to test-printing.
+    output1 <- capture_output({ res }, print = TRUE)
+    expect_true(stringr::str_detect(output1, "Mean model precision"))
+    expect_error(plot(res))
 })
 
 test_that("Forcibly locking", {
