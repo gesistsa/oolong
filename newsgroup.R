@@ -11,6 +11,21 @@ require(oolong)
 ## saveRDS(newsgroup5, "newsgroup5.RDS")
 corpus(newsgroup5)
 
+require(textclean)
+
+clean_text <- replace_non_ascii(newsgroup5$text)
+
+saveRDS(clean_text, "clean_text.RDS")
+
+x <- readRDS("clean_text.RDS")
+
+small_x <- purrr::map_chr(x, ~substr(., 1, 800))
+saveRDS(newsgroup5, "clean__small.RDS")
+
+usethis::use_data(newsgroup5, overwrite = TRUE)
+newsgroup5$text <- small_x
+
+
 dfm(newsgroup5$text, tolower = TRUE, stem = TRUE, remove = stopwords('english'), remove_punct = TRUE, remove_numbers = TRUE, remove_symbols = TRUE, remove_hyphens = TRUE) %>% dfm_trim(min_docfreq = 5, max_docfreq = 1000) %>% dfm_select(min_nchar = 3, pattern = "^[a-zA-Z]+$", valuetype = "regex") -> newsgroup5_dfm
 docvars(newsgroup5_dfm, "title") <- newsgroup5$title
 
