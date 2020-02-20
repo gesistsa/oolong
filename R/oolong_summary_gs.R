@@ -62,9 +62,3 @@
     class(res) <- append(class(res), "oolong_summary")
     return(res)
 }
-
-.monkey_dictionary <- function(oolong, n = 20) {
-    oolong$.__enclos_env__$private$test_content$gold_standard$answer <- sample(1:5, size = n, replace = TRUE)
-    return(oolong)
-}
-

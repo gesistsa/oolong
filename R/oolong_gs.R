@@ -95,9 +95,6 @@ Oolong_test_gs <-
                 hash = NULL,
                 test_content = list(),
                 finalized = FALSE,
-                check_finalized = function() {
-                    .cstop(private$finalized, "You can no longer modify this finalized test.")
-                },
                 construct = NULL
             )
         )

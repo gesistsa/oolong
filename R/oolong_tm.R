@@ -293,10 +293,7 @@ Oolong_test_tm <-
             private = list(
                 hash = NULL,
                 test_content = list(),
-                finalized = FALSE,
-                check_finalized = function() {
-                    .cstop(private$finalized, "You can no longer modify this finalized test.")
-                }
+                finalized = FALSE
             )
         )
 

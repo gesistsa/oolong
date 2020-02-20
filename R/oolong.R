@@ -6,7 +6,6 @@ Oolong_test <- R6::R6Class(
     "oolong_generic",
     public = list(
         initialize = function(input_model, input_corpus = NULL) {
-            private$test_content <- list()
         },
         lock = function(force = FALSE) {
             if (!.check_test_content_complete(private$test_content) & !force) {
