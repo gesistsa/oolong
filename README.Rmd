@@ -17,6 +17,7 @@ set.seed(42)
 # oolong <img src="man/figures/oolong_logo.png" align="right" height="200" />
 
 <!-- badges: start -->
+[![Travis build status](https://travis-ci.org/chainsawriot/oolong.svg?branch=master)](https://travis-ci.org/chainsawriot/oolong)
 <!-- badges: end -->
 
 The goal of oolong ^[/ˈuːlʊŋ/ 烏龍, literally means "Dark Dragon", is a semi-oxidized tea from Asia. It is very popular in Taiwan, Japan and Hong Kong] is to generate and administrate validation tests easily for typical automated content analysis tools such as topic models and dictionary-based tools.
