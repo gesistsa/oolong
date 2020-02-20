@@ -70,8 +70,3 @@ create_oolong <- function(input_model = NULL, input_corpus = NULL, n_top_terms =
     return(FALSE)
 }
 
-#' Newsgroup text dataset
-#'
-#' This is a subset of the famous "newsgroup 20" dataset.
-"newsgroup5"
-

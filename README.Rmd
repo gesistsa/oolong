@@ -44,7 +44,7 @@ devtools::install_github("chainsawriot/oolong")
 
 #### Word intrusion test
 
-`newsgroup_stm` is an example topic model trained with the data `newsgroup5` using the `stm` package. Currently, this package supports structural topic models / correlated topic models from `stm`, Warp LDA models from `text2vec` and LDA/CTM models from `topicmodels`.
+`abstracts_stm` is an example topic model trained with the data `abstracts` using the `stm` package. Currently, this package supports structural topic models / correlated topic models from `stm`, Warp LDA models from `text2vec` and LDA/CTM models from `topicmodels`.
 
 ```{r}
 library(oolong)
@@ -54,13 +54,13 @@ library(dplyr)
 ```
 
 ```{r example}
-newsgroup_stm
+abstracts_stm
 ```
 
 To create an oolong test, use the function `create_oolong_test`.
 
 ```{r createtest}
-oolong_test <- create_oolong(newsgroup_stm)
+oolong_test <- create_oolong(abstracts_stm)
 oolong_test
 ```
 
@@ -89,17 +89,17 @@ oolong_test
 
 #### Topic intrusion test
 
-For example, `newsgroup_stm` was generated with the corpus `newsgroup5$text`
+For example, `abstracts_stm` was generated with the corpus `abstracts$text`
 
 ```{r newgroup5}
 library(tibble)
-newsgroup5
+abstracts
 ```
 
 Creating the oolong test object with the corpus used for training the topic model will generate topic intrusion test cases. 
 
 ```{r createtest2}
-oolong_test <- create_oolong(newsgroup_stm, newsgroup5$text)
+oolong_test <- create_oolong(abstracts_stm, abstracts$text)
 oolong_test
 ```
 
@@ -135,16 +135,16 @@ The test makes more sense if more than one coder is involved. A suggested workfl
 Train a topic model.
 
 ```{r step0, eval = FALSE}
-dfm(newsgroup5$text, tolower = TRUE, stem = TRUE, remove = stopwords('english'), remove_punct = TRUE, remove_numbers = TRUE, remove_symbols = TRUE, remove_hyphens = TRUE) %>% dfm_trim(min_docfreq = 5, max_docfreq = 1000) %>% dfm_select(min_nchar = 3, pattern = "^[a-zA-Z]+$", valuetype = "regex") -> newsgroup5_dfm
-docvars(newsgroup5_dfm, "title") <- newsgroup5$title
-newsgroup5_dfm %>% convert(to = "stm", omit_empty = FALSE) -> newsgroup5_stm
-newsgroup_stm <- stm(newsgroup5_stm$documents, newsgroup5_stm$vocab, data =newsgroup5_stm$meta, K = 10, seed = 42)
+dfm(abstracts$text, tolower = TRUE, stem = TRUE, remove = stopwords('english'), remove_punct = TRUE, remove_numbers = TRUE, remove_symbols = TRUE, remove_hyphens = TRUE) %>% dfm_trim(min_docfreq = 5, max_docfreq = 1000) %>% dfm_select(min_nchar = 3, pattern = "^[a-zA-Z]+$", valuetype = "regex") -> abstracts_dfm
+docvars(abstracts_dfm, "title") <- abstracts$title
+abstracts_dfm %>% convert(to = "stm", omit_empty = FALSE) -> abstracts_stm
+abstracts_stm <- stm(abstracts_stm$documents, abstracts_stm$vocab, data =abstracts_stm$meta, K = 10, seed = 42)
 ```
 
 Create a new oolong object.
 
 ```{r step1}
-oolong_test_rater1 <- create_oolong(newsgroup_stm, newsgroup5$text)
+oolong_test_rater1 <- create_oolong(abstracts_stm, abstracts$text)
 ```
 
 Clone the oolong object to be used by other raters.
@@ -203,27 +203,27 @@ One must notice that the two statistical tests are testing the bear minimum. A s
 
 There is a subtle difference between the support for `stm` and for `text2vec`.
 
-`newsgroup_warplda` is a Warp LDA object trained with the same dataset as the `newsgroup_stm`
+`abstracts_warplda` is a Warp LDA object trained with the same dataset as the `abstracts_stm`
 
 ```{r warplda}
-newsgroup_warplda
+abstracts_warplda
 ```
 
 All the API endpoints are the same, except the one for the creation of topic intrusion test cases. You must supply also the `input_dfm`.
 
 ```{r warplda2}
 ### Just word intrusion test.
-oolong_test <- create_oolong(newsgroup_warplda)
+oolong_test <- create_oolong(abstracts_warplda)
 oolong_test
 ```
 
 
 ```{r warplda3}
-newsgroup5_dfm
+abstracts_dfm
 ```
 
 ```{r warplda4}
-oolong_test <- create_oolong(newsgroup_warplda, newsgroup5$text, input_dfm = newsgroup5_dfm)
+oolong_test <- create_oolong(abstracts_warplda, abstracts$text, input_dfm = abstracts_dfm)
 oolong_test
 ```
 

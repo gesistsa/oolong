@@ -11,12 +11,12 @@ genius_topic <- function(obj1) {
 }
 
 test_that("gs_creation", {
-    output1 <- capture_output({ x <- create_oolong(input_corpus = newsgroup5$text); x }, print = TRUE)
+    output1 <- capture_output({ x <- create_oolong(input_corpus = abstracts$text); x }, print = TRUE)
     expect_true(stringr::str_detect(output1, "gold standard generation"))
 })
 
 test_that("gs_turngold", {
-    output2 <- capture_output({ x <- create_oolong(input_corpus = newsgroup5$text); x$lock(force = TRUE); x$turn_gold() }, print = TRUE)
+    output2 <- capture_output({ x <- create_oolong(input_corpus = abstracts$text); x$lock(force = TRUE); x$turn_gold() }, print = TRUE)
     ## quanteda output
     expect_true(stringr::str_detect(output2, "Corpus consisting"))
     ## oolong output
