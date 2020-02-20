@@ -12,6 +12,8 @@ License: LGPL (>= 2.1)
 Encoding: UTF-8
 URL: https://github.com/chainsawriot/oolong
 LazyData: true
+Depends:
+    R (>= 3.5)
 Imports: 
     stm,
     purrr,
@@ -24,7 +26,9 @@ Imports:
     quanteda,
     irr,
     ggplot2,
-    cowplot
+    cowplot,
+    stringr,
+    dplyr
 RoxygenNote: 6.1.1
 Suggests: 
     testthat (>= 2.1.0),
