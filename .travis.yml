@@ -4,6 +4,7 @@ language: R
 cache: packages
 sudo: true
 latex: false
+warnings_are_errors: false
 before_install:
   -  sudo apt-get install libgsl0-dev
 r_check_args: '--ignore-vignettes --no-examples'
