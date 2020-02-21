@@ -58,8 +58,8 @@
 }
 
 #' @export
-print.oolong_gold_standard <- function(obj) {
-    quanteda:::print.corpus(obj)
+print.oolong_gold_standard <- function(x, ...) {
+    quanteda:::print.corpus(x)
     .cp(TRUE, "Access the answer from the coding with quanteda::docvars(obj, 'answer')")
 }
 

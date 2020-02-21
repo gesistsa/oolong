@@ -1,18 +1,18 @@
 
 #' @export
-print.oolong_summary <- function(oolong_summary) {
-    if (oolong_summary$type == "tm") {
-        .print_oolong_summary_tm(oolong_summary)
+print.oolong_summary <- function(x, ...) {
+    if (x$type == "tm") {
+        .print_oolong_summary_tm(x)
     }
-    if (oolong_summary$type == "gs") {
-        .print_oolong_summary_gs(oolong_summary)
+    if (x$type == "gs") {
+        .print_oolong_summary_gs(x)
     }
 }
 
 #' @export
-plot.oolong_summary <- function(oolong_summary) {
-    if (oolong_summary$type == "gs") {
-        .plot_oolong_summary_gs(oolong_summary)
+plot.oolong_summary <- function(x, ...) {
+    if (x$type == "gs") {
+        .plot_oolong_summary_gs(x)
     } else {
         stop("Don't know how to plot this oolong_summary.")
     }

@@ -1,7 +1,10 @@
 ^LICENSE\.md$
 ^README\.Rmd$
-^newsgroup\.R$
+^README\.html$
+^abstract\.R$
 ^trump\.R$
 ^/experimental/
 ^\.github/workflows/R-CMD-check\.yaml$
 ^\.travis\.yml$
+^codecov\.yml$
+\.RDS$
