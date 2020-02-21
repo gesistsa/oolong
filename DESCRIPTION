@@ -35,5 +35,6 @@ RoxygenNote: 6.1.1
 Suggests: 
     testthat (>= 2.1.0),
     topicmodels,
-    covr
+    covr,
+    stringr
 BugReports: https://github.com/chainsawriot/oolong/issues
