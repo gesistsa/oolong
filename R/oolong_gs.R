@@ -57,9 +57,19 @@
     return(res)
 }
 
+#' Print oolong gold standard object.
+#'
+#' This function prints a summary of the oolong gold standard object. An oolong gold standard object is a result of $turn_gold() method. It is a quanteda::corpus compatiable object.
+#' @param x an oolong gold standard object
+#' @param ... other parameters
+#' @method print oolong_gold_standard
 #' @export
 print.oolong_gold_standard <- function(x, ...) {
-    quanteda:::print.corpus(x)
+    ##quanteda:::print.corpus(x)
+    ## I just don't want to use the triple-colon operator, why makes it so hard?
+    y <- x
+    class(y) <- class(y)[class(y) != "oolong_gold_standard"]
+    print(y)
     .cp(TRUE, "Access the answer from the coding with quanteda::docvars(obj, 'answer')")
 }
 
@@ -68,7 +78,7 @@ Oolong_test_gs <-
             "oolong_test_gs",
             inherit = Oolong_test,
             public = list(
-                initialize = function(input_corpus, exact_n = NULL, frac = 0.01, target_value  = NULL, construct = "positive") {
+                initialize = function(input_corpus, exact_n = NULL, frac = 0.01, construct = "positive") {
                     private$test_content$gold_standard <- .generate_gold_standard(input_corpus, exact_n, frac)
                     private$hash <- digest::digest(private$test_content, algo = "sha1")
                     private$construct <- construct

@@ -1,4 +1,9 @@
-
+#' Print and plot oolong summary
+#'
+#' This function prints or plots a useful summary of the results from summarize_oolong().
+#' @param x an oolong_summary
+#' @param ... other parameters
+#' @method print oolong_summary
 #' @export
 print.oolong_summary <- function(x, ...) {
     if (x$type == "tm") {
@@ -9,6 +14,8 @@ print.oolong_summary <- function(x, ...) {
     }
 }
 
+#' @method plot oolong_summary
+#' @rdname print.oolong_summary
 #' @export
 plot.oolong_summary <- function(x, ...) {
     if (x$type == "gs") {
@@ -39,12 +46,28 @@ plot.oolong_summary <- function(x, ...) {
     .cp(!is.null(oolong_summary$cor_length), "Effect of content length: ", round(oolong_summary$cor_length$estimate, 3), " (p = ", round(oolong_summary$cor_length$p.value,3), ")")
 }
 
+#' @rdname summarize_oolong
 #' @export
 summarise_oolong <- function(...) {
     summarize_oolong(...)
 }
 
-
+#' Summarize oolong objects
+#'
+#' This function summarizes one or more oolong objects. All oolong objects must be locked.
+#' @param ... (tm/gs) one or more oolong objects to be summarized.
+#' @param target_value (gs) a vector of numeric values, the value you want to validate against the human-coded gold standard. One example of this target value is sentiment score extracted automatically from text.
+#' @return An oolong summary
+#' @examples
+#' \dontrun{
+#' oolong_test1 <- create_oolong(input_stm)
+#' oolong_test2 <- clone_oolong(oolong_test1)
+#' oolong_test1$do_word_intrusion_test()
+#' oolong_test2$do_word_intrusion_test()
+#' oolong_test1$lock()
+#' oolong_test2$lock()
+#' summarize(oolong_test1, oolong_test2)
+#' }
 #' @export
 summarize_oolong <- function(..., target_value = NULL) {
     obj_list <- list(...)

@@ -8,31 +8,44 @@ create_oolong(input_model = NULL, input_corpus = NULL,
   n_top_terms = 5, bottom_terms_percentile = 0.6, exact_n = NULL,
   frac = 0.01, n_top_topics = 3, n_topiclabel_words = 8,
   use_frex_words = FALSE, difficulty = 1, input_dfm = NULL,
-  target_value = NULL, construct = "positive")
+  construct = "positive")
 }
 \arguments{
-\item{input_model}{a STM, WarpLDA or topicmodels object}
+\item{input_model}{(gs/tm) a STM, WarpLDA or topicmodels object; if it is NULL, create_oolong assumes that you want to create gold standard.}
 
-\item{input_corpus}{if input_model is not null, it should be the corpus (character vector or quanteda::corpus object) to generate the model object, if not NULL, topic intrusion test cases are generated. If input_model is null, it generates gold standard test cases.}
+\item{input_corpus}{(gs/tm) if input_model is not null, it should be the corpus (character vector or quanteda::corpus object) to generate the model object. If input_model and input_corpus are not NULL, topic intrusion test cases are generated. If input_model is null, it generates gold standard test cases.}
 
-\item{n_top_terms}{integer, number of top topic words to be included in the candidates of word intrusion test}
+\item{n_top_terms}{(tm) integer, number of top topic words to be included in the candidates of word intrusion test.}
 
-\item{exact_n}{integer, number of topic intrusion test cases to generate, ignore if frac is not NULL}
+\item{bottom_terms_percentile}{(tm) double, a term is considered to be an word intruder when its theta less than the percentile of this theta, must be within the range of 0 to 1}
 
-\item{frac}{double, fraction of test cases to be generated from the corpus}
+\item{exact_n}{(tm/gs) integer, number of topic intrusion test cases to generate, ignore if frac is not NULL}
 
-\item{n_topiclabel_words}{integer, number of topic words to be shown as the topic label}
+\item{frac}{(tm/gs) double, fraction of test cases to be generated from the corpus}
 
-\item{use_frex_words}{logical, for a STM object, use FREX words if TRUE, use PROB words if FALSE}
+\item{n_top_topics}{(tm) integer, number of most relevant topics to be shown alongside the intruder topic}
 
-\item{difficulty}{double, to adjust the difficulty of the test. Higher value indicates higher difficulty, must be within the range of 0 to 1, no effect for STM if use_frex_words is FALSE. Ignore for topicmodels objects.}
+\item{n_topiclabel_words}{(tm) integer, number of topic words to be shown as the topic label}
 
-\item{input_dfm}{a dfm object used for training the input_model, if input_model is a WarpLDA object}
+\item{use_frex_words}{(tm) logical, for a STM object, use FREX words if TRUE, use PROB words if FALSE}
 
-\item{bottm_terms_percentile}{double, a term is considered to be an word intruder when its theta less than the percentile of this theta, must be within the range of 0 to 1}
+\item{difficulty}{(tm) double, to adjust the difficulty of the test. Higher value indicates higher difficulty, must be within the range of 0 to 1, no effect for STM if use_frex_words is FALSE. Ignore for topicmodels objects.}
 
-\item{n_top_topic}{integer, number of most relevant topics to be shown alongside the intruder topic}
+\item{input_dfm}{(tm) a dfm object used for training the input_model, if input_model is a WarpLDA object}
+
+\item{construct}{(gs) string, an adjective to describe the construct you want your coders to code the the gold standard test cases.}
+}
+\value{
+An oolong test object.
 }
 \description{
 This function generates a oolong test object that can either be used for validating a topic model or for creating ground truth (gold standard) of a text corpus.
+}
+\examples{
+## Creation of oolong test with only word intrusion test
+oolong_test <- create_oolong(input_model = abstracts_stm)
+## Creation of oolong test with both word intrusion test and topic intrusion test
+oolong_test <- create_oolong(input_model = abstracts_stm, input_corpus = abstracts$text)
+## Creation of gold standard
+oolong_test <- create_oolong(input_corpus = trump2k)
 }

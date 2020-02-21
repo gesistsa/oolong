@@ -3,7 +3,8 @@
 }
 
 .corr_plot <- function(answers, target_value) {
-    tibble::tibble(target_value = .minmax(target_value), avg_answer = .minmax(answers$avg_answer)) %>% ggplot2::ggplot(ggplot2::aes(x = avg_answer, y = target_value)) + ggplot2::geom_point() + ggplot2::geom_smooth(method = lm) + ggplot2::xlab("Human judgement") + ggplot2::ylab("Target value") -> correlation_plot
+    plot_data <- tibble::tibble(target_value = .minmax(target_value), avg_answer = .minmax(answers$avg_answer))
+    ggplot2::ggplot(plot_data, ggplot2::aes(x = avg_answer, y = target_value)) + ggplot2::geom_point() + ggplot2::geom_smooth(method = lm) + ggplot2::xlab("Human judgement") + ggplot2::ylab("Target value") -> correlation_plot
     return(correlation_plot)
 }
 
