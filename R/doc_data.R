@@ -1,6 +1,29 @@
 
 #' Abstracts of communication journals dataset
 #'
-#' This is a dataset of all abstracts of papers published in Journal of Communication, Communication Research, Journal of Computer-mediated Communication, Political Communication and Communication Monographs from 2000 to 2017.
+#' This is a random sample of all abstracts of papers published in high-impact communication journals from 2000 to 2017. The one ends with "dfm" is same data in quanteda::dfm (document-feature matrix) format.
 "abstracts"
 
+#' @rdname abstracts
+"abstracts_dfm"
+
+#' Topic models trained with the abstracts dataset.
+#'
+#' These are topic models trained with different topic model packages.
+"abstracts_stm"
+
+#' @rdname abstracts_stm
+"abstracts_warplda"
+
+#' @rdname abstracts_stm
+"abstracts_topicmodels"
+
+#' AFINN dictionary
+#'
+#' This is the AFINN sentiment dictionary in quanteda::dictionary format.
+"afinn"
+
+#' Trump's tweets dataset
+#'
+#' This is a random sample of 2000 tweets from @realdonaldtrump account before his assumption of duty as the president of the United States.
+"trump2k"

@@ -72,7 +72,7 @@ library(dplyr)
 
 ``` r
 abstracts_stm
-#> A topic model with 10 topics, 2811 documents and a 2893 word dictionary.
+#> A topic model with 20 topics, 2500 documents and a 3995 word dictionary.
 ```
 
 To create an oolong test, use the function `create_oolong_test`.
@@ -80,7 +80,7 @@ To create an oolong test, use the function `create_oolong_test`.
 ``` r
 oolong_test <- create_oolong(abstracts_stm)
 oolong_test
-#> An oolong test object with k = 10, 0 coded.
+#> An oolong test object with k = 20, 0 coded.
 #> Use the method $do_word_intrusion_test() to do word intrusion test.
 #> Use the method $lock() to finalize this object and see the results.
 ```
@@ -103,8 +103,8 @@ the model precision by printing the oolong test.
 ``` r
 oolong_test$lock()
 oolong_test
-#> An oolong test object with k = 10, 10 coded.
-#> 90%  precision
+#> An oolong test object with k = 20, 20 coded.
+#> 95%  precision
 ```
 
 #### Topic intrusion test
@@ -115,20 +115,20 @@ For example, `abstracts_stm` was generated with the corpus
 ``` r
 library(tibble)
 abstracts
-#> # A tibble: 2,811 x 1
+#> # A tibble: 2,500 x 1
 #>    text                                                                    
 #>    <chr>                                                                   
-#>  1 When individuals apply social rules and social expectations while worki…
-#>  2 This study examined the relationships between self-construal and verbal…
-#>  3 To estimate the impact of a mass media campaign to promote contraceptiv…
-#>  4 Cross-cultural adaptation starts with communication, proceeds in and th…
-#>  5 A content analysis of a random sample of television news aired in Los A…
-#>  6 Data from the 1975 and 1995 Dutch surveys were used to analyze the rela…
-#>  7 A survey of 303 first- to third-grade children measured relationships b…
-#>  8 This experiment assesses children's reactions to particular features of…
-#>  9 In this study, 417 sixth graders who were nondrinkers participated in a…
-#> 10 This study examined the interplay between social identity and media dep…
-#> # … with 2,801 more rows
+#>  1 This study explores the benefits and risks featured in medical tourism …
+#>  2 This article puts forth the argument that with the transfer of stock tr…
+#>  3 The purpose of this study was to evaluate the effect the visual fidelit…
+#>  4 Among the many health issues relevant to college students, overconsumpt…
+#>  5 This address, delivered at ICA's 50th anniversary conference, calls on …
+#>  6 The Internet has often been used to reach men who have sex with men (MS…
+#>  7 This article argues that the literature describing the internet revolut…
+#>  8 This research study examined Bud Goodall’s online health narrative as a…
+#>  9 Information technology and new media allow for collecting and sharing p…
+#> 10 Using a national, telephone survey of 1,762 adolescents aged 12-17 year…
+#> # … with 2,490 more rows
 ```
 
 Creating the oolong test object with the corpus used for training the
@@ -137,9 +137,9 @@ topic model will generate topic intrusion test cases.
 ``` r
 oolong_test <- create_oolong(abstracts_stm, abstracts$text)
 oolong_test
-#> An oolong test object with k = 10, 0 coded.
+#> An oolong test object with k = 20, 0 coded.
 #> Use the method $do_word_intrusion_test() to do word intrusion test.
-#> With 28 cases of topic intrusion test. 0 coded.
+#> With 25 cases of topic intrusion test. 0 coded.
 #> Use the method $do_topic_intrusion_test() to do topic intrusion test.
 #> Use the method $lock() to finalize this object and see the results.
 ```
@@ -155,10 +155,10 @@ oolong_test$lock()
 
 ``` r
 oolong_test
-#> An oolong test object with k = 10, 10 coded.
+#> An oolong test object with k = 20, 20 coded.
 #> 100%  precision
-#> With 28 cases of topic intrusion test. 28 coded.
-#> TLO: 0
+#> With 25 cases of topic intrusion test. 25 coded.
+#> TLO: -0.065
 ```
 
 ### Suggested workflow
@@ -207,14 +207,14 @@ Get a summary of the two objects.
 ``` r
 summarize_oolong(oolong_test_rater1, oolong_test_rater2)
 #> Mean model precision: 0.25
-#> Quantiles of model precision: 0.1, 0.175, 0.25, 0.325, 0.4
-#> P-value of the model precision (H0: Model precision is not better than random guess): 0.224470246788736
-#> Krippendorff's alpha: -0.266666666666667
-#> K Precision: 0, 0.5, 0.5, 0.5, 0, 0.5, 0, 0, 0, 0.5
-#> Mean TLO: -1.42
-#> Median TLO: -1.18
-#> Quantiles of TLO: -4.56216127514972, -2.78394224803146, -1.17884568289762, 0, 0
-#> P-Value of the median TLO (H0: Median TLO is not better than random guess): 0.0556666666666667
+#> Quantiles of model precision: 0.15, 0.2, 0.25, 0.3, 0.35
+#> P-value of the model precision (H0: Model precision is not better than random guess): 0.116965422720289
+#> Krippendorff's alpha: -0.04
+#> K Precision: 0, 0, 0, 0, 0, 1, 0, 0, 0.5, 0, 0.5, 0, 0, 0.5, 0.5, 0.5, 0.5, 0.5, 0, 0.5
+#> Mean TLO: -2.13
+#> Median TLO: -2.54
+#> Quantiles of TLO: -5.29319828728119, -3.46848548079468, -2.53916754671801, 0, 0
+#> P-Value of the median TLO (H0: Median TLO is not better than random guess): 0.277333333333333
 ```
 
 ### About the p-values
@@ -254,21 +254,21 @@ abstracts_warplda
 #>   Inherits from: <LDA>
 #>   Public:
 #>     clone: function (deep = FALSE) 
-#>     components: 0 107 0 0 66 0 149 254 115 145 0 19 0 49 48 0 16 0 0 0 0 ...
+#>     components: 26 0 0 0 87 0 0 0 34 0 0 37 0 0 120 40 78 0 18 13 0 4 0  ...
 #>     fit_transform: function (x, n_iter = 1000, convergence_tol = 0.001, n_check_convergence = 10, 
 #>     get_top_words: function (n = 10, topic_number = 1L:private$n_topics, lambda = 1) 
 #>     initialize: function (n_topics = 10L, doc_topic_prior = 50/n_topics, topic_word_prior = 1/n_topics, 
 #>     plot: function (lambda.step = 0.1, reorder.topics = FALSE, doc_len = private$doc_len, 
-#>     topic_word_distribution: 0 0.0046376560332871 0 0 0.002593931771734 0 0.008481812 ...
+#>     topic_word_distribution: 0.00273482696960135 0 0 0 0.00811415780637941 0 0 0 0.00 ...
 #>     transform: function (x, n_iter = 1000, convergence_tol = 0.001, n_check_convergence = 10, 
 #>   Private:
 #>     calc_pseudo_loglikelihood: function (ptr = private$ptr) 
 #>     check_convert_input: function (x) 
-#>     components_: 0 107 0 0 66 0 149 254 115 145 0 19 0 49 48 0 16 0 0 0 0 ...
-#>     doc_len: 69 79 77 88 100 92 70 72 87 89 73 77 84 57 81 95 93 82 8 ...
+#>     components_: 26 0 0 0 87 0 0 0 34 0 0 37 0 0 120 40 78 0 18 13 0 4 0  ...
+#>     doc_len: 80 68 85 88 69 118 99 50 57 88 70 67 53 62 66 92 89 79 1 ...
 #>     doc_topic_distribution: function () 
 #>     doc_topic_distribution_with_prior: function () 
-#>     doc_topic_matrix: 0 0 237 0 27 100 3 0 27 0 0 30 110 0 81 0 27 112 105 1 2 ...
+#>     doc_topic_matrix: 15 142 197 0 1 119 0 61 3 0 0 0 0 1 0 18 0 0 477 0 0 1 0 ...
 #>     doc_topic_prior: 0.1
 #>     fit_transform_internal: function (model_ptr, n_iter, convergence_tol, n_check_convergence, 
 #>     get_c_all: function () 
@@ -279,18 +279,18 @@ abstracts_warplda
 #>     internal_matrix_formats: list
 #>     is_initialized: FALSE
 #>     n_iter_inference: 10
-#>     n_topics: 10
+#>     n_topics: 20
 #>     ptr: externalptr
 #>     reset_c_local: function () 
 #>     run_iter_doc: function (update_topics = TRUE, ptr = private$ptr) 
 #>     run_iter_word: function (update_topics = TRUE, ptr = private$ptr) 
-#>     seeds: 1964531018.67039 2012354126.12585
+#>     seeds: 135203513.874082 471172603.061186
 #>     set_c_all: function (x) 
 #>     set_internal_matrix_formats: function (sparse = NULL, dense = NULL) 
 #>     topic_word_distribution_with_prior: function () 
 #>     topic_word_prior: 0.01
 #>     transform_internal: function (x, n_iter = 1000, convergence_tol = 0.001, n_check_convergence = 10, 
-#>     vocabulary: individu appli social rule expect work comput direct int ...
+#>     vocabulary: explor benefit risk featur medic broker websit well type ...
 ```
 
 All the API endpoints are the same, except the one for the creation of
@@ -300,23 +300,23 @@ topic intrusion test cases. You must supply also the `input_dfm`.
 ### Just word intrusion test.
 oolong_test <- create_oolong(abstracts_warplda)
 oolong_test
-#> An oolong test object with k = 10, 0 coded.
+#> An oolong test object with k = 20, 0 coded.
 #> Use the method $do_word_intrusion_test() to do word intrusion test.
 #> Use the method $lock() to finalize this object and see the results.
 ```
 
 ``` r
 abstracts_dfm
-#> Document-feature matrix of: 2,811 documents, 2,893 features (98.2% sparse).
+#> Document-feature matrix of: 2,500 documents, 3,995 features (98.6% sparse).
 ```
 
 ``` r
 oolong_test <- create_oolong(abstracts_warplda, abstracts$text, input_dfm = abstracts_dfm)
-#> INFO  [23:10:12.244] early stopping at 30 iteration
+#> INFO  [11:36:59.303] early stopping at 40 iteration
 oolong_test
-#> An oolong test object with k = 10, 0 coded.
+#> An oolong test object with k = 20, 0 coded.
 #> Use the method $do_word_intrusion_test() to do word intrusion test.
-#> With 28 cases of topic intrusion test. 0 coded.
+#> With 25 cases of topic intrusion test. 0 coded.
 #> Use the method $do_topic_intrusion_test() to do topic intrusion test.
 #> Use the method $lock() to finalize this object and see the results.
 ```

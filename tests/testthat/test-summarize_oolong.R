@@ -38,7 +38,7 @@ test_that("check_calculation_word_intrusion_multiobject", {
     obj3$lock()
     res <- summarize_oolong(obj1, obj2, obj3)
     expect_length(res$rater_precision, 3)
-    expect_length(res$k_precision, 10)
+    expect_length(res$k_precision, 20)
     ### Single object
     res <- summarize_oolong(obj1)
     expect_length(res$rater_precision, 1)
