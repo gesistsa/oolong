@@ -38,7 +38,7 @@
 .UI_WORD_INTRUSION_TEST <- miniUI::miniPage(
                                  miniUI::gadgetTitleBar("oolong"),
                                  miniUI::miniContentPanel(
-                                             shiny::textOutput("current_topic"),
+                                             shiny::uiOutput("current_topic"),
                                              shiny::uiOutput("intruder_choice"),
                                              shiny::actionButton("confirm", "confirm"),
                                              shiny::actionButton("nextq", "skip")
@@ -48,7 +48,7 @@
 .UI_TOPIC_INTRUSION_TEST <- miniUI::miniPage(
                                         miniUI::gadgetTitleBar("oolong"),
                                         miniUI::miniContentPanel(
-                                                    shiny::textOutput("current_topic"),
+                                                    shiny::uiOutput("current_topic"),
                                                     shiny::uiOutput("text_content"),
                                                     shiny::uiOutput("intruder_choice"),
                                                     shiny::actionButton("confirm", "confirm"),
@@ -63,8 +63,9 @@
         })
     }
     .ren_topic_bar <- function(test_content, res) {
-        shiny::renderText({
-            paste("Topic ", res$current_row, "of", nrow(test_content), ifelse(is.na(res$intruder[res$current_row]), "", " [coded]"))
+        shiny::renderUI({
+            shiny::strong(
+                paste("Topic ", res$current_row, "of", nrow(test_content), ifelse(is.na(res$intruder[res$current_row]), "", " [coded]")))
         })
     }
     output$intruder_choice <- .ren_choices(test_content, res)
@@ -79,13 +80,18 @@
         })
     }
     .ren_topic_bar <- function(test_content, res) {
-        shiny::renderText({
-            paste("Case ", res$current_row, "of", nrow(test_content), ifelse(is.na(res$intruder[res$current_row]), "", " [coded]"))
+        shiny::renderUI({
+            shiny::strong(
+                paste("Case ", res$current_row, "of", nrow(test_content), ifelse(is.na(res$intruder[res$current_row]), "", " [coded]")))
         })
     }
     .ren_text_content <- function(test_content, res) {
         shiny::renderUI({
-            shiny::pre(test_content$text[res$current_row])
+            shiny::tagList(
+                shiny::hr(),
+                shiny::p(test_content$text[res$current_row]),
+                shiny::hr()
+            )
         })
     }
     output$intruder_choice <- .ren_choices(test_content, res)

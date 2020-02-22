@@ -20,7 +20,7 @@
 .UI_GOLD_STANDARD_TEST <- miniUI::miniPage(
                                         miniUI::gadgetTitleBar("oolong"),
                                         miniUI::miniContentPanel(
-                                                    shiny::textOutput("current_topic"),
+                                                    shiny::uiOutput("current_topic"),
                                                     shiny::uiOutput("text_content"),
                                                     shiny::uiOutput("score_slider"),
                                                     shiny::actionButton("confirm", "confirm"),
@@ -35,13 +35,17 @@
         })
     }
     .ren_topic_bar <- function(test_content, res) {
-        shiny::renderText({
-            paste("Case ", res$current_row, "of", nrow(test_content), ifelse(is.na(res$intruder[res$current_row]), "", " [coded]"))
+        shiny::renderUI({
+            shiny::strong(paste("Case ", res$current_row, "of", nrow(test_content), ifelse(is.na(res$intruder[res$current_row]), "", " [coded]")))
         })
     }
     .ren_text_content <- function(test_content, res) {
         shiny::renderUI({
-            shiny::pre(test_content$text[res$current_row])
+            shiny::tagList(
+                shiny::hr(),
+                shiny::p(test_content$text[res$current_row]),
+                shiny::hr()
+            )
         })
     }
     output$score_slider <- .ren_choices(test_content, res, construct)
