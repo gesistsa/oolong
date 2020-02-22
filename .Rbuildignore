@@ -1,10 +1,12 @@
 ^LICENSE\.md$
 ^README\.Rmd$
+^README\.md$
 ^README\.html$
 ^abstract\.R$
 ^trump\.R$
-^/experimental/
+^experimental/
 ^\.github/workflows/R-CMD-check\.yaml$
 ^\.travis\.yml$
 ^codecov\.yml$
 \.RDS$
+^man/figures/oolong_demo\.gif$
