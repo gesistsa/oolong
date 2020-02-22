@@ -32,6 +32,11 @@
 #'
 #' Clone a new oolong object. The oolong must not be locked and ever coded.
 #' @param oolong an oolong object.
+#' @return an oolong object
+#' @author Chung-hong Chan
+#' @examples
+#' oolong_test1 <- create_oolong(abtracts_stm)
+#' oolong_test2 <- clone_oolong(oolong_test2)
 #' @export
 clone_oolong <- function(oolong) {
     if (oolong$.__enclos_env__$private$finalized) {
@@ -90,7 +95,7 @@ clone_oolong <- function(oolong) {
         monkey_median <- unlist(replicate(3000, .monkey_median(.clone_obj_list(obj_list))))
         res$tlo_p_value <- sum(monkey_median > median(res$tlo)) / 3000
     }
-    res$obj_list <- obj_list
+    res$obj_list <- .clone_obj_list(obj_list)
     res$type <- "tm"
     class(res) <- append(class(res), "oolong_summary")
     return(res)

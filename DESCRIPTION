@@ -35,5 +35,8 @@ Suggests:
     testthat (>= 2.1.0),
     topicmodels,
     covr,
-    stringr
+    stringr,
+    knitr,
+    rmarkdown
 BugReports: https://github.com/chainsawriot/oolong/issues
+VignetteBuilder: knitr

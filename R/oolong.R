@@ -2,6 +2,13 @@
 ### function names: use full name, except ren for render
 ### data structures: use singular, except list-column.
 
+#' oolong: create and administrate validation tests for typical automated content analysis tools
+#'
+#' The oolong package makes it very easy to create, adminstrate and evaluate typical automated analysis tools by providing a framework for creating human-in-the-loop validation tests. For topic models, oolong can generate tests such as word intrusion test and topic intrusion test (Chang et al.). For dictionary-based methods, oolong can generate standardized interface for making gold standard ('Ground truth') data. There are only two core functions of this package: \code{\link{create_oolong}} and \code{\link{summarize_oolong}}.
+#' @docType package
+#' @name oolong
+NULL
+
 Oolong_test <- R6::R6Class(
     "oolong_generic",
     public = list(
@@ -24,7 +31,6 @@ Oolong_test <- R6::R6Class(
     )
 )
 
-
 #' Generate a oolong test
 #'
 #' This function generates a oolong test object that can either be used for validating a topic model or for creating ground truth (gold standard) of a text corpus. 
@@ -38,10 +44,11 @@ Oolong_test <- R6::R6Class(
 #' @param n_top_topics (tm) integer, number of most relevant topics to be shown alongside the intruder topic
 #' @param n_topiclabel_words (tm) integer, number of topic words to be shown as the topic label
 #' @param use_frex_words (tm) logical, for a STM object, use FREX words if TRUE, use PROB words if FALSE
-#' @param difficulty (tm) double, to adjust the difficulty of the test. Higher value indicates higher difficulty, must be within the range of 0 to 1, no effect for STM if use_frex_words is FALSE. Ignore for topicmodels objects.
+#' @param difficulty (tm) double, adjust the difficulty of the test. Higher value indicates higher difficulty and must be within the range of 0 to 1, no effect for STM if use_frex_words is FALSE. Ignore for topicmodels objects.
 #' @param input_dfm (tm) a dfm object used for training the input_model, if input_model is a WarpLDA object
 #' @param construct (gs) string, an adjective to describe the construct you want your coders to code the the gold standard test cases.
 #' @return An oolong test object.
+#' @author Chung-hong Chan
 #' @examples
 #' ## Creation of oolong test with only word intrusion test
 #' oolong_test <- create_oolong(input_model = abstracts_stm)

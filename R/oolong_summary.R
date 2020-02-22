@@ -1,6 +1,6 @@
 #' Print and plot oolong summary
 #'
-#' This function prints or plots a useful summary of the results from summarize_oolong().
+#' These functions print or plot a useful summary of the results from \code{\link{summarize_oolong}}.
 #' @param x an oolong_summary
 #' @param ... other parameters
 #' @method print oolong_summary
