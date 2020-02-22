@@ -73,8 +73,8 @@ test_that("check_calculation_topic_intrusion_multiobject", {
     expect_length(res$tlo, 20)
     ## Might be better to move this to test-printing.
     ## Travis - Don't like this
-    ## output1 <- capture_output({ res }, print = TRUE)
-    ## expect_true(stringr::str_detect(output1, "Mean model precision"))
+    output1 <- capture_output({ res }, print = TRUE)
+    expect_true(stringr::str_detect(output1, "Mean model precision"))
     expect_error(plot(res))
 })
 

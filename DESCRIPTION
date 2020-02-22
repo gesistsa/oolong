@@ -1,5 +1,5 @@
 Package: oolong
-Title: Create Validation Tests For Automated Content Analysis Methods
+Title: Create Validation Tests For Automated Content Analysis
 Version: 0.2.5
 Authors@R: 
     person(given = "Chung-hong",
@@ -7,7 +7,7 @@ Authors@R:
            role = c("aut", "cre"),
            email = "chainsawtiney@gmail.com",
            comment = c(ORCID = "0000-0002-6232-7530"))
-Description: This package creates standard human validity tests for typical automated content analysis methods such as topic models and dictionary-based methods.
+Description: This package creates standard human-in-the-loop validity tests for typical automated content analysis such as topic modeling and dictionary-based methods.
 License: LGPL (>= 2.1)
 Encoding: UTF-8
 URL: https://github.com/chainsawriot/oolong
