@@ -1,8 +1,6 @@
 ---
 title: "An overview of the oolong package."
-output:
-  rmarkdown::html_vignette:
-    keep_md: true
+output: rmarkdown::html_vignette
 author:
   - Chung-hong Chan ^[University of Mannheim]
 vignette: >
@@ -16,10 +14,6 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
-```
-
-```{r setup}
-library(oolong)
 ```
 
 The validation test is called "oolong test" (for reading tea leaves). Creating oolong test for topic models and dictionary-based uses the same function: `create_oolong()`. The most important parameters are `input_model` and `input_corpus`. Setting each of them to `NULL` generates different tests.

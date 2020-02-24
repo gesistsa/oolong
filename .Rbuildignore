@@ -12,3 +12,11 @@
 ^man/figures/oolong_demo\.gif$
 ^doc$
 ^Meta$
+^Makefile$
+^vig_body\.Rmd$
+^vig_head\.Rmd$
+^overview_gh\.Rmd$
+^overview_gh\.md$
+^overview_gh\.html$
+^gh_head\.Rmd$
+
