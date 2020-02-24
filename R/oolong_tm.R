@@ -101,7 +101,8 @@
 }
 
 ### It must take a UI and render function. For new test_content type, please prepare a new pair of .UI_XXX_test (in cap) and .ren_xxx_test
-.code_oolong <- function(test_content, ui = .UI_WORD_INTRUSION_TEST, .ren = .ren_word_intrusion_test) {
+
+.gen_shinyapp <- function(test_content, ui = .UI_WORD_INTRUSION_TEST, .ren = .ren_word_intrusion_test) {
     server <- function(input, output, session) {
         res <- shiny::reactiveValues(intruder = test_content$answer, current_row = 1)
         output <- .ren(output, test_content, res)
@@ -125,7 +126,11 @@
         ))
 
     }
-    shiny::runGadget(ui, server)
+    return(shiny::shinyApp(ui, server))
+}
+
+.code_oolong <- function(test_content, ui = .UI_WORD_INTRUSION_TEST, .ren = .ren_word_intrusion_test) {
+    shiny::runGadget(.gen_shinyapp(test_content = test_content, ui = ui, .ren = .ren))
 }
 
 

@@ -37,6 +37,7 @@ Suggests:
     covr,
     stringr,
     knitr,
-    rmarkdown
+    rmarkdown,
+    shinytest
 BugReports: https://github.com/chainsawriot/oolong/issues
 VignetteBuilder: knitr
