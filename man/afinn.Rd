@@ -11,4 +11,7 @@ afinn
 \description{
 This is the AFINN sentiment dictionary in quanteda::dictionary format.
 }
+\references{
+Nielsen, F. Å. (2011). A new ANEW: Evaluation of a word list for sentiment analysis in microblogs. arXiv preprint arXiv:1103.2903.
+}
 \keyword{datasets}

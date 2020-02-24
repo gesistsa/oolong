@@ -198,7 +198,7 @@ summarize_oolong(oolong_test_rater1, oolong_test_rater2)
 #> Mean TLO: -2.19
 #> Median TLO: -2.71
 #> Quantiles of TLO: -5.30060892321449, -3.43501604695058, -2.71123793694549, 0, 0
-#> P-Value of the median TLO (H0: Median TLO is not better than random guess): 0.191666666666667
+#> P-Value of the median TLO (H0: Median TLO is not better than random guess): 0.186
 ```
 
 ### About the p-values
@@ -296,7 +296,7 @@ abstracts_dfm
 
 ``` r
 oolong_test <- create_oolong(abstracts_warplda, abstracts$text, input_dfm = abstracts_dfm)
-#> INFO  [22:45:47.033] early stopping at 50 iteration
+#> INFO  [23:33:56.793] early stopping at 50 iteration
 oolong_test
 #> An oolong test object with k = 20, 0 coded.
 #> Use the method $do_word_intrusion_test() to do word intrusion test.
@@ -493,5 +493,7 @@ plot(res)
     327(8476), 307-310.
 4.  Chan et al. (2020) It is not listed here, because it is still under
     review. Do it faster\! Reviewers\!
+5.  Nielsen, F. Å. (2011). A new ANEW: Evaluation of a word list for
+    sentiment analysis in microblogs. arXiv preprint arXiv:1103.2903.
 
 -----

@@ -4,7 +4,7 @@
 
 #' oolong: create and administrate validation tests for typical automated content analysis tools
 #'
-#' The oolong package makes it very easy to create, adminstrate and evaluate typical automated analysis tools by providing a framework for creating human-in-the-loop validation tests. For topic models, oolong can generate tests such as word intrusion test and topic intrusion test (Chang et al.). For dictionary-based methods, oolong can generate standardized interface for making gold standard ('Ground truth') data. There are only two core functions of this package: \code{\link{create_oolong}} and \code{\link{summarize_oolong}}.
+#' The oolong package makes it very easy to create, administrate and evaluate typical automated content analysis tools by providing a framework for creating human-in-the-loop validation tests. For topic models, oolong can generate tests such as word intrusion test and topic intrusion test (Chang et al.). For dictionary-based methods, oolong can generate standardized interface for making gold standard ('Ground truth') data. There are only two core functions of this package: \code{\link{create_oolong}} and \code{\link{summarize_oolong}}.
 #' @docType package
 #' @name oolong
 NULL
@@ -46,7 +46,7 @@ Oolong_test <- R6::R6Class(
 #'   \item{\code{$do_topic_intrusion_test()}}{(tm) launch the shiny-based topic intrusion test. The coder should find out the intruder topic that is least likely to be the topic of the document.}
 #'   \item{\code{$do_gold_standard_test()}}{(gs) launch the shiny-based test for generating gold standard. The coder should determine the level of the predetermined constructs with a 5-point Likert scale.}
 #'   \item{\code{$lock(force = FALSE)}}{(gs/tm) lock the object so that it cannot be changed anymore. It enables \code{\link{summarize_oolong}} and the following method.}
-#'   \item{\code{$turn_gold()}}{(gs) convert the oolong object into a quanteda compatiable corpus.}
+#'   \item{\code{$turn_gold()}}{(gs) convert the oolong object into a quanteda compatible corpus.}
 #' }
 #' For more details, please see the overview vignette: \code{vignette("overview", package = "oolong")}
 #' @param input_model (gs/tm) a STM, WarpLDA or topicmodels object; if it is NULL, create_oolong assumes that you want to create gold standard.

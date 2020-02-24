@@ -416,5 +416,6 @@ plot(res)
 2. Song et al. (2020) In validations we trust? The impact of imperfect human annotations as a gold standard on the quality of validation of automated content analysis. Political Communication. [link](http://www.hyunjinsong.com/supplements/PC_Song_et_al_2020.pdf)
 3. Bland, J. M., & Altman, D. (1986). Statistical methods for assessing agreement between two methods of clinical measurement. The lancet, 327(8476), 307-310.
 4. Chan et al. (2020) It is not listed here, because it is still under review. Do it faster! Reviewers!
+5. Nielsen, F. Å. (2011). A new ANEW: Evaluation of a word list for sentiment analysis in microblogs. arXiv preprint arXiv:1103.2903.
 
 ---
