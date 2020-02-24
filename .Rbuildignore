@@ -8,7 +8,6 @@
 ^\.github/workflows/R-CMD-check\.yaml$
 ^\.travis\.yml$
 ^codecov\.yml$
-\.RDS$
 ^man/figures/oolong_demo\.gif$
 ^doc$
 ^Meta$
@@ -19,4 +18,3 @@
 ^overview_gh\.md$
 ^overview_gh\.html$
 ^gh_head\.Rmd$
-

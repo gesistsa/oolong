@@ -1,12 +1,12 @@
 ---
-title: "An overview of the oolong package."
+title: "overview"
 output: rmarkdown::html_vignette
 author:
   - Chung-hong Chan ^[University of Mannheim]
 vignette: >
-  %\VignetteIndexEntry{An overview of the oolong package.}
+  %\VignetteIndexEntry{overview}
   %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteEncoding{UTF-8}
+  %\usepackage[utf8]{inputenc}
 ---
 
 ```{r, include = FALSE}

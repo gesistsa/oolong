@@ -73,8 +73,8 @@
         res$tlo <- NA
     } else {
         res$tlo <- .cal_tlo(purrr::map_dfr(all_topic_test_content, ~.), mean_value = FALSE) ### it should not be just the mean.
-        monkey_median <- unlist(replicate(3000, .monkey_median(.clone_obj_list(obj_list))))
-        res$tlo_p_value <- sum(monkey_median > median(res$tlo)) / 3000
+        monkey_median <- unlist(replicate(1500, .monkey_median(.clone_obj_list(obj_list))))
+        res$tlo_p_value <- sum(monkey_median > median(res$tlo)) / 1500
     }
     res$obj_list <- .clone_obj_list(obj_list)
     res$type <- "tm"
