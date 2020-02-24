@@ -22,7 +22,8 @@ This function summarizes one or more oolong objects. All oolong objects must be 
 }
 \examples{
 \dontrun{
-oolong_test1 <- create_oolong(input_stm)
+data(abstracts_stm)
+oolong_test1 <- create_oolong(abstracts_stm)
 oolong_test2 <- clone_oolong(oolong_test1)
 oolong_test1$do_word_intrusion_test()
 oolong_test2$do_word_intrusion_test()

@@ -29,7 +29,7 @@ create_oolong(input_model = NULL, input_corpus = NULL,
 
 \item{use_frex_words}{(tm) logical, for a STM object, use FREX words if TRUE, use PROB words if FALSE}
 
-\item{difficulty}{(tm) double, to adjust the difficulty of the test. Higher value indicates higher difficulty, must be within the range of 0 to 1, no effect for STM if use_frex_words is FALSE. Ignore for topicmodels objects.}
+\item{difficulty}{(tm) double, adjust the difficulty of the test. Higher value indicates higher difficulty and must be within the range of 0 to 1, no effect for STM if use_frex_words is FALSE. Ignore for topicmodels objects.}
 
 \item{input_dfm}{(tm) a dfm object used for training the input_model, if input_model is a WarpLDA object}
 
@@ -43,9 +43,14 @@ This function generates a oolong test object that can either be used for validat
 }
 \examples{
 ## Creation of oolong test with only word intrusion test
+data(abstracts_stm)
+data(abstracts)
 oolong_test <- create_oolong(input_model = abstracts_stm)
 ## Creation of oolong test with both word intrusion test and topic intrusion test
 oolong_test <- create_oolong(input_model = abstracts_stm, input_corpus = abstracts$text)
 ## Creation of gold standard
 oolong_test <- create_oolong(input_corpus = trump2k)
+}
+\author{
+Chung-hong Chan
 }

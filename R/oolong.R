@@ -51,6 +51,8 @@ Oolong_test <- R6::R6Class(
 #' @author Chung-hong Chan
 #' @examples
 #' ## Creation of oolong test with only word intrusion test
+#' data(abstracts_stm)
+#' data(abstracts)
 #' oolong_test <- create_oolong(input_model = abstracts_stm)
 #' ## Creation of oolong test with both word intrusion test and topic intrusion test
 #' oolong_test <- create_oolong(input_model = abstracts_stm, input_corpus = abstracts$text)
@@ -86,3 +88,19 @@ create_oolong <- function(input_model = NULL, input_corpus = NULL, n_top_terms =
     return(FALSE)
 }
 
+#' Clone a oolong object.
+#'
+#' Clone a new oolong object. The oolong must not be locked and ever coded.
+#' @param oolong an oolong object.
+#' @return an oolong object
+#' @author Chung-hong Chan
+#' @export
+clone_oolong <- function(oolong) {
+    if (oolong$.__enclos_env__$private$finalized) {
+        stop("oolong is locked.")
+    }
+    if (!.check_new(oolong)) {
+        stop("oolong is partially coded.")
+    }
+    oolong$clone(deep = FALSE)
+}

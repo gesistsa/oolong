@@ -70,10 +70,6 @@ As instructed, use the method `$do_word_intrusion_test()` to start coding.
 oolong_test$do_word_intrusion_test()
 ```
 
-If you are running this in RStudio, you should see a test screen similar to this:
-
-<img src="oolong_demo.gif" align="center" />
-
 After the coding, you need to first lock the test. Then, you can look at the model precision by printing the oolong test.
 
 ```{r, include = FALSE}
@@ -250,14 +246,35 @@ As instructed, use the method `$do_gold_standard_test()` to start coding.
 oolong_test$do_gold_standard_test()
 ```
 
-The test screen should be similar to this:
-
-<img src="trump_coding.png" align="center" />
-
 After the coding, you need to first lock the test and then the `$turn_gold()` method is available.
 
 ```{r, include = FALSE}
-oolong_test <- readRDS("trump_coded.RDS")
+oolong_test$.__enclos_env__$private$test_content$gold_standard <- 
+structure(list(case = 1:20, text = c("Thank you Eau Claire, Wisconsin. \n#VoteTrump on Tuesday, April 5th!\nMAKE AMERICA GREAT AGAIN! https://t.co/JI5JqwHnMC", 
+"\"@bobby990r_1: @realDonaldTrump would lead polls the second he announces candidacy! America is waiting for him to LEAD us out of this mess!", 
+"\"@KdanielsK: @misstcassidy @AllAboutTheTea_ @realDonaldTrump My money is on Kenya getting fired first.\"", 
+"Thank you for a great afternoon Birmingham, Alabama! #Trump2016 #MakeAmericaGreatAgain https://t.co/FrOkqCzBoD", 
+"\"@THETAINTEDT: @foxandfriends @realDonaldTrump Trump 2016 http://t.co/UlQWGKUrCJ\"", 
+"People believe CNN these days almost as little as they believe Hillary....that's really saying something!", 
+"It was great being in Michigan. Remember, I am the only presidential candidate who will bring jobs back to the U.S.and protect car industry!", 
+"\"@DomineekSmith: @realDonaldTrump is the best Republican presidential candidate of all time.\"  Thank you.", 
+"Word is that little Morty Zuckerman’s @NYDailyNews loses more than $50 million per year---can that be possible?", 
+"\"@Chevy_Mama: @realDonaldTrump I'm obsessed with @celebrityapprenticeNBC. Honestly,  Mr Trump, you are very inspiring\"", 
+"President Obama said \"ISIL continues to shrink\" in an interview just hours before the horrible attack in Paris. He is just so bad! CHANGE.", 
+".@HillaryClinton loves to lie. America has had enough of the CLINTON'S! It is time to #DrainTheSwamp! Debates https://t.co/3Mz4T7qTTR", 
+"\"@jerrimoore: @realDonaldTrump awesome. A treat to get to see the brilliant Joan Rivers once more #icon\"", 
+"\"@shoegoddesss: @realDonaldTrump Will definitely vote for you. Breath of fresh air. America needs you!\"", 
+"Ted is the ultimate hypocrite. Says one thing for money, does another for votes. \nhttps://t.co/hxdfy0mjVw", 
+"\"@Lisa_Milicaj: Truth be told, I  never heard of The National Review until they \"tried\" to declare war on you. No worries, you got my vote!\"", 
+"THANK YOU Daytona Beach, Florida!\n#MakeAmericaGreatAgain https://t.co/IAcLfXe463", 
+"People rarely say that many conservatives didn’t vote for Mitt Romney. If I can get them to vote for me, we win in a landslide.", 
+"Trump National Golf Club, Washington, D.C. is on 600 beautiful acres fronting the Potomac River. A fantastic setting! http://t.co/pYtkbyKwt5", 
+"\"@DRUDGE_REPORT: REUTERS 5-DAY ROLLING POLL: TRUMP 34%, CARSON 19.6%, RUBIO 9.7%, CRUZ 7.7%...\" Thank you - a great honor!"
+), answer = c(4L, 4L, 2L, 5L, 3L, 2L, 4L, 5L, 2L, 4L, 1L, 1L, 
+4L, 4L, 2L, 4L, 4L, 4L, 4L, 4L), target_value = c(NA, NA, NA, 
+NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, 
+NA)), row.names = c(NA, -20L), class = c("tbl_df", "tbl", "data.frame"
+))
 ```
 
 ```{r gs_locking}
@@ -310,9 +327,61 @@ trump2$lock()
 ```
 
 ```{r, include = FALSE}
-trump_coded <- readRDS("trump_eval.RDS")
-trump <- trump_coded[[1]]
-trump2 <- trump_coded[[2]]
+trump$.__enclos_env__$private$test_content$gold_standard <- 
+structure(list(case = 1:20, text = c("Thank you Eau Claire, Wisconsin. \n#VoteTrump on Tuesday, April 5th!\nMAKE AMERICA GREAT AGAIN! https://t.co/JI5JqwHnMC", 
+"\"@bobby990r_1: @realDonaldTrump would lead polls the second he announces candidacy! America is waiting for him to LEAD us out of this mess!", 
+"\"@KdanielsK: @misstcassidy @AllAboutTheTea_ @realDonaldTrump My money is on Kenya getting fired first.\"", 
+"Thank you for a great afternoon Birmingham, Alabama! #Trump2016 #MakeAmericaGreatAgain https://t.co/FrOkqCzBoD", 
+"\"@THETAINTEDT: @foxandfriends @realDonaldTrump Trump 2016 http://t.co/UlQWGKUrCJ\"", 
+"People believe CNN these days almost as little as they believe Hillary....that's really saying something!", 
+"It was great being in Michigan. Remember, I am the only presidential candidate who will bring jobs back to the U.S.and protect car industry!", 
+"\"@DomineekSmith: @realDonaldTrump is the best Republican presidential candidate of all time.\"  Thank you.", 
+"Word is that little Morty Zuckerman’s @NYDailyNews loses more than $50 million per year---can that be possible?", 
+"\"@Chevy_Mama: @realDonaldTrump I'm obsessed with @celebrityapprenticeNBC. Honestly,  Mr Trump, you are very inspiring\"", 
+"President Obama said \"ISIL continues to shrink\" in an interview just hours before the horrible attack in Paris. He is just so bad! CHANGE.", 
+".@HillaryClinton loves to lie. America has had enough of the CLINTON'S! It is time to #DrainTheSwamp! Debates https://t.co/3Mz4T7qTTR", 
+"\"@jerrimoore: @realDonaldTrump awesome. A treat to get to see the brilliant Joan Rivers once more #icon\"", 
+"\"@shoegoddesss: @realDonaldTrump Will definitely vote for you. Breath of fresh air. America needs you!\"", 
+"Ted is the ultimate hypocrite. Says one thing for money, does another for votes. \nhttps://t.co/hxdfy0mjVw", 
+"\"@Lisa_Milicaj: Truth be told, I  never heard of The National Review until they \"tried\" to declare war on you. No worries, you got my vote!\"", 
+"THANK YOU Daytona Beach, Florida!\n#MakeAmericaGreatAgain https://t.co/IAcLfXe463", 
+"People rarely say that many conservatives didn’t vote for Mitt Romney. If I can get them to vote for me, we win in a landslide.", 
+"Trump National Golf Club, Washington, D.C. is on 600 beautiful acres fronting the Potomac River. A fantastic setting! http://t.co/pYtkbyKwt5", 
+"\"@DRUDGE_REPORT: REUTERS 5-DAY ROLLING POLL: TRUMP 34%, CARSON 19.6%, RUBIO 9.7%, CRUZ 7.7%...\" Thank you - a great honor!"
+), answer = c(4L, 4L, 2L, 5L, 3L, 2L, 4L, 5L, 2L, 4L, 1L, 1L, 
+4L, 4L, 2L, 4L, 4L, 4L, 4L, 4L), target_value = c(NA, NA, NA, 
+NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, 
+NA)), row.names = c(NA, -20L), class = c("tbl_df", "tbl", "data.frame"
+                                         ))
+
+trump2$.__enclos_env__$private$test_content$gold_standard <- 
+structure(list(case = 1:20, text = c("Thank you Eau Claire, Wisconsin. \n#VoteTrump on Tuesday, April 5th!\nMAKE AMERICA GREAT AGAIN! https://t.co/JI5JqwHnMC", 
+"\"@bobby990r_1: @realDonaldTrump would lead polls the second he announces candidacy! America is waiting for him to LEAD us out of this mess!", 
+"\"@KdanielsK: @misstcassidy @AllAboutTheTea_ @realDonaldTrump My money is on Kenya getting fired first.\"", 
+"Thank you for a great afternoon Birmingham, Alabama! #Trump2016 #MakeAmericaGreatAgain https://t.co/FrOkqCzBoD", 
+"\"@THETAINTEDT: @foxandfriends @realDonaldTrump Trump 2016 http://t.co/UlQWGKUrCJ\"", 
+"People believe CNN these days almost as little as they believe Hillary....that's really saying something!", 
+"It was great being in Michigan. Remember, I am the only presidential candidate who will bring jobs back to the U.S.and protect car industry!", 
+"\"@DomineekSmith: @realDonaldTrump is the best Republican presidential candidate of all time.\"  Thank you.", 
+"Word is that little Morty Zuckerman’s @NYDailyNews loses more than $50 million per year---can that be possible?", 
+"\"@Chevy_Mama: @realDonaldTrump I'm obsessed with @celebrityapprenticeNBC. Honestly,  Mr Trump, you are very inspiring\"", 
+"President Obama said \"ISIL continues to shrink\" in an interview just hours before the horrible attack in Paris. He is just so bad! CHANGE.", 
+".@HillaryClinton loves to lie. America has had enough of the CLINTON'S! It is time to #DrainTheSwamp! Debates https://t.co/3Mz4T7qTTR", 
+"\"@jerrimoore: @realDonaldTrump awesome. A treat to get to see the brilliant Joan Rivers once more #icon\"", 
+"\"@shoegoddesss: @realDonaldTrump Will definitely vote for you. Breath of fresh air. America needs you!\"", 
+"Ted is the ultimate hypocrite. Says one thing for money, does another for votes. \nhttps://t.co/hxdfy0mjVw", 
+"\"@Lisa_Milicaj: Truth be told, I  never heard of The National Review until they \"tried\" to declare war on you. No worries, you got my vote!\"", 
+"THANK YOU Daytona Beach, Florida!\n#MakeAmericaGreatAgain https://t.co/IAcLfXe463", 
+"People rarely say that many conservatives didn’t vote for Mitt Romney. If I can get them to vote for me, we win in a landslide.", 
+"Trump National Golf Club, Washington, D.C. is on 600 beautiful acres fronting the Potomac River. A fantastic setting! http://t.co/pYtkbyKwt5", 
+"\"@DRUDGE_REPORT: REUTERS 5-DAY ROLLING POLL: TRUMP 34%, CARSON 19.6%, RUBIO 9.7%, CRUZ 7.7%...\" Thank you - a great honor!"
+), answer = c(5L, 3L, 2L, 5L, 3L, 1L, 4L, 5L, 2L, 4L, 1L, 1L, 
+4L, 4L, 2L, 4L, 4L, 4L, 4L, 4L), target_value = c(NA, NA, NA, 
+NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, 
+NA)), row.names = c(NA, -20L), class = c("tbl_df", "tbl", "data.frame"
+                                         ))
+trump$lock()
+trump2$lock()
 ```
 
 Calculate the target value (in this case, the AFINN score) by turning one object into a corpus.
