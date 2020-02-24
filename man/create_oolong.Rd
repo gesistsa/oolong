@@ -41,6 +41,25 @@ An oolong test object.
 \description{
 This function generates a oolong test object that can either be used for validating a topic model or for creating ground truth (gold standard) of a text corpus.
 }
+\section{Usage}{
+
+
+This function generates an oolong test object based on \code{input_model} and \code{input_corpus}. If \code{input_model} is not NULL, it generates oolong test for a topic model (tm). If \code{input_model} is NULL but input_corpus is not NULL, it generates oolong test for generating gold standard (gs).
+}
+
+\section{Methods}{
+
+An oolong object, depends on its purpose, has the following methods:
+\describe{
+  \item{\code{$do_word_intrusion_test()}}{(tm) launch the shiny-based word intrusion test. The coder should find out the intruder word that is not related to other words.}
+  \item{\code{$do_topic_intrusion_test()}}{(tm) launch the shiny-based topic intrusion test. The coder should find out the intruder topic that is least likely to be the topic of the document.}
+  \item{\code{$do_gold_standard_test()}}{(gs) launch the shiny-based test for generating gold standard. The coder should determine the level of the predetermined constructs with a 5-point Likert scale.}
+  \item{\code{$lock(force = FALSE)}}{(gs/tm) lock the object so that it cannot be changed anymore. It enables \code{\link{summarize_oolong}} and the following method.}
+  \item{\code{$turn_gold()}}{(gs) convert the oolong object into a quanteda compatiable corpus.}
+}
+For more details, please see the overview vignette: \code{vignette("overview", package = "overview")}
+}
+
 \examples{
 ## Creation of oolong test with only word intrusion test
 data(abstracts_stm)
@@ -50,6 +69,11 @@ oolong_test <- create_oolong(input_model = abstracts_stm)
 oolong_test <- create_oolong(input_model = abstracts_stm, input_corpus = abstracts$text)
 ## Creation of gold standard
 oolong_test <- create_oolong(input_corpus = trump2k)
+}
+\references{
+Chang, J., Gerrish, S., Wang, C., Boyd-Graber, J. L., & Blei, D. M. (2009). Reading tea leaves: How humans interpret topic models. In Advances in neural information processing systems (pp. 288-296).
+
+  Song et al. (2020) In validations we trust? The impact of imperfect human annotations as a gold standard on the quality of validation of automated content analysis. Political Communication.
 }
 \author{
 Chung-hong Chan

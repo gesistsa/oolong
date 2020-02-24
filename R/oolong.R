@@ -33,8 +33,22 @@ Oolong_test <- R6::R6Class(
 
 #' Generate a oolong test
 #'
-#' This function generates a oolong test object that can either be used for validating a topic model or for creating ground truth (gold standard) of a text corpus. 
+#' This function generates a oolong test object that can either be used for validating a topic model or for creating ground truth (gold standard) of a text corpus.
+#' 
+#' @section Usage:
 #'
+#' This function generates an oolong test object based on \code{input_model} and \code{input_corpus}. If \code{input_model} is not NULL, it generates oolong test for a topic model (tm). If \code{input_model} is NULL but input_corpus is not NULL, it generates oolong test for generating gold standard (gs).
+#'
+#' @section Methods:
+#' An oolong object, depends on its purpose, has the following methods:
+#' \describe{
+#'   \item{\code{$do_word_intrusion_test()}}{(tm) launch the shiny-based word intrusion test. The coder should find out the intruder word that is not related to other words.}
+#'   \item{\code{$do_topic_intrusion_test()}}{(tm) launch the shiny-based topic intrusion test. The coder should find out the intruder topic that is least likely to be the topic of the document.}
+#'   \item{\code{$do_gold_standard_test()}}{(gs) launch the shiny-based test for generating gold standard. The coder should determine the level of the predetermined constructs with a 5-point Likert scale.}
+#'   \item{\code{$lock(force = FALSE)}}{(gs/tm) lock the object so that it cannot be changed anymore. It enables \code{\link{summarize_oolong}} and the following method.}
+#'   \item{\code{$turn_gold()}}{(gs) convert the oolong object into a quanteda compatiable corpus.}
+#' }
+#' For more details, please see the overview vignette: \code{vignette("overview", package = "overview")}
 #' @param input_model (gs/tm) a STM, WarpLDA or topicmodels object; if it is NULL, create_oolong assumes that you want to create gold standard.
 #' @param input_corpus (gs/tm) if input_model is not null, it should be the corpus (character vector or quanteda::corpus object) to generate the model object. If input_model and input_corpus are not NULL, topic intrusion test cases are generated. If input_model is null, it generates gold standard test cases.
 #' @param n_top_terms (tm) integer, number of top topic words to be included in the candidates of word intrusion test. 
@@ -58,6 +72,11 @@ Oolong_test <- R6::R6Class(
 #' oolong_test <- create_oolong(input_model = abstracts_stm, input_corpus = abstracts$text)
 #' ## Creation of gold standard
 #' oolong_test <- create_oolong(input_corpus = trump2k)
+#' @references
+#'   Chang, J., Gerrish, S., Wang, C., Boyd-Graber, J. L., & Blei, D. M. (2009). Reading tea leaves: How humans interpret topic models. In Advances in neural information processing systems (pp. 288-296).
+#'
+#'   Song et al. (2020) In validations we trust? The impact of imperfect human annotations as a gold standard on the quality of validation of automated content analysis. Political Communication.
+#' 
 #' @export
 create_oolong <- function(input_model = NULL, input_corpus = NULL, n_top_terms = 5, bottom_terms_percentile = 0.6, exact_n = NULL, frac = 0.01, n_top_topics = 3, n_topiclabel_words = 8, use_frex_words = FALSE, difficulty = 1, input_dfm = NULL, construct = "positive") {
     if (is.null(input_model) & is.null(input_corpus)) {
