@@ -1,6 +1,6 @@
 #' Print and plot oolong summary
 #'
-#' These functions print or plot a useful summary of the results from \code{\link{summarize_oolong}}.
+#' These functions print or plot a useful summary of the results from \code{\link{summarize_oolong}}. For details, please see the overview vignette: \code{vignette("overview", package = "oolong")}
 #' @param x an oolong_summary
 #' @param ... other parameters
 #' @method print oolong_summary
@@ -41,7 +41,7 @@ plot.oolong_summary <- function(x, ...) {
 }
 
 .print_oolong_summary_gs <- function(oolong_summary) {
-    .cp(oolong_summary$n_models > 1, "Krippendorff's Alpha: ", oolong_summary$kripp$value)
+    .cp(oolong_summary$n_models > 1, "Krippendorff's Alpha: ", oolong_summary$kripp_alpha$value)
     .cp(!is.null(oolong_summary$cor), "Correlation: ", round(oolong_summary$cor$estimate, 3), " (p = ", round(oolong_summary$cor$p.value,3), ")")
     .cp(!is.null(oolong_summary$cor_length), "Effect of content length: ", round(oolong_summary$cor_length$estimate, 3), " (p = ", round(oolong_summary$cor_length$p.value,3), ")")
 }
@@ -55,6 +55,22 @@ summarise_oolong <- function(...) {
 #' Summarize oolong objects
 #'
 #' This function summarizes one or more oolong objects. All oolong objects must be locked.
+#' 
+#' @section Values:
+#' Depends on the purpose, an oolong summary object has the following values:
+#' \describe{
+#'   \item{\code{$type}}{(gs/tm) type of analysis, either 'gs' or 'tm'}
+#'   \item{\code{$kripp_aplha}}{(gs/tm) Krippendorff's Alpha, if more than one oolong object is analyzed.}
+#'   \item{\code{$rater_precision}}{(tm) Model precision}
+#'   \item{\code{$res$rater_precision_p_value}}{(tm) Model precision's p-value calculated by one-sample binomial test and Fisher's Omnibus method.}
+#'   \item{\code{$k_precision}}{(tm) precision for each topic}
+#'   \item{\code{$tlo}}{(tm) vector of topic log odds}
+#'   \item{\code{$tlo_pvalue}}{(tm) Median topic log odds's p-value calculated by permutation test.}
+#'   \item{\code{$cor}}{(gs) Pearson's correlation between average answer and target value}
+#'   \item{\code{$cor_length}}{(gs) Pearson's correlation between content length and target value}
+#'   \item{\code{$diag_plot}}{(gs) diagnostic plot.}
+#' }
+#' A useful summary can be obtained either by \code{\link{print.oolong_summary}} or \code{\link{plot.oolong_summary}}. For details, please see the overview vignette: \code{vignette("overview", package = "oolong")}
 #' @param ... (tm/gs) one or more oolong objects to be summarized.
 #' @param target_value (gs) a vector of numeric values, the value you want to validate against the human-coded gold standard. One example of this target value is sentiment score extracted automatically from text.
 #' @return An oolong summary
@@ -69,6 +85,10 @@ summarise_oolong <- function(...) {
 #' oolong_test2$lock()
 #' summarize(oolong_test1, oolong_test2)
 #' }
+#' @author Chung-hong Chan
+#' @references
+#'   Chang, J., Gerrish, S., Wang, C., Boyd-Graber, J. L., & Blei, D. M. (2009). Reading tea leaves: How humans interpret topic models. In Advances in neural information processing systems (pp. 288-296).
+#'   Song et al. (2020) In validations we trust? The impact of imperfect human annotations as a gold standard on the quality of validation of automated content analysis. Political Communication.
 #' @export
 summarize_oolong <- function(..., target_value = NULL) {
     obj_list <- list(...)

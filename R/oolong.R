@@ -48,7 +48,7 @@ Oolong_test <- R6::R6Class(
 #'   \item{\code{$lock(force = FALSE)}}{(gs/tm) lock the object so that it cannot be changed anymore. It enables \code{\link{summarize_oolong}} and the following method.}
 #'   \item{\code{$turn_gold()}}{(gs) convert the oolong object into a quanteda compatiable corpus.}
 #' }
-#' For more details, please see the overview vignette: \code{vignette("overview", package = "overview")}
+#' For more details, please see the overview vignette: \code{vignette("overview", package = "oolong")}
 #' @param input_model (gs/tm) a STM, WarpLDA or topicmodels object; if it is NULL, create_oolong assumes that you want to create gold standard.
 #' @param input_corpus (gs/tm) if input_model is not null, it should be the corpus (character vector or quanteda::corpus object) to generate the model object. If input_model and input_corpus are not NULL, topic intrusion test cases are generated. If input_model is null, it generates gold standard test cases.
 #' @param n_top_terms (tm) integer, number of top topic words to be included in the candidates of word intrusion test. 

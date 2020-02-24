@@ -15,5 +15,5 @@
 \item{...}{other parameters}
 }
 \description{
-These functions print or plot a useful summary of the results from \code{\link{summarize_oolong}}.
+These functions print or plot a useful summary of the results from \code{\link{summarize_oolong}}. For details, please see the overview vignette: \code{vignette("overview", package = "oolong")}
 }

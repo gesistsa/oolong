@@ -44,7 +44,7 @@
     res <- list()
     class(res) <- append(class(res), "oolong_summary")
     res$type <- "gs"
-    res$kripp <- kripp
+    res$kripp_alpha <- kripp
     res$n_models <- length(obj_list)
     res$obj_list <- obj_list
     if (is.null(target_value)) {

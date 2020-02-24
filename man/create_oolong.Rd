@@ -57,7 +57,7 @@ An oolong object, depends on its purpose, has the following methods:
   \item{\code{$lock(force = FALSE)}}{(gs/tm) lock the object so that it cannot be changed anymore. It enables \code{\link{summarize_oolong}} and the following method.}
   \item{\code{$turn_gold()}}{(gs) convert the oolong object into a quanteda compatiable corpus.}
 }
-For more details, please see the overview vignette: \code{vignette("overview", package = "overview")}
+For more details, please see the overview vignette: \code{vignette("overview", package = "oolong")}
 }
 
 \examples{
