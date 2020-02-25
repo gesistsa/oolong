@@ -17,3 +17,6 @@
 \description{
 These functions print or plot a useful summary of the results from \code{\link{summarize_oolong}}. For details, please see the overview vignette: \code{vignette("overview", package = "oolong")}
 }
+\author{
+Chung-hong Chan
+}

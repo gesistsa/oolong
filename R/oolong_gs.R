@@ -67,6 +67,7 @@
 #' @param x an oolong gold standard object
 #' @param ... other parameters
 #' @method print oolong_gold_standard
+#' @author Chung-hong Chan
 #' @export
 print.oolong_gold_standard <- function(x, ...) {
     ##quanteda:::print.corpus(x)

@@ -77,4 +77,6 @@ Chang, J., Gerrish, S., Wang, C., Boyd-Graber, J. L., & Blei, D. M. (2009). Read
 }
 \author{
 Chung-hong Chan
+
+Chung-hong Chan
 }

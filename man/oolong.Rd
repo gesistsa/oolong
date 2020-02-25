@@ -8,3 +8,6 @@
 \description{
 The oolong package makes it very easy to create, administrate and evaluate typical automated content analysis tools by providing a framework for creating human-in-the-loop validation tests. For topic models, oolong can generate tests such as word intrusion test and topic intrusion test (Chang et al.). For dictionary-based methods, oolong can generate standardized interface for making gold standard ('Ground truth') data. There are only two core functions of this package: \code{\link{create_oolong}} and \code{\link{summarize_oolong}}.
 }
+\author{
+Chung-hong Chan
+}

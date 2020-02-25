@@ -4,6 +4,7 @@
 #' @param x an oolong_summary
 #' @param ... other parameters
 #' @method print oolong_summary
+#' @author Chung-hong Chan
 #' @export
 print.oolong_summary <- function(x, ...) {
     if (x$type == "tm") {

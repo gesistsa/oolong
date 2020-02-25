@@ -6,6 +6,7 @@
 #'
 #' The oolong package makes it very easy to create, administrate and evaluate typical automated content analysis tools by providing a framework for creating human-in-the-loop validation tests. For topic models, oolong can generate tests such as word intrusion test and topic intrusion test (Chang et al.). For dictionary-based methods, oolong can generate standardized interface for making gold standard ('Ground truth') data. There are only two core functions of this package: \code{\link{create_oolong}} and \code{\link{summarize_oolong}}.
 #' @docType package
+#' @author Chung-hong Chan
 #' @name oolong
 NULL
 
@@ -72,6 +73,7 @@ Oolong_test <- R6::R6Class(
 #' oolong_test <- create_oolong(input_model = abstracts_stm, input_corpus = abstracts$text)
 #' ## Creation of gold standard
 #' oolong_test <- create_oolong(input_corpus = trump2k)
+#' @author Chung-hong Chan
 #' @references
 #'   Chang, J., Gerrish, S., Wang, C., Boyd-Graber, J. L., & Blei, D. M. (2009). Reading tea leaves: How humans interpret topic models. In Advances in neural information processing systems (pp. 288-296).
 #'

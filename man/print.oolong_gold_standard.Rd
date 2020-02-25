@@ -14,3 +14,6 @@
 \description{
 This function prints a summary of the oolong gold standard object. An oolong gold standard object is a result of $turn_gold() method. It is a quanteda::corpus compatible object.
 }
+\author{
+Chung-hong Chan
+}
