@@ -4,11 +4,20 @@
 \alias{create_oolong}
 \title{Generate a oolong test}
 \usage{
-create_oolong(input_model = NULL, input_corpus = NULL,
-  n_top_terms = 5, bottom_terms_percentile = 0.6, exact_n = NULL,
-  frac = 0.01, n_top_topics = 3, n_topiclabel_words = 8,
-  use_frex_words = FALSE, difficulty = 1, input_dfm = NULL,
-  construct = "positive")
+create_oolong(
+  input_model = NULL,
+  input_corpus = NULL,
+  n_top_terms = 5,
+  bottom_terms_percentile = 0.6,
+  exact_n = NULL,
+  frac = 0.01,
+  n_top_topics = 3,
+  n_topiclabel_words = 8,
+  use_frex_words = FALSE,
+  difficulty = 1,
+  input_dfm = NULL,
+  construct = "positive"
+)
 }
 \arguments{
 \item{input_model}{(gs/tm) a STM, WarpLDA or topicmodels object; if it is NULL, create_oolong assumes that you want to create gold standard.}
