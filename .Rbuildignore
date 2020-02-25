@@ -18,3 +18,5 @@
 ^overview_gh\.md$
 ^overview_gh\.html$
 ^gh_head\.Rmd$
+^CRAN-RELEASE$
+^cran-comments\.md$
