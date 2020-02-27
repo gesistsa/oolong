@@ -20,3 +20,5 @@
 ^gh_head\.Rmd$
 ^CRAN-RELEASE$
 ^cran-comments\.md$
+^data/abstracts_topicmodels\.rda$
+^tests/testthat/test-topicmodels\.R$

@@ -4,15 +4,12 @@
 \name{abstracts_stm}
 \alias{abstracts_stm}
 \alias{abstracts_warplda}
-\alias{abstracts_topicmodels}
 \title{Topic models trained with the abstracts dataset.}
 \format{An object of class \code{STM} of length 11.}
 \usage{
 abstracts_stm
 
 abstracts_warplda
-
-abstracts_topicmodels
 }
 \description{
 These are topic models trained with different topic model packages.

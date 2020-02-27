@@ -11,6 +11,7 @@ genius_topic <- function(obj1) {
 }
 
 test_that("generate_test_content", {
+    skip_on_cran()
     x <- oolong:::.generate_test_content(abstracts_topicmodels)
     expect_null(x$topic)
     x <- oolong:::.generate_test_content(abstracts_topicmodels, quanteda::corpus(abstracts$text))
@@ -18,6 +19,7 @@ test_that("generate_test_content", {
 })
 
 test_that("check_complete", {
+    skip_on_cran()
     x <- oolong:::.generate_test_content(abstracts_topicmodels)
     expect_false(oolong:::.check_test_content_complete(x))
     x$word$answer <- 1
@@ -47,4 +49,11 @@ test_that("github issue #8 - topic", {
     topicmodels_dfm <- convert(test_dfm, to = "topicmodels")
     lda <- LDA(topicmodels_dfm, k = 5)
     expect_error(create_oolong(lda, abstracts$text[1:10], exact_n = 5), NA)
+})
+
+test_that("generate_topic_content", {
+    ## reference issue #8
+    ## frac too small!
+    expect_error(oolong:::.generate_test_content(abstracts_topicmodels, abstracts$text[1:10], frac = 0.1))
+    expect_warning(oolong:::.generate_test_content(abstracts_topicmodels, abstracts$text[1:10], exact_n = 12))
 })

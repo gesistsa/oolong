@@ -40,7 +40,7 @@ library(stm)
 #> stm v1.3.5 successfully loaded. See ?stm for help. 
 #>  Papers, resources, and other materials at structuraltopicmodel.com
 library(quanteda)
-#> Package version: 1.5.2
+#> Package version: 2.0.0
 #> Parallel computing: 2 of 4 threads used.
 #> See https://quanteda.io for tutorials and examples.
 #> 
@@ -292,11 +292,20 @@ oolong_test
 ``` r
 abstracts_dfm
 #> Document-feature matrix of: 2,500 documents, 3,998 features (98.6% sparse).
+#>        features
+#> docs    explor benefit risk featur medic broker websit well type persuas
+#>   text1      1       2    2      2     6      3      6    1    3       1
+#>   text2      0       0    1      0     0      0      0    0    1       0
+#>   text3      0       1    0      0     0      0      0    0    0       0
+#>   text4      1       0    0      0     0      0      0    0    0       0
+#>   text5      1       0    0      0     0      0      0    0    0       0
+#>   text6      0       1    1      0     0      0      0    0    0       0
+#> [ reached max_ndoc ... 2,494 more documents, reached max_nfeat ... 3,988 more features ]
 ```
 
 ``` r
 oolong_test <- create_oolong(abstracts_warplda, abstracts$text, input_dfm = abstracts_dfm)
-#> INFO  [23:33:56.793] early stopping at 50 iteration
+#> INFO  [17:28:11.660] early stopping at 50 iteration
 oolong_test
 #> An oolong test object with k = 20, 0 coded.
 #> Use the method $do_word_intrusion_test() to do word intrusion test.
@@ -369,6 +378,25 @@ for further analysis. The corpus contains two `docvars`, ‘answer’.
 ``` r
 oolong_test$turn_gold()
 #> Corpus consisting of 20 documents and 1 docvar.
+#> text1 :
+#> "Thank you Eau Claire, Wisconsin.  #VoteTrump on Tuesday, Apr..."
+#> 
+#> text2 :
+#> ""@bobby990r_1: @realDonaldTrump would lead polls the second ..."
+#> 
+#> text3 :
+#> ""@KdanielsK: @misstcassidy @AllAboutTheTea_ @realDonaldTrump..."
+#> 
+#> text4 :
+#> "Thank you for a great afternoon Birmingham, Alabama! #Trump2..."
+#> 
+#> text5 :
+#> ""@THETAINTEDT: @foxandfriends @realDonaldTrump Trump 2016 ht..."
+#> 
+#> text6 :
+#> "People believe CNN these days almost as little as they belie..."
+#> 
+#> [ reached max_ndoc ... 14 more documents ]
 #> Access the answer from the coding with quanteda::docvars(obj, 'answer')
 ```
 
@@ -384,13 +412,13 @@ dfm(gold_standard, remove_punct = TRUE) %>% dfm_lookup(afinn) %>% quanteda::conv
     pull(afinn_score) -> all_afinn_score
 all_afinn_score
 #>       text1       text2       text3       text4       text5       text6 
-#>  0.29411765 -0.09090909 -0.16666667  0.38461538  0.00000000  0.00000000 
+#>  0.33333333 -0.09090909 -0.16666667  0.45454545  0.00000000  0.00000000 
 #>       text7       text8       text9      text10      text11      text12 
 #>  0.16666667  0.38461538  0.00000000  0.38461538 -0.29166667  0.00000000 
 #>      text13      text14      text15      text16      text17      text18 
-#>  0.50000000  0.07142857  0.00000000 -0.12000000  0.22222222  0.16000000 
+#>  0.50000000  0.07142857  0.00000000 -0.12000000  0.28571429  0.16000000 
 #>      text19      text20 
-#>  0.33333333  0.38888889
+#>  0.36842105  0.38888889
 ```
 
 Put back the vector of AFINN score into the respective `docvars` and
@@ -398,8 +426,8 @@ study the correlation between the gold standard and AFINN.
 
 ``` r
 summarize_oolong(oolong_test, target_value = all_afinn_score)
-#> Correlation: 0.71 (p = 0)
-#> Effect of content length: -0.285 (p = 0.224)
+#> Correlation: 0.718 (p = 0)
+#> Effect of content length: -0.319 (p = 0.171)
 ```
 
 ### Suggested workflow
@@ -469,8 +497,8 @@ acceptable cut-off.
 ``` r
 res
 #> Krippendorff's Alpha: 0.931443661971831
-#> Correlation: 0.733 (p = 0)
-#> Effect of content length: -0.285 (p = 0.224)
+#> Correlation: 0.744 (p = 0)
+#> Effect of content length: -0.319 (p = 0.171)
 ```
 
 ``` r
