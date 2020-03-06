@@ -45,7 +45,7 @@ create_oolong(
 \item{construct}{(gs) string, an adjective to describe the construct you want your coders to code the the gold standard test cases.}
 }
 \value{
-An oolong test object.
+an oolong test object.
 }
 \description{
 This function generates a oolong test object that can either be used for validating a topic model or for creating ground truth (gold standard) of a text corpus.
@@ -85,7 +85,5 @@ Chang, J., Gerrish, S., Wang, C., Boyd-Graber, J. L., & Blei, D. M. (2009). Read
   Song et al. (2020) In validations we trust? The impact of imperfect human annotations as a gold standard on the quality of validation of automated content analysis. Political Communication.
 }
 \author{
-Chung-hong Chan
-
 Chung-hong Chan
 }

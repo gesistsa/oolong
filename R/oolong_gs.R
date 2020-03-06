@@ -61,13 +61,14 @@
     return(res)
 }
 
-#' Print oolong gold standard object.
+#' Print oolong gold standard object
 #'
 #' This function prints a summary of the oolong gold standard object. An oolong gold standard object is a result of $turn_gold() method. It is a quanteda::corpus compatible object.
 #' @param x an oolong gold standard object
 #' @param ... other parameters
 #' @method print oolong_gold_standard
 #' @author Chung-hong Chan
+#' @return None, a summary is printed.
 #' @export
 print.oolong_gold_standard <- function(x, ...) {
     ##quanteda:::print.corpus(x)

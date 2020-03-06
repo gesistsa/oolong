@@ -2,7 +2,7 @@
 % Please edit documentation in R/oolong_gs.R
 \name{print.oolong_gold_standard}
 \alias{print.oolong_gold_standard}
-\title{Print oolong gold standard object.}
+\title{Print oolong gold standard object}
 \usage{
 \method{print}{oolong_gold_standard}(x, ...)
 }
@@ -10,6 +10,9 @@
 \item{x}{an oolong gold standard object}
 
 \item{...}{other parameters}
+}
+\value{
+None, a summary is printed.
 }
 \description{
 This function prints a summary of the oolong gold standard object. An oolong gold standard object is a result of $turn_gold() method. It is a quanteda::corpus compatible object.
