@@ -68,7 +68,7 @@
 #' @param ... other parameters
 #' @method print oolong_gold_standard
 #' @author Chung-hong Chan
-#' @return None, a summary is printed.
+#' @return None, a summary of the quanteda::corpus and what you should do are displayed
 #' @export
 print.oolong_gold_standard <- function(x, ...) {
     ##quanteda:::print.corpus(x)

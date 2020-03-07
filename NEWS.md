@@ -1,3 +1,3 @@
-# oolong 0.3.0
+# oolong 0.3.2
 
 * Initial CRAN version.

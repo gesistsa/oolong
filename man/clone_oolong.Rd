@@ -2,7 +2,7 @@
 % Please edit documentation in R/oolong.R
 \name{clone_oolong}
 \alias{clone_oolong}
-\title{Clone a oolong object.}
+\title{Clone an oolong object}
 \usage{
 clone_oolong(oolong)
 }

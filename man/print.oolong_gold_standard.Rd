@@ -12,7 +12,7 @@
 \item{...}{other parameters}
 }
 \value{
-None, a summary is printed.
+None, a summary of the quanteda::corpus and what you should do are displayed
 }
 \description{
 This function prints a summary of the oolong gold standard object. An oolong gold standard object is a result of $turn_gold() method. It is a quanteda::corpus compatible object.

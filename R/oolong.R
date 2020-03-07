@@ -32,9 +32,9 @@ Oolong_test <- R6::R6Class(
     )
 )
 
-#' Generate a oolong test
+#' Generate an oolong test
 #'
-#' This function generates a oolong test object that can either be used for validating a topic model or for creating ground truth (gold standard) of a text corpus.
+#' This function generates an oolong test object that can either be used for validating a topic model or for creating ground truth (gold standard) of a text corpus.
 #' 
 #' @section Usage:
 #'
@@ -108,7 +108,7 @@ create_oolong <- function(input_model = NULL, input_corpus = NULL, n_top_terms =
     return(FALSE)
 }
 
-#' Clone a oolong object.
+#' Clone an oolong object
 #'
 #' Clone a new oolong object. The oolong must not be locked and ever coded.
 #' @param oolong an oolong object.

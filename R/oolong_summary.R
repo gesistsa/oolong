@@ -78,16 +78,18 @@ plot.oolong_summary <- function(x, ...) {
 
 #' @rdname summarize_oolong
 #' @export
-summarise_oolong <- function(...) {
-    summarize_oolong(...)
+summarise_oolong <- function(..., target_value = NULL) {
+    summarize_oolong(..., target_value = NULL)
 }
 
 #' Summarize oolong objects
 #'
 #' This function summarizes one or more oolong objects. All oolong objects must be locked.
 #' 
-#' @section Values:
-#' Depends on the purpose, an oolong summary object has the following values:
+#' @param ... (tm/gs) one or more oolong objects to be summarized.
+#' @param target_value (gs) a vector of numeric values, the value you want to validate against the human-coded gold standard. One example of this target value is sentiment score extracted automatically from text.
+#' @return An oolong summary.
+#' Depends on purpose, an oolong summary object has the following values:
 #' \describe{
 #'   \item{\code{$type}}{(gs/tm) type of analysis, either 'gs' or 'tm'}
 #'   \item{\code{$kripp_aplha}}{(gs/tm) Krippendorff's Alpha, if more than one oolong object is analyzed.}
@@ -100,10 +102,7 @@ summarise_oolong <- function(...) {
 #'   \item{\code{$cor_length}}{(gs) Pearson's correlation between content length and target value}
 #'   \item{\code{$diag_plot}}{(gs) diagnostic plot.}
 #' }
-#' A useful summary can be obtained either by \code{\link{print.oolong_summary}} or \code{\link{plot.oolong_summary}}. For details, please see the overview vignette: \code{vignette("overview", package = "oolong")}
-#' @param ... (tm/gs) one or more oolong objects to be summarized.
-#' @param target_value (gs) a vector of numeric values, the value you want to validate against the human-coded gold standard. One example of this target value is sentiment score extracted automatically from text.
-#' @return An oolong summary
+#' A useful summary of an object can be obtained either by \code{\link{print.oolong_summary}} or \code{\link{plot.oolong_summary}}. For details, please see the overview vignette: \code{vignette("overview", package = "oolong")}
 #' @examples
 #' \dontrun{
 #' data(abstracts_stm)
@@ -118,6 +117,7 @@ summarise_oolong <- function(...) {
 #' @author Chung-hong Chan
 #' @references
 #'   Chang, J., Gerrish, S., Wang, C., Boyd-Graber, J. L., & Blei, D. M. (2009). Reading tea leaves: How humans interpret topic models. In Advances in neural information processing systems (pp. 288-296).
+#' 
 #'   Song et al. (2020) In validations we trust? The impact of imperfect human annotations as a gold standard on the quality of validation of automated content analysis. Political Communication.
 #' @export
 summarize_oolong <- function(..., target_value = NULL) {

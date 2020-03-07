@@ -5,7 +5,7 @@
 \alias{summarize_oolong}
 \title{Summarize oolong objects}
 \usage{
-summarise_oolong(...)
+summarise_oolong(..., target_value = NULL)
 
 summarize_oolong(..., target_value = NULL)
 }
@@ -15,14 +15,8 @@ summarize_oolong(..., target_value = NULL)
 \item{target_value}{(gs) a vector of numeric values, the value you want to validate against the human-coded gold standard. One example of this target value is sentiment score extracted automatically from text.}
 }
 \value{
-An oolong summary
-}
-\description{
-This function summarizes one or more oolong objects. All oolong objects must be locked.
-}
-\section{Values}{
-
-Depends on the purpose, an oolong summary object has the following values:
+An oolong summary.
+Depends on purpose, an oolong summary object has the following values:
 \describe{
   \item{\code{$type}}{(gs/tm) type of analysis, either 'gs' or 'tm'}
   \item{\code{$kripp_aplha}}{(gs/tm) Krippendorff's Alpha, if more than one oolong object is analyzed.}
@@ -35,9 +29,11 @@ Depends on the purpose, an oolong summary object has the following values:
   \item{\code{$cor_length}}{(gs) Pearson's correlation between content length and target value}
   \item{\code{$diag_plot}}{(gs) diagnostic plot.}
 }
-A useful summary can be obtained either by \code{\link{print.oolong_summary}} or \code{\link{plot.oolong_summary}}. For details, please see the overview vignette: \code{vignette("overview", package = "oolong")}
+A useful summary of an object can be obtained either by \code{\link{print.oolong_summary}} or \code{\link{plot.oolong_summary}}. For details, please see the overview vignette: \code{vignette("overview", package = "oolong")}
 }
-
+\description{
+This function summarizes one or more oolong objects. All oolong objects must be locked.
+}
 \examples{
 \dontrun{
 data(abstracts_stm)
@@ -52,6 +48,7 @@ summarize(oolong_test1, oolong_test2)
 }
 \references{
 Chang, J., Gerrish, S., Wang, C., Boyd-Graber, J. L., & Blei, D. M. (2009). Reading tea leaves: How humans interpret topic models. In Advances in neural information processing systems (pp. 288-296).
+
   Song et al. (2020) In validations we trust? The impact of imperfect human annotations as a gold standard on the quality of validation of automated content analysis. Political Communication.
 }
 \author{

@@ -2,7 +2,7 @@
 % Please edit documentation in R/oolong.R
 \name{create_oolong}
 \alias{create_oolong}
-\title{Generate a oolong test}
+\title{Generate an oolong test}
 \usage{
 create_oolong(
   input_model = NULL,
@@ -48,7 +48,7 @@ create_oolong(
 an oolong test object.
 }
 \description{
-This function generates a oolong test object that can either be used for validating a topic model or for creating ground truth (gold standard) of a text corpus.
+This function generates an oolong test object that can either be used for validating a topic model or for creating ground truth (gold standard) of a text corpus.
 }
 \section{Usage}{
 
