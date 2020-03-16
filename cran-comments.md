@@ -1,3 +1,11 @@
+## Resubmission (16-Mar-2020) - version 0.3.3
+
+    Regarding \dontrun in summarize_oolong.Rd:
+    \dontrun{} should only be used if the example really cannot be executed (e.g. because of missing additional software, missing API keys, ...) by the user. That's why wrapping examples in \dontrun{} adds the comment ("# Not run:") as a warning for the user. Does not seem necessary. Please unwrap the examples if they are executable in < 5 sec, or replace \dontrun{} with \donttest{}.
+	Please fix and resubmit.
+
+The chief reason for wrapping the example is that it can't proceed correctly without doing the human-in-the-loop validation test `oolong_test1$do_word_intrusion_test()`. Of course, users can do that test themselves so I can see your point. I have replaced `\dontrun{}\` with `\donttest{}`, let's see if it fits. Thank you very much!
+
 ## Resubmission (7-Mar-2020) - version 0.3.2
 
      If there are references describing (the theoretical backgrounds of) the methods in your package, please add these in the description field of your DESCRIPTION file in the form

@@ -104,7 +104,7 @@ summarise_oolong <- function(..., target_value = NULL) {
 #' }
 #' A useful summary of an object can be obtained either by \code{\link{print.oolong_summary}} or \code{\link{plot.oolong_summary}}. For details, please see the overview vignette: \code{vignette("overview", package = "oolong")}
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' data(abstracts_stm)
 #' oolong_test1 <- create_oolong(abstracts_stm)
 #' oolong_test2 <- clone_oolong(oolong_test1)
