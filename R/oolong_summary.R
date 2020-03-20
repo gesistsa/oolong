@@ -104,15 +104,16 @@ summarise_oolong <- function(..., target_value = NULL) {
 #' }
 #' A useful summary of an object can be obtained either by \code{\link{print.oolong_summary}} or \code{\link{plot.oolong_summary}}. For details, please see the overview vignette: \code{vignette("overview", package = "oolong")}
 #' @examples
-#' \donttest{
-#' data(abstracts_stm)
-#' oolong_test1 <- create_oolong(abstracts_stm)
-#' oolong_test2 <- clone_oolong(oolong_test1)
-#' oolong_test1$do_word_intrusion_test()
-#' oolong_test2$do_word_intrusion_test()
-#' oolong_test1$lock()
-#' oolong_test2$lock()
-#' summarize(oolong_test1, oolong_test2)
+#' # Please try this example in interactive R sessions only.
+#' if (interactive()) {
+#'    data(abstracts_stm)
+#'    oolong_test1 <- create_oolong(abstracts_stm)
+#'    oolong_test2 <- clone_oolong(oolong_test1)
+#'    oolong_test1$do_word_intrusion_test()
+#'    oolong_test2$do_word_intrusion_test()
+#'    oolong_test1$lock()
+#'    oolong_test2$lock()
+#'    summarize_oolong(oolong_test1, oolong_test2)
 #' }
 #' @author Chung-hong Chan
 #' @references

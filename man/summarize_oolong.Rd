@@ -35,15 +35,16 @@ A useful summary of an object can be obtained either by \code{\link{print.oolong
 This function summarizes one or more oolong objects. All oolong objects must be locked.
 }
 \examples{
-\donttest{
-data(abstracts_stm)
-oolong_test1 <- create_oolong(abstracts_stm)
-oolong_test2 <- clone_oolong(oolong_test1)
-oolong_test1$do_word_intrusion_test()
-oolong_test2$do_word_intrusion_test()
-oolong_test1$lock()
-oolong_test2$lock()
-summarize(oolong_test1, oolong_test2)
+# Please try this example in interactive R sessions only.
+if (interactive()) {
+   data(abstracts_stm)
+   oolong_test1 <- create_oolong(abstracts_stm)
+   oolong_test2 <- clone_oolong(oolong_test1)
+   oolong_test1$do_word_intrusion_test()
+   oolong_test2$do_word_intrusion_test()
+   oolong_test1$lock()
+   oolong_test2$lock()
+   summarize_oolong(oolong_test1, oolong_test2)
 }
 }
 \references{

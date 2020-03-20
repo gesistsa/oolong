@@ -1,3 +1,9 @@
+## Resubmission (20-Mar-2020) - version 0.3.4
+
+    functions which are supposed to only run interactively (e.g. shiny) should be wrapped in if(interactive()). Is this the case?
+
+With reference to similar packages (editData etc.), wrapping this example in `if(interactive())` makes more sense. I have done so for the example of `summarize_ooolong`. Thank you very much!
+
 ## Resubmission (16-Mar-2020) - version 0.3.3
 
     Regarding \dontrun in summarize_oolong.Rd:
