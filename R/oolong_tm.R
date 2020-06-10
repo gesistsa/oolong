@@ -1,3 +1,10 @@
+library(BTM)
+load("testbtm.rdata")    
+mod<-exp[[2]]      
+class(mod)
+
+
+
 ### CODING STYLE
 ### function names: use full name, except ren for render
 ### data structures: use singular, except list-column.
@@ -36,25 +43,25 @@
 }
 
 .UI_WORD_INTRUSION_TEST <- miniUI::miniPage(
-                                 miniUI::gadgetTitleBar("oolong"),
-                                 miniUI::miniContentPanel(
-                                             shiny::uiOutput("current_topic"),
-                                             shiny::uiOutput("intruder_choice"),
-                                             shiny::actionButton("confirm", "confirm"),
-                                             shiny::actionButton("nextq", "skip")
-                                         )
-                             )
+    miniUI::gadgetTitleBar("oolong"),
+    miniUI::miniContentPanel(
+        shiny::uiOutput("current_topic"),
+        shiny::uiOutput("intruder_choice"),
+        shiny::actionButton("confirm", "confirm"),
+        shiny::actionButton("nextq", "skip")
+    )
+)
 
 .UI_TOPIC_INTRUSION_TEST <- miniUI::miniPage(
-                                        miniUI::gadgetTitleBar("oolong"),
-                                        miniUI::miniContentPanel(
-                                                    shiny::uiOutput("current_topic"),
-                                                    shiny::uiOutput("text_content"),
-                                                    shiny::uiOutput("intruder_choice"),
-                                                    shiny::actionButton("confirm", "confirm"),
-                                                    shiny::actionButton("nextq", "skip")
-                                                )
-                                    )
+    miniUI::gadgetTitleBar("oolong"),
+    miniUI::miniContentPanel(
+        shiny::uiOutput("current_topic"),
+        shiny::uiOutput("text_content"),
+        shiny::uiOutput("intruder_choice"),
+        shiny::actionButton("confirm", "confirm"),
+        shiny::actionButton("nextq", "skip")
+    )
+)
 
 .ren_word_intrusion_test <- function(output, test_content, res) {
     .ren_choices <- function(test_content, res) {
@@ -124,7 +131,7 @@
         shiny::observeEvent(input$done, (
             shiny::stopApp(res$intruder)
         ))
-
+        
     }
     return(shiny::shinyApp(ui, server))
 }
@@ -154,7 +161,18 @@
         V <- length(input_model@terms)
         terms <- t(topicmodels::terms(input_model, k = V))
         all_terms <- unique(as.vector(terms[,seq_len(n_top_terms)]))
+    } else if ("BTM" %in% class(input_model)){
+        K <- input_model$K
+        V<-input_model$W
+        terms<-t(apply(input_model$phi, MARGIN=2, FUN=function(x){
+            x <- data.frame(token = names(x), probability = x)
+            x <- x[order(x$probability, decreasing = TRUE), ]
+            x<-x$token
+            head(x,n=length(x))
+        })) 
+        all_terms<-rownames(input_model$phi)
     }
+    
     test_content <- purrr::map_dfr(seq_len(K), .generate_candidates, terms = terms, all_terms = all_terms, bottom_terms_percentile = bottom_terms_percentile)
     return(test_content)
 }
@@ -275,37 +293,37 @@
 
 Oolong_test_tm <-
     R6::R6Class(
-            "oolong_test_tm",
-            inherit = Oolong_test,
-            public = list(
-                initialize = function(input_model, input_corpus = NULL, n_top_terms = 5, bottom_terms_percentile = 0.6, exact_n = 15, frac = NULL, n_top_topics = 3, n_topiclabel_words = 8, difficulty = 1, use_frex_words = FALSE, input_dfm = NULL) {
-                    private$test_content <- .generate_test_content(input_model, input_corpus, n_top_terms, bottom_terms_percentile, exact_n, frac, n_top_topics, n_topiclabel_words, difficulty, use_frex_words = use_frex_words, input_dfm = input_dfm)
-                    private$hash <- digest::digest(private$test_content, algo = "sha1")
-                },
-                print = function() {
-                    .cp(TRUE, "An oolong test object with k = ", nrow(private$test_content$word), ", ", sum(!is.na(private$test_content$word$answer)), " coded.")
-                    .cp(private$finalized, round(.cal_model_precision(private$test_content$word), 3),"%  precision")
-                    .cp(!private$finalized, "Use the method $do_word_intrusion_test() to do word intrusion test.")
-                    .cp(!is.null(private$test_content$topic), "With ", nrow(private$test_content$topic) , " cases of topic intrusion test. ", sum(!is.na(private$test_content$topic$answer)), " coded.")
-                    .cp(!is.null(private$test_content$topic) & !private$finalized, "Use the method $do_topic_intrusion_test() to do topic intrusion test.")
-                    .cp(private$finalized & !is.null(private$test_content$topic), "TLO: ", round(.cal_tlo(private$test_content$topic, mean_value = TRUE), 3))
-                    .cp(!private$finalized, "Use the method $lock() to finalize this object and see the results.")
-                },
-                do_word_intrusion_test = function() {
-                    private$check_finalized()
-                    private$test_content$word <- .do_oolong_test(private$test_content$word)
-                },
-                do_topic_intrusion_test = function() {
-                    private$check_finalized()
-                    .cstop(is.null(private$test_content$topic), "No topic intrusion test cases. Create the oolong test with the corpus to generate topic intrusion test cases.")
-                    private$test_content$topic <- .do_oolong_test(private$test_content$topic, ui = .UI_TOPIC_INTRUSION_TEST, .ren = .ren_topic_intrusion_test)
-                }
-            ),
-            private = list(
-                hash = NULL,
-                test_content = list(),
-                finalized = FALSE
-            )
+        "oolong_test_tm",
+        inherit = Oolong_test,
+        public = list(
+            initialize = function(input_model, input_corpus = NULL, n_top_terms = 5, bottom_terms_percentile = 0.6, exact_n = 15, frac = NULL, n_top_topics = 3, n_topiclabel_words = 8, difficulty = 1, use_frex_words = FALSE, input_dfm = NULL) {
+                private$test_content <- .generate_test_content(input_model, input_corpus, n_top_terms, bottom_terms_percentile, exact_n, frac, n_top_topics, n_topiclabel_words, difficulty, use_frex_words = use_frex_words, input_dfm = input_dfm)
+                private$hash <- digest::digest(private$test_content, algo = "sha1")
+            },
+            print = function() {
+                .cp(TRUE, "An oolong test object with k = ", nrow(private$test_content$word), ", ", sum(!is.na(private$test_content$word$answer)), " coded.")
+                .cp(private$finalized, round(.cal_model_precision(private$test_content$word), 3),"%  precision")
+                .cp(!private$finalized, "Use the method $do_word_intrusion_test() to do word intrusion test.")
+                .cp(!is.null(private$test_content$topic), "With ", nrow(private$test_content$topic) , " cases of topic intrusion test. ", sum(!is.na(private$test_content$topic$answer)), " coded.")
+                .cp(!is.null(private$test_content$topic) & !private$finalized, "Use the method $do_topic_intrusion_test() to do topic intrusion test.")
+                .cp(private$finalized & !is.null(private$test_content$topic), "TLO: ", round(.cal_tlo(private$test_content$topic, mean_value = TRUE), 3))
+                .cp(!private$finalized, "Use the method $lock() to finalize this object and see the results.")
+            },
+            do_word_intrusion_test = function() {
+                private$check_finalized()
+                private$test_content$word <- .do_oolong_test(private$test_content$word)
+            },
+            do_topic_intrusion_test = function() {
+                private$check_finalized()
+                .cstop(is.null(private$test_content$topic), "No topic intrusion test cases. Create the oolong test with the corpus to generate topic intrusion test cases.")
+                private$test_content$topic <- .do_oolong_test(private$test_content$topic, ui = .UI_TOPIC_INTRUSION_TEST, .ren = .ren_topic_intrusion_test)
+            }
+        ),
+        private = list(
+            hash = NULL,
+            test_content = list(),
+            finalized = FALSE
         )
+    )
 
 

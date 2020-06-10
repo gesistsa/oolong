@@ -96,7 +96,7 @@ create_oolong <- function(input_model = NULL, input_corpus = NULL, n_top_terms =
 }
 
 .is_topic_model <- function(x) {
-    if (any(class(x) %in% c("WarpLDA", "STM"))) {
+    if (any(class(x) %in% c("WarpLDA", "STM", "BTM" ))) {
         return(TRUE)
     }
     if (is.null(attr(class(x), "package"))) {
