@@ -1,10 +1,3 @@
-library(BTM)
-load("testbtm.rdata")    
-mod<-exp[[2]]      
-class(mod)
-
-
-
 ### CODING STYLE
 ### function names: use full name, except ren for render
 ### data structures: use singular, except list-column.
