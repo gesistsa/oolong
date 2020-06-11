@@ -4,7 +4,9 @@
 \name{trump2k}
 \alias{trump2k}
 \title{Trump's tweets dataset}
-\format{An object of class \code{character} of length 2000.}
+\format{
+An object of class \code{character} of length 2000.
+}
 \usage{
 trump2k
 }

@@ -259,7 +259,10 @@
     test_content$word <- .generate_word_intrusion_test(input_model, n_top_terms = n_top_terms, bottom_terms_percentile = bottom_terms_percentile, difficulty = difficulty, use_frex_words = use_frex_words)
     if (is.null(input_corpus)) {
         test_content$topic <- NULL
-    } else {
+    } else if (class(input_model) == "BTM") {
+        warning("Generating topic intrusion test for BTM is not supported.")
+        test_content$topic <- NULL        
+    } else{
         test_content$topic <- .generate_topic_intrusion_test(input_model = input_model, input_corpus = input_corpus, exact_n = exact_n, frac = frac, n_top_topics = n_top_topics, n_topiclabel_words = n_topiclabel_words, difficulty = difficulty, use_frex_words = use_frex_words, input_dfm = input_dfm)
     }
     return(test_content)
