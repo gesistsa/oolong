@@ -148,18 +148,16 @@
             terms <- stm::labelTopics(input_model, n = input_model$settings$dim$V)$prob
         }
         all_terms <- unique(as.vector(terms[,seq_len(n_top_terms)]))
-    }
-    
-    else if ("BTM" %in% class(input_model)){
+    } else if ("BTM" %in% class(input_model)){
         K <- input_model$K
-        V<-input_model$W
-        terms<-t(apply(input_model$phi, MARGIN=2, FUN=function(x){
+        V <- input_model$W
+        terms <- t(apply(input_model$phi, MARGIN = 2, FUN = function(x){
             x <- data.frame(token = names(x), probability = x)
             x <- x[order(x$probability, decreasing = TRUE), ]
-            x<-x$token
-            head(x,n=length(x))
+            x <- x$token
+            head(x, n = length(x))
         })) 
-        all_terms<-rownames(input_model$phi)
+        all_terms <- unique(as.vector(terms[,seq_len(n_top_terms)]))
     }
     
     else if ("topicmodels" == attr(class(input_model), "package")) {
