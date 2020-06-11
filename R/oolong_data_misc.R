@@ -15,6 +15,9 @@
 #' @rdname abstracts_stm
 "abstracts_warplda"
 
+#' @rdname abstracts_stm
+"abstracts_btm"
+
 #' AFINN dictionary
 #'
 #' This is the AFINN sentiment dictionary in quanteda::dictionary format.
