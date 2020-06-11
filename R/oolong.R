@@ -95,10 +95,6 @@ create_oolong <- function(input_model = NULL, input_corpus = NULL, n_top_terms =
     }
 }
 
-o1<-create_oolong(mod)
-
-o1$do_word_intrusion_test()
-
 .is_topic_model <- function(x) {
     if (any(class(x) %in% c("WarpLDA", "STM", "BTM" ))) {
         return(TRUE)
