@@ -159,7 +159,7 @@
             x<-x$token
             head(x,n=length(x))
         })) 
-        all_terms<-rownames(input_model$phi)
+        all_terms <- unique(as.vector(terms[,seq_len(n_top_terms)]))
     }
     
     else if ("topicmodels" == attr(class(input_model), "package")) {
