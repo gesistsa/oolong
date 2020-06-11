@@ -10,7 +10,6 @@
     return(tibble::tibble(position = position, candidates = list(res)))
 }
 
-
 .generate_candidates <- function(i, terms, n_top_terms = 5, bottom_terms_percentile = 0.6, all_terms) {
     good_terms <- head(terms[i,], n_top_terms)
     term_pos <- match(all_terms, terms[i,])
@@ -149,12 +148,9 @@
             terms <- stm::labelTopics(input_model, n = input_model$settings$dim$V)$prob
         }
         all_terms <- unique(as.vector(terms[,seq_len(n_top_terms)]))
-    } else if ("topicmodels" == attr(class(input_model), "package")) {
-        K <- input_model@k
-        V <- length(input_model@terms)
-        terms <- t(topicmodels::terms(input_model, k = V))
-        all_terms <- unique(as.vector(terms[,seq_len(n_top_terms)]))
-    } else if ("BTM" %in% class(input_model)){
+    }
+    
+    else if ("BTM" %in% class(input_model)){
         K <- input_model$K
         V<-input_model$W
         terms<-t(apply(input_model$phi, MARGIN=2, FUN=function(x){
@@ -165,6 +161,13 @@
         })) 
         all_terms<-rownames(input_model$phi)
     }
+    
+    else if ("topicmodels" == attr(class(input_model), "package")) {
+        K <- input_model@k
+        V <- length(input_model@terms)
+        terms <- t(topicmodels::terms(input_model, k = V))
+        all_terms <- unique(as.vector(terms[,seq_len(n_top_terms)]))
+    } 
     
     test_content <- purrr::map_dfr(seq_len(K), .generate_candidates, terms = terms, all_terms = all_terms, bottom_terms_percentile = bottom_terms_percentile)
     return(test_content)
