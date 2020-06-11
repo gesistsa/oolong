@@ -226,6 +226,24 @@
             model_terms <- stm::labelTopics(input_model, n = n_topiclabel_words)$prob
         }
         target_theta <- input_model$theta[sample_vec, ]
+    
+    } else if ("BTM" %in% class(input_model)) {
+    
+                
+    model_terms<-t(apply(input_model$phi, MARGIN=2, FUN=function(x){
+            x <- data.frame(token = names(x), probability = x)
+            x <- x[order(x$probability, decreasing = TRUE), ]
+            x<-x$token
+            head(x,n=n_topiclabel_words)
+        })) 
+    # theta ist die wkt das ein doc einem topic angehört?
+
+    tok<-tokenizers::tokenize_words(input_corpus)
+    for(i in 1:length(tok)){
+        tok[[i]]<-data.frame(text=i,token=tok[[i]])}
+    tok<-do.call(rbind,tok)    
+    target_theta<-predict(abstracts_btm,tok)
+
     } else if ("topicmodels" == attr(class(input_model), "package")) {
         model_terms <- t(topicmodels::terms(input_model, k = n_topiclabel_words))
         dimnames(model_terms)[[1]] <- NULL
