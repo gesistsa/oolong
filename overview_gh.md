@@ -32,7 +32,8 @@ devtools::install_github("chainsawriot/oolong")
 `abstracts_stm` is an example topic model trained with the data
 `abstracts` using the `stm` package. Currently, this package supports
 structural topic models / correlated topic models from `stm`, Warp LDA
-models from `text2vec` and LDA/CTM models from `topicmodels`.
+models from `text2vec` , LDA/CTM models from `topicmodels` and Biterm
+Topic Models from `BTM`.
 
 ``` r
 library(oolong)
@@ -307,7 +308,7 @@ abstracts_dfm
 oolong_test <- create_oolong(abstracts_warplda, abstracts$text, input_dfm = abstracts_dfm)
 #> Warning in if (class(input_model) == "BTM") {: the condition has length > 1
 #> and only the first element will be used
-#> INFO  [16:09:21.451] early stopping at 50 iteration
+#> INFO  [16:15:31.847] early stopping at 50 iteration
 oolong_test
 #> An oolong test object with k = 20, 0 coded.
 #> Use the method $do_word_intrusion_test() to do word intrusion test.
