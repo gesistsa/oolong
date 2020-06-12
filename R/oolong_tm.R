@@ -132,45 +132,81 @@
     shiny::runGadget(.gen_shinyapp(test_content = test_content, ui = ui, .ren = .ren))
 }
 
-
-.generate_word_intrusion_test <- function(input_model, n_top_terms = 5, bottom_terms_percentile = 0.6, difficulty = 1, use_frex_words= FALSE) {
-    if ("WarpLDA" %in% class(input_model)) {
-        K <- input_model$.__enclos_env__$private$n_topics
-        V <- length(input_model$.__enclos_env__$private$vocabulary)
-        terms <- t(input_model$get_top_words(n = V, lambda = difficulty))
-        all_terms <- unique(as.vector(terms[,seq_len(n_top_terms)]))
-    } else if ("STM" %in% class(input_model)) {
-        K <- input_model$settings$dim$K
-        V <- input_model$settings$dim$V
-        if (use_frex_words) {
-            terms <- stm::labelTopics(input_model, n = input_model$settings$dim$V, frexweight = difficulty)$frex
-        } else {
-            terms <- stm::labelTopics(input_model, n = input_model$settings$dim$V)$prob
-        }
-        all_terms <- unique(as.vector(terms[,seq_len(n_top_terms)]))
-    } else if ("BTM" %in% class(input_model)){
-        K <- input_model$K
-        V <- input_model$W
-        terms <- t(apply(input_model$phi, MARGIN = 2, FUN = function(x){
-            x <- data.frame(token = names(x), probability = x)
-            x <- x[order(x$probability, decreasing = TRUE), ]
-            x <- x$token
-            head(x, n = length(x))
-        })) 
-        all_terms <- unique(as.vector(terms[,seq_len(n_top_terms)]))
+### Future expansion of formats should go here.
+.convert_input_model_s3 <- function(input_model) {
+    if (!.is_topic_model(input_model)) {
+        stop("input_model is not supported.")
     }
-    
-    else if ("topicmodels" == attr(class(input_model), "package")) {
-        K <- input_model@k
-        V <- length(input_model@terms)
-        terms <- t(topicmodels::terms(input_model, k = V))
-        all_terms <- unique(as.vector(terms[,seq_len(n_top_terms)]))
-    } 
-    
-    test_content <- purrr::map_dfr(seq_len(K), .generate_candidates, terms = terms, all_terms = all_terms, bottom_terms_percentile = bottom_terms_percentile)
-    return(test_content)
+    output <- list()
+    output$model <- input_model
+    if ("WarpLDA" %in% class(input_model)) {
+        class(output) <- append(class(output), "input_model_s3_warplda")
+    } else if ("STM" %in% class(input_model)) {
+        class(output) <- append(class(output), "input_model_s3_stm")
+    } else if ("BTM" %in% class(input_model)) {
+        class(output) <- append(class(output), "input_model_s3_btm")
+    } else if ("topicmodels" == attr(class(input_model), "package")) {
+        class(output) <- append(class(output), "input_model_s3_topicmodels")
+    }
+    return(output)
 }
 
+.extract_word_intrusion_test_ingredients <- function(input_model_s3, ...) {
+    UseMethod(".extract_word_intrusion_test_ingredients", input_model_s3)
+}
+
+### every format should create a s3 method to extract K (# of topics), V (# of terms), terms (a term matrix, K x V) and all_terms
+
+.extract_word_intrusion_test_ingredients.input_model_s3_warplda <- function(input_model_s3, n_top_terms = 5, difficulty = 1, ...) {
+    input_model <- input_model_s3$model
+    K <- input_model$.__enclos_env__$private$n_topics
+    V <- length(input_model$.__enclos_env__$private$vocabulary)
+    terms <- t(input_model$get_top_words(n = V, lambda = difficulty))
+    all_terms <- unique(as.vector(terms[,seq_len(n_top_terms)]))
+    return(list(K = K, V = V, terms = terms, all_terms = all_terms))
+}
+
+.extract_word_intrusion_test_ingredients.input_model_s3_stm <- function(input_model_s3, n_top_terms = 5, difficulty = 1, use_frex_words = FALSE, ...) {
+    input_model <- input_model_s3$model
+    K <- input_model$settings$dim$K
+    V <- input_model$settings$dim$V
+    if (use_frex_words) {
+        terms <- stm::labelTopics(input_model, n = input_model$settings$dim$V, frexweight = difficulty)$frex
+    } else {
+        terms <- stm::labelTopics(input_model, n = input_model$settings$dim$V)$prob
+    }
+    all_terms <- unique(as.vector(terms[,seq_len(n_top_terms)]))
+    return(list(K = K, V = V, terms = terms, all_terms = all_terms))
+}
+
+.extract_word_intrusion_test_ingredients.input_model_s3_btm <- function(input_model_s3, n_top_terms = 5, ...) {
+    input_model <- input_model_s3$model
+    K <- input_model$K
+    V <- input_model$W
+    terms <- t(apply(input_model$phi, MARGIN = 2, FUN = function(x){
+        x <- data.frame(token = names(x), probability = x)
+        x <- x[order(x$probability, decreasing = TRUE), ]
+        x <- x$token
+        head(x, n = length(x))
+    })) 
+    all_terms <- unique(as.vector(terms[,seq_len(n_top_terms)]))
+    return(list(K = K, V = V, terms = terms, all_terms = all_terms))
+}
+
+.extract_word_intrusion_test_ingredients.input_model_s3_topicmodels <- function(input_model_s3, n_top_terms = 5, ...) {
+    input_model <- input_model_s3$model
+    K <- input_model@k
+    V <- length(input_model@terms)
+    terms <- t(topicmodels::terms(input_model, k = V))
+    all_terms <- unique(as.vector(terms[,seq_len(n_top_terms)]))
+    return(list(K = K, V = V, terms = terms, all_terms = all_terms))
+}
+
+.generate_word_intrusion_test <- function(input_model, n_top_terms = 5, bottom_terms_percentile = 0.6, difficulty = 1, use_frex_words= FALSE) {
+    ingredients <- .extract_word_intrusion_test_ingredients(.convert_input_model_s3(input_model), n_top_terms = n_top_terms, difficulty = difficulty, use_frex_words = use_frex_words)
+    test_content <- purrr::map_dfr(seq_len(ingredients$K), .generate_candidates, terms = ingredients$terms, all_terms = ingredients$all_terms, bottom_terms_percentile = bottom_terms_percentile)
+    return(test_content)
+}
 
 .sample_corpus <- function(input_corpus, exact_n = 30) {
     sample(seq_len(length(input_corpus)), exact_n)
@@ -259,7 +295,7 @@
     test_content$word <- .generate_word_intrusion_test(input_model, n_top_terms = n_top_terms, bottom_terms_percentile = bottom_terms_percentile, difficulty = difficulty, use_frex_words = use_frex_words)
     if (is.null(input_corpus)) {
         test_content$topic <- NULL
-    } else if (class(input_model) == "BTM") {
+    } else if ("BTM" %in% class(input_model)) {
         warning("Generating topic intrusion test for BTM is not supported.")
         test_content$topic <- NULL        
     } else{

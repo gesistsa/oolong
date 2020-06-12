@@ -46,7 +46,7 @@ require(BTM)
 ### https://github.com/quanteda/quanteda/issues/1404
 
 ## TODO: removal of dense terms. 
-tokens(abstracts$text, remove_punct = TRUE, remove_numbers = TRUE, remove_symbols = TRUE, remove_hyphens = TRUE) %>%  tokens_tolower() %>% tokens_remove(stopwords("en")) %>% tokens_wordstem() -> toks_q
+tokens(corpus(abstracts$text), remove_punct = TRUE, remove_numbers = TRUE, remove_symbols = TRUE, remove_hyphens = TRUE) %>%  tokens_tolower() %>% tokens_remove(stopwords("en")) %>% tokens_wordstem() -> toks_q
 
 as.data.frame.tokens <- function(x) {
   data.frame(
@@ -55,7 +55,11 @@ as.data.frame.tokens <- function(x) {
   )
 }
 
+
+
 abstracts_btm <- BTM(as.data.frame.tokens(toks_q), k = 20, beta = 0.01, iter = 100, trace = 10)
+
+predict(abstracts_btm, newdata = as.data.frame.tokens(toks_q))
 
 abstracts_btm
 
