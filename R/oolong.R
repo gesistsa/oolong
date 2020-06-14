@@ -95,20 +95,6 @@ create_oolong <- function(input_model = NULL, input_corpus = NULL, n_top_terms =
     }
 }
 
-
-.is_topic_model <- function(x) {
-    if (any(class(x) %in% c("WarpLDA", "STM", "BTM" ))) {
-        return(TRUE)
-    }
-    if (is.null(attr(class(x), "package"))) {
-        return(FALSE)
-    }
-    if ("topicmodels" == attr(class(x), "package")) {
-        return(TRUE)
-    }
-    return(FALSE)
-}
-
 #' Clone an oolong object
 #'
 #' Clone a new oolong object. The oolong must not be locked and ever coded.
