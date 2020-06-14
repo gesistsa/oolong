@@ -2,21 +2,6 @@
 ### function names: use full name, except ren for render
 ### data structures: use singular, except list-column.
 
-
-### print the ... if boolean_test is true
-.cp <- function(boolean_test, ...) {
-    if (boolean_test) {
-        cat(paste0(..., "\n"))
-    }
-}
-
-### stop if boolean_test is true and print the ...
-.cstop <- function(boolean_test, ...) {
-    if (boolean_test) {
-        stop(...)
-    }
-}
-
 .insert <- function(good_terms, intruder, position) {
     length_test_items <- length(c(good_terms, intruder))
     res <- rep(NA, length_test_items)
@@ -173,99 +158,7 @@
 }
 
 ## every format should create a s3 method '.extract_ingredients' (e.g. .extract_ingredients.input_model_s3_warplda) to extract K (# of topics), V (# of terms), terms (a term matrix, K x V) and all_terms, model_terms and theta.
-
-## need_topic determines whether model_terms and theta should be NULL
-
-#### WARP LDA
-
-.extract_ingredients.input_model_s3_warplda <- function(input_model_s3, n_top_terms = 5, difficulty = 1, need_topic = TRUE, n_topiclabel_words = 8, input_dfm = NULL, ...) {
-    input_model <- input_model_s3$model
-    K <- input_model$.__enclos_env__$private$n_topics
-    V <- length(input_model$.__enclos_env__$private$vocabulary)
-    terms <- t(input_model$get_top_words(n = V, lambda = difficulty))
-    all_terms <- unique(as.vector(terms[,seq_len(n_top_terms)]))
-    if (need_topic) {
-        if (is.null(input_dfm)) {
-            stop("input_dfm must not be NULL when input_model is a WarpLDA object.")
-        }
-        model_terms <- t(input_model$get_top_words(n = n_topiclabel_words, lambda = difficulty))
-        theta <- input_model$transform(input_dfm)
-    } else {
-        model_terms <- NULL
-        theta <- NULL
-    }
-    return(list(K = K, V = V, terms = terms, all_terms = all_terms, model_terms = model_terms, theta = theta))
-}
-
-#### STM
-
-.extract_ingredients.input_model_s3_stm <- function(input_model_s3, n_top_terms = 5, difficulty = 1, use_frex_words = FALSE, need_topic = FALSE, n_topiclabel_words = 8, ...) {
-    input_model <- input_model_s3$model
-    K <- input_model$settings$dim$K
-    V <- input_model$settings$dim$V
-    if (use_frex_words) {
-        terms <- stm::labelTopics(input_model, n = input_model$settings$dim$V, frexweight = difficulty)$frex
-    } else {
-        terms <- stm::labelTopics(input_model, n = input_model$settings$dim$V)$prob
-    }
-    all_terms <- unique(as.vector(terms[,seq_len(n_top_terms)]))
-    if (need_topic) {
-        if (use_frex_words) {
-            model_terms <- stm::labelTopics(input_model, n = n_topiclabel_words, frexweight = difficulty)$frex
-        } else {
-            model_terms <- stm::labelTopics(input_model, n = n_topiclabel_words)$prob
-        }
-        theta <- input_model$theta
-    } else {
-        model_terms <- NULL
-        theta <- NULL
-    }
-    return(list(K = K, V = V, terms = terms, all_terms = all_terms, model_terms = model_terms, theta = theta))
-}
-
-### BTM
-
-.extract_ingredients.input_model_s3_btm <- function(input_model_s3, n_top_terms = 5, need_topic = FALSE, ...) {
-    input_model <- input_model_s3$model
-    K <- input_model$K
-    V <- input_model$W
-    terms <- t(apply(input_model$phi, MARGIN = 2, FUN = function(x){
-        x <- data.frame(token = names(x), probability = x)
-        x <- x[order(x$probability, decreasing = TRUE), ]
-        x <- x$token
-        head(x, n = length(x))
-    })) 
-    all_terms <- unique(as.vector(terms[,seq_len(n_top_terms)]))
-    if (need_topic) {
-        ## NOT SUPPORT (YET)!
-        warning("Generating topic intrusion test for BTM is not supported.")
-    }
-    model_terms <- NULL
-    theta <- NULL
-    return(list(K = K, V = V, terms = terms, all_terms = all_terms, model_terms = model_terms, theta = theta))
-}
-
-#### topicmodels
-
-.extract_ingredients.input_model_s3_topicmodels <- function(input_model_s3, n_top_terms = 5, need_topic = FALSE, n_topiclabel_words = 8,...) {
-    input_model <- input_model_s3$model
-    K <- input_model@k
-    V <- length(input_model@terms)
-    terms <- t(topicmodels::terms(input_model, k = V))
-    all_terms <- unique(as.vector(terms[,seq_len(n_top_terms)]))
-    if (need_topic) {
-        model_terms <- t(topicmodels::terms(input_model, k = n_topiclabel_words))
-        dimnames(model_terms)[[1]] <- NULL
-        theta <- topicmodels::posterior(input_model)$topic
-    } else {
-        model_terms <- NULL
-        theta <- NULL
-    }
-    return(list(K = K, V = V, terms = terms, all_terms = all_terms, model_terms = model_terms, theta = theta))
-}
-
-####
-
+## refer to oolong_stm.R for an example
 
 .generate_word_intrusion_test <- function(ingredients, bottom_terms_percentile = 0.6) {
     test_content <- purrr::map_dfr(seq_len(ingredients$K), .generate_candidates, terms = ingredients$terms, all_terms = ingredients$all_terms, bottom_terms_percentile = bottom_terms_percentile)
@@ -388,6 +281,6 @@ Oolong_test_tm <-
             test_content = list(),
             finalized = FALSE
         )
-    )
+        )
 
 

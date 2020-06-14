@@ -37,3 +37,17 @@
 NULL
 
 utils::globalVariables(c('cookd', 'diffxy', 'index', 'meanxy', 'word_length', 'avg_answer'))
+
+### print the ... if boolean_test is true
+.cp <- function(boolean_test, ...) {
+    if (boolean_test) {
+        cat(paste0(..., "\n"))
+    }
+}
+
+### stop if boolean_test is true and print the ...
+.cstop <- function(boolean_test, ...) {
+    if (boolean_test) {
+        stop(...)
+    }
+}
