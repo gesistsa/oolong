@@ -40,3 +40,27 @@ abstracts_topicmodels <- LDA(abstracts_tm, k = 20)
 
 usethis::use_data(abstracts_topicmodels, overwrite = TRUE)
 
+require(BTM)
+
+### Use the quanteda method suggested by Benoit.
+### https://github.com/quanteda/quanteda/issues/1404
+
+## TODO: removal of dense terms. 
+tokens(corpus(abstracts$text), remove_punct = TRUE, remove_numbers = TRUE, remove_symbols = TRUE, remove_hyphens = TRUE) %>%  tokens_tolower() %>% tokens_remove(stopwords("en")) %>% tokens_wordstem() -> toks_q
+
+as.data.frame.tokens <- function(x) {
+  data.frame(
+    doc_id = rep(names(x), lengths(x)),
+    tokens = unlist(x, use.names = FALSE)
+  )
+}
+
+
+
+abstracts_btm <- BTM(as.data.frame.tokens(toks_q), k = 20, beta = 0.01, iter = 100, trace = 10)
+
+predict(abstracts_btm, newdata = as.data.frame.tokens(toks_q))
+
+abstracts_btm
+
+usethis::use_data(abstracts_btm, overwrite = TRUE)

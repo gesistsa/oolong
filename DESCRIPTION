@@ -1,12 +1,8 @@
 Package: oolong
 Title: Create Validation Tests for Automated Content Analysis
-Version: 0.3.4
+Version: 0.3.5
 Authors@R: 
-    person(given = "Chung-hong",
-           family = "Chan",
-           role = c("aut", "cre"),
-           email = "chainsawtiney@gmail.com",
-           comment = c(ORCID = "0000-0002-6232-7530"))
+    c(person(given = "Chung-hong", family = "Chan", role = c("aut", "cre"), email = "chainsawtiney@gmail.com", comment = c(ORCID = "0000-0002-6232-7530")), person(given = "Marius", family = "Sältzer", role = c("aut"), email = "msaeltze@mail.uni-mannheim.de"))
 Description: Intended to create standard human-in-the-loop validity tests for typical automated content analysis such as topic modeling and dictionary-based methods. This package offers a standard workflow with functions to prepare, administer and evaluate a human-in-the-loop validity test. This package provides functions for validating topic models using word intrusion and Topic intrusion tests, as described in Chang et al. (2009) <https://papers.nips.cc/paper/3700-reading-tea-leaves-how-humans-interpret-topic-models>. This package also provides functions for generating gold-standard data which are useful for validating dictionary-based methods. The default settings of all generated tests match those suggested in Chang et al. (2009) and Song et al. (2020) <doi:10.1080/10584609.2020.1723752>.
 License: LGPL (>= 2.1)
 Encoding: UTF-8
@@ -30,9 +26,10 @@ Imports:
     dplyr,
     stats,
     utils
-RoxygenNote: 7.0.2
+RoxygenNote: 7.1.0
 Suggests: 
     testthat (>= 2.1.0),
+    BTM,
     topicmodels,
     covr,
     stringr,

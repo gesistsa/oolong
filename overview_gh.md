@@ -32,7 +32,8 @@ devtools::install_github("chainsawriot/oolong")
 `abstracts_stm` is an example topic model trained with the data
 `abstracts` using the `stm` package. Currently, this package supports
 structural topic models / correlated topic models from `stm`, Warp LDA
-models from `text2vec` and LDA/CTM models from `topicmodels`.
+models from `text2vec` , LDA/CTM models from `topicmodels` and Biterm
+Topic Models from `BTM`.
 
 ``` r
 library(oolong)
@@ -305,12 +306,39 @@ abstracts_dfm
 
 ``` r
 oolong_test <- create_oolong(abstracts_warplda, abstracts$text, input_dfm = abstracts_dfm)
-#> INFO  [13:40:42.066] early stopping at 50 iteration
+#> Warning in if (class(input_model) == "BTM") {: the condition has length > 1
+#> and only the first element will be used
+#> INFO  [16:15:31.847] early stopping at 50 iteration
 oolong_test
 #> An oolong test object with k = 20, 0 coded.
 #> Use the method $do_word_intrusion_test() to do word intrusion test.
 #> With 25 cases of topic intrusion test. 0 coded.
 #> Use the method $do_topic_intrusion_test() to do topic intrusion test.
+#> Use the method $lock() to finalize this object and see the results.
+```
+
+## About Biterm Topic Model
+
+Currently, oolong cannot generate topic intrusion tests for Biterm Topic
+Model.
+
+``` r
+require(BTM)
+#> Loading required package: BTM
+oolong_test <- create_oolong(abstracts_btm)
+oolong_test
+#> An oolong test object with k = 20, 0 coded.
+#> Use the method $do_word_intrusion_test() to do word intrusion test.
+#> Use the method $lock() to finalize this object and see the results.
+```
+
+``` r
+oolong_test <- create_oolong(abstracts_btm, abstracts$text)
+#> Warning in .generate_test_content(input_model, input_corpus, n_top_terms, :
+#> Generating topic intrusion test for BTM is not supported.
+oolong_test
+#> An oolong test object with k = 20, 0 coded.
+#> Use the method $do_word_intrusion_test() to do word intrusion test.
 #> Use the method $lock() to finalize this object and see the results.
 ```
 

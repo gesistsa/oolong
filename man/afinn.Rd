@@ -4,7 +4,9 @@
 \name{afinn}
 \alias{afinn}
 \title{AFINN dictionary}
-\format{An object of class \code{dictionary2} of length 11.}
+\format{
+An object of class \code{dictionary2} of length 11.
+}
 \usage{
 afinn
 }

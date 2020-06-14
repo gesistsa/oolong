@@ -4,12 +4,21 @@
 \name{abstracts_stm}
 \alias{abstracts_stm}
 \alias{abstracts_warplda}
+\alias{abstracts_btm}
 \title{Topic models trained with the abstracts dataset.}
-\format{An object of class \code{STM} of length 11.}
+\format{
+An object of class \code{STM} of length 11.
+
+An object of class \code{WarpLDA} (inherits from \code{LDA}, \code{TopicModel}, \code{mlapiDecomposition}, \code{mlapiTransformation}, \code{mlapiBase}, \code{R6}) of length 9.
+
+An object of class \code{BTM} of length 9.
+}
 \usage{
 abstracts_stm
 
 abstracts_warplda
+
+abstracts_btm
 }
 \description{
 These are topic models trained with different topic model packages.
