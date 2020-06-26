@@ -11,6 +11,9 @@ overviewgh: vignettes
 overviewghmd: overviewgh
 	Rscript -e "rmarkdown::render('overview_gh.Rmd')"
 
+btm: .FORCE
+	Rscript -e "rmarkdown::render('btm.Rmd')"
+
 README: overviewghmd
 	Rscript -e "devtools::document()"
 	Rscript -e "devtools::install(quick = TRUE, upgrade = 'never')"

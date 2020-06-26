@@ -11,21 +11,31 @@ genius_topic <- function(obj1) {
 }
 
 test_that("generate_test_content", {
-    skip_on_cran()
     x <- oolong:::.generate_test_content(abstracts_btm)
     expect_null(x$topic)
 })
 
-test_that("check_complete", {
-    skip_on_cran()
+test_that("BTM word intrusion", {
     x <- oolong:::.generate_test_content(abstracts_btm)
     expect_false(oolong:::.check_test_content_complete(x))
     x$word$answer <- 1
     expect_true(oolong:::.check_test_content_complete(x))
-    ### topic intrusion test not supportted,
-    expect_warning(oolong:::.generate_test_content(abstracts_btm, abstracts$text))
     z <- create_oolong(abstracts_btm)
     expect_error(z$lock())
-    expect_warning(z1 <- create_oolong(abstracts_btm, abstracts$text))
-    expect_null(z1$topic)
+})
+
+test_that("BTM topic intrusion", {
+    library(quanteda)
+    abstracts_corpus <- corpus(abstracts$text)
+    tokens(abstracts_corpus, remove_punct = TRUE, remove_numbers = TRUE, remove_symbols = TRUE, split_hyphens = TRUE) %>%  tokens_tolower() %>% tokens_remove(stopwords("en")) %>% tokens_wordstem() -> toks_q
+    as.data.frame.tokens <- function(x) {
+        data.frame(
+            doc_id = rep(names(x), lengths(x)),
+            tokens = unlist(x, use.names = FALSE)
+        )
+    }
+    abstracts_df <- as.data.frame.tokens(toks_q)
+    expect_error(create_oolong(abstracts_btm, abstracts_corpus))
+    expect_error(create_oolong(abstracts_btm, abstracts$text, btm_dataframe = abstract_df))
+    expect_error(create_oolong(abstracts_btm, abstracts_corpus, btm_dataframe = abstract_df))
 })

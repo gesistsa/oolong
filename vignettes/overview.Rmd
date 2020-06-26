@@ -219,18 +219,7 @@ oolong_test
 
 ## About Biterm Topic Model
 
-Currently, oolong cannot generate topic intrusion tests for Biterm Topic Model.
-
-```{r btm1}
-require(BTM)
-oolong_test <- create_oolong(abstracts_btm)
-oolong_test
-```
-
-```{r btm2}
-oolong_test <- create_oolong(abstracts_btm, abstracts$text)
-oolong_test
-```
+Please refer to the vignette about BTM.
 
 ## Validating Dictionary-based Methods
 
