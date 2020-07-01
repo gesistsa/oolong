@@ -1,5 +1,5 @@
 ---
-title: "overview"
+title: "Overview"
 output: rmarkdown::html_vignette
 author:
   - Chung-hong Chan ^[University of Mannheim]

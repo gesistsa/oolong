@@ -18,7 +18,8 @@ tests easily for typical automated content analysis tools such as topic
 models and dictionary-based tools.
 
 Please refer to the [overview](overview_gh.md) for an introduction to
-this package.
+this package. If you use BTM, please refer to the [BTM
+Vignette](btm_gh.md).
 
 -----
 

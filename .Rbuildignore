@@ -17,6 +17,10 @@
 ^overview_gh\.Rmd$
 ^overview_gh\.md$
 ^overview_gh\.html$
+^btm_gh\.Rmd$
+^btm\.Rmd$
+^btm_gh\.md$
+^btm_gh\.html$
 ^gh_head\.Rmd$
 ^CRAN-RELEASE$
 ^cran-comments\.md$

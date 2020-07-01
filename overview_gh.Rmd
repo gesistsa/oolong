@@ -1,5 +1,5 @@
 ---
-title: "An overview of the oolong package."
+title: "Overview"
 output: github_document
 author:
   - Chung-hong Chan ^[University of Mannheim]

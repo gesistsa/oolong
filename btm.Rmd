@@ -1,9 +1,3 @@
----
-title: "Biterm Topic Model"
-output: github_document
-author:
-  - Chung-hong Chan ^[University of Mannheim]
----
 
 The package BTM by Jan Wijffels et al. finds "topics in collections of short text". Compared to other topic model packages, BTM requires a special data format for training. Oolong has no problem generating word intrusion tests with BTM. However, that special data format can make creation of topic intrusion tests very tricky.
 
@@ -85,4 +79,16 @@ For generating topic intrusion tests, however, you must provide the data frame y
 ```{r}
 oolong <- create_oolong(trump_btm, trump_corpus, btm_dataframe = trump_dat)
 oolong
+```
+
+`btm_dataframe` must not be NULL.
+
+```{r, error = TRUE}
+oolong <- create_oolong(trump_btm, trump_corpus)
+```
+
+`input_corpus` must be a quanteda corpus.
+
+```{r, error = TRUE}
+oolong <- create_oolong(trump_btm, trump2k, btm_dataframe = trump_dat)
 ```
