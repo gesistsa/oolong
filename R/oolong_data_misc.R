@@ -37,8 +37,7 @@
 #' This is a random sample of 2000 tweets from @realdonaldtrump account before his assumption of duty as the president of the United States.
 "trump2k"
 
-
-#' @importFrom stats cooks.distance cor.test lm median pchisq quantile sd
+#' @importFrom stats cooks.distance cor.test lm median pchisq quantile sd predict
 #' @importFrom utils head
 #' @importFrom quanteda print corpus
 NULL

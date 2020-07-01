@@ -4,7 +4,7 @@ output: rmarkdown::html_vignette
 author:
   - Chung-hong Chan ^[University of Mannheim]
 vignette: >
-  %\VignetteIndexEntry{overview}
+  %\VignetteIndexEntry{{title}}
   %\VignetteEngine{knitr::rmarkdown}
   %\usepackage[utf8]{inputenc}
 ---

@@ -28,3 +28,4 @@ README: overviewghmd
 	Rscript -e "devtools::document()"
 	Rscript -e "devtools::install(quick = TRUE, upgrade = 'never')"
 	Rscript -e "rmarkdown::render('README.Rmd')"
+	Rscript -e "devtools::check()"
