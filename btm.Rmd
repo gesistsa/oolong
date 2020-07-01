@@ -16,7 +16,7 @@ It is because every document has a unique document id.
 ```{r}
 require(BTM)
 require(quanteda)
-devtools::load_all()
+require(oolong)
 trump_corpus <- corpus(trump2k)
 ```
 
