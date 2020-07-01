@@ -309,7 +309,7 @@ abstracts_dfm
 
 ``` r
 oolong_test <- create_oolong(abstracts_warplda, abstracts$text, input_dfm = abstracts_dfm)
-#> INFO  [14:46:08.066] early stopping at 50 iteration
+#> INFO  [16:11:00.696] early stopping at 50 iteration
 oolong_test
 #> An oolong test object with k = 20, 0 coded.
 #> Use the method $do_word_intrusion_test() to do word intrusion test.
@@ -320,27 +320,7 @@ oolong_test
 
 ## About Biterm Topic Model
 
-Currently, oolong cannot generate topic intrusion tests for Biterm Topic
-Model.
-
-``` r
-require(BTM)
-#> Loading required package: BTM
-oolong_test <- create_oolong(abstracts_btm)
-oolong_test
-#> An oolong test object with k = 20, 0 coded.
-#> Use the method $do_word_intrusion_test() to do word intrusion test.
-#> Use the method $lock() to finalize this object and see the results.
-```
-
-``` r
-oolong_test <- create_oolong(abstracts_btm, abstracts$text)
-#> Error in .extract_ingredients.input_model_s3_btm(.convert_input_model_s3(input_model), : You need to provide input_corpus (in quanteda format) and btm_dataframe for generating topic intrusion tests.
-oolong_test
-#> An oolong test object with k = 20, 0 coded.
-#> Use the method $do_word_intrusion_test() to do word intrusion test.
-#> Use the method $lock() to finalize this object and see the results.
-```
+Please refer to the vignette about BTM.
 
 ## Validating Dictionary-based Methods
 

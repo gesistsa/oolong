@@ -16,7 +16,8 @@ create_oolong(
   use_frex_words = FALSE,
   difficulty = 1,
   input_dfm = NULL,
-  construct = "positive"
+  construct = "positive",
+  btm_dataframe = NULL
 )
 }
 \arguments{
@@ -43,6 +44,8 @@ create_oolong(
 \item{input_dfm}{(tm) a dfm object used for training the input_model, if input_model is a WarpLDA object}
 
 \item{construct}{(gs) string, an adjective to describe the construct you want your coders to code the the gold standard test cases.}
+
+\item{btm_dataframe}{(tm) dataframe used for training the input_model, if input_model is a BTM object}
 }
 \value{
 an oolong test object.
