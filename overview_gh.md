@@ -32,8 +32,8 @@ devtools::install_github("chainsawriot/oolong")
 `abstracts_stm` is an example topic model trained with the data
 `abstracts` using the `stm` package. Currently, this package supports
 structural topic models / correlated topic models from `stm`, Warp LDA
-models from `text2vec` , LDA/CTM models from `topicmodels` and Biterm
-Topic Models from `BTM`.
+models from `text2vec` , LDA/CTM models from `topicmodels`, Biterm Topic
+Models from `BTM` and Keyword Assisted Topic Models from `keyATM`.
 
 ``` r
 library(oolong)
@@ -191,6 +191,9 @@ Get a summary of the two objects.
 
 ``` r
 summarize_oolong(oolong_test_rater1, oolong_test_rater2)
+#> New names:
+#> * NA -> ...1
+#> * NA -> ...2
 #> Mean model precision: 0.25
 #> Quantiles of model precision: 0.15, 0.2, 0.25, 0.3, 0.35
 #> P-value of the model precision (H0: Model precision is not better than random guess): 0.116965422720289
@@ -306,9 +309,7 @@ abstracts_dfm
 
 ``` r
 oolong_test <- create_oolong(abstracts_warplda, abstracts$text, input_dfm = abstracts_dfm)
-#> Warning in if (class(input_model) == "BTM") {: the condition has length > 1
-#> and only the first element will be used
-#> INFO  [16:15:31.847] early stopping at 50 iteration
+#> INFO  [14:46:08.066] early stopping at 50 iteration
 oolong_test
 #> An oolong test object with k = 20, 0 coded.
 #> Use the method $do_word_intrusion_test() to do word intrusion test.
@@ -334,8 +335,7 @@ oolong_test
 
 ``` r
 oolong_test <- create_oolong(abstracts_btm, abstracts$text)
-#> Warning in .generate_test_content(input_model, input_corpus, n_top_terms, :
-#> Generating topic intrusion test for BTM is not supported.
+#> Error in .extract_ingredients.input_model_s3_btm(.convert_input_model_s3(input_model), : You need to provide input_corpus (in quanteda format) and btm_dataframe for generating topic intrusion tests.
 oolong_test
 #> An oolong test object with k = 20, 0 coded.
 #> Use the method $do_word_intrusion_test() to do word intrusion test.
@@ -454,6 +454,8 @@ study the correlation between the gold standard and AFINN.
 
 ``` r
 summarize_oolong(oolong_test, target_value = all_afinn_score)
+#> New names:
+#> * NA -> ...1
 #> `geom_smooth()` using formula 'y ~ x'
 #> `geom_smooth()` using formula 'y ~ x'
 #> Correlation: 0.718 (p = 0)
@@ -495,6 +497,9 @@ Summarize all oolong objects with the target value.
 
 ``` r
 res <- summarize_oolong(trump, trump2, target_value = target_value)
+#> New names:
+#> * NA -> ...1
+#> * NA -> ...2
 #> `geom_smooth()` using formula 'y ~ x'
 #> `geom_smooth()` using formula 'y ~ x'
 ```

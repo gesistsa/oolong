@@ -20,7 +20,7 @@ devtools::install_github("chainsawriot/oolong")
 
 #### Word intrusion test
 
-`abstracts_stm` is an example topic model trained with the data `abstracts` using the `stm` package. Currently, this package supports structural topic models / correlated topic models from `stm`, Warp LDA models from `text2vec` , LDA/CTM models from `topicmodels` and Biterm Topic Models from `BTM`.
+`abstracts_stm` is an example topic model trained with the data `abstracts` using the `stm` package. Currently, this package supports structural topic models / correlated topic models from `stm`, Warp LDA models from `text2vec` , LDA/CTM models from `topicmodels`,  Biterm Topic Models from `BTM` and Keyword Assisted Topic Models from `keyATM`.
 
 ```{r}
 library(oolong)
@@ -209,7 +209,7 @@ oolong_test <- create_oolong(abstracts_btm)
 oolong_test
 ```
 
-```{r btm2}
+```{r btm2, error = TRUE}
 oolong_test <- create_oolong(abstracts_btm, abstracts$text)
 oolong_test
 ```

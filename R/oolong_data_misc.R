@@ -1,11 +1,14 @@
 
 #' Abstracts of communication journals dataset
 #'
-#' This is a random sample of all abstracts of papers published in high-impact communication journals from 2000 to 2017. The one ends with "dfm" is same data in quanteda::dfm (document-feature matrix) format.
+#' This is a random sample of all abstracts of papers published in high-impact communication journals from 2000 to 2017. The one ends with "dfm" is the same data in quanteda::dfm (document-feature matrix) format. abstracts_dictionary is a list of terms that can be used for semisupervised techniques such as keyATM.
 "abstracts"
 
 #' @rdname abstracts
 "abstracts_dfm"
+
+#' @rdname abstracts
+"abstracts_dictionary"
 
 #' Topic models trained with the abstracts dataset.
 #'
@@ -17,6 +20,10 @@
 
 #' @rdname abstracts_stm
 "abstracts_btm"
+
+#' @rdname abstracts_stm
+"abstracts_keyatm"
+
 
 #' AFINN dictionary
 #'

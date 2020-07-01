@@ -64,3 +64,34 @@ predict(abstracts_btm, newdata = as.data.frame.tokens(toks_q))
 abstracts_btm
 
 usethis::use_data(abstracts_btm, overwrite = TRUE)
+
+###
+
+require(keyATM)
+require(quanteda)
+## 0.2.2
+
+abstracts_dfm
+
+abstracts_dictionary <- list(jstudies = c("frame", "news", "journalist", "newspap", "agenda"),
+     polcomm = c("polit", "elect", "campaign", "candid", "opinion", "civil", "partisan", "ideolog"),
+     healthcomm = c("health", "patient", "medic", "literaci", "hiv", "attitud", "perceiv", "risk", "messag", "smoke", "campaign", "alcohol", "food", "obes"),
+     scicomm = c("scienc", "scientif", "public", "climat"),
+     game = c("game", "player", "video", "gamer", "mmorpg", "violenc", "violent"),
+     cmc = c("internet", "onlin", "sns", "twitter", "facebook", "comput", "cmc", "virtual", "technolog", "share", "privaci", "web", "search", "network", "digit"),
+     culture = c("racial", "white", "black", "african", "communiti", "cultur", "postcoloni"),
+     survey_meth = c("measur", "valid", "variabl", "instrument", "reliabl", "psychometr", "survey", "respond", "interview", "test", "item", "questionnair"),
+     mediapsy = c("emot", "experiment", "behavior", "affect", "percept", "exposur", "influenc", "experi", "cognit"),
+     lang = c("discours", "languag", "interact", "talk", "construct", "convers", "action", "ident"))
+
+abstracts_keyatm <- keyATM(keyATM_read(abstracts_dfm), no_keyword_topics = 0, keywords = abstracts_dictionary, model = "base", options = list(seed = 46709394))
+top_words(abstracts_keyatm, show_keyword = FALSE, n = 30)
+
+usethis::use_data(abstracts_keyatm, overwrite = TRUE)
+usethis::use_data(abstracts_dictionary, overwrite = TRUE)
+
+oolong <- create_oolong(abstracts_keyatm)
+
+oolong$do_word_intrusion_test()
+
+oolong <- create_oolong(abstracts_keyatm, abstracts$text, exact_n = 10)
