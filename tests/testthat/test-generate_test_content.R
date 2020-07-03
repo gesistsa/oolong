@@ -25,3 +25,9 @@ test_that("check_complete", {
 test_that("K is too small", {
     expect_error(oolong:::.generate_test_content(abstracts_stm, abstracts$text, n_top_topics = 20))
 })
+
+test_that("n_top_terms is considered #29", {
+    z <- oolong:::.generate_test_content(abstracts_stm, abstracts$text, n_top_terms = 10)
+    expect_equal(length(z$word$candidates[[1]]), 11)
+})
+
