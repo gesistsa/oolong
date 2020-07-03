@@ -173,6 +173,9 @@
     if ("corpus" %in% class(input_corpus)) {
         input_corpus <- quanteda::texts(input_corpus)
     }
+    if (n_top_topics + 1 >= ingredients$K) {
+        stop("n_top_topics + 1 must be smaller than K.")
+    }
     if (!is.null(frac) & is.null(exact_n)) {
         stopifnot(frac >= 0 & frac <= 1)
         exact_n <- floor(length(input_corpus) * frac)

@@ -22,3 +22,6 @@ test_that("check_complete", {
     expect_error(z$lock())
 })
 
+test_that("K is too small", {
+    expect_error(oolong:::.generate_test_content(abstracts_stm, abstracts$text, n_top_topics = 20))
+})
