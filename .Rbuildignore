@@ -27,3 +27,4 @@
 ^data/abstracts_topicmodels\.rda$
 ^tests/testthat/test-topicmodels\.R$
 \.udpipe$
+^paper/
