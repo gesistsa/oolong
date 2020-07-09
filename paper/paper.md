@@ -29,6 +29,8 @@ journal: JOSS
 
 Oolong is an R package providing functions for validating common automated content analysis techniques such as topic modeling and dictionary-based methods. This package is designed for R users needing to validate these methods. Typical users of oolong are communication and political scientists, among others. 
 
+# Statement of need
+
 Validity is a requirement of content analysis [@krippendorff2018content; @neuendorf2016content]. Validation of automated methods has been called for by many scholars, e.g. @grimmer2013text; @ribeiro2016sentibench; @van2018communication. However, the method for validating these automated methods is unstandardized.
 
 Oolong makes it easy to generate standard validation tests suggested by @chang2009reading and @song2020validations.
@@ -124,7 +126,7 @@ oolong_test
 ## An oolong test object with k = 20, 20 coded.
 ## 95%  precision
 ## With 25 cases of topic intrusion test. 25 coded.
-## TLO: -0.079
+## TLO: -0.078
 ```
 
 The suggested workflow is to have at least two human raters to do the same set of tests. Test object can be cloned to allow multiple raters to do the test. More than one test object can be studied together using the function `summarize_oolong()`.
@@ -163,14 +165,14 @@ summarize_oolong(oolong_test_rater1, oolong_test_rater2)
 ```
 
 ```
-## Mean model precision: 0.4
-## Quantiles of model precision: 0.35, 0.375, 0.4, 0.425, 0.45
-## P-value of the model precision (H0: Model precision is not better than random guess): 0.00107176552939263
-## Krippendorff's alpha: 0.1875
-## K Precision: 0.5, 0, 0, 0, 0, 1, 0, 0, 0.5, 0, 0.5, 1, 0.5, 0.5, 0.5, 0.5, 1, 1, 0, 0.5
+## Mean model precision: 0.275
+## Quantiles of model precision: 0.15, 0.2125, 0.275, 0.3375, 0.4
+## P-value of the model precision (H0: Model precision is not better than random guess): 0.0444642744018579
+## Krippendorff's alpha: -0.100313479623825
+## K Precision: 0.5, 0.5, 0, 0.5, 0, 1, 0, 0, 0.5, 0, 0, 0, 0, 0.5, 0.5, 0, 0.5, 0.5, 0, 0.5
 ## Mean TLO: -1.88
-## Median TLO: -0.65
-## Quantiles of TLO: -6.35936400839407, -3.71810391983537, -0.64508286087911, 0, 0
+## Median TLO: -1.6
+## Quantiles of TLO: -5.7224707894477, -3.66893420900786, -1.60366475277173, 0, 0
 ## P-Value of the median TLO (H0: Median TLO is not better than random guess): 0
 ```
 

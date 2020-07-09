@@ -29,6 +29,8 @@ journal: JOSS
 
 Oolong is an R package providing functions for validating common automated content analysis techniques such as topic modeling and dictionary-based methods. This package is designed for R users needing to validate these methods. Typical users of oolong are communication and political scientists, among others. 
 
+# Statement of need
+
 Validity is a requirement of content analysis [@krippendorff2018content; @neuendorf2016content]. Validation of automated methods has been called for by many scholars, e.g. @grimmer2013text; @ribeiro2016sentibench; @van2018communication. However, the method for validating these automated methods is unstandardized.
 
 Oolong makes it easy to generate standard validation tests suggested by @chang2009reading and @song2020validations.
