@@ -25,39 +25,41 @@ csl: apa.csl
 journal: JOSS
 ---
 
-# Summary
-
-Oolong is an R package providing functions for validating common automated content analysis techniques such as topic modeling and dictionary-based methods. This package is designed for R users needing to validate these methods. Typical users of oolong are communication and political scientists, among others. 
-
 # Statement of need
 
-Validity is a requirement of content analysis [@krippendorff2018content; @neuendorf2016content]. Validation of automated methods has been called for by many scholars, e.g. @grimmer2013text; @ribeiro2016sentibench; @van2018communication. 
+Oolong is an R package providing functions for semantic validation of topic modeling and dictionary-based methods, two main tools for doing automated content analysis [@boumans2016taking;@gunther2016word]. 
 
-Oolong makes it easy to generate standard validation tests suggested by @chang2009reading and @song2020validations.
+While the validation of statistical properties of topics models is well established, the substantive meaning of categories uncovered is often less clear and their interpretation reliant on "intuition" or "eyeballing". As @chang2009reading [p. 1] put it: "qualitative evaluation of the latent space" or figuratively, reading tea leaves.
+
+The story for dictionary-based methods is not better. Researchers usually assume these dictionaries have built-in validity and use them directly in their research. However, multiple validation studies [@boukes2020whatsthetone;@gonzalez2015signals;@ribeiro2016sentibench] demonstrate these dictionaries have very limited criterion validity.
+
+Oolong provides a set of tools to objectively judge substantive interpretability to applied users in disciplines such as political science and communication science. It allows standardized content based testing of topic models as well as dictionary-based methods with clear numeric indicators of semantic validity. Oolong makes it easy to generate standard validation tests suggested by @chang2009reading and @song2020validations.
 
 # Validation of automated content analysis
 
-The paper by @dimaggio2013exploiting conceptualizes validation of automated methods as three different operations and the three operations supplement each other. These three operations are: 1) *statistical* validation -- to see if the model results agree with the assumptions of the model. Examples of statistical validation are calculation of pointwise mutual information, perplexity or semantic coherence of a topic model. 2) *semantic* validation -- to see if the model results are semantically meaningful. This procedure involves comparing model results with human judgment [@grimmer2011general]. 3) *predictive* validation -- to see if the model results can predict external events [@quinn2010analyze]. For example, one can study whether external events can explain surges in attention to a topic extracted by a topic model.
+Validity is a requirement of content analysis [@krippendorff2018content; @neuendorf2016content]. Validation of automated methods has been called for by many scholars, e.g. @grimmer2013text; @ribeiro2016sentibench; @van2018communication. The paper by @dimaggio2013exploiting conceptualizes validation of automated methods as three different operations and the three operations supplement each other. These three operations are: 1) *statistical* validation -- to see if the model results agree with the assumptions of the model. Examples of statistical validation are calculation of pointwise mutual information, perplexity or semantic coherence of a topic model. 2) *semantic* validation -- to see if the model results are semantically meaningful. This procedure involves comparing model results with human judgment [@grimmer2011general]. 3) *predictive* validation -- to see if the model results can predict external events [@quinn2010analyze]. For example, one can study whether external events can explain surges in attention to a topic extracted by a topic model.
 
-This package focuses on semantic validation. The reason is threefold. First, there is existing architecture for conducting statistical validation and predictive validation. Topic modeling packages such as `text2vec` [@selivanov2020tex2vec] and `topicmodels` [@bettina2011topicmodels] provide functions to calculate metrics such as perplexity. Packages such as `textmineR` [@jones2019textminer], `stminsights` [@schwemmer2018stminsights] and `LDAvis` [@sievert2015ldavis] offers additional methods for statistical validation and predictive validation. As of writing, `tosca` [@koppers2020tosca] is the only package dealing with semantic validation. But the text-based interface might pose challenges to human annotators and it can only support topic models from one package [@change2015lda].
+This package focuses on semantic validation for three reasons: 
+First, there is existing architecture for conducting statistical validation and predictive validation. Topic modeling packages such as `text2vec` [@selivanov2020tex2vec], `topicmodels` [@bettina2011topicmodels], and `textmineR` [@jones2019textminer] provide functions to calculate metrics such as perplexity and semantic coherence. Packages such as `stminsights` [@schwemmer2018stminsights] and `LDAvis` [@sievert2015ldavis] offer additional qualitative methods for predictive validation. As of writing, `tosca` [@koppers2020tosca] is the only package dealing with semantic validation. But the text-based interface might pose challenges to human annotators and it can only support topic models from the `lda` package [@change2015lda].
 
-Second, results from statistical validation do not always agree with those from semantic validation. For example, a topic model with a lower perplexity does not have a better interpretability [@chang2009reading]. Of course, there are also metrics from statistical validation that are shown to be correlated with semantic validity, e.g. semantic coherence [@mimno2011optimizing]. Calculation of semantic coherence is recommended in the best practice paper by @maier2018applying. Nonetheless, conducting only statistical validation is not adequate because 3 validation operations supplement each other.
+Second, results from statistical validation do not always agree with those from semantic validation. For example, a topic model with a lower perplexity does not have a better interpretability [@chang2009reading]. Of course, there are also metrics from statistical validation that are shown to be correlated with semantic validity, e.g. semantic coherence [@mimno2011optimizing]. Calculation of semantic coherence is recommended in the best practice paper by @maier2018applying. Nonetheless, conducting only statistical validation is not adequate because these three validation operations supplement each other.
 
-Finally, predictive validation is dependent on research questions and thus it is difficult to be generalized as a reusable software framework. Additionally, the relationship between external (sociopolitical) events and the results from automated content analysis tools is usually what social scientists are eager to study, c.f. using topic models for information retrieval [@yi2008evaluating]. We do not believe social scientists would forget to conduct any form of predictive validation for their topic models.
+Finally, predictive validation is dependent on research questions and thus it is difficult to be generalized as a reusable software framework. Additionally, the relationship between external (sociopolitical) events and the results from automated content analysis tools is usually what social scientists are eager to study, c.f. using topic models for information retrieval [@yi2008evaluating]. We do not believe social scientists would ignore conducting any form of predictive validation.
 
-Oolong focuses on semantic validation and the "human-in-the-loop" procedure for it has been standardized [@chang2009reading; @song2020validations]. The procedure proposed by @chang2009reading has been adopted in subsequent social science studies as the gold standard to validate topic models, e.g. @bohr2020reporting, @chuang2015topiccheck, and @miller2017australia.
+Oolong focuses on semantic validation. The package provides the "human-in-the-loop" semantic validation procedures suggested by @chang2009reading and @song2020validations. The procedure proposed by @chang2009reading has been adopted in subsequent social science studies as the gold standard to validate topic models, e.g. @bohr2020reporting, @chuang2015topiccheck, and @miller2017australia.
 
-# Validating topic models
+# Semantic validation of topic models
 
 Topic models can be validated by word intrusion test and topic intrusion test [@chang2009reading]. In these tests, a human rater is asked to pick an odd word from a bunch of words (word intrusion test) or pick an odd topic from a bunch of topics for a document (topic intrusion test). Oolong provides an easy-to-use Shiny interface for these tests (Figure 1).
-
-\begin{figure}
-\includegraphics[width=0.5\linewidth]{paper_files/fig1} \caption{A screenshot of word intrusion test}\label{fig:unnamed-chunk-1}
-\end{figure}
 
 Currently, oolong supports a variety of topic models, e.g. structural topic models / correlated topic models from `stm` [@roberts2019stm], warp-LDA models from `text2vec` [@selivanov2020tex2vec], latent dirichlet allocation / correlated-topic models from `topicmodels` [@bettina2011topicmodels], biterm topic models from `BTM` [@wijffels2020btm] and keyword-assisted topic models from `keyATM` [@eshima2020keyatm].
 
 For instance, `abstracts_stm` is a structural topic model trained with the text data from `abstracts$text` [@chan2020high].
+
+
+\begin{figure}
+\includegraphics[width=0.5\linewidth]{paper_files/fig1} \caption{A screenshot of word intrusion test}\label{fig:unnamed-chunk-1}
+\end{figure}
 
 
 ```r
@@ -138,7 +140,7 @@ oolong_test
 ## An oolong test object with k = 20, 20 coded.
 ## 95%  precision
 ## With 25 cases of topic intrusion test. 25 coded.
-## TLO: -0.185
+## TLO: -0.234
 ```
 
 The suggested workflow is to have at least two human raters to do the same set of tests. Test object can be cloned to allow multiple raters to do the test. More than one test object can be studied together using the function `summarize_oolong()`.
@@ -177,18 +179,18 @@ summarize_oolong(oolong_test_rater1, oolong_test_rater2)
 ```
 
 ```
-## Mean model precision: 0.25
-## Quantiles of model precision: 0.1, 0.175, 0.25, 0.325, 0.4
-## P-value of the model precision (H0: Model precision is not better than random guess): 0.0550621691567834
-## Krippendorff's alpha: -0.04
-## K Precision: 0, 0, 0, 0.5, 0, 0.5, 1, 0, 0.5, 0, 0, 0, 0, 0.5, 0.5, 0, 0.5, 0.5, 0, 0.5
-## Mean TLO: -2.36
-## Median TLO: -2.45
-## Quantiles of TLO: -6.94140085805665, -3.71247327530918, -2.45410645733876, 0, 0
-## P-Value of the median TLO (H0: Median TLO is not better than random guess): 0.166666666666667
+## Mean model precision: 0.275
+## Quantiles of model precision: 0.15, 0.2125, 0.275, 0.3375, 0.4
+## P-value of the model precision (H0: Model precision is not better than random guess): 0.0444642744018579
+## Krippendorff's alpha: -0.344827586206897
+## K Precision: 0.5, 0, 0, 0.5, 0, 0.5, 0, 0, 0.5, 0, 0.5, 0, 0.5, 0.5, 0.5, 0, 0.5, 0.5, 0, 0.5
+## Mean TLO: -2.08
+## Median TLO: -2.28
+## Quantiles of TLO: -5.36195027080063, -3.34087122848488, -2.27883859332022, 0, 0
+## P-Value of the median TLO (H0: Median TLO is not better than random guess): 0.064
 ```
 
-# Validating dictionary-based methods
+# Semantic validation of dictionary-based methods
 
 Dictionary-based methods such as AFINN [@nielsen2011new] can be validated by creating a gold standard dataset [@song2020validations]. Oolong provides a workflow for generating such gold standard dataset.
 
