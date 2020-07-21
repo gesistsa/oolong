@@ -46,7 +46,7 @@ Second, results from statistical validation do not always agree with those from 
 
 Finally, predictive validation is dependent on research questions and thus it is difficult to be generalized as a reusable software framework. Additionally, the relationship between external (sociopolitical) events and the results from automated content analysis tools is usually what social scientists are eager to study, c.f. using topic models for information retrieval [@yi2008evaluating]. We do not believe social scientists would ignore conducting any form of predictive validation.
 
-Oolong focuses on semantic validation. The package provides the "human-in-the-loop" semantic validation procedures suggested by @chang2009reading and @song2020validations. The procedure proposed by @chang2009reading has been adopted in subsequent social science studies as the gold standard to validate topic models, e.g. @bohr2020reporting, @chuang2015topiccheck, and @miller2017australia.
+Oolong focuses on semantic validation. The package provides the "human-in-the-loop" semantic validation procedures suggested by @chang2009reading and @song2020validations. The procedure proposed by @chang2009reading has been adopted in subsequent social science studies as the gold standard to validate topic models, e.g. @bohr2020reporting, @chuang2015topiccheck, and @miller2017australia. The procedure proposed by @song2020validations emphasizes both criterion validity and interrater reliability.
 
 # Semantic validation of topic models
 

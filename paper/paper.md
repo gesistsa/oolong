@@ -46,7 +46,7 @@ Second, results from statistical validation do not always agree with those from 
 
 Finally, predictive validation is dependent on research questions and thus it is difficult to be generalized as a reusable software framework. Additionally, the relationship between external (sociopolitical) events and the results from automated content analysis tools is usually what social scientists are eager to study, c.f. using topic models for information retrieval [@yi2008evaluating]. We do not believe social scientists would ignore conducting any form of predictive validation.
 
-Oolong focuses on semantic validation. The package provides the "human-in-the-loop" semantic validation procedures suggested by @chang2009reading and @song2020validations. The procedure proposed by @chang2009reading has been adopted in subsequent social science studies as the gold standard to validate topic models, e.g. @bohr2020reporting, @chuang2015topiccheck, and @miller2017australia.
+Oolong focuses on semantic validation. The package provides the "human-in-the-loop" semantic validation procedures suggested by @chang2009reading and @song2020validations. The procedure proposed by @chang2009reading has been adopted in subsequent social science studies as the gold standard to validate topic models, e.g. @bohr2020reporting, @chuang2015topiccheck, and @miller2017australia. The procedure proposed by @song2020validations emphasizes both criterion validity and interrater reliability.
 
 # Semantic validation of topic models
 
@@ -140,7 +140,7 @@ oolong_test
 ## An oolong test object with k = 20, 20 coded.
 ## 95%  precision
 ## With 25 cases of topic intrusion test. 25 coded.
-## TLO: -0.234
+## TLO: -0.041
 ```
 
 The suggested workflow is to have at least two human raters to do the same set of tests. Test object can be cloned to allow multiple raters to do the test. More than one test object can be studied together using the function `summarize_oolong()`.
@@ -179,15 +179,15 @@ summarize_oolong(oolong_test_rater1, oolong_test_rater2)
 ```
 
 ```
-## Mean model precision: 0.275
-## Quantiles of model precision: 0.15, 0.2125, 0.275, 0.3375, 0.4
-## P-value of the model precision (H0: Model precision is not better than random guess): 0.0444642744018579
-## Krippendorff's alpha: -0.344827586206897
-## K Precision: 0.5, 0, 0, 0.5, 0, 0.5, 0, 0, 0.5, 0, 0.5, 0, 0.5, 0.5, 0.5, 0, 0.5, 0.5, 0, 0.5
-## Mean TLO: -2.08
-## Median TLO: -2.28
-## Quantiles of TLO: -5.36195027080063, -3.34087122848488, -2.27883859332022, 0, 0
-## P-Value of the median TLO (H0: Median TLO is not better than random guess): 0.064
+## Mean model precision: 0.3
+## Quantiles of model precision: 0.2, 0.25, 0.3, 0.35, 0.4
+## P-value of the model precision (H0: Model precision is not better than random guess): 0.0308425486961487
+## Krippendorff's alpha: 0.303571428571429
+## K Precision: 0, 0, 0, 0, 0, 0.5, 0, 0.5, 1, 0, 0.5, 0, 0.5, 1, 0, 0, 0.5, 0.5, 0, 1
+## Mean TLO: -2.23
+## Median TLO: -2.34
+## Quantiles of TLO: -7.01368655537747, -3.74338324514121, -2.34131453546947, 0, 0
+## P-Value of the median TLO (H0: Median TLO is not better than random guess): 0.102
 ```
 
 # Semantic validation of dictionary-based methods
