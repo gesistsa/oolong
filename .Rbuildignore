@@ -28,3 +28,4 @@
 ^tests/testthat/test-topicmodels\.R$
 \.udpipe$
 ^paper/
+^CODE_OF_CONDUCT\.md$

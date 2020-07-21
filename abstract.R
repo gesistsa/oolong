@@ -10,6 +10,7 @@ devtools::load_all()
 
 ## usethis::use_data(abstracts, overwrite = TRUE)
 
+
 dfm(abstracts$text, tolower = TRUE, stem = TRUE, remove = stopwords('english'), remove_punct = TRUE, remove_numbers = TRUE, remove_symbols = TRUE, remove_hyphens = TRUE) %>% dfm_trim(min_docfreq = 3, max_docfreq = 500) %>% dfm_select(min_nchar = 3, pattern = "^[a-zA-Z]+$", valuetype = "regex") -> abstracts_dfm
 
 usethis::use_data(abstracts_dfm, overwrite = TRUE)
