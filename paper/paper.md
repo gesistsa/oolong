@@ -39,9 +39,9 @@ Oolong makes it easy to generate standard validation tests suggested by @chang20
 
 The paper by @dimaggio2013exploiting conceptualizes validation of automated methods as three different operations and the three operations supplement each other. These three operations are: 1) *statistical* validation -- to see if the model results agree with the assumptions of the model. Examples of statistical validation are calculation of pointwise mutual information, perplexity or semantic coherence of a topic model. 2) *semantic* validation -- to see if the model results are semantically meaningful. This procedure involves comparing model results with human judgment [@grimmer2011general]. 3) *predictive* validation -- to see if the model results can predict external events [@quinn2010analyze]. For example, one can study whether external events can explain surges in attention to a topic extracted by a topic model.
 
-This package focuses on semantic validation. The reason is threefold. First, there are existing architecture for conducting statistical validation and predictive validation. Topic modeling packages such as `text2vec` [@selivanov2020tex2vec] and `topicmodels` [@bettina2011topicmodels] provide functions to calculate metrics such as perplexity. Packages such as `textmineR` [@jones2019textminer], `stminsights` [@schwemmer2018stminsights] and `LDAvis` [@sievert2015ldavis] offers additional methods for statistical validation and predictive validation. As of writing, `tosca` [@koppers2020tosca] is the only package dealing with semantic validation. But the text-based interface might pose challenges to human annotators and it can only support topic models from one package [@change2015lda].
+This package focuses on semantic validation. The reason is threefold. First, there is existing architecture for conducting statistical validation and predictive validation. Topic modeling packages such as `text2vec` [@selivanov2020tex2vec] and `topicmodels` [@bettina2011topicmodels] provide functions to calculate metrics such as perplexity. Packages such as `textmineR` [@jones2019textminer], `stminsights` [@schwemmer2018stminsights] and `LDAvis` [@sievert2015ldavis] offers additional methods for statistical validation and predictive validation. As of writing, `tosca` [@koppers2020tosca] is the only package dealing with semantic validation. But the text-based interface might pose challenges to human annotators and it can only support topic models from one package [@change2015lda].
 
-Second, results from statistical validation do not always agree with those from semantic validation. For example, topics from a topic model with a lower perplexity do not have a better interpretability [@chang2009reading]. Of course, there are also metrics from statistical validation that are shown to be correlated with semantic validity, e.g. semantic coherence [@mimno2011optimizing]. Calculation of semantic coherence is recommended in the best practice paper by @maier2018applying. Nonetheless, conducting only statistical validation is not adequate because 3 validation operations supplement each other.
+Second, results from statistical validation do not always agree with those from semantic validation. For example, a topic model with a lower perplexity does not have a better interpretability [@chang2009reading]. Of course, there are also metrics from statistical validation that are shown to be correlated with semantic validity, e.g. semantic coherence [@mimno2011optimizing]. Calculation of semantic coherence is recommended in the best practice paper by @maier2018applying. Nonetheless, conducting only statistical validation is not adequate because 3 validation operations supplement each other.
 
 Finally, predictive validation is dependent on research questions and thus it is difficult to be generalized as a reusable software framework. Additionally, the relationship between external (sociopolitical) events and the results from automated content analysis tools is usually what social scientists are eager to study, c.f. using topic models for information retrieval [@yi2008evaluating]. We do not believe social scientists would forget to conduct any form of predictive validation for their topic models.
 
@@ -138,7 +138,7 @@ oolong_test
 ## An oolong test object with k = 20, 20 coded.
 ## 95%  precision
 ## With 25 cases of topic intrusion test. 25 coded.
-## TLO: 0
+## TLO: -0.185
 ```
 
 The suggested workflow is to have at least two human raters to do the same set of tests. Test object can be cloned to allow multiple raters to do the test. More than one test object can be studied together using the function `summarize_oolong()`.
@@ -177,15 +177,15 @@ summarize_oolong(oolong_test_rater1, oolong_test_rater2)
 ```
 
 ```
-## Mean model precision: 0.275
-## Quantiles of model precision: 0.1, 0.1875, 0.275, 0.3625, 0.45
-## P-value of the model precision (H0: Model precision is not better than random guess): 0.0173048084291132
-## Krippendorff's alpha: -0.100313479623825
-## K Precision: 0.5, 0.5, 0, 0, 0, 0.5, 0, 0, 0.5, 1, 0, 0, 0.5, 0.5, 0, 0, 0.5, 0.5, 0, 0.5
-## Mean TLO: -2.06
-## Median TLO: -2.25
-## Quantiles of TLO: -5.23512855891242, -3.34329787252821, -2.24841129291279, 0, 0
-## P-Value of the median TLO (H0: Median TLO is not better than random guess): 0.213333333333333
+## Mean model precision: 0.25
+## Quantiles of model precision: 0.1, 0.175, 0.25, 0.325, 0.4
+## P-value of the model precision (H0: Model precision is not better than random guess): 0.0550621691567834
+## Krippendorff's alpha: -0.04
+## K Precision: 0, 0, 0, 0.5, 0, 0.5, 1, 0, 0.5, 0, 0, 0, 0, 0.5, 0.5, 0, 0.5, 0.5, 0, 0.5
+## Mean TLO: -2.36
+## Median TLO: -2.45
+## Quantiles of TLO: -6.94140085805665, -3.71247327530918, -2.45410645733876, 0, 0
+## P-Value of the median TLO (H0: Median TLO is not better than random guess): 0.166666666666667
 ```
 
 # Validating dictionary-based methods
