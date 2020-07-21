@@ -37,7 +37,7 @@ Oolong provides a set of tools to objectively judge substantive interpretability
 
 # Validation of automated content analysis
 
-Validity is a requirement of content analysis [@krippendorff2018content; @neuendorf2016content]. Validation of automated methods has been called for by many scholars, e.g. @grimmer2013text; @ribeiro2016sentibench; @van2018communication. The paper by @dimaggio2013exploiting conceptualizes validation of automated methods as three different operations and the three operations supplement each other. These three operations are: 1) *statistical* validation -- to see if the model results agree with the assumptions of the model. Examples of statistical validation are calculation of pointwise mutual information, perplexity or semantic coherence of a topic model. 2) *semantic* validation -- to see if the model results are semantically meaningful. This procedure involves comparing model results with human judgment [@grimmer2011general]. 3) *predictive* validation -- to see if the model results can predict external events [@quinn2010analyze]. For example, one can study whether external events can explain surges in attention to a topic extracted by a topic model.
+Validity is a requirement of content analysis [@krippendorff2018content; @neuendorf2016content]. Validation of automated methods has been called for by many scholars, e.g. @grimmer2013text; @ribeiro2016sentibench; @van2018communication. The paper by @dimaggio2013exploiting conceptualizes validation of automated methods as three different operations and the three operations supplement each other. These three operations are: 1) *statistical* validation --to see if the model results agree with the assumptions of the model. Examples of statistical validation are calculation of pointwise mutual information, perplexity or semantic coherence of a topic model; 2) *semantic* validation --to see if the model results are semantically making sense. This procedure involves comparing model results with human judgment [@grimmer2011general]; 3) *predictive* validation --to see if the model results can predict external events [@quinn2010analyze]. For example, one can study whether external events can explain surges in attention to a topic extracted by a topic model.
 
 This package focuses on semantic validation for three reasons: 
 First, there is existing architecture for conducting statistical validation and predictive validation. Topic modeling packages such as `text2vec` [@selivanov2020tex2vec], `topicmodels` [@bettina2011topicmodels], and `textmineR` [@jones2019textminer] provide functions to calculate metrics such as perplexity and semantic coherence. Packages such as `stminsights` [@schwemmer2018stminsights] and `LDAvis` [@sievert2015ldavis] offer additional qualitative methods for predictive validation. As of writing, `tosca` [@koppers2020tosca] is the only package dealing with semantic validation. But the text-based interface might pose challenges to human annotators and it can only support topic models from the `lda` package [@change2015lda].
@@ -140,7 +140,7 @@ oolong_test
 ## An oolong test object with k = 20, 20 coded.
 ## 95%  precision
 ## With 25 cases of topic intrusion test. 25 coded.
-## TLO: -0.041
+## TLO: -0.178
 ```
 
 The suggested workflow is to have at least two human raters to do the same set of tests. Test object can be cloned to allow multiple raters to do the test. More than one test object can be studied together using the function `summarize_oolong()`.
@@ -180,14 +180,14 @@ summarize_oolong(oolong_test_rater1, oolong_test_rater2)
 
 ```
 ## Mean model precision: 0.3
-## Quantiles of model precision: 0.2, 0.25, 0.3, 0.35, 0.4
-## P-value of the model precision (H0: Model precision is not better than random guess): 0.0308425486961487
-## Krippendorff's alpha: 0.303571428571429
-## K Precision: 0, 0, 0, 0, 0, 0.5, 0, 0.5, 1, 0, 0.5, 0, 0.5, 1, 0, 0, 0.5, 0.5, 0, 1
-## Mean TLO: -2.23
-## Median TLO: -2.34
-## Quantiles of TLO: -7.01368655537747, -3.74338324514121, -2.34131453546947, 0, 0
-## P-Value of the median TLO (H0: Median TLO is not better than random guess): 0.102
+## Quantiles of model precision: 0.25, 0.275, 0.3, 0.325, 0.35
+## P-value of the model precision (H0: Model precision is not better than random guess): 0.0494424481559265
+## Krippendorff's alpha: 0.535714285714286
+## K Precision: 0, 0, 0, 0.5, 0, 1, 0, 0, 1, 1, 0, 0, 0, 1, 0, 0, 0.5, 0.5, 0, 0.5
+## Mean TLO: -1.79
+## Median TLO: -1.53
+## Quantiles of TLO: -6.31134457711082, -3.37855005247921, -1.52871957275632, 0, 0
+## P-Value of the median TLO (H0: Median TLO is not better than random guess): 0.0226666666666667
 ```
 
 # Semantic validation of dictionary-based methods
