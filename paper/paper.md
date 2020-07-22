@@ -44,7 +44,7 @@ First, there is existing architecture for conducting statistical validation and 
 
 Second, results from statistical validation do not always agree with those from semantic validation. For example, a topic model with a lower perplexity does not have a better interpretability [@chang2009reading]. Of course, there are also metrics from statistical validation that are shown to be correlated with semantic validity, e.g. semantic coherence [@mimno2011optimizing]. Calculation of semantic coherence is recommended in the best practice paper by @maier2018applying. Nonetheless, conducting only statistical validation is not adequate because these three validation operations supplement each other.
 
-Finally, predictive validation is dependent on research questions and thus it is difficult to be generalized as a reusable software framework. Additionally, the relationship between external (sociopolitical) events and the results from automated content analysis tools is usually what social scientists are eager to study, c.f. using topic models for information retrieval [@yi2008evaluating]. We do not believe social scientists would ignore conducting any form of predictive validation.
+Finally, predictive validation is dependent on research questions and thus it is difficult to be generalized as a reusable software framework. Additionally, the relationship between external (sociopolitical) events and the results from automated content analysis tools is usually what social scientists are eager to study, cf. using topic models for information retrieval [@yi2008evaluating]. We do not believe social scientists would ignore conducting any form of predictive validation.
 
 Oolong focuses on semantic validation. The package provides the "human-in-the-loop" semantic validation procedures suggested by @chang2009reading and @song2020validations. The procedure proposed by @chang2009reading has been adopted in subsequent social science studies as the gold standard to validate topic models, e.g. @bohr2020reporting, @chuang2015topiccheck, and @miller2017australia. The procedure proposed by @song2020validations emphasizes both criterion validity and interrater reliability.
 
@@ -140,7 +140,7 @@ oolong_test
 ## An oolong test object with k = 20, 20 coded.
 ## 95%  precision
 ## With 25 cases of topic intrusion test. 25 coded.
-## TLO: -0.112
+## TLO: 0
 ```
 
 The suggested workflow is to have at least two human raters to do the same set of tests. Test object can be cloned to allow multiple raters to do the test. More than one test object can be studied together using the function `summarize_oolong()`.
@@ -182,12 +182,12 @@ summarize_oolong(oolong_test_rater1, oolong_test_rater2)
 ## Mean model precision: 0.375
 ## Quantiles of model precision: 0.35, 0.3625, 0.375, 0.3875, 0.4
 ## P-value of the model precision (H0: Model precision is not better than random guess): 0.00366923203345445
-## Krippendorff's alpha: 0.272
-## K Precision: 0, 0, 0, 0.5, 0, 1, 0, 0, 0.5, 1, 0.5, 0, 0.5, 0.5, 0.5, 0, 1, 1, 0, 0.5
-## Mean TLO: -1.91
-## Median TLO: -2
-## Quantiles of TLO: -5.25162301590653, -3.05880891717056, -1.9988335990097, 0, 0
-## P-Value of the median TLO (H0: Median TLO is not better than random guess): 0.44
+## Krippendorff's alpha: 0.688
+## K Precision: 0, 0, 1, 0.5, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0.5, 0.5, 1
+## Mean TLO: -2.44
+## Median TLO: -2.52
+## Quantiles of TLO: -6.53068486681543, -4.47069956392285, -2.51910692066112, 0, 0
+## P-Value of the median TLO (H0: Median TLO is not better than random guess): 0.196666666666667
 ```
 
 # Semantic validation of dictionary-based methods
