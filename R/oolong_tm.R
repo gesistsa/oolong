@@ -40,7 +40,8 @@
         shiny::uiOutput("current_topic"),
         shiny::uiOutput("intruder_choice"),
         shiny::actionButton("confirm", "confirm"),
-        shiny::actionButton("nextq", "skip")
+        shiny::actionButton("nextq", "skip"),
+        shiny::actionButton("ff", "jump to uncoded item")
     )
 )
 
@@ -51,7 +52,8 @@
         shiny::uiOutput("text_content"),
         shiny::uiOutput("intruder_choice"),
         shiny::actionButton("confirm", "confirm"),
-        shiny::actionButton("nextq", "skip")
+        shiny::actionButton("nextq", "skip"),
+        shiny::actionButton("ff", "jump to uncoded item")
     )
 )
 
@@ -117,6 +119,15 @@
             res$current_row <- res$current_row + 1
             if (res$current_row > nrow(test_content)) {
                 res$current_row <- 1
+            }
+            output <- .ren(output, test_content, res)
+        })
+        shiny::observeEvent(input$ff, {
+            res_with_na <- which(is.na(res$intruder))
+            if (length(res_with_na) == 0) {
+                res$current_row <- res$current_row
+            } else {
+                res$current_row <- min(res_with_na)
             }
             output <- .ren(output, test_content, res)
         })

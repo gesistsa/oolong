@@ -17,16 +17,19 @@
     return(test_content)
 }
 
-.UI_GOLD_STANDARD_TEST <- miniUI::miniPage(
-                                        miniUI::gadgetTitleBar("oolong"),
-                                        miniUI::miniContentPanel(
-                                                    shiny::uiOutput("current_topic"),
-                                                    shiny::uiOutput("text_content"),
-                                                    shiny::uiOutput("score_slider"),
-                                                    shiny::actionButton("confirm", "confirm"),
-                                                    shiny::actionButton("nextq", "skip")
-                                                )
-                                    )
+.UI_GOLD_STANDARD_TEST <-
+    miniUI::miniPage(
+                miniUI::gadgetTitleBar("oolong"),
+                miniUI::miniContentPanel(
+                            shiny::uiOutput("current_topic"),
+                            shiny::uiOutput("text_content"),
+                            shiny::uiOutput("score_slider"),
+                            shiny::actionButton("confirm", "confirm"),
+                            shiny::actionButton("nextq", "skip"),
+                            shiny::actionButton("ff", "jump to uncoded item")
+                            
+                        )
+            )
 
 .ren_gold_standard_test <- function(output, test_content, res, construct = "positive") {
     .ren_choices <- function(test_content, res, construct) {        
