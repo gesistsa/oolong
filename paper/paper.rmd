@@ -73,10 +73,6 @@ library(oolong)
 abstracts_stm
 ```
 
-```{r}
-abstracts
-```
-
 The function `create_oolong` creates a test object with both word intrusion test and topic intrusion test.
 
 ```{r}
