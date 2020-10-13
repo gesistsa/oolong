@@ -27,11 +27,17 @@ The validation test is called "oolong test" (for reading tea leaves). Creating o
 
 ## Installation
 
-You can install the development version from [GitHub](https://github.com/) with:
+Because the package is constantly changing, we suggest using the development version from [GitHub](https://github.com/):
 
 ``` r
 # install.packages("devtools")
 devtools::install_github("chainsawriot/oolong")
+```
+
+You can also install the "stable" (but slightly older) version from CRAN:
+
+```r
+install.packages("oolong")
 ```
 
 ## Validating Topic Models

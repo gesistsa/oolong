@@ -17,12 +17,19 @@ generates different tests.
 
 ## Installation
 
-You can install the development version from
-[GitHub](https://github.com/) with:
+Because the package is constantly changing, we suggest using the
+development version from [GitHub](https://github.com/):
 
 ``` r
 # install.packages("devtools")
 devtools::install_github("chainsawriot/oolong")
+```
+
+You can also install the “stable” (but slightly older) version from
+CRAN:
+
+``` r
+install.packages("oolong")
 ```
 
 ## Validating Topic Models
@@ -309,7 +316,7 @@ abstracts_dfm
 
 ``` r
 oolong_test <- create_oolong(abstracts_warplda, abstracts$text, input_dfm = abstracts_dfm)
-#> INFO  [16:57:17.437] early stopping at 50 iteration
+#> INFO  [17:10:40.130] early stopping at 50 iteration
 oolong_test
 #> An oolong test object with k = 20, 0 coded.
 #> Use the method $do_word_intrusion_test() to do word intrusion test.
