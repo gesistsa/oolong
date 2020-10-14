@@ -46,7 +46,7 @@
     obj_list <- list(...)
     n_choices <- length(obj_list[[1]]$.__enclos_env__$private$test_content$word$candidates[[1]])
     res <- list()
-    all_word_answers <- purrr::map_dfc(obj_list, ~ .$.__enclos_env__$private$test_content$word$answer)
+    all_word_answers <- suppressMessages(purrr::map_dfc(obj_list, ~ .$.__enclos_env__$private$test_content$word$answer))
     word_intruder <- obj_list[[1]]$.__enclos_env__$private$test_content$word$intruder
     correction_matrix <- all_word_answers == word_intruder
     if (length(obj_list) == 1) {

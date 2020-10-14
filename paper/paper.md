@@ -117,7 +117,7 @@ oolong_test
 ## An oolong test object with k = 20, 20 coded.
 ## 95%  precision
 ## With 25 cases of topic intrusion test. 25 coded.
-## TLO: -0.193
+## TLO: -0.162
 ```
 
 The suggested workflow is to have at least two human raters to do the same set of tests. Test object can be cloned to allow multiple raters to do the test. More than one test object can be studied together using the function `summarize_oolong()`.
@@ -150,24 +150,18 @@ summarize_oolong(oolong_test_rater1, oolong_test_rater2)
 ```
 
 ```
-## New names:
-## * NA -> ...1
-## * NA -> ...2
-```
-
-```
-## Mean model precision: 0.275
-## Quantiles of model precision: 0.15, 0.2125, 0.275, 0.3375, 0.4
+## Mean model precision: 0.25
+## Quantiles of model precision: 0.1, 0.175, 0.25, 0.325, 0.4
 ## P-value of the model precision
-##  (H0: Model precision is not better than random guess): 0.0445
-## Krippendorff's alpha: 0.389
+##  (H0: Model precision is not better than random guess): 0.0551
+## Krippendorff's alpha: 0.22
 ## K Precision:
-## 0, 0, 1, 0.5, 0, 1, 0, 0, 0.5, 0, 0, 0, 0, 0.5, 0, 0, 1, 0.5, 0, 0.5
-## Mean TLO: -1.96
-## Median TLO: -1.66
-## Quantiles of TLO: -6.12, -3.81, -1.66, 0, 0
+## 0, 0, 0, 0, 0, 1, 0, 0, 0.5, 1, 0.5, 0, 0, 0.5, 0, 0, 0.5, 0.5, 0, 0.5
+## Mean TLO: -2.46
+## Median TLO: -3.27
+## Quantiles of TLO: -6.19, -4, -3.27, 0, 0
 ## P-Value of the median TLO 
-## (H0: Median TLO is not better than random guess): 0.0053
+## (H0: Median TLO is not better than random guess): 0.714
 ```
 
 # Semantic validation of dictionary-based methods
