@@ -56,7 +56,6 @@ Currently, oolong supports a variety of topic models, e.g. structural topic mode
 
 For instance, `abstracts_stm` is a structural topic model trained with the text data from `abstracts$text` [@chan2020high].
 
-
 \begin{figure}
 \includegraphics[width=0.5\linewidth]{paper_files/fig1} \caption{A screenshot of word intrusion test}\label{fig:unnamed-chunk-1}
 \end{figure}
@@ -77,28 +76,6 @@ abstracts_stm
 
 ```
 ## A topic model with 20 topics, 2500 documents and a 3998 word dictionary.
-```
-
-
-```r
-abstracts
-```
-
-```
-## # A tibble: 2,500 x 1
-##    text                                                                         
-##    <chr>                                                                        
-##  1 This study explores the benefits and risks featured in medical tourism broke~
-##  2 This article puts forth the argument that with the transfer of stock trading~
-##  3 The purpose of this study was to evaluate the effect the visual fidelity of ~
-##  4 Among the many health issues relevant to college students, overconsumption o~
-##  5 This address, delivered at ICA's 50th anniversary conference, calls on the a~
-##  6 The Internet has often been used to reach men who have sex with men (MSMs) i~
-##  7 This article argues that the literature describing the internet revolution i~
-##  8 This research study examined Bud Goodall's online health narrative as a case~
-##  9 Information technology and new media allow for collecting and sharing person~
-## 10 Using a national, telephone survey of 1,762 adolescents aged 12-17 years, th~
-## # ... with 2,490 more rows
 ```
 
 The function `create_oolong` creates a test object with both word intrusion test and topic intrusion test.
@@ -140,7 +117,7 @@ oolong_test
 ## An oolong test object with k = 20, 20 coded.
 ## 95%  precision
 ## With 25 cases of topic intrusion test. 25 coded.
-## TLO: -0.123
+## TLO: -0.193
 ```
 
 The suggested workflow is to have at least two human raters to do the same set of tests. Test object can be cloned to allow multiple raters to do the test. More than one test object can be studied together using the function `summarize_oolong()`.
@@ -179,15 +156,18 @@ summarize_oolong(oolong_test_rater1, oolong_test_rater2)
 ```
 
 ```
-## Mean model precision: 0.35
-## Quantiles of model precision: 0.25, 0.3, 0.35, 0.4, 0.45
-## P-value of the model precision (H0: Model precision is not better than random guess): 0.0054723041703724
-## Krippendorff's alpha: 0.357142857142857
-## K Precision: 0, 0, 0, 0.5, 0, 1, 0, 0.5, 1, 0, 0, 0, 0.5, 0.5, 0, 0.5, 1, 0.5, 0, 1
-## Mean TLO: -1.9
-## Median TLO: -1.45
-## Quantiles of TLO: -7.8675436813803, -3.38421001680956, -1.45382390860912, 0, 0
-## P-Value of the median TLO (H0: Median TLO is not better than random guess): 0.006
+## Mean model precision: 0.275
+## Quantiles of model precision: 0.15, 0.2125, 0.275, 0.3375, 0.4
+## P-value of the model precision
+##  (H0: Model precision is not better than random guess): 0.0445
+## Krippendorff's alpha: 0.389
+## K Precision:
+## 0, 0, 1, 0.5, 0, 1, 0, 0, 0.5, 0, 0, 0, 0, 0.5, 0, 0, 1, 0.5, 0, 0.5
+## Mean TLO: -1.96
+## Median TLO: -1.66
+## Quantiles of TLO: -6.12, -3.81, -1.66, 0, 0
+## P-Value of the median TLO 
+## (H0: Median TLO is not better than random guess): 0.0053
 ```
 
 # Semantic validation of dictionary-based methods
@@ -195,28 +175,6 @@ summarize_oolong(oolong_test_rater1, oolong_test_rater2)
 Dictionary-based methods such as AFINN [@nielsen2011new] can be validated by creating a gold standard dataset [@song2020validations]. Oolong provides a workflow for generating such gold standard dataset.
 
 For example, you are interested in studying the sentiment of tweets from Donald Trump. `trump2k` is a random subset of 2,000 tweets from Donald Trump. And you would like to use AFINN to extract sentiment from these tweets. In this analysis, AFINN sentiment score is the *target value*.
-
-
-```r
-tibble(text = trump2k)
-```
-
-```
-## # A tibble: 2,000 x 1
-##    text                                                                         
-##    <chr>                                                                        
-##  1 "In just out book, Secret Service Agent Gary Byrne doesn't believe that Croo~
-##  2 "Hillary Clinton has announced that she is letting her husband out to campai~
-##  3 "\"@TheBrodyFile: Always great to visit with @TheBrodyFile one-on-one with \~
-##  4 "Explain to @brithume and @megynkelly, who know nothing, that I will beat Hi~
-##  5 "Nobody beats me on National Security. https://t.co/sCrj4Ha1I5"              
-##  6 "\"@realbill2016: @realDonaldTrump @Brainykid2010 @shl Trump leading LA Time~
-##  7 "\"@teapartynews: Trump Wins Tea Party Group's 'Nashville Straw Poll' - News~
-##  8 "Big Republican Dinner tonight at Mar-a-Lago in Palm Beach. I will be there!"
-##  9 ".@HillaryClinton loves to lie. America has had enough of the CLINTON'S! It ~
-## 10 "\"@brianstoya: @realDonaldTrump For POTUS #2016\""                          
-## # ... with 1,990 more rows
-```
 
 A test object can be generated also with `create_oolong`. The argument `construct` should be an adjective, e.g. "positive" or "liberal".
 
@@ -314,9 +272,9 @@ res
 ```
 
 ```
-## Krippendorff's Alpha: 0.931443661971831
-## Correlation: 0.744 (p = 0)
-## Effect of content length: -0.323 (p = 0.164)
+## Krippendorff's Alpha: 0.931
+## Correlation: 0.744 (p = 2e-04)
+## Effect of content length: -0.323 (p = 0.1643)
 ```
 
 Additional diagnostic plots can also be displayed.

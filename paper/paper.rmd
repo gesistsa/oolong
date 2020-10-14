@@ -56,7 +56,6 @@ Currently, oolong supports a variety of topic models, e.g. structural topic mode
 
 For instance, `abstracts_stm` is a structural topic model trained with the text data from `abstracts$text` [@chan2020high].
 
-
 ```{r, echo = FALSE, out.width="50%", fig.cap = "A screenshot of word intrusion test"}
 knitr::include_graphics("paper_files/fig1.png")
 ```
@@ -150,10 +149,6 @@ summarize_oolong(oolong_test_rater1, oolong_test_rater2)
 Dictionary-based methods such as AFINN [@nielsen2011new] can be validated by creating a gold standard dataset [@song2020validations]. Oolong provides a workflow for generating such gold standard dataset.
 
 For example, you are interested in studying the sentiment of tweets from Donald Trump. `trump2k` is a random subset of 2,000 tweets from Donald Trump. And you would like to use AFINN to extract sentiment from these tweets. In this analysis, AFINN sentiment score is the *target value*.
-
-```{r}
-tibble(text = trump2k)
-```
 
 A test object can be generated also with `create_oolong`. The argument `construct` should be an adjective, e.g. "positive" or "liberal".
 

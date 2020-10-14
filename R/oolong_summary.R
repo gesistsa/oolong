@@ -59,21 +59,21 @@ plot.oolong_summary <- function(x, ...) {
 .print_oolong_summary_tm <- function(oolong_summary) {
     .cp(TRUE, "Mean model precision: ", mean(oolong_summary$rater_precision))
     .cp(oolong_summary$n_models > 1, "Quantiles of model precision: ", paste(quantile(oolong_summary$rater_precision), collapse = ", "))
-    .cp(oolong_summary$n_models > 1, "P-value of the model precision (H0: Model precision is not better than random guess): ", oolong_summary$rater_precision_p_value)
-    .cp(oolong_summary$n_models > 1, "Krippendorff's alpha: ", oolong_summary$kripp_alpha)
-    .cp(TRUE, "K Precision: ", paste(round(oolong_summary$k_precision, 1), collapse = ", "))
+    .cp(oolong_summary$n_models > 1, "P-value of the model precision\n (H0: Model precision is not better than random guess): ", round(oolong_summary$rater_precision_p_value, 4))
+    .cp(oolong_summary$n_models > 1, "Krippendorff's alpha: ", round(oolong_summary$kripp_alpha, 3))
+    .cp(TRUE, "K Precision:\n", paste(round(oolong_summary$k_precision, 1), collapse = ", "))
     .cp(!is.na(oolong_summary$tlo[1]), "Mean TLO: ", round(mean(oolong_summary$tlo), 2))
     .cp(!is.na(oolong_summary$tlo[1]), "Median TLO: ", round(median(oolong_summary$tlo), 2))
-    .cp(!is.na(oolong_summary$tlo[1]), "Quantiles of TLO: ", paste(quantile(oolong_summary$tlo), collapse = ", "))
+    .cp(!is.na(oolong_summary$tlo[1]), "Quantiles of TLO: ", paste(round(quantile(oolong_summary$tlo), 2), collapse = ", "))
     if (!is.na(oolong_summary$tlo[1])) {
-        .cp(TRUE, "P-Value of the median TLO (H0: Median TLO is not better than random guess): ", oolong_summary$tlo_p_value)
+        .cp(TRUE, "P-Value of the median TLO \n(H0: Median TLO is not better than random guess): ", round(oolong_summary$tlo_p_value, 4))
     }
 }
 
 .print_oolong_summary_gs <- function(oolong_summary) {
-    .cp(oolong_summary$n_models > 1, "Krippendorff's Alpha: ", oolong_summary$kripp_alpha$value)
-    .cp(!is.null(oolong_summary$cor), "Correlation: ", round(oolong_summary$cor$estimate, 3), " (p = ", round(oolong_summary$cor$p.value,3), ")")
-    .cp(!is.null(oolong_summary$cor_length), "Effect of content length: ", round(oolong_summary$cor_length$estimate, 3), " (p = ", round(oolong_summary$cor_length$p.value,3), ")")
+    .cp(oolong_summary$n_models > 1, "Krippendorff's Alpha: ", round(oolong_summary$kripp_alpha$value, 3))
+    .cp(!is.null(oolong_summary$cor), "Correlation: ", round(oolong_summary$cor$estimate, 3), " (p = ", round(oolong_summary$cor$p.value, 4), ")")
+    .cp(!is.null(oolong_summary$cor_length), "Effect of content length: ", round(oolong_summary$cor_length$estimate, 3), " (p = ", round(oolong_summary$cor_length$p.value, 4), ")")
 }
 
 #' @rdname summarize_oolong
