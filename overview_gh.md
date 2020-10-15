@@ -198,18 +198,18 @@ Get a summary of the two objects.
 
 ``` r
 summarize_oolong(oolong_test_rater1, oolong_test_rater2)
-#> New names:
-#> * NA -> ...1
-#> * NA -> ...2
 #> Mean model precision: 0.25
 #> Quantiles of model precision: 0.15, 0.2, 0.25, 0.3, 0.35
-#> P-value of the model precision (H0: Model precision is not better than random guess): 0.116965422720289
+#> P-value of the model precision
+#>  (H0: Model precision is not better than random guess): 0.117
 #> Krippendorff's alpha: -0.04
-#> K Precision: 0, 0, 0, 0, 0, 1, 0, 0, 0.5, 0, 0.5, 0, 0, 0.5, 0.5, 0.5, 0.5, 0.5, 0, 0.5
+#> K Precision:
+#> 0, 0, 0, 0, 0, 1, 0, 0, 0.5, 0, 0.5, 0, 0, 0.5, 0.5, 0.5, 0.5, 0.5, 0, 0.5
 #> Mean TLO: -2.19
 #> Median TLO: -2.71
-#> Quantiles of TLO: -5.30060892321449, -3.43501604695058, -2.71123793694549, 0, 0
-#> P-Value of the median TLO (H0: Median TLO is not better than random guess): 0.186
+#> Quantiles of TLO: -5.3, -3.44, -2.71, 0, 0
+#> P-Value of the median TLO 
+#> (H0: Median TLO is not better than random guess): 0.186
 ```
 
 ### About the p-values
@@ -316,7 +316,7 @@ abstracts_dfm
 
 ``` r
 oolong_test <- create_oolong(abstracts_warplda, abstracts$text, input_dfm = abstracts_dfm)
-#> INFO  [17:37:58.107] early stopping at 50 iteration
+#> INFO  [14:53:12.207] early stopping at 50 iteration
 oolong_test
 #> An oolong test object with k = 20, 0 coded.
 #> Use the method $do_word_intrusion_test() to do word intrusion test.
@@ -445,8 +445,8 @@ summarize_oolong(oolong_test, target_value = all_afinn_score)
 #> * NA -> ...1
 #> `geom_smooth()` using formula 'y ~ x'
 #> `geom_smooth()` using formula 'y ~ x'
-#> Correlation: 0.718 (p = 0)
-#> Effect of content length: -0.323 (p = 0.164)
+#> Correlation: 0.718 (p = 4e-04)
+#> Effect of content length: -0.323 (p = 0.1643)
 ```
 
 ### Suggested workflow
@@ -520,9 +520,9 @@ acceptable cut-off.
 
 ``` r
 res
-#> Krippendorff's Alpha: 0.931443661971831
-#> Correlation: 0.744 (p = 0)
-#> Effect of content length: -0.323 (p = 0.164)
+#> Krippendorff's Alpha: 0.931
+#> Correlation: 0.744 (p = 2e-04)
+#> Effect of content length: -0.323 (p = 0.1643)
 ```
 
 ``` r
