@@ -140,9 +140,15 @@ oolong_test_rater2$lock()
 
 Get a summary of the two objects.
 
+```{r, include = FALSE}
+set.seed(46709394)
+```
+
 ```{r, step3}
 summarize_oolong(oolong_test_rater1, oolong_test_rater2)
 ```
+
+Two key indicators of semantic validity are mean model precision and median TLO. Please interpret the magnitude of the two values [see @chang2009reading] rather than the two statisical tests. The two statistical tests are testing whether the raters did better than random guess. Therefore, rejection of the null hypothesis is just the bare minimum of topic interpretability, *not* an indicator of adquate semantic validity of the topic model. Besides, please a very conservative significant level, e.g. alpha < 0.001.
 
 # Semantic validation of dictionary-based methods
 

@@ -117,7 +117,7 @@ oolong_test
 ## An oolong test object with k = 20, 20 coded.
 ## 95%  precision
 ## With 25 cases of topic intrusion test. 25 coded.
-## TLO: -0.129
+## TLO: -0.135
 ```
 
 The suggested workflow is to have at least two human raters to do the same set of tests. Test object can be cloned to allow multiple raters to do the test. More than one test object can be studied together using the function `summarize_oolong()`.
@@ -145,24 +145,28 @@ oolong_test_rater2$lock()
 Get a summary of the two objects.
 
 
+
+
 ```r
 summarize_oolong(oolong_test_rater1, oolong_test_rater2)
 ```
 
 ```
-## Mean model precision: 0.45
-## Quantiles of model precision: 0.25, 0.35, 0.45, 0.55, 0.65
+## Mean model precision: 0.3
+## Quantiles of model precision: 0.25, 0.275, 0.3, 0.325, 0.35
 ## P-value of the model precision
-##  (H0: Model precision is not better than random guess): 0
-## Krippendorff's alpha: 0.015
+##  (H0: Model precision is not better than random guess): 0.0494
+## Krippendorff's alpha: 0.071
 ## K Precision:
-## 0, 0.5, 1, 0, 1, 0.5, 1, 0, 0.5, 1, 0.5, 0, 0, 0.5, 0.5, 0.5, 0.5, 0.5, 0, 0.5
-## Mean TLO: -2.18
-## Median TLO: -2.31
-## Quantiles of TLO: -4.85, -3.63, -2.31, -0.13, 0
+## 0, 0, 0, 0, 0, 0.5, 1, 0, 0.5, 0, 0.5, 0, 0, 0.5, 0.5, 0, 0.5, 0.5, 0.5, 1
+## Mean TLO: -1.9
+## Median TLO: -1.54
+## Quantiles of TLO: -6.05, -3.56, -1.54, 0, 0
 ## P-Value of the median TLO 
-## (H0: Median TLO is not better than random guess): 0.3047
+## (H0: Median TLO is not better than random guess): 0.014
 ```
+
+Two key indicators of semantic validity are mean model precision and median TLO. Please interpret the magnitude of the two values [see @chang2009reading] rather than the two statisical tests. The two statistical tests are testing whether the raters did better than random guess. Therefore, rejection of the null hypothesis is just the bare minimum of topic interpretability, *not* an indicator of adquate semantic validity of the topic model. Besides, please a very conservative significant level, e.g. alpha < 0.001.
 
 # Semantic validation of dictionary-based methods
 
