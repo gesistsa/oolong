@@ -9,6 +9,9 @@
 status](https://travis-ci.org/chainsawriot/oolong.svg?branch=master)](https://travis-ci.org/chainsawriot/oolong)
 [![Codecov test
 coverage](https://codecov.io/gh/chainsawriot/oolong/branch/master/graph/badge.svg)](https://codecov.io/gh/chainsawriot/oolong?branch=master)
+[![joss
+stataus](https://joss.theoj.org/papers/6e535564e7142d705f4f3d68b18dac62/status.svg)](https://joss.theoj.org/papers/6e535564e7142d705f4f3d68b18dac62)
+[![zenodo](https://zenodo.org/badge/224468858.svg)](https://zenodo.org/badge/latestdoi/224468858)
 <!-- badges: end -->
 
 <img src="man/figures/oolong_demo.gif" align="center" height="400" />

@@ -316,7 +316,7 @@ abstracts_dfm
 
 ``` r
 oolong_test <- create_oolong(abstracts_warplda, abstracts$text, input_dfm = abstracts_dfm)
-#> INFO  [14:53:12.207] early stopping at 50 iteration
+#> INFO  [11:22:30.636] early stopping at 50 iteration
 oolong_test
 #> An oolong test object with k = 20, 0 coded.
 #> Use the method $do_word_intrusion_test() to do word intrusion test.
