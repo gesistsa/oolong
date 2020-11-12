@@ -1,0 +1,15 @@
+citHeader("To cite oolong in publications use:")
+
+
+bibentry(bibtype = "article",
+         title = "oolong: An R package for validating automated content analysis tools",
+         journal = "Journal of Open Source Software",
+         author = c(person("Chung-hong", "Chan"),
+                    person("Marius", "Sältzer")),
+         doi = "10.21105/joss.02461",
+         url = "https://github.com/chainsawriot/oolong",
+         volume = 5,
+         number = 55,
+         pages = 2461,
+         year = 2020
+         )

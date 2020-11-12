@@ -12,6 +12,8 @@ coverage](https://codecov.io/gh/chainsawriot/oolong/branch/master/graph/badge.sv
 [![joss
 stataus](https://joss.theoj.org/papers/6e535564e7142d705f4f3d68b18dac62/status.svg)](https://joss.theoj.org/papers/6e535564e7142d705f4f3d68b18dac62)
 [![zenodo](https://zenodo.org/badge/224468858.svg)](https://zenodo.org/badge/latestdoi/224468858)
+[![CRAN
+status](https://www.r-pkg.org/badges/version/oolong)](https://CRAN.R-project.org/package=oolong)
 <!-- badges: end -->
 
 <img src="man/figures/oolong_demo.gif" align="center" height="400" />
@@ -23,6 +25,16 @@ models and dictionary-based tools.
 Please refer to the [overview](overview_gh.md) for an introduction to
 this package. If you use BTM, please refer to the [BTM
 Vignette](btm_gh.md).
+
+## Citation
+
+Please cite this package as:
+
+Chan et al., (2020). oolong: An R package for validating automated
+content analysis tools. Journal of Open Source Software, 5(55), 2461,
+<https://doi.org/10.21105/joss.02461>
+
+For a BibTeX entry, use the output from `citation(package = "oolong")`.
 
 ## Contributing
 
