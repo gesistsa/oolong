@@ -30,9 +30,9 @@ Vignette](btm_gh.md).
 
 Please cite this package as:
 
-Chan et al., (2020). oolong: An R package for validating automated
-content analysis tools. Journal of Open Source Software, 5(55), 2461,
-<https://doi.org/10.21105/joss.02461>
+Chan C-h. & Sältzer M., (2020). oolong: An R package for validating
+automated content analysis tools. Journal of Open Source Software,
+5(55), 2461, <https://doi.org/10.21105/joss.02461>
 
 For a BibTeX entry, use the output from `citation(package = "oolong")`.
 
