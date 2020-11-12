@@ -8,7 +8,7 @@ tags:
   - validation
 authors:
   - name: Chung-hong Chan
-    orcid: 0000-0003-0872-7098
+    orcid: 0000-0002-6232-7530
     affiliation: 1
   - name: Marius Sältzer
     orcid: 0000-0002-8604-4666
@@ -117,7 +117,7 @@ oolong_test
 ## An oolong test object with k = 20, 20 coded.
 ## 95%  precision
 ## With 25 cases of topic intrusion test. 25 coded.
-## TLO: -0.032
+## TLO: -0.235
 ```
 
 The suggested workflow is to have at least two human raters to do the same set of tests. Test object can be cloned to allow multiple raters to do the test. More than one test object can be studied together using the function `summarize_oolong()`.
@@ -152,18 +152,18 @@ summarize_oolong(oolong_test_rater1, oolong_test_rater2)
 ```
 
 ```
-## Mean model precision: 0.3
-## Quantiles of model precision: 0.15, 0.225, 0.3, 0.375, 0.45
+## Mean model precision: 0.35
+## Quantiles of model precision: 0.3, 0.325, 0.35, 0.375, 0.4
 ## P-value of the model precision
-##  (H0: Model precision is not better than random guess): 0.0139
-## Krippendorff's alpha: 0.304
+##  (H0: Model precision is not better than random guess): 0.0089
+## Krippendorff's alpha: 0.143
 ## K Precision:
-## 0, 0, 0, 0, 0, 0.5, 1, 0, 0.5, 0, 0, 0, 0.5, 1, 0, 0.5, 1, 0.5, 0, 0.5
-## Mean TLO: -2.28
-## Median TLO: -2.45
-## Quantiles of TLO: -7.43, -3.71, -2.45, 0, 0
+## 0.5, 0, 0, 0.5, 0, 0.5, 0, 0, 1, 0, 0, 1, 0, 1, 0.5, 0, 0.5, 0.5, 0.5, 0.5
+## Mean TLO: -1.58
+## Median TLO: -0.08
+## Quantiles of TLO: -6.64, -2.9, -0.08, 0, 0
 ## P-Value of the median TLO 
-## (H0: Median TLO is not better than random guess): 0.2593
+## (H0: Median TLO is not better than random guess): 0
 ```
 
 Two key indicators of semantic validity are mean model precision and median TLO. Please interpret the magnitude of the two values [see @chang2009reading] rather than the two statisical tests. The two statistical tests are testing whether the raters did better than random guess. Therefore, rejection of the null hypothesis is just the bare minimum of topic interpretability, *not* an indicator of adquate semantic validity of the topic model. Besides, please a very conservative significant level, e.g. alpha < 0.001.

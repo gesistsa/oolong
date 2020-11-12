@@ -8,7 +8,7 @@ tags:
   - validation
 authors:
   - name: Chung-hong Chan
-    orcid: 0000-0003-0872-7098
+    orcid: 0000-0002-6232-7530
     affiliation: 1
   - name: Marius Sältzer
     orcid: 0000-0002-8604-4666
