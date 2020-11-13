@@ -6,22 +6,20 @@ vignettes: .FORCE
 	cat vig_head.Rmd | sed 's/{title}/Overview/g' > vig_temp.Rmd
 	cat vig_temp.Rmd vig_body.Rmd > vignettes/overview.Rmd
 	rm vig_temp.Rmd
+	cat vig_head.Rmd | sed 's/{title}/BTM/g' > vig_temp.Rmd
+	cat vig_temp.Rmd btm.Rmd > vignettes/btm.Rmd
+	rm vig_temp.Rmd
 
 overviewgh: vignettes
 	cat gh_head.Rmd | sed 's/{title}/Overview/g' > gh_temp.Rmd
 	cat gh_temp.Rmd vig_body.Rmd > overview_gh.Rmd
 	rm gh_temp.Rmd
-
-overviewghmd: overviewgh
-	Rscript -e "rmarkdown::render('overview_gh.Rmd')"
-
-btm: .FORCE
-	cat vig_head.Rmd | sed 's/{title}/BTM/g' > vig_temp.Rmd
-	cat vig_temp.Rmd btm.Rmd > vignettes/btm.Rmd
-	rm vig_temp.Rmd
 	cat gh_head.Rmd | sed 's/{title}/BTM/g' > gh_temp.Rmd
 	cat gh_temp.Rmd btm.Rmd > btm_gh.Rmd
 	rm gh_temp.Rmd
+
+overviewghmd: overviewgh
+	Rscript -e "rmarkdown::render('overview_gh.Rmd')"
 	Rscript -e "rmarkdown::render('btm_gh.Rmd')"
 
 README: overviewghmd

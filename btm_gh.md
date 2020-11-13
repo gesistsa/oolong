@@ -20,8 +20,8 @@ require(BTM)
 #> Loading required package: BTM
 require(quanteda)
 #> Loading required package: quanteda
-#> Package version: 2.0.0
-#> Parallel computing: 2 of 4 threads used.
+#> Package version: 2.1.2
+#> Parallel computing: 2 of 8 threads used.
 #> See https://quanteda.io for tutorials and examples.
 #> 
 #> Attaching package: 'quanteda'
@@ -62,56 +62,56 @@ Train a BTM model
 
 ``` r
 trump_btm <- BTM(trump_dat, k = 8, iter = 500, trace = 10)
-#> 2020-07-01 18:39:50 Start Gibbs sampling iteration 1/500
-#> 2020-07-01 18:39:51 Start Gibbs sampling iteration 11/500
-#> 2020-07-01 18:39:51 Start Gibbs sampling iteration 21/500
-#> 2020-07-01 18:39:52 Start Gibbs sampling iteration 31/500
-#> 2020-07-01 18:39:53 Start Gibbs sampling iteration 41/500
-#> 2020-07-01 18:39:53 Start Gibbs sampling iteration 51/500
-#> 2020-07-01 18:39:54 Start Gibbs sampling iteration 61/500
-#> 2020-07-01 18:39:54 Start Gibbs sampling iteration 71/500
-#> 2020-07-01 18:39:55 Start Gibbs sampling iteration 81/500
-#> 2020-07-01 18:39:55 Start Gibbs sampling iteration 91/500
-#> 2020-07-01 18:39:56 Start Gibbs sampling iteration 101/500
-#> 2020-07-01 18:39:56 Start Gibbs sampling iteration 111/500
-#> 2020-07-01 18:39:57 Start Gibbs sampling iteration 121/500
-#> 2020-07-01 18:39:57 Start Gibbs sampling iteration 131/500
-#> 2020-07-01 18:39:58 Start Gibbs sampling iteration 141/500
-#> 2020-07-01 18:39:58 Start Gibbs sampling iteration 151/500
-#> 2020-07-01 18:39:59 Start Gibbs sampling iteration 161/500
-#> 2020-07-01 18:39:59 Start Gibbs sampling iteration 171/500
-#> 2020-07-01 18:40:00 Start Gibbs sampling iteration 181/500
-#> 2020-07-01 18:40:00 Start Gibbs sampling iteration 191/500
-#> 2020-07-01 18:40:01 Start Gibbs sampling iteration 201/500
-#> 2020-07-01 18:40:01 Start Gibbs sampling iteration 211/500
-#> 2020-07-01 18:40:02 Start Gibbs sampling iteration 221/500
-#> 2020-07-01 18:40:02 Start Gibbs sampling iteration 231/500
-#> 2020-07-01 18:40:03 Start Gibbs sampling iteration 241/500
-#> 2020-07-01 18:40:03 Start Gibbs sampling iteration 251/500
-#> 2020-07-01 18:40:04 Start Gibbs sampling iteration 261/500
-#> 2020-07-01 18:40:04 Start Gibbs sampling iteration 271/500
-#> 2020-07-01 18:40:05 Start Gibbs sampling iteration 281/500
-#> 2020-07-01 18:40:05 Start Gibbs sampling iteration 291/500
-#> 2020-07-01 18:40:06 Start Gibbs sampling iteration 301/500
-#> 2020-07-01 18:40:06 Start Gibbs sampling iteration 311/500
-#> 2020-07-01 18:40:07 Start Gibbs sampling iteration 321/500
-#> 2020-07-01 18:40:07 Start Gibbs sampling iteration 331/500
-#> 2020-07-01 18:40:08 Start Gibbs sampling iteration 341/500
-#> 2020-07-01 18:40:09 Start Gibbs sampling iteration 351/500
-#> 2020-07-01 18:40:09 Start Gibbs sampling iteration 361/500
-#> 2020-07-01 18:40:10 Start Gibbs sampling iteration 371/500
-#> 2020-07-01 18:40:10 Start Gibbs sampling iteration 381/500
-#> 2020-07-01 18:40:11 Start Gibbs sampling iteration 391/500
-#> 2020-07-01 18:40:11 Start Gibbs sampling iteration 401/500
-#> 2020-07-01 18:40:12 Start Gibbs sampling iteration 411/500
-#> 2020-07-01 18:40:12 Start Gibbs sampling iteration 421/500
-#> 2020-07-01 18:40:13 Start Gibbs sampling iteration 431/500
-#> 2020-07-01 18:40:13 Start Gibbs sampling iteration 441/500
-#> 2020-07-01 18:40:14 Start Gibbs sampling iteration 451/500
-#> 2020-07-01 18:40:14 Start Gibbs sampling iteration 461/500
-#> 2020-07-01 18:40:15 Start Gibbs sampling iteration 471/500
-#> 2020-07-01 18:40:15 Start Gibbs sampling iteration 481/500
-#> 2020-07-01 18:40:16 Start Gibbs sampling iteration 491/500
+#> 2020-11-13 13:21:11 Start Gibbs sampling iteration 1/500
+#> 2020-11-13 13:21:11 Start Gibbs sampling iteration 11/500
+#> 2020-11-13 13:21:11 Start Gibbs sampling iteration 21/500
+#> 2020-11-13 13:21:11 Start Gibbs sampling iteration 31/500
+#> 2020-11-13 13:21:11 Start Gibbs sampling iteration 41/500
+#> 2020-11-13 13:21:11 Start Gibbs sampling iteration 51/500
+#> 2020-11-13 13:21:11 Start Gibbs sampling iteration 61/500
+#> 2020-11-13 13:21:12 Start Gibbs sampling iteration 71/500
+#> 2020-11-13 13:21:12 Start Gibbs sampling iteration 81/500
+#> 2020-11-13 13:21:12 Start Gibbs sampling iteration 91/500
+#> 2020-11-13 13:21:12 Start Gibbs sampling iteration 101/500
+#> 2020-11-13 13:21:12 Start Gibbs sampling iteration 111/500
+#> 2020-11-13 13:21:12 Start Gibbs sampling iteration 121/500
+#> 2020-11-13 13:21:12 Start Gibbs sampling iteration 131/500
+#> 2020-11-13 13:21:13 Start Gibbs sampling iteration 141/500
+#> 2020-11-13 13:21:13 Start Gibbs sampling iteration 151/500
+#> 2020-11-13 13:21:13 Start Gibbs sampling iteration 161/500
+#> 2020-11-13 13:21:13 Start Gibbs sampling iteration 171/500
+#> 2020-11-13 13:21:13 Start Gibbs sampling iteration 181/500
+#> 2020-11-13 13:21:13 Start Gibbs sampling iteration 191/500
+#> 2020-11-13 13:21:13 Start Gibbs sampling iteration 201/500
+#> 2020-11-13 13:21:13 Start Gibbs sampling iteration 211/500
+#> 2020-11-13 13:21:14 Start Gibbs sampling iteration 221/500
+#> 2020-11-13 13:21:14 Start Gibbs sampling iteration 231/500
+#> 2020-11-13 13:21:14 Start Gibbs sampling iteration 241/500
+#> 2020-11-13 13:21:14 Start Gibbs sampling iteration 251/500
+#> 2020-11-13 13:21:14 Start Gibbs sampling iteration 261/500
+#> 2020-11-13 13:21:14 Start Gibbs sampling iteration 271/500
+#> 2020-11-13 13:21:14 Start Gibbs sampling iteration 281/500
+#> 2020-11-13 13:21:14 Start Gibbs sampling iteration 291/500
+#> 2020-11-13 13:21:14 Start Gibbs sampling iteration 301/500
+#> 2020-11-13 13:21:15 Start Gibbs sampling iteration 311/500
+#> 2020-11-13 13:21:15 Start Gibbs sampling iteration 321/500
+#> 2020-11-13 13:21:15 Start Gibbs sampling iteration 331/500
+#> 2020-11-13 13:21:15 Start Gibbs sampling iteration 341/500
+#> 2020-11-13 13:21:15 Start Gibbs sampling iteration 351/500
+#> 2020-11-13 13:21:15 Start Gibbs sampling iteration 361/500
+#> 2020-11-13 13:21:15 Start Gibbs sampling iteration 371/500
+#> 2020-11-13 13:21:16 Start Gibbs sampling iteration 381/500
+#> 2020-11-13 13:21:16 Start Gibbs sampling iteration 391/500
+#> 2020-11-13 13:21:16 Start Gibbs sampling iteration 401/500
+#> 2020-11-13 13:21:16 Start Gibbs sampling iteration 411/500
+#> 2020-11-13 13:21:16 Start Gibbs sampling iteration 421/500
+#> 2020-11-13 13:21:16 Start Gibbs sampling iteration 431/500
+#> 2020-11-13 13:21:16 Start Gibbs sampling iteration 441/500
+#> 2020-11-13 13:21:16 Start Gibbs sampling iteration 451/500
+#> 2020-11-13 13:21:16 Start Gibbs sampling iteration 461/500
+#> 2020-11-13 13:21:17 Start Gibbs sampling iteration 471/500
+#> 2020-11-13 13:21:17 Start Gibbs sampling iteration 481/500
+#> 2020-11-13 13:21:17 Start Gibbs sampling iteration 491/500
 ```
 
 ## Pecularities of BTM

@@ -1,3 +1,8 @@
+## Resubmission (13-Nov-2020) - version 0.3.11
+
+It seems that the package failed the test `checking re-building of vignette outputs` for win-builder (R-devel). I have rechecked the package with win-builder for two times and I can't reproduce such error. Also, GitHub Actions can't reproduce such error too. A possible explanation to this is that vignette depends on randomness and in some weird case it will draw a weird sample that generates an error. At the mean time, I have set up a random seed in that vignette.
+
+
 ## Resubmission (20-Mar-2020) - version 0.3.4
 
     functions which are supposed to only run interactively (e.g. shiny) should be wrapped in if(interactive()). Is this the case?

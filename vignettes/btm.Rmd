@@ -4,7 +4,7 @@ output: rmarkdown::html_vignette
 author:
   - Chung-hong Chan ^[University of Mannheim]
 vignette: >
-  %\VignetteIndexEntry{overview}
+  %\VignetteIndexEntry{BTM}
   %\VignetteEngine{knitr::rmarkdown}
   %\usepackage[utf8]{inputenc}
 ---
@@ -13,7 +13,8 @@ vignette: >
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
-)
+  )
+set.seed(46709394)
 ```
 
 
