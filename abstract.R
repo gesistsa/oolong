@@ -96,3 +96,18 @@ oolong <- create_oolong(abstracts_keyatm)
 oolong$do_word_intrusion_test()
 
 oolong <- create_oolong(abstracts_keyatm, abstracts$text, exact_n = 10)
+
+
+### very small k
+
+abstracts_dfm %>% convert(to = "stm", omit_empty = FALSE) -> abstracts_stm_data_small
+
+abstracts_stm_small <- stm(abstracts_stm_data_small$documents, abstracts_stm_data_small$vocab, data =abstracts_stm_data_small$meta, K = 4, seed = 46709394)
+
+saveRDS(abstracts_stm_small, "./tests/testdata/abstracts_stm_small.RDS")
+
+abstracts_tm <- convert(abstracts_dfm, to = "topicmodels")
+require(topicmodels)
+abstracts_topicmodels_small <- LDA(abstracts_tm, k = 3)
+
+saveRDS(abstracts_topicmodels_small, "./tests/testdata/abstracts_topicmodels_small.RDS")

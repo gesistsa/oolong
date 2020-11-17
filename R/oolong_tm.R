@@ -165,11 +165,19 @@
     candidates[position]
 }
 
+.safe_sample <- function(x, size) {
+    if (length(x) == 1) {
+        return(x)
+    } else {
+        return(sample(x, size))
+    }
+}
+
 .generate_topic_frame <- function(i, target_text, target_theta, model_terms, k = k, n_top_topics = 3) {
     text <- target_text[i]
     theta_rank <- rank(target_theta[i,])
     theta_pos <- which(theta_rank > (k - n_top_topics))
-    intruder_pos <- sample(setdiff(seq_len(k), theta_pos), 1)
+    intruder_pos <- .safe_sample(setdiff(seq_len(k), theta_pos), 1)
     position <- sample(seq_len(n_top_topics + 1), 1)
     topic_frame <- .insert(theta_pos, intruder_pos, position)
     topic_frame$text <- text
@@ -184,7 +192,10 @@
     if ("corpus" %in% class(input_corpus)) {
         input_corpus <- quanteda::texts(input_corpus)
     }
-    if (n_top_topics + 1 >= ingredients$K) {
+    if (n_top_topics <= 1) {
+        stop("n_top_topics must be larger than 1")
+    }
+    if (n_top_topics + 1 > ingredients$K) {
         stop("n_top_topics + 1 must be smaller than K.")
     }
     if (!is.null(frac) & is.null(exact_n)) {
