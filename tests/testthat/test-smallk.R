@@ -47,3 +47,8 @@ test_that("small k topicmodels", {
     expect_error(create_oolong(input_model = smallklda, input_corpus = corpus(abstracts$text), n_top_topics = 2), NA)
     expect_error(create_oolong(input_model = smallklda, input_corpus = corpus(abstracts$text), n_top_topics = 1))
 })
+
+
+test_that("dealing with ties", {
+    expect_error(create_oolong(input_model = readRDS("../testdata/lda_ties.RDS"), input_corpus = rep("", 5270), n_top_topics = 2), NA)
+})
