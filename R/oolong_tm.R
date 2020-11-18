@@ -175,7 +175,7 @@
 
 .generate_topic_frame <- function(i, target_text, target_theta, model_terms, k = k, n_top_topics = 3) {
     text <- target_text[i]
-    theta_rank <- rank(target_theta[i,])
+    theta_rank <- rank(target_theta[i,], ties.method = "random")
     theta_pos <- which(theta_rank > (k - n_top_topics))
     intruder_pos <- .safe_sample(setdiff(seq_len(k), theta_pos), 1)
     position <- sample(seq_len(n_top_topics + 1), 1)

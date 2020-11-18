@@ -150,7 +150,7 @@ oolong_test
 #> An oolong test object with k = 20, 20 coded.
 #> 100%  precision
 #> With 25 cases of topic intrusion test. 25 coded.
-#> TLO: -0.064
+#> TLO: -0.16
 ```
 
 ### Suggested workflow
@@ -198,18 +198,18 @@ Get a summary of the two objects.
 
 ``` r
 summarize_oolong(oolong_test_rater1, oolong_test_rater2)
-#> Mean model precision: 0.25
-#> Quantiles of model precision: 0.15, 0.2, 0.25, 0.3, 0.35
+#> Mean model precision: 0.375
+#> Quantiles of model precision: 0.3, 0.3375, 0.375, 0.4125, 0.45
 #> P-value of the model precision
-#>  (H0: Model precision is not better than random guess): 0.117
-#> Krippendorff's alpha: -0.04
+#>  (H0: Model precision is not better than random guess): 0.0026
+#> Krippendorff's alpha: 0.48
 #> K Precision:
-#> 0, 0, 0, 0, 0, 1, 0, 0, 0.5, 0, 0.5, 0, 0, 0.5, 0.5, 0.5, 0.5, 0.5, 0, 0.5
-#> Mean TLO: -2.19
-#> Median TLO: -2.71
-#> Quantiles of TLO: -5.3, -3.44, -2.71, 0, 0
+#> 0.5, 0, 0, 0.5, 0, 1, 1, 0, 1, 0, 0, 1, 0, 0.5, 0, 0, 0.5, 0.5, 0, 1
+#> Mean TLO: -1.62
+#> Median TLO: -1.47
+#> Quantiles of TLO: -5.72, -2.25, -1.47, 0, 0
 #> P-Value of the median TLO 
-#> (H0: Median TLO is not better than random guess): 0.186
+#> (H0: Median TLO is not better than random guess): 0.02
 ```
 
 ### About the p-values
@@ -316,7 +316,7 @@ abstracts_dfm
 
 ``` r
 oolong_test <- create_oolong(abstracts_warplda, abstracts$text, input_dfm = abstracts_dfm)
-#> INFO  [16:55:22.967] early stopping at 50 iteration
+#> INFO  [16:20:59.899] early stopping at 50 iteration
 oolong_test
 #> An oolong test object with k = 20, 0 coded.
 #> Use the method $do_word_intrusion_test() to do word intrusion test.
