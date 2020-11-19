@@ -52,3 +52,13 @@ test_that("small k topicmodels", {
 test_that("dealing with ties", {
     expect_error(create_oolong(input_model = readRDS("../testdata/lda_ties.RDS"), input_corpus = rep("", 5270), n_top_topics = 2), NA)
 })
+
+test_that("low k lda query", {
+    library(quanteda)
+    library(topicmodels)
+    dfm1 <- readRDS("../testdata/low_k_dfm1.RDS")
+    dtm1 <- quanteda::convert(dfm1, to = "topicmodels")
+    set.seed(122)
+    lda1.2 <- LDA(dtm1, method = "Gibbs", k = 3, control = list(alpha = 0.1))
+    expect_error(create_oolong(input_model = lda1.2, input_corpus = rep("", 5718)[ntoken(dfm1) > 0], n_top_topics = 2), NA)
+})

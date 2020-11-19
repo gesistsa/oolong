@@ -165,14 +165,6 @@
     candidates[position]
 }
 
-.safe_sample <- function(x, size) {
-    if (length(x) == 1) {
-        return(x)
-    } else {
-        return(sample(x, size))
-    }
-}
-
 .generate_topic_frame <- function(i, target_text, target_theta, model_terms, k = k, n_top_topics = 3) {
     text <- target_text[i]
     theta_rank <- rank(target_theta[i,], ties.method = "random")

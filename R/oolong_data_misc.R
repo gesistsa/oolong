@@ -59,3 +59,12 @@ utils::globalVariables(c('cookd', 'diffxy', 'index', 'meanxy', 'word_length', 'a
         stop(...)
     }
 }
+
+### to get rid of the stupid behaviour of sample() when length of x is 1.
+.safe_sample <- function(x, size) {
+    if (length(x) == 1) {
+        return(x)
+    } else {
+        return(sample(x, size))
+    }
+}
