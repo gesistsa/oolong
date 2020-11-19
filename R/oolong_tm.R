@@ -6,7 +6,7 @@
     length_test_items <- length(c(good_terms, intruder))
     res <- rep(NA, length_test_items)
     res[position] <- intruder
-    res[setdiff(1:length_test_items, position)] <- sample(good_terms)
+    res[setdiff(1:length_test_items, position)] <- .safe_sample(good_terms)
     return(tibble::tibble(position = position, candidates = list(res)))
 }
 
@@ -15,8 +15,8 @@
     term_pos <- match(all_terms, terms[i,])
     candidates <- tibble::tibble(all_terms, term_pos)
     non_na_candidates <- candidates[!is.na(candidates$term_pos),]
-    intruder <- sample(non_na_candidates$all_terms[non_na_candidates$term_pos > quantile(non_na_candidates$term_pos, bottom_terms_percentile, na.rm = TRUE)], 1)
-    position <- sample(1:(n_top_terms + 1), 1)
+    intruder <- .safe_sample(non_na_candidates$all_terms[non_na_candidates$term_pos > quantile(non_na_candidates$term_pos, bottom_terms_percentile, na.rm = TRUE)], 1)
+    position <- .safe_sample(1:(n_top_terms + 1), 1)
     .insert(good_terms, intruder, position) -> res
     res$t <- i
     res$intruder <- res$candidates[[1]][res$position]
@@ -158,7 +158,7 @@
 }
 
 .sample_corpus <- function(input_corpus, exact_n = 30) {
-    sample(seq_len(length(input_corpus)), exact_n)
+    .safe_sample(seq_len(length(input_corpus)), exact_n)
 }
 
 .get_intruder_by_position <- function(candidates, position) {
@@ -170,7 +170,7 @@
     theta_rank <- rank(target_theta[i,], ties.method = "random")
     theta_pos <- which(theta_rank > (k - n_top_topics))
     intruder_pos <- .safe_sample(setdiff(seq_len(k), theta_pos), 1)
-    position <- sample(seq_len(n_top_topics + 1), 1)
+    position <- .safe_sample(seq_len(n_top_topics + 1), 1)
     topic_frame <- .insert(theta_pos, intruder_pos, position)
     topic_frame$text <- text
     topic_frame$topic_labels <- list(apply(model_terms[topic_frame$candidates[[1]],], 1, paste0, collapse = ", "))

@@ -90,14 +90,14 @@
 }
 
 .monkey_test <- function(oolong, intelligent = 0) {
-    oolong$.__enclos_env__$private$test_content$word$answer <- purrr::map_chr(oolong$.__enclos_env__$private$test_content$word$candidates, ~ sample(., 1))
+    oolong$.__enclos_env__$private$test_content$word$answer <- purrr::map_chr(oolong$.__enclos_env__$private$test_content$word$candidates, ~ .safe_sample(., 1))
     correct <- rep(FALSE, nrow(oolong$.__enclos_env__$private$test_content$word))
-    correct[sample(seq_along(correct), size = floor(length(correct) * intelligent))] <- TRUE
+    correct[.safe_sample(seq_along(correct), size = floor(length(correct) * intelligent))] <- TRUE
     oolong$.__enclos_env__$private$test_content$word$answer[correct] <- oolong$.__enclos_env__$private$test_content$word$intruder[correct]
     if (!is.null(oolong$.__enclos_env__$private$test_content$topic)) {
-        oolong$.__enclos_env__$private$test_content$topic$answer <- purrr::map_int(oolong$.__enclos_env__$private$test_content$topic$candidates, ~ sample(., 1))
+        oolong$.__enclos_env__$private$test_content$topic$answer <- purrr::map_int(oolong$.__enclos_env__$private$test_content$topic$candidates, ~ .safe_sample(., 1))
         correct <- rep(FALSE, nrow(oolong$.__enclos_env__$private$test_content$topic))
-        correct[sample(seq_along(correct), size = floor(length(correct) * intelligent))] <- TRUE
+        correct[.safe_sample(seq_along(correct), size = floor(length(correct) * intelligent))] <- TRUE
         oolong$.__enclos_env__$private$test_content$topic$answer[correct] <- oolong$.__enclos_env__$private$test_content$topic$intruder[correct]
     }
     return(oolong)
