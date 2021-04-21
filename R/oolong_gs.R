@@ -2,10 +2,13 @@
 ### function names: use full name, except ren for render
 ### data structures: use singular, except list-column.
 
-
-.generate_gold_standard <- function(input_corpus, exact_n = NULL, frac = 0.01) {
+.generate_gold_standard <- function(input_corpus, exact_n = NULL, frac = 0.01,docvars=F) {
     if ("corpus" %in% class(input_corpus)) {
+        if(docvars==T){
+            input_docvars<-quanteda::docvars(input_corpus)
+        }
         input_corpus <- quanteda::texts(input_corpus)
+        
     }
     if (!is.null(frac) & is.null(exact_n)) {
         stopifnot(frac >= 0 & frac <= 1)
@@ -13,9 +16,14 @@
     }
     sample_vec <- .sample_corpus(input_corpus, exact_n)
     target_text <- input_corpus[sample_vec]
+    target_docvars <- input_docvars[sample_vec,]
+    
     test_content <- tibble::tibble(case = seq_len(exact_n), text = target_text, answer = NA)
+    if(docvars==T)
+        test_content <- cbind(tibble::tibble(case = seq_len(exact_n), text = target_text, answer = NA),target_docvars)
     return(test_content)
 }
+
 
 .UI_GOLD_STANDARD_TEST <-
     miniUI::miniPage(
@@ -84,37 +92,36 @@ print.oolong_gold_standard <- function(x, ...) {
 
 Oolong_test_gs <-
     R6::R6Class(
-            "oolong_test_gs",
-            inherit = Oolong_test,
-            public = list(
-                initialize = function(input_corpus, exact_n = NULL, frac = 0.01, construct = "positive") {
-                    private$test_content$gold_standard <- .generate_gold_standard(input_corpus, exact_n, frac)
-                    private$hash <- digest::digest(private$test_content, algo = "sha1")
-                    private$construct <- construct
-                },
-                print = function() {
-                    .cp(TRUE, "An oolong test object (gold standard generation) with ", nrow(private$test_content$gold_standard), " cases, ", sum(!is.na(private$test_content$gold_standard$answer)), " coded.")
-                    .cp(!private$finalized, "Use the method $do_gold_standard_test() to generate gold standard.")
-                    .cp(private$finalized, "Use the method $turn_gold() to convert the test results into a quanteda corpus.")
-                    .cp(!private$finalized, "Use the method $lock() to finalize this object and see the results.")
-                },
-                do_gold_standard_test = function() {
-                    private$check_finalized()
-                    .ren <- function(output, test_content, res) {
-                        return(.ren_gold_standard_test(output, test_content, res, construct = private$construct))
-                    }
-                    private$test_content$gold_standard <- .do_oolong_test(private$test_content$gold_standard, ui = .UI_GOLD_STANDARD_TEST, .ren = .ren)
-                },
-                turn_gold = function() {
-                    .cstop(!private$finalized, "You must first lock this object to use this method.")
-                    .turn_gold(private$test_content)
+        "oolong_test_gs",
+        inherit = Oolong_test,
+        public = list(
+            initialize = function(input_corpus, exact_n = NULL, frac = 0.01, construct = "positive",docvars = docvars) {
+                private$test_content$gold_standard <- .generate_gold_standard(input_corpus, exact_n, frac,docvars = docvars)
+                private$hash <- digest::digest(private$test_content, algo = "sha1")
+                private$construct <- construct
+            },
+            print = function() {
+                .cp(TRUE, "An oolong test object (gold standard generation) with ", nrow(private$test_content$gold_standard), " cases, ", sum(!is.na(private$test_content$gold_standard$answer)), " coded.")
+                .cp(!private$finalized, "Use the method $do_gold_standard_test() to generate gold standard.")
+                .cp(private$finalized, "Use the method $turn_gold() to convert the test results into a quanteda corpus.")
+                .cp(!private$finalized, "Use the method $lock() to finalize this object and see the results.")
+            },
+            do_gold_standard_test = function() {
+                private$check_finalized()
+                .ren <- function(output, test_content, res) {
+                    return(.ren_gold_standard_test(output, test_content, res, construct = private$construct))
                 }
-            ),
-            private = list(
-                hash = NULL,
-                test_content = list(),
-                finalized = FALSE,
-                construct = NULL
-            )
+                private$test_content$gold_standard <- .do_oolong_test(private$test_content$gold_standard, ui = .UI_GOLD_STANDARD_TEST, .ren = .ren)
+            },
+            turn_gold = function() {
+                .cstop(!private$finalized, "You must first lock this object to use this method.")
+                .turn_gold(private$test_content)
+            }
+        ),
+        private = list(
+            hash = NULL,
+            test_content = list(),
+            finalized = FALSE,
+            construct = NULL
         )
-
+    )
