@@ -1,39 +1,31 @@
-### CODING STYLE
-### function names: use full name, except ren for render
-### data structures: use singular, except list-column.
-
-
-
 
 .generate_gold_standard <- function(input_corpus, exact_n = NULL, frac = 0.01) {
     if ("corpus" %in% class(input_corpus)) {
         input_corpus <- quanteda::texts(input_corpus)
-        
     }
     if (!is.null(frac) & is.null(exact_n)) {
         stopifnot(frac >= 0 & frac <= 1)
+        exact_n <- floor(length(input_corpus) * frac)
     }
     sample_vec <- .sample_corpus(input_corpus, exact_n)
     target_text <- input_corpus[sample_vec]
-
     test_content <- tibble::tibble(case = seq_len(exact_n), text = target_text, answer = NA)
     return(test_content)
 }
 
-
 .UI_GOLD_STANDARD_TEST <-
     miniUI::miniPage(
-                miniUI::gadgetTitleBar("oolong"),
-                miniUI::miniContentPanel(
-                            shiny::uiOutput("current_topic"),
-                            shiny::uiOutput("text_content"),
-                            shiny::uiOutput("score_slider"),
-                            shiny::actionButton("confirm", "confirm"),
-                            shiny::actionButton("nextq", "skip"),
-                            shiny::actionButton("ff", "jump to uncoded item")
-                            
-                        )
-            )
+        miniUI::gadgetTitleBar("oolong"),
+        miniUI::miniContentPanel(
+            shiny::uiOutput("current_topic"),
+            shiny::uiOutput("text_content"),
+            shiny::uiOutput("score_slider"),
+            shiny::actionButton("confirm", "confirm"),
+            shiny::actionButton("nextq", "skip"),
+            shiny::actionButton("ff", "jump to uncoded item")
+            
+        )
+    )
 
 .ren_gold_standard_test <- function(output, test_content, res, construct = "positive") {
     .ren_choices <- function(test_content, res, construct) {        
