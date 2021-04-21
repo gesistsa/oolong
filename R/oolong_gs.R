@@ -3,7 +3,9 @@
 ### data structures: use singular, except list-column.
 
 
-.generate_gold_standard <- function(input_corpus, exact_n = NULL, frac = 0.01,docvars=F) {
+
+
+.generate_gold_standard <- function(input_corpus, exact_n = NULL, frac = 0.01) {
     if ("corpus" %in% class(input_corpus)) {
         input_corpus <- quanteda::texts(input_corpus)
         
