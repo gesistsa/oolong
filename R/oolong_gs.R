@@ -2,25 +2,19 @@
 ### function names: use full name, except ren for render
 ### data structures: use singular, except list-column.
 
+
 .generate_gold_standard <- function(input_corpus, exact_n = NULL, frac = 0.01,docvars=F) {
     if ("corpus" %in% class(input_corpus)) {
-        if(docvars==T){
-            input_docvars<-quanteda::docvars(input_corpus)
-        }
         input_corpus <- quanteda::texts(input_corpus)
         
     }
     if (!is.null(frac) & is.null(exact_n)) {
         stopifnot(frac >= 0 & frac <= 1)
-        exact_n <- floor(length(input_corpus) * frac)
     }
     sample_vec <- .sample_corpus(input_corpus, exact_n)
     target_text <- input_corpus[sample_vec]
-    target_docvars <- input_docvars[sample_vec,]
-    
+
     test_content <- tibble::tibble(case = seq_len(exact_n), text = target_text, answer = NA)
-    if(docvars==T)
-        test_content <- cbind(tibble::tibble(case = seq_len(exact_n), text = target_text, answer = NA),target_docvars)
     return(test_content)
 }
 
@@ -95,8 +89,8 @@ Oolong_test_gs <-
         "oolong_test_gs",
         inherit = Oolong_test,
         public = list(
-            initialize = function(input_corpus, exact_n = NULL, frac = 0.01, construct = "positive",docvars = docvars) {
-                private$test_content$gold_standard <- .generate_gold_standard(input_corpus, exact_n, frac,docvars = docvars)
+            initialize = function(input_corpus, exact_n = NULL, frac = 0.01, construct = "positive") {
+                private$test_content$gold_standard <- .generate_gold_standard(input_corpus, exact_n, frac)
                 private$hash <- digest::digest(private$test_content, algo = "sha1")
                 private$construct <- construct
             },
