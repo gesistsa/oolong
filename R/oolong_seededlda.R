@@ -1,5 +1,5 @@
-
-
+if(!require(seededlda)){install.packages("seededlda")}
+library(seededla)
 
 .extract_ingredients.input_model_s3_seededlda <- function(input_model_s3, n_top_terms = 5, need_topic = FALSE, n_topiclabel_words = 8,...) {
   input_model <- input_model_s3$model
