@@ -21,7 +21,7 @@ create_oolong(
 )
 }
 \arguments{
-\item{input_model}{(gs/tm) a STM, WarpLDA, topicmodels or BTM object; if it is NULL, create_oolong assumes that you want to create gold standard.}
+\item{input_model}{(gs/tm) a STM, WarpLDA, topicmodels, KeyATM, seededlda or BTM object; if it is NULL, create_oolong assumes that you want to create gold standard.}
 
 \item{input_corpus}{(gs/tm) if input_model is not null, it should be the corpus (character vector or quanteda::corpus object) to generate the model object. If input_model and input_corpus are not NULL, topic intrusion test cases are generated. If input_model is a BTM object, this argument is ignored. If input_model is null, it generates gold standard test cases.}
 

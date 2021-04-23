@@ -40,7 +40,8 @@ install.packages("oolong")
 `abstracts` using the `stm` package. Currently, this package supports
 structural topic models / correlated topic models from `stm`, Warp LDA
 models from `text2vec` , LDA/CTM models from `topicmodels`, Biterm Topic
-Models from `BTM` and Keyword Assisted Topic Models from `keyATM`.
+Models from `BTM`, Keyword Assisted Topic Models from `keyATM` and
+seeded LDA models from `seededlda`.
 
 ``` r
 library(oolong)
@@ -48,14 +49,11 @@ library(stm)
 #> stm v1.3.6 successfully loaded. See ?stm for help. 
 #>  Papers, resources, and other materials at structuraltopicmodel.com
 library(quanteda)
-#> Package version: 2.1.2
-#> Parallel computing: 2 of 8 threads used.
+#> Package version: 3.0.0
+#> Unicode version: 13.0
+#> ICU version: 66.1
+#> Parallel computing: 8 of 8 threads used.
 #> See https://quanteda.io for tutorials and examples.
-#> 
-#> Attaching package: 'quanteda'
-#> The following object is masked from 'package:utils':
-#> 
-#>     View
 library(dplyr)
 #> 
 #> Attaching package: 'dplyr'
@@ -302,7 +300,7 @@ oolong_test
 
 ``` r
 abstracts_dfm
-#> Document-feature matrix of: 2,500 documents, 3,998 features (98.6% sparse).
+#> Document-feature matrix of: 2,500 documents, 3,998 features (98.61% sparse) and 0 docvars.
 #>        features
 #> docs    explor benefit risk featur medic broker websit well type persuas
 #>   text1      1       2    2      2     6      3      6    1    3       1
@@ -316,7 +314,7 @@ abstracts_dfm
 
 ``` r
 oolong_test <- create_oolong(abstracts_warplda, abstracts$text, input_dfm = abstracts_dfm)
-#> INFO  [10:49:47.482] early stopping at 50 iteration
+#> INFO  [11:53:10.791] early stopping at 50 iteration
 oolong_test
 #> An oolong test object with k = 20, 0 coded.
 #> Use the method $do_word_intrusion_test() to do word intrusion test.
@@ -425,6 +423,8 @@ dfm(gold_standard, remove_punct = TRUE) %>% dfm_lookup(afinn) %>% quanteda::conv
            + (zero * 0) + (pos1 * 1) + (pos2 * 2) + (pos3 * 3) + (pos4 * 4) + (pos5 * 5),
            base = ntoken(gold_standard, remove_punct = TRUE), afinn_score = matching_word_valence / base) %>%
     pull(afinn_score) -> all_afinn_score
+#> Warning: 'dfm.corpus()' is deprecated. Use 'tokens()' first.
+#> Warning: '...' should not be used for tokens() arguments; use 'tokens()' first.
 all_afinn_score
 #>       text1       text2       text3       text4       text5       text6 
 #>  0.33333333 -0.09090909 -0.16666667  0.45454545  0.00000000  0.00000000 
@@ -478,6 +478,8 @@ dfm(gold_standard, remove_punct = TRUE) %>% dfm_lookup(afinn) %>% quanteda::conv
            + (zero * 0) + (pos1 * 1) + (pos2 * 2) + (pos3 * 3) + (pos4 * 4) + (pos5 * 5),
            base = ntoken(gold_standard, remove_punct = TRUE), afinn_score = matching_word_valence / base) %>%
     pull(afinn_score) -> target_value
+#> Warning: 'dfm.corpus()' is deprecated. Use 'tokens()' first.
+#> Warning: '...' should not be used for tokens() arguments; use 'tokens()' first.
 ```
 
 Summarize all oolong objects with the target value.

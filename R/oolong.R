@@ -50,7 +50,7 @@ Oolong_test <- R6::R6Class(
 #'   \item{\code{$turn_gold()}}{(gs) convert the oolong object into a quanteda compatible corpus.}
 #' }
 #' For more details, please see the overview vignette: \code{vignette("overview", package = "oolong")}
-#' @param input_model (gs/tm) a STM, WarpLDA, topicmodels or BTM object; if it is NULL, create_oolong assumes that you want to create gold standard.
+#' @param input_model (gs/tm) a STM, WarpLDA, topicmodels, KeyATM, seededlda or BTM object; if it is NULL, create_oolong assumes that you want to create gold standard.
 #' @param input_corpus (gs/tm) if input_model is not null, it should be the corpus (character vector or quanteda::corpus object) to generate the model object. If input_model and input_corpus are not NULL, topic intrusion test cases are generated. If input_model is a BTM object, this argument is ignored. If input_model is null, it generates gold standard test cases.
 #' @param n_top_terms (tm) integer, number of top topic words to be included in the candidates of word intrusion test. 
 #' @param bottom_terms_percentile (tm) double, a term is considered to be an word intruder when its theta less than the percentile of this theta, must be within the range of 0 to 1
