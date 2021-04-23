@@ -25,7 +25,9 @@
 ^CRAN-RELEASE$
 ^cran-comments\.md$
 ^data/abstracts_topicmodels\.rda$
+^data/abstracts_seededlda\.rda$
 ^tests/testthat/test-topicmodels\.R$
+^tests/testthat/test-seededlda\.R$
 \.udpipe$
 ^paper/
 ^CODE_OF_CONDUCT\.md$

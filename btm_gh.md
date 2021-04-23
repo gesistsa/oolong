@@ -20,14 +20,11 @@ require(BTM)
 #> Loading required package: BTM
 require(quanteda)
 #> Loading required package: quanteda
-#> Package version: 2.1.2
-#> Parallel computing: 2 of 8 threads used.
+#> Package version: 3.0.0
+#> Unicode version: 13.0
+#> ICU version: 66.1
+#> Parallel computing: 8 of 8 threads used.
 #> See https://quanteda.io for tutorials and examples.
-#> 
-#> Attaching package: 'quanteda'
-#> The following object is masked from 'package:utils':
-#> 
-#>     View
 require(oolong)
 #> Loading required package: oolong
 trump_corpus <- corpus(trump2k)
@@ -62,56 +59,56 @@ Train a BTM model
 
 ``` r
 trump_btm <- BTM(trump_dat, k = 8, iter = 500, trace = 10)
-#> 2020-11-19 10:49:51 Start Gibbs sampling iteration 1/500
-#> 2020-11-19 10:49:51 Start Gibbs sampling iteration 11/500
-#> 2020-11-19 10:49:51 Start Gibbs sampling iteration 21/500
-#> 2020-11-19 10:49:51 Start Gibbs sampling iteration 31/500
-#> 2020-11-19 10:49:52 Start Gibbs sampling iteration 41/500
-#> 2020-11-19 10:49:52 Start Gibbs sampling iteration 51/500
-#> 2020-11-19 10:49:52 Start Gibbs sampling iteration 61/500
-#> 2020-11-19 10:49:52 Start Gibbs sampling iteration 71/500
-#> 2020-11-19 10:49:52 Start Gibbs sampling iteration 81/500
-#> 2020-11-19 10:49:52 Start Gibbs sampling iteration 91/500
-#> 2020-11-19 10:49:52 Start Gibbs sampling iteration 101/500
-#> 2020-11-19 10:49:53 Start Gibbs sampling iteration 111/500
-#> 2020-11-19 10:49:53 Start Gibbs sampling iteration 121/500
-#> 2020-11-19 10:49:53 Start Gibbs sampling iteration 131/500
-#> 2020-11-19 10:49:53 Start Gibbs sampling iteration 141/500
-#> 2020-11-19 10:49:53 Start Gibbs sampling iteration 151/500
-#> 2020-11-19 10:49:53 Start Gibbs sampling iteration 161/500
-#> 2020-11-19 10:49:53 Start Gibbs sampling iteration 171/500
-#> 2020-11-19 10:49:54 Start Gibbs sampling iteration 181/500
-#> 2020-11-19 10:49:54 Start Gibbs sampling iteration 191/500
-#> 2020-11-19 10:49:54 Start Gibbs sampling iteration 201/500
-#> 2020-11-19 10:49:54 Start Gibbs sampling iteration 211/500
-#> 2020-11-19 10:49:54 Start Gibbs sampling iteration 221/500
-#> 2020-11-19 10:49:54 Start Gibbs sampling iteration 231/500
-#> 2020-11-19 10:49:54 Start Gibbs sampling iteration 241/500
-#> 2020-11-19 10:49:55 Start Gibbs sampling iteration 251/500
-#> 2020-11-19 10:49:55 Start Gibbs sampling iteration 261/500
-#> 2020-11-19 10:49:55 Start Gibbs sampling iteration 271/500
-#> 2020-11-19 10:49:55 Start Gibbs sampling iteration 281/500
-#> 2020-11-19 10:49:55 Start Gibbs sampling iteration 291/500
-#> 2020-11-19 10:49:55 Start Gibbs sampling iteration 301/500
-#> 2020-11-19 10:49:56 Start Gibbs sampling iteration 311/500
-#> 2020-11-19 10:49:56 Start Gibbs sampling iteration 321/500
-#> 2020-11-19 10:49:56 Start Gibbs sampling iteration 331/500
-#> 2020-11-19 10:49:56 Start Gibbs sampling iteration 341/500
-#> 2020-11-19 10:49:57 Start Gibbs sampling iteration 351/500
-#> 2020-11-19 10:49:57 Start Gibbs sampling iteration 361/500
-#> 2020-11-19 10:49:57 Start Gibbs sampling iteration 371/500
-#> 2020-11-19 10:49:57 Start Gibbs sampling iteration 381/500
-#> 2020-11-19 10:49:57 Start Gibbs sampling iteration 391/500
-#> 2020-11-19 10:49:57 Start Gibbs sampling iteration 401/500
-#> 2020-11-19 10:49:57 Start Gibbs sampling iteration 411/500
-#> 2020-11-19 10:49:58 Start Gibbs sampling iteration 421/500
-#> 2020-11-19 10:49:58 Start Gibbs sampling iteration 431/500
-#> 2020-11-19 10:49:58 Start Gibbs sampling iteration 441/500
-#> 2020-11-19 10:49:58 Start Gibbs sampling iteration 451/500
-#> 2020-11-19 10:49:58 Start Gibbs sampling iteration 461/500
-#> 2020-11-19 10:49:58 Start Gibbs sampling iteration 471/500
-#> 2020-11-19 10:49:58 Start Gibbs sampling iteration 481/500
-#> 2020-11-19 10:49:59 Start Gibbs sampling iteration 491/500
+#> 2021-04-23 11:53:14 Start Gibbs sampling iteration 1/500
+#> 2021-04-23 11:53:15 Start Gibbs sampling iteration 11/500
+#> 2021-04-23 11:53:15 Start Gibbs sampling iteration 21/500
+#> 2021-04-23 11:53:15 Start Gibbs sampling iteration 31/500
+#> 2021-04-23 11:53:15 Start Gibbs sampling iteration 41/500
+#> 2021-04-23 11:53:15 Start Gibbs sampling iteration 51/500
+#> 2021-04-23 11:53:15 Start Gibbs sampling iteration 61/500
+#> 2021-04-23 11:53:15 Start Gibbs sampling iteration 71/500
+#> 2021-04-23 11:53:16 Start Gibbs sampling iteration 81/500
+#> 2021-04-23 11:53:16 Start Gibbs sampling iteration 91/500
+#> 2021-04-23 11:53:16 Start Gibbs sampling iteration 101/500
+#> 2021-04-23 11:53:16 Start Gibbs sampling iteration 111/500
+#> 2021-04-23 11:53:16 Start Gibbs sampling iteration 121/500
+#> 2021-04-23 11:53:16 Start Gibbs sampling iteration 131/500
+#> 2021-04-23 11:53:16 Start Gibbs sampling iteration 141/500
+#> 2021-04-23 11:53:17 Start Gibbs sampling iteration 151/500
+#> 2021-04-23 11:53:17 Start Gibbs sampling iteration 161/500
+#> 2021-04-23 11:53:17 Start Gibbs sampling iteration 171/500
+#> 2021-04-23 11:53:17 Start Gibbs sampling iteration 181/500
+#> 2021-04-23 11:53:17 Start Gibbs sampling iteration 191/500
+#> 2021-04-23 11:53:17 Start Gibbs sampling iteration 201/500
+#> 2021-04-23 11:53:17 Start Gibbs sampling iteration 211/500
+#> 2021-04-23 11:53:17 Start Gibbs sampling iteration 221/500
+#> 2021-04-23 11:53:18 Start Gibbs sampling iteration 231/500
+#> 2021-04-23 11:53:18 Start Gibbs sampling iteration 241/500
+#> 2021-04-23 11:53:18 Start Gibbs sampling iteration 251/500
+#> 2021-04-23 11:53:18 Start Gibbs sampling iteration 261/500
+#> 2021-04-23 11:53:18 Start Gibbs sampling iteration 271/500
+#> 2021-04-23 11:53:18 Start Gibbs sampling iteration 281/500
+#> 2021-04-23 11:53:18 Start Gibbs sampling iteration 291/500
+#> 2021-04-23 11:53:19 Start Gibbs sampling iteration 301/500
+#> 2021-04-23 11:53:19 Start Gibbs sampling iteration 311/500
+#> 2021-04-23 11:53:19 Start Gibbs sampling iteration 321/500
+#> 2021-04-23 11:53:19 Start Gibbs sampling iteration 331/500
+#> 2021-04-23 11:53:19 Start Gibbs sampling iteration 341/500
+#> 2021-04-23 11:53:19 Start Gibbs sampling iteration 351/500
+#> 2021-04-23 11:53:19 Start Gibbs sampling iteration 361/500
+#> 2021-04-23 11:53:20 Start Gibbs sampling iteration 371/500
+#> 2021-04-23 11:53:20 Start Gibbs sampling iteration 381/500
+#> 2021-04-23 11:53:20 Start Gibbs sampling iteration 391/500
+#> 2021-04-23 11:53:20 Start Gibbs sampling iteration 401/500
+#> 2021-04-23 11:53:20 Start Gibbs sampling iteration 411/500
+#> 2021-04-23 11:53:20 Start Gibbs sampling iteration 421/500
+#> 2021-04-23 11:53:20 Start Gibbs sampling iteration 431/500
+#> 2021-04-23 11:53:21 Start Gibbs sampling iteration 441/500
+#> 2021-04-23 11:53:21 Start Gibbs sampling iteration 451/500
+#> 2021-04-23 11:53:21 Start Gibbs sampling iteration 461/500
+#> 2021-04-23 11:53:21 Start Gibbs sampling iteration 471/500
+#> 2021-04-23 11:53:21 Start Gibbs sampling iteration 481/500
+#> 2021-04-23 11:53:21 Start Gibbs sampling iteration 491/500
 ```
 
 ## Pecularities of BTM
@@ -180,6 +177,9 @@ frame you used for training (in this case `trump_dat`). Your
 
 ``` r
 oolong <- create_oolong(trump_btm, trump_corpus, btm_dataframe = trump_dat)
+#> Warning: 'texts.corpus' is deprecated.
+#> Use 'as.character' instead.
+#> See help("Deprecated")
 oolong
 #> An oolong test object with k = 8, 0 coded.
 #> Use the method $do_word_intrusion_test() to do word intrusion test.

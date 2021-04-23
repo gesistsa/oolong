@@ -111,3 +111,9 @@ require(topicmodels)
 abstracts_topicmodels_small <- LDA(abstracts_tm, k = 3)
 
 saveRDS(abstracts_topicmodels_small, "./tests/testdata/abstracts_topicmodels_small.RDS")
+
+## seededlda
+require(seededlda)
+abstracts_seededlda <- textmodel_seededlda(x = abstracts_dfm, dictionary = dictionary(abstracts_dictionary), seeds = 46709394, verbose = TRUE)
+saveRDS(abstracts_seededlda, "./tests/testdata/abstracts_seededlda.RDS")
+usethis::use_data(abstracts_seededlda, overwrite = TRUE)

@@ -26,7 +26,7 @@ install.packages("oolong")
 
 #### Word intrusion test
 
-`abstracts_stm` is an example topic model trained with the data `abstracts` using the `stm` package. Currently, this package supports structural topic models / correlated topic models from `stm`, Warp LDA models from `text2vec` , LDA/CTM models from `topicmodels`,  Biterm Topic Models from `BTM` and Keyword Assisted Topic Models from `keyATM`.
+`abstracts_stm` is an example topic model trained with the data `abstracts` using the `stm` package. Currently, this package supports structural topic models / correlated topic models from `stm`, Warp LDA models from `text2vec` , LDA/CTM models from `topicmodels`,  Biterm Topic Models from `BTM`, Keyword Assisted Topic Models from `keyATM` and seeded LDA models from `seededlda`.
 
 ```{r}
 library(oolong)

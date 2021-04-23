@@ -50,7 +50,7 @@ Oolong_test <- R6::R6Class(
 #'   \item{\code{$turn_gold()}}{(gs) convert the oolong object into a quanteda compatible corpus.}
 #' }
 #' For more details, please see the overview vignette: \code{vignette("overview", package = "oolong")}
-#' @param input_model (gs/tm) a STM, WarpLDA, topicmodels or BTM object; if it is NULL, create_oolong assumes that you want to create gold standard.
+#' @param input_model (gs/tm) a STM, WarpLDA, topicmodels, KeyATM, seededlda or BTM object; if it is NULL, create_oolong assumes that you want to create gold standard.
 #' @param input_corpus (gs/tm) if input_model is not null, it should be the corpus (character vector or quanteda::corpus object) to generate the model object. If input_model and input_corpus are not NULL, topic intrusion test cases are generated. If input_model is a BTM object, this argument is ignored. If input_model is null, it generates gold standard test cases.
 #' @param n_top_terms (tm) integer, number of top topic words to be included in the candidates of word intrusion test. 
 #' @param bottom_terms_percentile (tm) double, a term is considered to be an word intruder when its theta less than the percentile of this theta, must be within the range of 0 to 1
@@ -80,7 +80,7 @@ Oolong_test <- R6::R6Class(
 #'   Song et al. (2020) In validations we trust? The impact of imperfect human annotations as a gold standard on the quality of validation of automated content analysis. Political Communication.
 #' 
 #' @export
-create_oolong <- function(input_model = NULL, input_corpus = NULL, n_top_terms = 5, bottom_terms_percentile = 0.6, exact_n = NULL, frac = 0.01, n_top_topics = 3, n_topiclabel_words = 8, use_frex_words = FALSE, difficulty = 1, input_dfm = NULL, construct = "positive", btm_dataframe = NULL) {
+create_oolong<-function(input_model = NULL, input_corpus = NULL, n_top_terms = 5, bottom_terms_percentile = 0.6, exact_n = NULL, frac = 0.01, n_top_topics = 3, n_topiclabel_words = 8, use_frex_words = FALSE, difficulty = 1, input_dfm = NULL, construct = "positive", btm_dataframe = NULL) {
     if (is.null(input_model) & is.null(input_corpus)) {
         stop("input_model and input_corpus cannot be both NULL.")
     }
@@ -95,6 +95,7 @@ create_oolong <- function(input_model = NULL, input_corpus = NULL, n_top_terms =
         return(Oolong_test_gs$new(input_corpus = input_corpus, exact_n = exact_n, frac = frac, construct = construct))
     }
 }
+
 
 #' Clone an oolong object
 #'
