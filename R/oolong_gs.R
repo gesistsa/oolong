@@ -1,7 +1,7 @@
 
 .generate_gold_standard <- function(input_corpus, exact_n = NULL, frac = 0.01) {
     if ("corpus" %in% class(input_corpus)) {
-        input_corpus <- quanteda::texts(input_corpus)
+        input_corpus <- as.character(input_corpus)
     }
     if (!is.null(frac) & is.null(exact_n)) {
         stopifnot(frac >= 0 & frac <= 1)

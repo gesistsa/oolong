@@ -44,7 +44,7 @@ test_that("github issue #8 - word", {
 test_that("github issue #8 - topic", {
     library(topicmodels)
     library(quanteda)
-    test_corpus <- corpus(abstracts[1:10,], text_field = "text")
+    test_corpus <- tokens(corpus(abstracts[1:10,], text_field = "text"))
     test_dfm <- dfm(test_corpus)
     topicmodels_dfm <- convert(test_dfm, to = "topicmodels")
     lda <- LDA(topicmodels_dfm, k = 5)

@@ -182,7 +182,7 @@
 
 .generate_topic_intrusion_test <- function(input_corpus, ingredients, exact_n = NULL, frac = NULL, n_top_topics = 3, n_topiclabel_words = 8) {
     if ("corpus" %in% class(input_corpus)) {
-        input_corpus <- quanteda::texts(input_corpus)
+        input_corpus <- as.character(input_corpus)
     }
     if (n_top_topics <= 1) {
         stop("n_top_topics must be larger than 1")
