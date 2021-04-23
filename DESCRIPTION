@@ -32,6 +32,7 @@ Suggests:
     BTM,
     topicmodels,
     keyATM (>= 0.2.2),
+    seededlda,
     covr,
     stringr,
     knitr,
