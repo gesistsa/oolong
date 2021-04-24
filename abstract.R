@@ -115,5 +115,9 @@ saveRDS(abstracts_topicmodels_small, "./tests/testdata/abstracts_topicmodels_sma
 ## seededlda
 require(seededlda)
 abstracts_seededlda <- textmodel_seededlda(x = abstracts_dfm, dictionary = dictionary(abstracts_dictionary), seeds = 46709394, verbose = TRUE)
-saveRDS(abstracts_seededlda, "./tests/testdata/abstracts_seededlda.RDS")
+##saveRDS(abstracts_seededlda, "./tests/testdata/abstracts_seededlda.RDS")
 usethis::use_data(abstracts_seededlda, overwrite = TRUE)
+
+abstracts_unseededlda <- textmodel_lda(x = abstracts_dfm, k = 20, verbose = TRUE)
+##saveRDS(abstracts_unseededlda, "./tests/testdata/abstracts_unseededlda.RDS")
+usethis::use_data(abstracts_unseededlda, overwrite = TRUE)
