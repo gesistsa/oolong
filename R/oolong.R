@@ -20,11 +20,13 @@ Oolong_test <- R6::R6Class(
                 stop("Not all tests are completed. Do all the tests or use $lock(force = TRUE) to bypass this.")
             }
             private$finalized <- TRUE
-        }
+        },
+        userid = NA
     ),
     private = list(
         hash = NULL,
         test_content = list(),
+        meta = list(),
         finalized = FALSE,
         check_finalized = function() {
             .cstop(private$finalized, "You can no longer modify this finalized test.")
@@ -63,6 +65,7 @@ Oolong_test <- R6::R6Class(
 #' @param input_dfm (tm) a dfm object used for training the input_model, if input_model is a WarpLDA object
 #' @param construct (gs) string, an adjective to describe the construct you want your coders to code the the gold standard test cases.
 #' @param btm_dataframe (tm) dataframe used for training the input_model, if input_model is a BTM object
+#' @param userid a character string to denote the name of the coder. Default to NA (no userid); not recommended.
 #' @return an oolong test object.
 #' @examples
 #' ## Creation of oolong test with only word intrusion test
@@ -80,7 +83,7 @@ Oolong_test <- R6::R6Class(
 #'   Song et al. (2020) In validations we trust? The impact of imperfect human annotations as a gold standard on the quality of validation of automated content analysis. Political Communication.
 #' 
 #' @export
-create_oolong<-function(input_model = NULL, input_corpus = NULL, n_top_terms = 5, bottom_terms_percentile = 0.6, exact_n = NULL, frac = 0.01, n_top_topics = 3, n_topiclabel_words = 8, use_frex_words = FALSE, difficulty = 1, input_dfm = NULL, construct = "positive", btm_dataframe = NULL) {
+create_oolong<-function(input_model = NULL, input_corpus = NULL, n_top_terms = 5, bottom_terms_percentile = 0.6, exact_n = NULL, frac = 0.01, n_top_topics = 3, n_topiclabel_words = 8, use_frex_words = FALSE, difficulty = 1, input_dfm = NULL, construct = "positive", btm_dataframe = NULL, userid = NA) {
     if (is.null(input_model) & is.null(input_corpus)) {
         stop("input_model and input_corpus cannot be both NULL.")
     }
@@ -90,9 +93,9 @@ create_oolong<-function(input_model = NULL, input_corpus = NULL, n_top_terms = 5
         }
     }
     if (!is.null(input_model)) {
-        return(Oolong_test_tm$new(input_model = input_model, input_corpus = input_corpus, n_top_terms = n_top_terms, bottom_terms_percentile = bottom_terms_percentile, exact_n = exact_n, frac = frac, n_top_topics = n_top_topics, n_topiclabel_words = n_topiclabel_words, difficulty = difficulty, use_frex_words = use_frex_words, input_dfm = input_dfm, btm_dataframe = btm_dataframe))
+        return(Oolong_test_tm$new(input_model = input_model, input_corpus = input_corpus, n_top_terms = n_top_terms, bottom_terms_percentile = bottom_terms_percentile, exact_n = exact_n, frac = frac, n_top_topics = n_top_topics, n_topiclabel_words = n_topiclabel_words, difficulty = difficulty, use_frex_words = use_frex_words, input_dfm = input_dfm, btm_dataframe = btm_dataframe, userid = userid))
     } else {
-        return(Oolong_test_gs$new(input_corpus = input_corpus, exact_n = exact_n, frac = frac, construct = construct))
+        return(Oolong_test_gs$new(input_corpus = input_corpus, exact_n = exact_n, frac = frac, construct = construct, userid = userid))
     }
 }
 
@@ -101,15 +104,18 @@ create_oolong<-function(input_model = NULL, input_corpus = NULL, n_top_terms = 5
 #'
 #' Clone a new oolong object. The oolong must not be locked and ever coded.
 #' @param oolong an oolong object.
+#' @param userid a character string to denote the name of the coder
 #' @return an oolong object
 #' @author Chung-hong Chan
 #' @export
-clone_oolong <- function(oolong) {
+clone_oolong <- function(oolong, userid = NA) {
     if (oolong$.__enclos_env__$private$finalized) {
         stop("oolong is locked.")
     }
     if (!.check_new(oolong)) {
         stop("oolong is partially coded.")
     }
-    oolong$clone(deep = FALSE)
+    newoolongobj <- oolong$clone(deep = FALSE)
+    newoolongobj$userid <- userid
+    return(newoolongobj)
 }

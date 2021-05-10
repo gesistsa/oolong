@@ -4,10 +4,12 @@
 \alias{clone_oolong}
 \title{Clone an oolong object}
 \usage{
-clone_oolong(oolong)
+clone_oolong(oolong, userid = NA)
 }
 \arguments{
 \item{oolong}{an oolong object.}
+
+\item{userid}{a character string to denote the name of the coder}
 }
 \value{
 an oolong object

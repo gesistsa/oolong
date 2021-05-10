@@ -83,12 +83,15 @@ Oolong_test_gs <-
         "oolong_test_gs",
         inherit = Oolong_test,
         public = list(
-            initialize = function(input_corpus, exact_n = NULL, frac = 0.01, construct = "positive") {
+            initialize = function(input_corpus, exact_n = NULL, frac = 0.01, construct = "positive", userid = NA) {
                 private$test_content$gold_standard <- .generate_gold_standard(input_corpus, exact_n, frac)
+                self$userid <- userid
                 private$hash <- digest::digest(private$test_content, algo = "sha1")
                 private$construct <- construct
+                private$meta <- .generate_meta()
             },
             print = function() {
+                .cp(!is.na(self$userid), "Current coder: ", self$userid, ".")
                 .cp(TRUE, "An oolong test object (gold standard generation) with ", nrow(private$test_content$gold_standard), " cases, ", sum(!is.na(private$test_content$gold_standard$answer)), " coded.")
                 .cp(!private$finalized, "Use the method $do_gold_standard_test() to generate gold standard.")
                 .cp(private$finalized, "Use the method $turn_gold() to convert the test results into a quanteda corpus.")

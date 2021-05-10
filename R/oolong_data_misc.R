@@ -68,3 +68,14 @@ utils::globalVariables(c('cookd', 'diffxy', 'index', 'meanxy', 'word_length', 'a
         return(sample(x, size))
     }
 }
+
+### generate_meta, pirated quanteda::meta_system_defaults
+.generate_meta <- function() {
+    list("package-version" = utils::packageVersion("oolong"),
+         "r-version" = getRversion(),
+         "system" = Sys.info()[c("sysname", "machine", "user")],
+         "directory" = getwd(),
+         "created" = Sys.Date()
+         )
+}
+
