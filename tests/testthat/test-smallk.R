@@ -1,4 +1,4 @@
-context("Edge cases of topic models with a very small k")
+## context("Edge cases of topic models with a very small k")
 
 smallk <- readRDS("../testdata/abstracts_stm_small.RDS")
 

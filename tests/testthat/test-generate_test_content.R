@@ -1,4 +1,4 @@
-context("check helper functions")
+## context("check helper functions")
 
 test_that("generate_test_content", {
     x <- oolong:::.generate_test_content(abstracts_stm)

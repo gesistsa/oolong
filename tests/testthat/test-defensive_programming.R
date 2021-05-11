@@ -1,4 +1,4 @@
-context("Defensive program")
+##context("Defensive program")
 
 genius_word <- function(obj1) {
     obj1$.__enclos_env__$private$test_content$word$answer <- obj1$.__enclos_env__$private$test_content$word$intruder

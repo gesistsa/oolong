@@ -1,4 +1,4 @@
-context("summarize_oolong")
+## context("summarize_oolong")
 
 genius_word <- function(obj1) {
     obj1$.__enclos_env__$private$test_content$word$answer <- obj1$.__enclos_env__$private$test_content$word$intruder
@@ -73,8 +73,7 @@ test_that("check_calculation_topic_intrusion_multiobject", {
     expect_length(res$tlo, 20)
     ## Might be better to move this to test-printing.
     ## Travis - Don't like this
-    output1 <- capture_output({ res }, print = TRUE)
-    expect_true(stringr::str_detect(output1, "Mean model precision"))
+    expect_snapshot(res)
     expect_error(plot(res))
 })
 

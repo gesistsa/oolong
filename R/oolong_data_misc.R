@@ -49,7 +49,7 @@ utils::globalVariables(c('cookd', 'diffxy', 'index', 'meanxy', 'word_length', 'a
 ### print the ... if boolean_test is true
 .cp <- function(boolean_test, ...) {
     if (boolean_test) {
-        cat(paste0(..., "\n"))
+        cli::cli_alert_info(paste0(...))
     }
 }
 

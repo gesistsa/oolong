@@ -1,4 +1,4 @@
-context("check Warp LDA support")
+##context("check Warp LDA support")
 test_that("generate_test_content", {
     x <- oolong:::.generate_test_content(abstracts_warplda)
     expect_null(x$topic)
