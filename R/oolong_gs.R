@@ -78,6 +78,14 @@ print.oolong_gold_standard <- function(x, ...) {
     .cp(TRUE, "Access the answer from the coding with quanteda::docvars(obj, 'answer')")
 }
 
+.print_oolong_test_gs <- function(private) {
+    .check_version(private)
+    .cp(TRUE, "An oolong test object (gold standard generation) with ", nrow(private$test_content$gold_standard), " cases, ", sum(!is.na(private$test_content$gold_standard$answer)), " coded.")
+    .cp(!private$finalized, "Use the method $do_gold_standard_test() to generate gold standard.")
+    .cp(private$finalized, "Use the method $turn_gold() to convert the test results into a quanteda corpus.")
+    .cp(!private$finalized, "Use the method $lock() to finalize this object and see the results.")
+}
+
 Oolong_test_gs <-
     R6::R6Class(
         "oolong_test_gs",
@@ -92,10 +100,7 @@ Oolong_test_gs <-
             },
             print = function() {
                 .cp(!is.na(self$userid), "Current coder: ", self$userid, ".")
-                .cp(TRUE, "An oolong test object (gold standard generation) with ", nrow(private$test_content$gold_standard), " cases, ", sum(!is.na(private$test_content$gold_standard$answer)), " coded.")
-                .cp(!private$finalized, "Use the method $do_gold_standard_test() to generate gold standard.")
-                .cp(private$finalized, "Use the method $turn_gold() to convert the test results into a quanteda corpus.")
-                .cp(!private$finalized, "Use the method $lock() to finalize this object and see the results.")
+                .print_oolong_test_gs(private)
             },
             do_gold_standard_test = function() {
                 private$check_finalized()

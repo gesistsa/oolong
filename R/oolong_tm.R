@@ -244,6 +244,16 @@
     return(res)
 }
 
+.print_oolong_test_tm <- function(private) {
+    .check_version(private)
+    .cp(TRUE, "An oolong test object with k = ", nrow(private$test_content$word), ", ", sum(!is.na(private$test_content$word$answer)), " coded.")
+    .cp(private$finalized, round(.cal_model_precision(private$test_content$word), 3),"%  precision")
+    .cp(!private$finalized, "Use the method $do_word_intrusion_test() to do word intrusion test.")
+    .cp(!is.null(private$test_content$topic), "With ", nrow(private$test_content$topic) , " cases of topic intrusion test. ", sum(!is.na(private$test_content$topic$answer)), " coded.")
+    .cp(!is.null(private$test_content$topic) & !private$finalized, "Use the method $do_topic_intrusion_test() to do topic intrusion test.")
+    .cp(private$finalized & !is.null(private$test_content$topic), "TLO: ", round(.cal_tlo(private$test_content$topic, mean_value = TRUE), 3))
+    .cp(!private$finalized, "Use the method $lock() to finalize this object and see the results.")
+}
 
 
 Oolong_test_tm <-
@@ -259,13 +269,7 @@ Oolong_test_tm <-
             },
             print = function() {
                 .cp(!is.na(self$userid), "Current coder: ", self$userid, ".")
-                .cp(TRUE, "An oolong test object with k = ", nrow(private$test_content$word), ", ", sum(!is.na(private$test_content$word$answer)), " coded.")
-                .cp(private$finalized, round(.cal_model_precision(private$test_content$word), 3),"%  precision")
-                .cp(!private$finalized, "Use the method $do_word_intrusion_test() to do word intrusion test.")
-                .cp(!is.null(private$test_content$topic), "With ", nrow(private$test_content$topic) , " cases of topic intrusion test. ", sum(!is.na(private$test_content$topic$answer)), " coded.")
-                .cp(!is.null(private$test_content$topic) & !private$finalized, "Use the method $do_topic_intrusion_test() to do topic intrusion test.")
-                .cp(private$finalized & !is.null(private$test_content$topic), "TLO: ", round(.cal_tlo(private$test_content$topic, mean_value = TRUE), 3))
-                .cp(!private$finalized, "Use the method $lock() to finalize this object and see the results.")
+                .print_oolong_test_tm(private)
             },
             do_word_intrusion_test = function() {
                 private$check_finalized()
