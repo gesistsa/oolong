@@ -10,8 +10,8 @@
       
       -- Methods --
       
-      * $do_gold_standard_test(): generate gold standard
-      * $lock(): finalize this object and see the results
+      * <$do_gold_standard_test()>: generate gold standard
+      * <$lock()>: finalize this object and see the results
 
 # gs_turngold
 
