@@ -75,9 +75,15 @@ To create an oolong test, use the function `create_oolong_test`.
 ``` r
 oolong_test <- create_oolong(abstracts_stm)
 oolong_test
-#> An oolong test object with k = 20, 0 coded.
-#> Use the method $do_word_intrusion_test() to do word intrusion test.
-#> Use the method $lock() to finalize this object and see the results.
+#> 
+#> ── oolong (topic model) ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+#> ✔ WI ✖ TI
+#> ℹ WI: k = 20, 0 coded.
+#> 
+#> ── Methods ──
+#> 
+#> ● $do_word_intrusion_test(): do word intrusion test
+#> ● $lock(): finalize and see the results
 ```
 
 As instructed, use the method `$do_word_intrusion_test()` to start
@@ -93,8 +99,14 @@ the model precision by printing the oolong test.
 ``` r
 oolong_test$lock()
 oolong_test
-#> An oolong test object with k = 20, 20 coded.
-#> 95%  precision
+#> 
+#> ── oolong (topic model) ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+#> ✔ WI ✖ TI
+#> ℹ WI: k = 20, 20 coded.
+#> 
+#> ── Results: ──
+#> 
+#> ℹ 95%  precision
 ```
 
 #### Topic intrusion test
@@ -127,11 +139,17 @@ topic model will generate topic intrusion test cases.
 ``` r
 oolong_test <- create_oolong(abstracts_stm, abstracts$text)
 oolong_test
-#> An oolong test object with k = 20, 0 coded.
-#> Use the method $do_word_intrusion_test() to do word intrusion test.
-#> With 25 cases of topic intrusion test. 0 coded.
-#> Use the method $do_topic_intrusion_test() to do topic intrusion test.
-#> Use the method $lock() to finalize this object and see the results.
+#> 
+#> ── oolong (topic model) ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+#> ✔ WI ✔ TI
+#> ℹ WI: k = 20, 0 coded.
+#> ℹ TI: n = 25, 0 coded.
+#> 
+#> ── Methods ──
+#> 
+#> ● $do_word_intrusion_test(): do word intrusion test
+#> ● $do_topic_intrusion_test(): do topic intrusion test
+#> ● $lock(): finalize and see the results
 ```
 
 Similarly, use the `$do_topic_intrusion_test` to code the test cases,
@@ -145,10 +163,16 @@ oolong_test$lock()
 
 ``` r
 oolong_test
-#> An oolong test object with k = 20, 20 coded.
-#> 100%  precision
-#> With 25 cases of topic intrusion test. 25 coded.
-#> TLO: -0.16
+#> 
+#> ── oolong (topic model) ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+#> ✔ WI ✔ TI
+#> ℹ WI: k = 20, 20 coded.
+#> ℹ TI: n = 25, 25 coded.
+#> 
+#> ── Results: ──
+#> 
+#> ℹ 100%  precision
+#> ℹ TLO: -0.079
 ```
 
 ### Suggested workflow
@@ -169,24 +193,24 @@ abstracts_stm <- stm(abstracts_stm$documents, abstracts_stm$vocab, data =abstrac
 Create a new oolong object.
 
 ``` r
-oolong_test_rater1 <- create_oolong(abstracts_stm, abstracts$text)
+oolong_test_rater1 <- create_oolong(abstracts_stm, abstracts$text, userid = "joe")
 ```
 
 Clone the oolong object to be used by other raters.
 
 ``` r
-oolong_test_rater2 <- clone_oolong(oolong_test_rater1)
+oolong_test_rater2 <- clone_oolong(oolong_test_rater1, userid = "donald")
 ```
 
 Ask different coders to code each object and then lock the object.
 
 ``` r
-## Let rater 1 do the test.
+## Let donald do the test.
 oolong_test_rater1$do_word_intrusion_test()
 oolong_test_rater1$do_topic_intrusion_test()
 oolong_test_rater1$lock()
 
-## Let rater 2 do the test.
+## Let joe do the test.
 oolong_test_rater2$do_word_intrusion_test()
 oolong_test_rater2$do_topic_intrusion_test()
 oolong_test_rater2$lock()
@@ -196,18 +220,20 @@ Get a summary of the two objects.
 
 ``` r
 summarize_oolong(oolong_test_rater1, oolong_test_rater2)
-#> Mean model precision: 0.375
-#> Quantiles of model precision: 0.3, 0.3375, 0.375, 0.4125, 0.45
-#> P-value of the model precision
-#>  (H0: Model precision is not better than random guess): 0.0026
-#> Krippendorff's alpha: 0.48
-#> K Precision:
-#> 0.5, 0, 0, 0.5, 0, 1, 1, 0, 1, 0, 0, 1, 0, 0.5, 0, 0, 0.5, 0.5, 0, 1
-#> Mean TLO: -1.62
-#> Median TLO: -1.47
-#> Quantiles of TLO: -5.72, -2.25, -1.47, 0, 0
-#> P-Value of the median TLO 
-#> (H0: Median TLO is not better than random guess): 0.02
+#> 
+#> ── Summary (topic model): ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+#> ℹ Mean model precision: 0.35
+#> ℹ Quantiles of model precision: 0.15, 0.25, 0.35, 0.45, 0.55
+#> ℹ P-value of the model precision
+#> (H0: Model precision is not better than random guess): 7e-04
+#> ℹ Krippendorff's alpha: -0.071
+#> ℹ K Precision:
+#> 0.5, 0, 0, 0, 1, 1, 0, 0, 0.5, 0, 0.5, 0, 0.5, 0.5, 0.5, 0, 0.5, 0.5, 0.5, 0.5
+#> ℹ Mean TLO: -2.06
+#> ℹ Median TLO: -2.08
+#> ℹ Quantiles of TLO: -5.73, -3.38, -2.08, 0, 0
+#> ℹ P-Value of the median TLO 
+#> (H0: Median TLO is not better than random guess): 0.168
 ```
 
 ### About the p-values
@@ -293,9 +319,15 @@ topic intrusion test cases. You must supply also the `input_dfm`.
 ### Just word intrusion test.
 oolong_test <- create_oolong(abstracts_warplda)
 oolong_test
-#> An oolong test object with k = 20, 0 coded.
-#> Use the method $do_word_intrusion_test() to do word intrusion test.
-#> Use the method $lock() to finalize this object and see the results.
+#> 
+#> ── oolong (topic model) ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+#> ✔ WI ✖ TI
+#> ℹ WI: k = 20, 0 coded.
+#> 
+#> ── Methods ──
+#> 
+#> ● $do_word_intrusion_test(): do word intrusion test
+#> ● $lock(): finalize and see the results
 ```
 
 ``` r
@@ -314,13 +346,19 @@ abstracts_dfm
 
 ``` r
 oolong_test <- create_oolong(abstracts_warplda, abstracts$text, input_dfm = abstracts_dfm)
-#> INFO  [17:22:40.291] early stopping at 50 iteration
+#> INFO  [16:31:36.327] early stopping at 50 iteration
 oolong_test
-#> An oolong test object with k = 20, 0 coded.
-#> Use the method $do_word_intrusion_test() to do word intrusion test.
-#> With 25 cases of topic intrusion test. 0 coded.
-#> Use the method $do_topic_intrusion_test() to do topic intrusion test.
-#> Use the method $lock() to finalize this object and see the results.
+#> 
+#> ── oolong (topic model) ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+#> ✔ WI ✔ TI
+#> ℹ WI: k = 20, 0 coded.
+#> ℹ TI: n = 25, 0 coded.
+#> 
+#> ── Methods ──
+#> 
+#> ● $do_word_intrusion_test(): do word intrusion test
+#> ● $do_topic_intrusion_test(): do topic intrusion test
+#> ● $lock(): finalize and see the results
 ```
 
 ## About Biterm Topic Model
@@ -361,9 +399,15 @@ should be an adjective, e.g. positive, liberal, populistic, etc.
 ``` r
 oolong_test <- create_oolong(input_corpus = trump2k, construct = "positive")
 oolong_test
-#> An oolong test object (gold standard generation) with 20 cases, 0 coded.
-#> Use the method $do_gold_standard_test() to generate gold standard.
-#> Use the method $lock() to finalize this object and see the results.
+#> 
+#> ── oolong (gold standard generation) ───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+#> ℹ GS: n = 20, 0 coded.
+#> ℹ Construct:  positive.
+#> 
+#> ── Methods ──
+#> 
+#> ● $do_gold_standard_test(): generate gold standard
+#> ● $lock(): finalize this object and see the results
 ```
 
 As instructed, use the method `$do_gold_standard_test()` to start
@@ -379,8 +423,14 @@ After the coding, you need to first lock the test and then the
 ``` r
 oolong_test$lock()
 oolong_test
-#> An oolong test object (gold standard generation) with 20 cases, 20 coded.
-#> Use the method $turn_gold() to convert the test results into a quanteda corpus.
+#> 
+#> ── oolong (gold standard generation) ───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+#> ℹ GS: n = 20, 20 coded.
+#> ℹ Construct:  positive.
+#> 
+#> ── Methods ──
+#> 
+#> ● $turn_gold(): convert the test results into a quanteda corpus
 ```
 
 ### Example: Validating AFINN using the gold standard
@@ -410,7 +460,7 @@ oolong_test$turn_gold()
 #> "People believe CNN these days almost as little as they belie..."
 #> 
 #> [ reached max_ndoc ... 14 more documents ]
-#> Access the answer from the coding with quanteda::docvars(obj, 'answer')
+#> ℹ Access the answer from the coding with quanteda::docvars(obj, 'answer')
 ```
 
 In this example, we calculate the AFINN score for each tweet using
@@ -445,8 +495,10 @@ summarize_oolong(oolong_test, target_value = all_afinn_score)
 #> * NA -> ...1
 #> `geom_smooth()` using formula 'y ~ x'
 #> `geom_smooth()` using formula 'y ~ x'
-#> Correlation: 0.718 (p = 4e-04)
-#> Effect of content length: -0.323 (p = 0.1643)
+#> 
+#> ── Summary (gold standard generation): ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+#> ℹ Correlation: 0.718 (p = 4e-04)
+#> ℹ Effect of content length: -0.323 (p = 0.1643)
 ```
 
 ### Suggested workflow
@@ -455,8 +507,8 @@ Create an oolong object, clone it for another coder. According to Song
 et al. (Forthcoming), you should at least draw 1% of your data.
 
 ``` r
-trump <- create_oolong(input_corpus = trump2k, exact_n = 40)
-trump2 <- clone_oolong(trump)
+trump <- create_oolong(input_corpus = trump2k, exact_n = 40, userid = "joe")
+trump2 <- clone_oolong(trump, userid = "donald")
 ```
 
 Instruct two coders to code the tweets and lock the objects.
@@ -522,9 +574,11 @@ acceptable cut-off.
 
 ``` r
 res
-#> Krippendorff's Alpha: 0.931
-#> Correlation: 0.744 (p = 2e-04)
-#> Effect of content length: -0.323 (p = 0.1643)
+#> 
+#> ── Summary (gold standard generation): ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+#> ℹ Krippendorff's Alpha: 0.931
+#> ℹ Correlation: 0.744 (p = 2e-04)
+#> ℹ Effect of content length: -0.323 (p = 0.1643)
 ```
 
 ``` r

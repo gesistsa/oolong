@@ -71,9 +71,6 @@ test_that("check_calculation_topic_intrusion_multiobject", {
     res <- summarize_oolong(obj1, obj2)
     expect_length(res$tlo_p_value, 1)
     expect_length(res$tlo, 20)
-    ## Might be better to move this to test-printing.
-    ## Travis - Don't like this
-    expect_snapshot(res)
     expect_error(plot(res))
 })
 

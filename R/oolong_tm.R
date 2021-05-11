@@ -244,15 +244,36 @@
     return(res)
 }
 
-.print_oolong_test_tm <- function(private) {
+.print_oolong_test_tm <- function(private, userid) {
+    bool_word <- !is.null(private$test_content$word)
+    bool_topic <- !is.null(private$test_content$topic)
+    bool_finalized <- private$finalized
+    cli::cli_h1("oolong (topic model)")
     .check_version(private)
-    .cp(TRUE, "An oolong test object with k = ", nrow(private$test_content$word), ", ", sum(!is.na(private$test_content$word$answer)), " coded.")
-    .cp(private$finalized, round(.cal_model_precision(private$test_content$word), 3),"%  precision")
-    .cp(!private$finalized, "Use the method $do_word_intrusion_test() to do word intrusion test.")
-    .cp(!is.null(private$test_content$topic), "With ", nrow(private$test_content$topic) , " cases of topic intrusion test. ", sum(!is.na(private$test_content$topic$answer)), " coded.")
-    .cp(!is.null(private$test_content$topic) & !private$finalized, "Use the method $do_topic_intrusion_test() to do topic intrusion test.")
-    .cp(private$finalized & !is.null(private$test_content$topic), "TLO: ", round(.cal_tlo(private$test_content$topic, mean_value = TRUE), 3))
-    .cp(!private$finalized, "Use the method $lock() to finalize this object and see the results.")
+    cli::cli_text("{.sym_flip(bool_word)} WI {.sym_flip(bool_topic)} TI")
+    if (!is.na(userid)) {
+        cli::cli_text(cli::symbol$smiley, " ", userid)
+    }
+    if (bool_word) {
+        cli::cli_alert_info("{.strong WI:} k = {nrow(private$test_content$word)}, {sum(!is.na(private$test_content$word$answer))} coded.")
+    }
+    if (bool_topic) {
+        cli::cli_alert_info("{.strong TI:} n = {nrow(private$test_content$topic)}, {sum(!is.na(private$test_content$topic$answer))} coded.")
+    }
+    if (bool_finalized) {
+        cli::cli_h2("Results:")
+        .cp(bool_word, round(.cal_model_precision(private$test_content$word), 3),"%  precision")
+        .cp(bool_topic, "TLO: ", round(.cal_tlo(private$test_content$topic, mean_value = TRUE), 3))
+    } else {
+        cli::cli_h2("Methods")
+        cli::cli_ul()
+        cli::cli_li("{.cls $do_word_intrusion_test()}: do word intrusion test")
+        if (bool_topic) {
+            cli::cli_li("{.cls $do_topic_intrusion_test()}: do topic intrusion test")
+        }
+        cli::cli_li("{.cls $lock()}: finalize and see the results")
+        cli::cli_end()
+    }
 }
 
 
@@ -268,8 +289,7 @@ Oolong_test_tm <-
                 private$meta <- .generate_meta()
             },
             print = function() {
-                .cp(!is.na(self$userid), "Current coder: ", self$userid, ".")
-                .print_oolong_test_tm(private)
+                .print_oolong_test_tm(private, self$userid)
             },
             do_word_intrusion_test = function() {
                 private$check_finalized()

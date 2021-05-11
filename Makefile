@@ -18,12 +18,12 @@ overviewgh: vignettes
 	cat gh_temp.Rmd btm.Rmd > btm_gh.Rmd
 	rm gh_temp.Rmd
 
-overviewghmd: overviewgh
-	Rscript -e "rmarkdown::render('overview_gh.Rmd')"
-	Rscript -e "rmarkdown::render('btm_gh.Rmd')"
-
-README: overviewghmd
+README: vignettes
 	Rscript -e "devtools::document()"
 	Rscript -e "devtools::install(quick = TRUE, upgrade = 'never')"
 	Rscript -e "rmarkdown::render('README.Rmd')"
 	Rscript -e "devtools::check()"
+
+overviewghmd: README
+	Rscript -e "rmarkdown::render('overview_gh.Rmd')"
+	Rscript -e "rmarkdown::render('btm_gh.Rmd')"

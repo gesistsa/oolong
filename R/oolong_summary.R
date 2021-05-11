@@ -57,6 +57,7 @@ plot.oolong_summary <- function(x, ...) {
 }
 
 .print_oolong_summary_tm <- function(oolong_summary) {
+    cli::cli_h1("Summary (topic model):")
     .cp(TRUE, "Mean model precision: ", mean(oolong_summary$rater_precision))
     .cp(oolong_summary$n_models > 1, "Quantiles of model precision: ", paste(quantile(oolong_summary$rater_precision), collapse = ", "))
     .cp(oolong_summary$n_models > 1, "P-value of the model precision\n (H0: Model precision is not better than random guess): ", round(oolong_summary$rater_precision_p_value, 4))
@@ -71,6 +72,7 @@ plot.oolong_summary <- function(x, ...) {
 }
 
 .print_oolong_summary_gs <- function(oolong_summary) {
+    cli::cli_h1("Summary (gold standard generation):")
     .cp(oolong_summary$n_models > 1, "Krippendorff's Alpha: ", round(oolong_summary$kripp_alpha$value, 3))
     .cp(!is.null(oolong_summary$cor), "Correlation: ", round(oolong_summary$cor$estimate, 3), " (p = ", round(oolong_summary$cor$p.value, 4), ")")
     .cp(!is.null(oolong_summary$cor_length), "Effect of content length: ", round(oolong_summary$cor_length$estimate, 3), " (p = ", round(oolong_summary$cor_length$p.value, 4), ")")

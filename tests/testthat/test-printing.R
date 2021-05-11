@@ -20,4 +20,15 @@ test_that("gs_turngold", {
     expect_snapshot({ x <- create_oolong(input_corpus = abstracts$text); x$lock(force = TRUE); x$turn_gold() })
 })
 
-
+test_that("check_calculation_topic_intrusion_multiobject (Printing)", {
+    obj1 <- create_oolong(abstracts_stm, abstracts$text, exact_n = 10)
+    obj2 <- clone_oolong(obj1)
+    obj1 <- genius_word(obj1)
+    obj1 <- genius_topic(obj1)
+    obj1$lock()
+    obj2 <- genius_word(obj2)
+    obj2 <- genius_topic(obj2)
+    obj2$lock()
+    res <- summarize_oolong(obj1, obj2)
+    expect_snapshot(res)
+})

@@ -138,24 +138,24 @@ abstracts_stm <- stm(abstracts_stm$documents, abstracts_stm$vocab, data =abstrac
 Create a new oolong object.
 
 ```{r step1}
-oolong_test_rater1 <- create_oolong(abstracts_stm, abstracts$text)
+oolong_test_rater1 <- create_oolong(abstracts_stm, abstracts$text, userid = "joe")
 ```
 
 Clone the oolong object to be used by other raters.
 
 ```{r step2}
-oolong_test_rater2 <- clone_oolong(oolong_test_rater1)
+oolong_test_rater2 <- clone_oolong(oolong_test_rater1, userid = "donald")
 ```
 
 Ask different coders to code each object and then lock the object.
 
 ```{r, eval = FALSE}
-## Let rater 1 do the test.
+## Let donald do the test.
 oolong_test_rater1$do_word_intrusion_test()
 oolong_test_rater1$do_topic_intrusion_test()
 oolong_test_rater1$lock()
 
-## Let rater 2 do the test.
+## Let joe do the test.
 oolong_test_rater2$do_word_intrusion_test()
 oolong_test_rater2$do_topic_intrusion_test()
 oolong_test_rater2$lock()
@@ -315,8 +315,8 @@ summarize_oolong(oolong_test, target_value = all_afinn_score)
 Create an oolong object, clone it for another coder. According to Song et al. (Forthcoming), you should at least draw 1% of your data.
 
 ```{r}
-trump <- create_oolong(input_corpus = trump2k, exact_n = 40)
-trump2 <- clone_oolong(trump)
+trump <- create_oolong(input_corpus = trump2k, exact_n = 40, userid = "joe")
+trump2 <- clone_oolong(trump, userid = "donald")
 ```
 
 Instruct two coders to code the tweets and lock the objects.

@@ -78,12 +78,24 @@ print.oolong_gold_standard <- function(x, ...) {
     .cp(TRUE, "Access the answer from the coding with quanteda::docvars(obj, 'answer')")
 }
 
-.print_oolong_test_gs <- function(private) {
+.print_oolong_test_gs <- function(private, userid) {
+    bool_finalized <- private$finalized
+    cli::cli_h1("oolong (gold standard generation)")
     .check_version(private)
-    .cp(TRUE, "An oolong test object (gold standard generation) with ", nrow(private$test_content$gold_standard), " cases, ", sum(!is.na(private$test_content$gold_standard$answer)), " coded.")
-    .cp(!private$finalized, "Use the method $do_gold_standard_test() to generate gold standard.")
-    .cp(private$finalized, "Use the method $turn_gold() to convert the test results into a quanteda corpus.")
-    .cp(!private$finalized, "Use the method $lock() to finalize this object and see the results.")
+    if (!is.na(userid)) {
+        cli::cli_text(cli::symbol$smiley, " ", userid)
+    }
+    cli::cli_alert_info("{.strong GS:} n = {nrow(private$test_content$gold_standard)}, {sum(!is.na(private$test_content$gold_standard$answer))} coded.")
+    cli::cli_alert_info("{.strong Construct:}  {private$construct}.")
+    cli::cli_h2("Methods")
+    cli::cli_ul()
+    if (bool_finalized) {
+        cli::cli_li("{.cls $turn_gold()}: convert the test results into a quanteda corpus")
+    } else {
+        cli::cli_li("{.cls $do_gold_standard_test()}: generate gold standard")
+        cli::cli_li("{.cls $lock()}: finalize this object and see the results")        
+    }
+    cli::cli_end()
 }
 
 Oolong_test_gs <-
@@ -99,8 +111,7 @@ Oolong_test_gs <-
                 private$meta <- .generate_meta()
             },
             print = function() {
-                .cp(!is.na(self$userid), "Current coder: ", self$userid, ".")
-                .print_oolong_test_gs(private)
+                .print_oolong_test_gs(private, self$userid)
             },
             do_gold_standard_test = function() {
                 private$check_finalized()

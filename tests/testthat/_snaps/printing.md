@@ -3,9 +3,15 @@
     Code
       create_oolong(input_corpus = abstracts$text)
     Message <cliMessage>
-      i An oolong test object (gold standard generation) with 25 cases, 0 coded.
-      i Use the method $do_gold_standard_test() to generate gold standard.
-      i Use the method $lock() to finalize this object and see the results.
+      
+      -- oolong (gold standard generation) -------------------------------------------
+      i GS: n = 25, 0 coded.
+      i Construct:  positive.
+      
+      -- Methods --
+      
+      * $do_gold_standard_test(): generate gold standard
+      * $lock(): finalize this object and see the results
 
 # gs_turngold
 
@@ -16,24 +22,44 @@
     Output
       Corpus consisting of 25 documents and 1 docvar.
       text1 :
-      "According to some researchers, particularly political econom..."
+      "This article explores the authors' experiences in creating a..."
       
       text2 :
-      "The third-person perception as it relates to the issue of te..."
+      "Drawing on Social Representations Theory, this study investi..."
       
       text3 :
-      "This study examined the individual and combined effects of e..."
+      "Until now, social marketing campaigns mainly targeted childr..."
       
       text4 :
-      "This article explores the communicative acts employed in the..."
+      "Two studies investigated (a) how public figures' interaction..."
       
       text5 :
-      "A survey of 286 White and Black female college students exam..."
+      "This study focuses on how Social Media Networks (SMN) have b..."
       
       text6 :
-      "Using the risk perception attitude (RPA) framework and the 2..."
+      "According to previous research conducted mainly in the Unite..."
       
       [ reached max_ndoc ... 19 more documents ]
     Message <cliMessage>
       i Access the answer from the coding with quanteda::docvars(obj, 'answer')
+
+# check_calculation_topic_intrusion_multiobject (Printing)
+
+    Code
+      res
+    Message <cliMessage>
+      
+      -- Summary (topic model): ------------------------------------------------------
+      i Mean model precision: 1
+      i Quantiles of model precision: 1, 1, 1, 1, 1
+      i P-value of the model precision
+      (H0: Model precision is not better than random guess): 0
+      i Krippendorff's alpha: 1
+      i K Precision:
+      1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
+      i Mean TLO: 0
+      i Median TLO: 0
+      i Quantiles of TLO: 0, 0, 0, 0, 0
+      i P-Value of the median TLO 
+      (H0: Median TLO is not better than random guess): 0
 
