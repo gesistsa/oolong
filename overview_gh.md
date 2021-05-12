@@ -346,7 +346,9 @@ abstracts_dfm
 
 ``` r
 oolong_test <- create_oolong(abstracts_warplda, abstracts$text, input_dfm = abstracts_dfm)
-#> INFO  [19:42:01.278] early stopping at 50 iteration
+```
+
+``` r
 oolong_test
 #> 
 #> ── oolong (topic model) ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────

@@ -200,8 +200,11 @@ oolong_test
 abstracts_dfm
 ```
 
-```{r warplda4}
+```{r warplda4, , message = FALSE, results = 'hide', warning = FALSE}
 oolong_test <- create_oolong(abstracts_warplda, abstracts$text, input_dfm = abstracts_dfm)
+```
+
+```{r warplda5}
 oolong_test
 ```
 

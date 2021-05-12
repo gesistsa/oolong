@@ -59,56 +59,6 @@ Train a BTM model
 
 ``` r
 trump_btm <- BTM(trump_dat, k = 8, iter = 500, trace = 10)
-#> 2021-05-12 19:42:08 Start Gibbs sampling iteration 1/500
-#> 2021-05-12 19:42:08 Start Gibbs sampling iteration 11/500
-#> 2021-05-12 19:42:09 Start Gibbs sampling iteration 21/500
-#> 2021-05-12 19:42:09 Start Gibbs sampling iteration 31/500
-#> 2021-05-12 19:42:09 Start Gibbs sampling iteration 41/500
-#> 2021-05-12 19:42:10 Start Gibbs sampling iteration 51/500
-#> 2021-05-12 19:42:10 Start Gibbs sampling iteration 61/500
-#> 2021-05-12 19:42:10 Start Gibbs sampling iteration 71/500
-#> 2021-05-12 19:42:10 Start Gibbs sampling iteration 81/500
-#> 2021-05-12 19:42:11 Start Gibbs sampling iteration 91/500
-#> 2021-05-12 19:42:11 Start Gibbs sampling iteration 101/500
-#> 2021-05-12 19:42:11 Start Gibbs sampling iteration 111/500
-#> 2021-05-12 19:42:12 Start Gibbs sampling iteration 121/500
-#> 2021-05-12 19:42:12 Start Gibbs sampling iteration 131/500
-#> 2021-05-12 19:42:12 Start Gibbs sampling iteration 141/500
-#> 2021-05-12 19:42:12 Start Gibbs sampling iteration 151/500
-#> 2021-05-12 19:42:12 Start Gibbs sampling iteration 161/500
-#> 2021-05-12 19:42:13 Start Gibbs sampling iteration 171/500
-#> 2021-05-12 19:42:13 Start Gibbs sampling iteration 181/500
-#> 2021-05-12 19:42:13 Start Gibbs sampling iteration 191/500
-#> 2021-05-12 19:42:13 Start Gibbs sampling iteration 201/500
-#> 2021-05-12 19:42:14 Start Gibbs sampling iteration 211/500
-#> 2021-05-12 19:42:14 Start Gibbs sampling iteration 221/500
-#> 2021-05-12 19:42:14 Start Gibbs sampling iteration 231/500
-#> 2021-05-12 19:42:14 Start Gibbs sampling iteration 241/500
-#> 2021-05-12 19:42:14 Start Gibbs sampling iteration 251/500
-#> 2021-05-12 19:42:15 Start Gibbs sampling iteration 261/500
-#> 2021-05-12 19:42:15 Start Gibbs sampling iteration 271/500
-#> 2021-05-12 19:42:15 Start Gibbs sampling iteration 281/500
-#> 2021-05-12 19:42:15 Start Gibbs sampling iteration 291/500
-#> 2021-05-12 19:42:16 Start Gibbs sampling iteration 301/500
-#> 2021-05-12 19:42:16 Start Gibbs sampling iteration 311/500
-#> 2021-05-12 19:42:16 Start Gibbs sampling iteration 321/500
-#> 2021-05-12 19:42:16 Start Gibbs sampling iteration 331/500
-#> 2021-05-12 19:42:16 Start Gibbs sampling iteration 341/500
-#> 2021-05-12 19:42:16 Start Gibbs sampling iteration 351/500
-#> 2021-05-12 19:42:17 Start Gibbs sampling iteration 361/500
-#> 2021-05-12 19:42:17 Start Gibbs sampling iteration 371/500
-#> 2021-05-12 19:42:17 Start Gibbs sampling iteration 381/500
-#> 2021-05-12 19:42:17 Start Gibbs sampling iteration 391/500
-#> 2021-05-12 19:42:18 Start Gibbs sampling iteration 401/500
-#> 2021-05-12 19:42:18 Start Gibbs sampling iteration 411/500
-#> 2021-05-12 19:42:18 Start Gibbs sampling iteration 421/500
-#> 2021-05-12 19:42:18 Start Gibbs sampling iteration 431/500
-#> 2021-05-12 19:42:19 Start Gibbs sampling iteration 441/500
-#> 2021-05-12 19:42:19 Start Gibbs sampling iteration 451/500
-#> 2021-05-12 19:42:19 Start Gibbs sampling iteration 461/500
-#> 2021-05-12 19:42:19 Start Gibbs sampling iteration 471/500
-#> 2021-05-12 19:42:19 Start Gibbs sampling iteration 481/500
-#> 2021-05-12 19:42:20 Start Gibbs sampling iteration 491/500
 ```
 
 ## Pecularities of BTM

@@ -56,7 +56,7 @@ trump_dat <- as.data.frame.tokens(trump_toks)
 
 Train a BTM model
 
-```{r}
+```{r, message = FALSE, results = 'hide', warning = FALSE}
 trump_btm <- BTM(trump_dat, k = 8, iter = 500, trace = 10)
 ```
 
