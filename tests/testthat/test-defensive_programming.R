@@ -52,3 +52,29 @@ test_that("Can't launch $do_topic_intrusion_test() when no test content", {
     x <- create_oolong(abstracts_stm)
     expect_error(x$do_topic_intrusion_test())
 })
+
+test_that("hash function", {
+    expect_true(is.null(.safe_hash(NULL)))
+    expect_type(.safe_hash(abstracts_stm), "character")
+})
+
+test_that("hash_input_model tm", {
+    ## TI
+    x <- create_oolong(abstracts_stm)
+    expect_false(is.null(x$.__enclos_env__$private$hash_input_model))
+    expect_equal(x$.__enclos_env__$private$hash_input_model, .safe_hash(abstracts_stm))
+    ## WITI
+    x <- create_oolong(abstracts_stm, abstracts$text)
+    expect_false(is.null(x$.__enclos_env__$private$hash_input_model))
+    expect_false(is.null(x$.__enclos_env__$private$hash_input_corpus))
+    expect_equal(x$.__enclos_env__$private$hash_input_model, .safe_hash(abstracts_stm))
+    expect_equal(x$.__enclos_env__$private$hash_input_corpus, .safe_hash(abstracts$text))
+})
+
+test_that("hash_input_corpus gs", {
+    x <- create_oolong(input_corpus = abstracts$text)
+    expect_true(is.null(x$.__enclos_env__$private$hash_input_model))
+    expect_false(is.null(x$.__enclos_env__$private$hash_input_corpus))
+    expect_equal(x$.__enclos_env__$private$hash_input_corpus, .safe_hash(abstracts$text))    
+})
+

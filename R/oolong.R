@@ -25,6 +25,8 @@ Oolong_test <- R6::R6Class(
     ),
     private = list(
         hash = NULL,
+        hash_input_model = NULL,
+        hash_input_corpus = NULL,
         test_content = list(),
         meta = list(),
         finalized = FALSE,

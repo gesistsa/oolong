@@ -285,7 +285,9 @@ Oolong_test_tm <-
             initialize = function(input_model, input_corpus = NULL, n_top_terms = 5, bottom_terms_percentile = 0.6, exact_n = 15, frac = NULL, n_top_topics = 3, n_topiclabel_words = 8, difficulty = 1, use_frex_words = FALSE, input_dfm = NULL, btm_dataframe = NULL, userid = userid) {
                 private$test_content <- .generate_test_content(input_model, input_corpus, n_top_terms, bottom_terms_percentile, exact_n, frac, n_top_topics, n_topiclabel_words, difficulty, use_frex_words = use_frex_words, input_dfm = input_dfm, btm_dataframe = btm_dataframe)
                 self$userid <- userid
-                private$hash <- digest::digest(private$test_content, algo = "sha1")
+                private$hash <- .safe_hash(private$test_content)
+                private$hash_input_model <- .safe_hash(input_model)
+                private$hash_input_corpus <- .safe_hash(input_corpus)
                 private$meta <- .generate_meta()
             },
             print = function() {

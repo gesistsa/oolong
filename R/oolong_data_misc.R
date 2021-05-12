@@ -89,3 +89,10 @@ utils::globalVariables(c('cookd', 'diffxy', 'index', 'meanxy', 'word_length', 'a
 .sym_flip <- function(bool) {
     ifelse(bool, cli::symbol$tick, cli::symbol$cross)
 }
+
+.safe_hash <- function(x) {
+    if (is.null(x)) {
+        return(NULL)
+    }
+    return(digest::digest(x, algo = "sha1"))
+}

@@ -106,8 +106,9 @@ Oolong_test_gs <-
             initialize = function(input_corpus, exact_n = NULL, frac = 0.01, construct = "positive", userid = NA) {
                 private$test_content$gold_standard <- .generate_gold_standard(input_corpus, exact_n, frac)
                 self$userid <- userid
-                private$hash <- digest::digest(private$test_content, algo = "sha1")
                 private$construct <- construct
+                private$hash <- .safe_hash(private$test_content)
+                private$hash_input_corpus <- .safe_hash(input_corpus)
                 private$meta <- .generate_meta()
             },
             print = function() {

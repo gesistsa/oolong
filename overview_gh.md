@@ -82,8 +82,8 @@ oolong_test
 #> 
 #> ── Methods ──
 #> 
-#> ● $do_word_intrusion_test(): do word intrusion test
-#> ● $lock(): finalize and see the results
+#> • <$do_word_intrusion_test()>: do word intrusion test
+#> • <$lock()>: finalize and see the results
 ```
 
 As instructed, use the method `$do_word_intrusion_test()` to start
@@ -147,9 +147,9 @@ oolong_test
 #> 
 #> ── Methods ──
 #> 
-#> ● $do_word_intrusion_test(): do word intrusion test
-#> ● $do_topic_intrusion_test(): do topic intrusion test
-#> ● $lock(): finalize and see the results
+#> • <$do_word_intrusion_test()>: do word intrusion test
+#> • <$do_topic_intrusion_test()>: do topic intrusion test
+#> • <$lock()>: finalize and see the results
 ```
 
 Similarly, use the `$do_topic_intrusion_test` to code the test cases,
@@ -326,8 +326,8 @@ oolong_test
 #> 
 #> ── Methods ──
 #> 
-#> ● $do_word_intrusion_test(): do word intrusion test
-#> ● $lock(): finalize and see the results
+#> • <$do_word_intrusion_test()>: do word intrusion test
+#> • <$lock()>: finalize and see the results
 ```
 
 ``` r
@@ -346,7 +346,7 @@ abstracts_dfm
 
 ``` r
 oolong_test <- create_oolong(abstracts_warplda, abstracts$text, input_dfm = abstracts_dfm)
-#> INFO  [16:38:44.755] early stopping at 50 iteration
+#> INFO  [19:42:01.278] early stopping at 50 iteration
 oolong_test
 #> 
 #> ── oolong (topic model) ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
@@ -356,9 +356,9 @@ oolong_test
 #> 
 #> ── Methods ──
 #> 
-#> ● $do_word_intrusion_test(): do word intrusion test
-#> ● $do_topic_intrusion_test(): do topic intrusion test
-#> ● $lock(): finalize and see the results
+#> • <$do_word_intrusion_test()>: do word intrusion test
+#> • <$do_topic_intrusion_test()>: do topic intrusion test
+#> • <$lock()>: finalize and see the results
 ```
 
 ## About Biterm Topic Model
@@ -406,8 +406,8 @@ oolong_test
 #> 
 #> ── Methods ──
 #> 
-#> ● $do_gold_standard_test(): generate gold standard
-#> ● $lock(): finalize this object and see the results
+#> • <$do_gold_standard_test()>: generate gold standard
+#> • <$lock()>: finalize this object and see the results
 ```
 
 As instructed, use the method `$do_gold_standard_test()` to start
@@ -430,7 +430,7 @@ oolong_test
 #> 
 #> ── Methods ──
 #> 
-#> ● $turn_gold(): convert the test results into a quanteda corpus
+#> • <$turn_gold()>: convert the test results into a quanteda corpus
 ```
 
 ### Example: Validating AFINN using the gold standard
