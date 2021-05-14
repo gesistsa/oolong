@@ -49,7 +49,7 @@ library(stm)
 #> stm v1.3.6 successfully loaded. See ?stm for help. 
 #>  Papers, resources, and other materials at structuraltopicmodel.com
 library(quanteda)
-#> Package version: 3.0.0
+#> Package version: 3.0.9000
 #> Unicode version: 13.0
 #> ICU version: 66.1
 #> Parallel computing: 8 of 8 threads used.
