@@ -63,3 +63,18 @@
       i P-Value of the median TLO 
       (H0: Median TLO is not better than random guess): 0
 
+# ti only
+
+    Code
+      create_oolong(input_model = abstracts_stm, input_corpus = abstracts$text, type = "ti")
+    Message <cliMessage>
+      
+      -- oolong (topic model) --------------------------------------------------------
+      x WI v TI
+      i TI: n = 25, 0 coded.
+      
+      -- Methods --
+      
+      * <$do_topic_intrusion_test()>: do topic intrusion test
+      * <$lock()>: finalize and see the results
+

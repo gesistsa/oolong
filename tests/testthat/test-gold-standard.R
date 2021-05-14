@@ -30,3 +30,7 @@ test_that("locking", {
     expect_error(x$do_gold_standard_test())
 })
 
+test_that("type override input_model", {
+    x <- create_oolong(abstracts_stm, abstracts$text, type = "gs")
+    expect_true("oolong_test_gs" %in% class(x))
+})

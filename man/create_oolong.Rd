@@ -18,7 +18,8 @@ create_oolong(
   input_dfm = NULL,
   construct = "positive",
   btm_dataframe = NULL,
-  userid = NA
+  userid = NA,
+  type = "witi"
 )
 }
 \arguments{
@@ -49,6 +50,8 @@ create_oolong(
 \item{btm_dataframe}{(tm) dataframe used for training the input_model, if input_model is a BTM object}
 
 \item{userid}{a character string to denote the name of the coder. Default to NA (no userid); not recommended.}
+
+\item{type}{(tm/gs) a character string to denote what you want to create. "wi": word intrusion test; "ti": topic intrusion test; "witi": both word intrusion test and topic intrusion test; "gs": gold standard generation}
 }
 \value{
 an oolong test object.

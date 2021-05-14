@@ -32,3 +32,7 @@ test_that("check_calculation_topic_intrusion_multiobject (Printing)", {
     res <- summarize_oolong(obj1, obj2)
     expect_snapshot(res)
 })
+
+test_that("ti only", {
+    expect_snapshot(create_oolong(input_model = abstracts_stm, input_corpus = abstracts$text, type = "ti"))
+})
