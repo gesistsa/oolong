@@ -214,14 +214,18 @@
     return(test_content)
 }
 
-.generate_test_content <- function(input_model, input_corpus = NULL, n_top_terms = 5, bottom_terms_percentile = 0.6, exact_n = NULL, frac = 0.01, n_top_topics = 3, n_topiclabel_words = 8, difficulty = 1, use_frex_words = FALSE, input_dfm = NULL, btm_dataframe = NULL) {
+.generate_test_content <- function(input_model, input_corpus = NULL, n_top_terms = 5, bottom_terms_percentile = 0.6, exact_n = NULL, frac = 0.01, n_top_topics = 3, n_topiclabel_words = 8, difficulty = 1, use_frex_words = FALSE, input_dfm = NULL, btm_dataframe = NULL, type = "witi") {
     ingredients <- .extract_ingredients(.convert_input_model_s3(input_model), n_top_terms = n_top_terms, difficulty = difficulty, need_topic = !is.null(input_corpus), n_topiclabel_words = n_topiclabel_words, input_dfm = input_dfm, use_frex_words = use_frex_words, input_corpus = input_corpus, btm_dataframe = btm_dataframe)
     test_content <- list()
-    test_content$word <- .generate_word_intrusion_test(ingredients, bottom_terms_percentile = bottom_terms_percentile, n_top_terms = n_top_terms)
+    if (type %in% c("wi", "witi")) {
+        test_content$word <- .generate_word_intrusion_test(ingredients, bottom_terms_percentile = bottom_terms_percentile, n_top_terms = n_top_terms)
+    }
     if (is.null(ingredients$theta)) {
         test_content$topic <- NULL
-    } else {
+    } else if (type %in% c("witi", "ti")) {
         test_content$topic <- .generate_topic_intrusion_test(input_corpus = input_corpus, ingredients = ingredients, exact_n = exact_n, frac = frac, n_top_topics = n_top_topics, n_topiclabel_words = n_topiclabel_words)
+    } else {
+        test_content$topic <- NULL        
     }
     return(test_content)
 }
@@ -267,7 +271,9 @@
     } else {
         cli::cli_h2("Methods")
         cli::cli_ul()
-        cli::cli_li("{.cls $do_word_intrusion_test()}: do word intrusion test")
+        if (bool_word) {
+            cli::cli_li("{.cls $do_word_intrusion_test()}: do word intrusion test")
+        }
         if (bool_topic) {
             cli::cli_li("{.cls $do_topic_intrusion_test()}: do topic intrusion test")
         }
@@ -282,8 +288,8 @@ Oolong_test_tm <-
         "oolong_test_tm",
         inherit = Oolong_test,
         public = list(
-            initialize = function(input_model, input_corpus = NULL, n_top_terms = 5, bottom_terms_percentile = 0.6, exact_n = 15, frac = NULL, n_top_topics = 3, n_topiclabel_words = 8, difficulty = 1, use_frex_words = FALSE, input_dfm = NULL, btm_dataframe = NULL, userid = userid) {
-                private$test_content <- .generate_test_content(input_model, input_corpus, n_top_terms, bottom_terms_percentile, exact_n, frac, n_top_topics, n_topiclabel_words, difficulty, use_frex_words = use_frex_words, input_dfm = input_dfm, btm_dataframe = btm_dataframe)
+            initialize = function(input_model, input_corpus = NULL, n_top_terms = 5, bottom_terms_percentile = 0.6, exact_n = 15, frac = NULL, n_top_topics = 3, n_topiclabel_words = 8, difficulty = 1, use_frex_words = FALSE, input_dfm = NULL, btm_dataframe = NULL, userid = userid, type = "witi") {
+                private$test_content <- .generate_test_content(input_model, input_corpus, n_top_terms, bottom_terms_percentile, exact_n, frac, n_top_topics, n_topiclabel_words, difficulty, use_frex_words = use_frex_words, input_dfm = input_dfm, btm_dataframe = btm_dataframe, type = type)
                 self$userid <- userid
                 private$hash <- .safe_hash(private$test_content)
                 private$hash_input_model <- .safe_hash(input_model)
@@ -295,6 +301,7 @@ Oolong_test_tm <-
             },
             do_word_intrusion_test = function() {
                 private$check_finalized()
+                .cstop(is.null(private$test_content$word), "No word intrusion test cases. Create the oolong test with type being 'wi' or 'witi' to generate word intrusion test cases.")
                 private$test_content$word <- .do_oolong_test(private$test_content$word)
             },
             do_topic_intrusion_test = function() {

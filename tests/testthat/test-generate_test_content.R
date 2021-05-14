@@ -31,3 +31,9 @@ test_that("n_top_terms is considered #29", {
     expect_equal(length(z$word$candidates[[1]]), 11)
 })
 
+test_that("generate_test_content type", {
+    x <- oolong:::.generate_test_content(abstracts_stm, input_corpus = abstracts$text, type = 'wi')
+    expect_null(x$topic)
+    x <- oolong:::.generate_test_content(abstracts_stm, input_corpus = abstracts$text, type = 'ti')
+    expect_null(x$word)
+})

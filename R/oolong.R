@@ -64,6 +64,7 @@ Oolong_test <- R6::R6Class(
 #' @param n_topiclabel_words (tm) integer, number of topic words to be shown as the topic label
 #' @param use_frex_words (tm) logical, for a STM object, use FREX words if TRUE, use PROB words if FALSE
 #' @param difficulty (tm) double, adjust the difficulty of the test. Higher value indicates higher difficulty and must be within the range of 0 to 1, no effect for STM if use_frex_words is FALSE. Ignore for topicmodels objects.
+#' @param type (tm/gs) a character string to denote what you want to create. "wi": word intrusion test; "ti": topic intrusion test; "witi": both word intrusion test and topic intrusion test; "gs": gold standard generation
 #' @param input_dfm (tm) a dfm object used for training the input_model, if input_model is a WarpLDA object
 #' @param construct (gs) string, an adjective to describe the construct you want your coders to code the the gold standard test cases.
 #' @param btm_dataframe (tm) dataframe used for training the input_model, if input_model is a BTM object
@@ -85,7 +86,10 @@ Oolong_test <- R6::R6Class(
 #'   Song et al. (2020) In validations we trust? The impact of imperfect human annotations as a gold standard on the quality of validation of automated content analysis. Political Communication.
 #' 
 #' @export
-create_oolong<-function(input_model = NULL, input_corpus = NULL, n_top_terms = 5, bottom_terms_percentile = 0.6, exact_n = NULL, frac = 0.01, n_top_topics = 3, n_topiclabel_words = 8, use_frex_words = FALSE, difficulty = 1, input_dfm = NULL, construct = "positive", btm_dataframe = NULL, userid = NA) {
+create_oolong<-function(input_model = NULL, input_corpus = NULL, n_top_terms = 5, bottom_terms_percentile = 0.6, exact_n = NULL, frac = 0.01, n_top_topics = 3, n_topiclabel_words = 8, use_frex_words = FALSE, difficulty = 1, input_dfm = NULL, construct = "positive", btm_dataframe = NULL, userid = NA, type = "witi") {
+    if (!type %in% c("wi", "witi", "ti", "gs")) {
+        stop("Unknown type, available types are 'wi', 'witi', 'ti' and 'gs'")
+    }
     if (is.null(input_model) & is.null(input_corpus)) {
         stop("input_model and input_corpus cannot be both NULL.")
     }
@@ -94,9 +98,10 @@ create_oolong<-function(input_model = NULL, input_corpus = NULL, n_top_terms = 5
             stop("input_model is not a topic model. If you want to create gold standard with an input_corpus, use: create_oolong(input_corpus = input_corpus)")
         }
     }
-    if (!is.null(input_model)) {
-        return(Oolong_test_tm$new(input_model = input_model, input_corpus = input_corpus, n_top_terms = n_top_terms, bottom_terms_percentile = bottom_terms_percentile, exact_n = exact_n, frac = frac, n_top_topics = n_top_topics, n_topiclabel_words = n_topiclabel_words, difficulty = difficulty, use_frex_words = use_frex_words, input_dfm = input_dfm, btm_dataframe = btm_dataframe, userid = userid))
-    } else {
+    if (!is.null(input_model) & type %in% c("wi", "ti", "witi")) {
+        return(Oolong_test_tm$new(input_model = input_model, input_corpus = input_corpus, n_top_terms = n_top_terms, bottom_terms_percentile = bottom_terms_percentile, exact_n = exact_n, frac = frac, n_top_topics = n_top_topics, n_topiclabel_words = n_topiclabel_words, difficulty = difficulty, use_frex_words = use_frex_words, input_dfm = input_dfm, btm_dataframe = btm_dataframe, userid = userid, type = type))
+    }
+    if (is.null(input_model) | type == "gs") {
         return(Oolong_test_gs$new(input_corpus = input_corpus, exact_n = exact_n, frac = frac, construct = construct, userid = userid))
     }
 }

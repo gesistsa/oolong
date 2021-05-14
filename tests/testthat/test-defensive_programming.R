@@ -78,3 +78,7 @@ test_that("hash_input_corpus gs", {
     expect_equal(x$.__enclos_env__$private$hash_input_corpus, .safe_hash(abstracts$text))    
 })
 
+test_that("invalid type", {
+    expect_error(create_oolong(abstracts_stm, type = "1111"))
+    expect_error(create_oolong(abstracts_stm, type = NA))
+})
