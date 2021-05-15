@@ -57,3 +57,9 @@ test_that("generate_topic_content", {
     expect_error(oolong:::.generate_test_content(abstracts_topicmodels, abstracts$text[1:10], frac = 0.1))
     expect_warning(oolong:::.generate_test_content(abstracts_topicmodels, abstracts$text[1:10], exact_n = 12))
 })
+
+test_that("ui", {
+    expect_error(wi(abstracts_topicmodels), NA)
+    expect_error(witi(abstracts_topicmodels, abstracts$text), NA)
+    expect_error(ti(abstracts_topicmodels, abstracts$text), NA)
+})

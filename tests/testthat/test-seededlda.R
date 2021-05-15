@@ -59,3 +59,13 @@ test_that("unseeded lda: check_complete", {
     z <- create_oolong(abstracts_unseededlda)
     expect_error(z$lock())
 })
+
+## ui
+test_that("UI", {
+    expect_error(witi(abstracts_seededlda, abstracts$text), NA)
+    expect_error(witi(abstracts_unseededlda, abstracts$text), NA)
+    expect_error(ti(abstracts_seededlda, abstracts$text), NA)
+    expect_error(ti(abstracts_unseededlda, abstracts$text), NA)
+    expect_error(wi(abstracts_seededlda), NA)
+    expect_error(wi(abstracts_unseededlda), NA)
+})

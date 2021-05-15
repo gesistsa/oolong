@@ -1,0 +1,140 @@
+## context("Support for topicmodels")
+
+genius_word <- function(obj1) {
+    obj1$.__enclos_env__$private$test_content$word$answer <- obj1$.__enclos_env__$private$test_content$word$intruder
+    return(obj1)
+}
+
+genius_topic <- function(obj1) {
+    obj1$.__enclos_env__$private$test_content$topic$answer <- obj1$.__enclos_env__$private$test_content$topic$intruder
+    return(obj1)
+}
+
+library(quanteda)
+library(BTM)
+abstracts_corpus <- corpus(abstracts$text)
+tokens(abstracts_corpus, remove_punct = TRUE, remove_numbers = TRUE, remove_symbols = TRUE, split_hyphens = TRUE) %>%  tokens_tolower() %>% tokens_remove(stopwords("en")) %>% tokens_wordstem() -> toks_q
+as.data.frame.tokens <- function(x) {
+    data.frame(
+        doc_id = rep(names(x), lengths(x)),
+        tokens = unlist(x, use.names = FALSE)
+    )
+}
+abstracts_df <- as.data.frame.tokens(toks_q)
+
+
+test_that("wi basic", {
+    skip_on_cran()
+    expect_error(wi(abstracts_stm), NA)
+    expect_error(wi(abstracts_warplda), NA)
+    expect_error(wi(abstracts_btm), NA)
+    expect_error(wi(abstracts_keyatm), NA)
+})
+
+test_that("witi basic", {
+    skip_on_cran()
+    expect_error(witi(abstracts_stm, abstracts$text), NA)    
+    expect_error(witi(abstracts_warplda, abstracts$text))
+    expect_error(witi(abstracts_warplda, abstracts$text, input_dfm = abstracts_dfm), NA)
+    expect_error(witi(abstracts_btm, abstracts$text))
+    expect_error(witi(abstracts_btm, abstracts_corpus))
+    expect_error(witi(abstracts_btm, abstracts$text, btm_dataframe = abstracts_df))
+    expect_error(witi(abstracts_btm, abstracts_corpus, btm_dataframe = abstracts_df), NA)
+    expect_error(witi(abstracts_keyatm, abstracts$text), NA)
+})
+
+test_that("ti basic", {
+    skip_on_cran()
+    expect_error(ti(abstracts_stm, abstracts$text), NA)
+    expect_error(ti(abstracts_warplda, abstracts$text))
+    expect_error(ti(abstracts_warplda, abstracts$text, input_dfm = abstracts_dfm), NA)
+    expect_error(ti(abstracts_btm, abstracts$text))
+    expect_error(ti(abstracts_btm, abstracts_corpus))
+    expect_error(ti(abstracts_btm, abstracts$text, btm_dataframe = abstracts_df))
+    expect_error(ti(abstracts_btm, abstracts_corpus, btm_dataframe = abstracts_df), NA)
+    expect_error(ti(abstracts_keyatm, abstracts$text), NA)
+})
+
+test_that("gs basic", {
+    expect_error(gs(abstracts$text), NA)
+})
+
+test_that("correct passing of n_top_terms",{
+    skip_on_cran()
+    for (i in sample(2:10)) {
+        z <- witi(abstracts_stm, abstracts$text, n_top_terms = i)
+        expect_equal(length(z$.__enclos_env__$private$test_content$word$candidates[[1]]), i + 1)
+        z <- wi(abstracts_stm, abstracts$text, n_top_terms = i)
+        expect_equal(length(z$.__enclos_env__$private$test_content$word$candidates[[1]]), i + 1)
+    }
+})
+
+test_that("correct passing of n_top_topics", {
+    skip_on_cran()
+    for (i in sample(2:10)) {
+        z <- witi(abstracts_stm, abstracts$text, n_top_topics = i)
+        expect_equal(length(z$.__enclos_env__$private$test_content$topic$candidates[[1]]), i + 1)
+        z <- ti(abstracts_stm, abstracts$text, n_top_topics = i)
+        expect_equal(length(z$.__enclos_env__$private$test_content$topic$candidates[[1]]), i + 1)
+    }
+})
+
+test_that("correct passing of n_topiclabel_words", {
+    skip_on_cran()
+    for (i in sample(2:10)) {
+        z <- witi(abstracts_stm, abstracts$text, n_topiclabel_words = i)
+        topic_label <- z$.__enclos_env__$private$test_content$topic$topic_labels[[1]][1]
+        expect_equal(length(strsplit(topic_label, ", ")[[1]]), i)
+        z <- ti(abstracts_stm, abstracts$text, n_topiclabel_words = i)
+        topic_label <- z$.__enclos_env__$private$test_content$topic$topic_labels[[1]][1]
+        expect_equal(length(strsplit(topic_label, ", ")[[1]]), i)
+    }
+})
+
+test_that("correct passing of construct", {
+    skip_on_cran()
+    for (i in sample(c("Ich", "bin", "eine", "Katze"))) {
+        z <- gs(abstracts$text, construct = i)
+        expect_equal(z$.__enclos_env__$private$construct, i)
+    }
+})
+
+
+test_that("correct passing of exact_n", {
+    skip_on_cran()
+    for (i in sample(5:90, size = 10)) {
+        z <- witi(abstracts_stm, abstracts$text, exact_n = i)
+        expect_equal(nrow(z$.__enclos_env__$private$test_content$topic), i)
+        z <- ti(abstracts_stm, abstracts$text, exact_n = i)
+        expect_equal(nrow(z$.__enclos_env__$private$test_content$topic), i)
+        z <- gs(abstracts$text, exact_n = i)
+        expect_equal(nrow(z$.__enclos_env__$private$test_content$gold_standard), i)
+    }
+})
+
+test_that("correct passing of frac", {
+    skip_on_cran()
+    for (i in sample(seq(0.01, 0.8, by = 0.02), size = 10)) {
+        expect_ans <- floor(length(abstracts$text) * i)
+        z <- witi(abstracts_stm, abstracts$text, frac = i)
+        expect_equal(nrow(z$.__enclos_env__$private$test_content$topic), expect_ans)
+        z <- ti(abstracts_stm, abstracts$text, frac = i)
+        expect_equal(nrow(z$.__enclos_env__$private$test_content$topic), expect_ans)
+        z <- gs(abstracts$text, frac = i)
+        expect_equal(nrow(z$.__enclos_env__$private$test_content$gold_standard), expect_ans)
+    }
+})
+
+test_that("correct passing of userid", {
+    skip_on_cran()
+    for (i in sample(c("Ich", "bin", "eine", "Katze"))) {
+        z <- wi(abstracts_stm, userid = i)
+        expect_equal(z$userid, i)
+        z <- witi(abstracts_stm, abstracts$text, userid = i)
+        expect_equal(z$userid, i)
+        z <- ti(abstracts_stm, abstracts$text, userid = i)
+        expect_equal(z$userid, i)
+        z <- gs(abstracts$text, userid = i)
+        expect_equal(z$userid, i)
+    }
+})

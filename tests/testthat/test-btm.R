@@ -26,6 +26,7 @@ test_that("BTM word intrusion", {
 
 test_that("BTM topic intrusion", {
     library(quanteda)
+    library(BTM)
     abstracts_corpus <- corpus(abstracts$text)
     tokens(abstracts_corpus, remove_punct = TRUE, remove_numbers = TRUE, remove_symbols = TRUE, split_hyphens = TRUE) %>%  tokens_tolower() %>% tokens_remove(stopwords("en")) %>% tokens_wordstem() -> toks_q
     as.data.frame.tokens <- function(x) {
@@ -37,5 +38,5 @@ test_that("BTM topic intrusion", {
     abstracts_df <- as.data.frame.tokens(toks_q)
     expect_error(create_oolong(abstracts_btm, abstracts_corpus))
     expect_error(create_oolong(abstracts_btm, abstracts$text, btm_dataframe = abstract_df))
-    expect_error(create_oolong(abstracts_btm, abstracts_corpus, btm_dataframe = abstract_df))
+    expect_error(create_oolong(abstracts_btm, abstracts_corpus, btm_dataframe = abstracts_df), NA)
 })

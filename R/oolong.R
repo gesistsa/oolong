@@ -38,11 +38,14 @@ Oolong_test <- R6::R6Class(
 
 #' Generate an oolong test
 #'
-#' This function generates an oolong test object that can either be used for validating a topic model or for creating ground truth (gold standard) of a text corpus.
-#' 
+#' \code{create_oolong} generates an oolong test object that can either be used for validating a topic model or for creating ground truth (gold standard) of a text corpus. \code{wi} (word intrusion test), \code{ti} (topic intrusion test), \code{witi} (word and topic intrusion tests) and \code{gs} are handy wrappers to \code{create_oolong}. It is recommended to use these wrappers instead of \code{create_oolong}.
+#'
 #' @section Usage:
 #'
-#' This function generates an oolong test object based on \code{input_model} and \code{input_corpus}. If \code{input_model} is not NULL, it generates oolong test for a topic model (tm). If \code{input_model} is NULL but input_corpus is not NULL, it generates oolong test for generating gold standard (gs).
+#' Use \code{ti}, \code{ti}, \code{witi} or \code{gs} to generate an oolong test of your choice. It is recommended to supply also \code{userid} (current coder).
+#' @section About create_oolong:
+#'
+#' Because \code{create_oolong} is not intuitive to use, it is no longer recommended to use \code{create_oolong} to generate oolong test. \code{create_oolong} is retained only for backward compatibility purposes. This function generates an oolong test object based on \code{input_model} and \code{input_corpus}. If \code{input_model} is not NULL, it generates oolong test for a topic model (tm). If \code{input_model} is NULL but input_corpus is not NULL, it generates oolong test for generating gold standard (gs).
 #'
 #' @section Methods:
 #' An oolong object, depends on its purpose, has the following methods:
@@ -74,11 +77,19 @@ Oolong_test <- R6::R6Class(
 #' ## Creation of oolong test with only word intrusion test
 #' data(abstracts_stm)
 #' data(abstracts)
-#' oolong_test <- create_oolong(input_model = abstracts_stm)
+#' oolong_test <- wi(input_model = abstracts_stm, userid = "Hadley")
 #' ## Creation of oolong test with both word intrusion test and topic intrusion test
-#' oolong_test <- create_oolong(input_model = abstracts_stm, input_corpus = abstracts$text)
+#' oolong_test <- witi(input_model = abstracts_stm, input_corpus = abstracts$text, userid = "Julia")
+#' ## Creation of oolong test with topic intrusion test
+#' oolong_test <- ti(input_model = abstracts_stm, input_corpus = abstracts$text, userid = "Jenny")
 #' ## Creation of gold standard
-#' oolong_test <- create_oolong(input_corpus = trump2k)
+#' oolong_test <- gs(input_corpus = trump2k, userid = "Yihui")
+#' ## Using create_oolong(); not recommended
+#' oolong_test <- create_oolong(input_model = abstracts_stm,
+#' input_corpus = abstracts$text, userid = "JJ")
+#' oolong_test <- create_oolong(input_model = abstracts_stm,
+#' input_corpus = abstracts$text, userid = "Mara", type = "ti")
+#' oolong_test <- create_oolong(input_corpus = abstracts$text, userid = "Winston", type = "gs")
 #' @author Chung-hong Chan, Marius Sältzer
 #' @references
 #'   Chang, J., Gerrish, S., Wang, C., Boyd-Graber, J. L., & Blei, D. M. (2009). Reading tea leaves: How humans interpret topic models. In Advances in neural information processing systems (pp. 288-296).

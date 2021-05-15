@@ -3,17 +3,19 @@ Overview
 Chung-hong Chan
 
 The validation test is called “oolong test” (for reading tea leaves).
-Creating oolong test for topic models and dictionary-based uses the same
-function: `create_oolong()`. The most important parameters are
-`input_model` and `input_corpus`. Setting each of them to `NULL`
-generates different tests.
+This package provides several functions for generating different types
+of oolong test.
 
-| input\_model | input\_corpus | output                                                                                                                                      |
-| ------------ | :-----------: | ------------------------------------------------------------------------------------------------------------------------------------------- |
-| Not NULL     |     NULL      | oolong test for validating a topic model with [word intrusion test](#word-intrusion-test)                                                   |
-| Not NULL     |   Not NULL    | oolong test for validating a topic model with [word intrusion test](#word-intrusion-test) and [topic intrusion test](#topic-intrusion-test) |
-| NULL         |   Not NULL    | oolong test for [creating gold standard](#creating-gold-standard)                                                                           |
-| NULL         |     NULL      | error                                                                                                                                       |
+| function | purpose                                                                                                                     |
+| -------: | :-------------------------------------------------------------------------------------------------------------------------- |
+|   `wi()` | validating a topic model with [word intrusion test](#word-intrusion-test)                                                   |
+|   `ti()` | validating a topic model with [topic intrusion test](#topic-intrusion-test)                                                 |
+| `witi()` | validating a topic model with [word intrusion test](#word-intrusion-test) and [topic intrusion test](#topic-intrusion-test) |
+|   `gs()` | oolong test for [creating gold standard](#creating-gold-standard)                                                           |
+
+All of these tests can also be generated with the function
+[`create_oolong`](#backward-compatibility). As of version 0.3.20, it is
+no longer recommended.
 
 ## Installation
 
@@ -70,14 +72,17 @@ abstracts_stm
 #> A topic model with 20 topics, 2500 documents and a 3998 word dictionary.
 ```
 
-To create an oolong test, use the function `create_oolong_test`.
+To create an oolong test with word intrusion test, use the function
+`wi`. It is recommended to provide a user id of coder who are going to
+be doing the test.
 
 ``` r
-oolong_test <- create_oolong(abstracts_stm)
+oolong_test <- wi(abstracts_stm, userid = "Hadley")
 oolong_test
 #> 
 #> ── oolong (topic model) ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> ✔ WI ✖ TI
+#> ☺ Hadley
 #> ℹ WI: k = 20, 0 coded.
 #> 
 #> ── Methods ──
@@ -102,6 +107,7 @@ oolong_test
 #> 
 #> ── oolong (topic model) ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> ✔ WI ✖ TI
+#> ☺ Hadley
 #> ℹ WI: k = 20, 20 coded.
 #> 
 #> ── Results: ──
@@ -137,17 +143,16 @@ Creating the oolong test object with the corpus used for training the
 topic model will generate topic intrusion test cases.
 
 ``` r
-oolong_test <- create_oolong(abstracts_stm, abstracts$text)
+oolong_test <- ti(abstracts_stm, abstracts$text, userid = "Julia")
 oolong_test
 #> 
 #> ── oolong (topic model) ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-#> ✔ WI ✔ TI
-#> ℹ WI: k = 20, 0 coded.
+#> ✖ WI ✔ TI
+#> ☺ Julia
 #> ℹ TI: n = 25, 0 coded.
 #> 
 #> ── Methods ──
 #> 
-#> • <$do_word_intrusion_test()>: do word intrusion test
 #> • <$do_topic_intrusion_test()>: do topic intrusion test
 #> • <$lock()>: finalize and see the results
 ```
@@ -165,14 +170,13 @@ oolong_test$lock()
 oolong_test
 #> 
 #> ── oolong (topic model) ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-#> ✔ WI ✔ TI
-#> ℹ WI: k = 20, 20 coded.
+#> ✖ WI ✔ TI
+#> ☺ Julia
 #> ℹ TI: n = 25, 25 coded.
 #> 
 #> ── Results: ──
 #> 
-#> ℹ 100%  precision
-#> ℹ TLO: -0.079
+#> ℹ TLO: -0.151
 ```
 
 ### Suggested workflow
@@ -193,24 +197,24 @@ abstracts_stm <- stm(abstracts_stm$documents, abstracts_stm$vocab, data =abstrac
 Create a new oolong object.
 
 ``` r
-oolong_test_rater1 <- create_oolong(abstracts_stm, abstracts$text, userid = "joe")
+oolong_test_rater1 <- witi(abstracts_stm, abstracts$text, userid = "Yihui")
 ```
 
 Clone the oolong object to be used by other raters.
 
 ``` r
-oolong_test_rater2 <- clone_oolong(oolong_test_rater1, userid = "donald")
+oolong_test_rater2 <- clone_oolong(oolong_test_rater1, userid = "Jenny")
 ```
 
 Ask different coders to code each object and then lock the object.
 
 ``` r
-## Let donald do the test.
+## Let Yihui do the test.
 oolong_test_rater1$do_word_intrusion_test()
 oolong_test_rater1$do_topic_intrusion_test()
 oolong_test_rater1$lock()
 
-## Let joe do the test.
+## Let Jenny do the test.
 oolong_test_rater2$do_word_intrusion_test()
 oolong_test_rater2$do_topic_intrusion_test()
 oolong_test_rater2$lock()
@@ -222,18 +226,18 @@ Get a summary of the two objects.
 summarize_oolong(oolong_test_rater1, oolong_test_rater2)
 #> 
 #> ── Summary (topic model): ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-#> ℹ Mean model precision: 0.35
-#> ℹ Quantiles of model precision: 0.15, 0.25, 0.35, 0.45, 0.55
+#> ℹ Mean model precision: 0.3
+#> ℹ Quantiles of model precision: 0.15, 0.225, 0.3, 0.375, 0.45
 #> ℹ P-value of the model precision
-#> (H0: Model precision is not better than random guess): 7e-04
-#> ℹ Krippendorff's alpha: -0.071
+#> (H0: Model precision is not better than random guess): 0.0139
+#> ℹ Krippendorff's alpha: -0.161
 #> ℹ K Precision:
-#> 0.5, 0, 0, 0, 1, 1, 0, 0, 0.5, 0, 0.5, 0, 0.5, 0.5, 0.5, 0, 0.5, 0.5, 0.5, 0.5
-#> ℹ Mean TLO: -2.06
-#> ℹ Median TLO: -2.08
-#> ℹ Quantiles of TLO: -5.73, -3.38, -2.08, 0, 0
+#> 0.5, 0.5, 1, 0, 0, 0.5, 0, 0, 0.5, 0, 0, 0, 0.5, 0.5, 0, 0, 0.5, 0.5, 0.5, 0.5
+#> ℹ Mean TLO: -2.2
+#> ℹ Median TLO: -2.23
+#> ℹ Quantiles of TLO: -5.05, -3.65, -2.23, 0, 0
 #> ℹ P-Value of the median TLO 
-#> (H0: Median TLO is not better than random guess): 0.168
+#> (H0: Median TLO is not better than random guess): 0.0993
 ```
 
 ### About the p-values
@@ -317,16 +321,15 @@ topic intrusion test cases. You must supply also the `input_dfm`.
 
 ``` r
 ### Just word intrusion test.
-oolong_test <- create_oolong(abstracts_warplda)
+oolong_test <- ti(abstracts_warplda, userid = "Lionel")
 oolong_test
 #> 
 #> ── oolong (topic model) ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-#> ✔ WI ✖ TI
-#> ℹ WI: k = 20, 0 coded.
+#> ✖ WI ✖ TI
+#> ☺ Lionel
 #> 
 #> ── Methods ──
 #> 
-#> • <$do_word_intrusion_test()>: do word intrusion test
 #> • <$lock()>: finalize and see the results
 ```
 
@@ -345,7 +348,7 @@ abstracts_dfm
 ```
 
 ``` r
-oolong_test <- create_oolong(abstracts_warplda, abstracts$text, input_dfm = abstracts_dfm)
+oolong_test <- witi(abstracts_warplda, abstracts$text, input_dfm = abstracts_dfm, userid = "Mara")
 ```
 
 ``` r
@@ -353,6 +356,7 @@ oolong_test
 #> 
 #> ── oolong (topic model) ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> ✔ WI ✔ TI
+#> ☺ Mara
 #> ℹ WI: k = 20, 0 coded.
 #> ℹ TI: n = 25, 0 coded.
 #> 
@@ -399,10 +403,11 @@ selects 1% of the origin corpus as test cases. The parameter `construct`
 should be an adjective, e.g. positive, liberal, populistic, etc.
 
 ``` r
-oolong_test <- create_oolong(input_corpus = trump2k, construct = "positive")
+oolong_test <- gs(input_corpus = trump2k, construct = "positive", userid = "Joe")
 oolong_test
 #> 
 #> ── oolong (gold standard generation) ───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+#> ☺ Joe
 #> ℹ GS: n = 20, 0 coded.
 #> ℹ Construct:  positive.
 #> 
@@ -427,6 +432,7 @@ oolong_test$lock()
 oolong_test
 #> 
 #> ── oolong (gold standard generation) ───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+#> ☺ Joe
 #> ℹ GS: n = 20, 20 coded.
 #> ℹ Construct:  positive.
 #> 
@@ -509,8 +515,8 @@ Create an oolong object, clone it for another coder. According to Song
 et al. (Forthcoming), you should at least draw 1% of your data.
 
 ``` r
-trump <- create_oolong(input_corpus = trump2k, exact_n = 40, userid = "joe")
-trump2 <- clone_oolong(trump, userid = "donald")
+trump <- gs(input_corpus = trump2k, exact_n = 40, userid = "JJ")
+trump2 <- clone_oolong(trump, userid = "Winston")
 ```
 
 Instruct two coders to code the tweets and lock the objects.
@@ -588,6 +594,22 @@ plot(res)
 ```
 
 <img src="man/figures/README-diagnosis-1.png" width="100%" />
+
+## Backward compatibility
+
+Historically, oolong test objects could only be generated with only one
+function: `create_oolong`. It is no longer the case and no longer
+recommended anymore. It is still retained for backward compatibility
+purposes. If you still need to use `create_oolong()`, the most important
+parameters are `input_model` and `input_corpus`. Setting each of them to
+`NULL` generates different tests.
+
+| input\_model | input\_corpus | output                                                                                                                                      |
+| ------------ | :-----------: | ------------------------------------------------------------------------------------------------------------------------------------------- |
+| Not NULL     |     NULL      | oolong test for validating a topic model with [word intrusion test](#word-intrusion-test)                                                   |
+| Not NULL     |   Not NULL    | oolong test for validating a topic model with [word intrusion test](#word-intrusion-test) and [topic intrusion test](#topic-intrusion-test) |
+| NULL         |   Not NULL    | oolong test for [creating gold standard](#creating-gold-standard)                                                                           |
+| NULL         |     NULL      | error                                                                                                                                       |
 
 ## References
 
