@@ -62,4 +62,5 @@ test_that("ui", {
     expect_error(wi(abstracts_topicmodels), NA)
     expect_error(witi(abstracts_topicmodels, abstracts$text), NA)
     expect_error(ti(abstracts_topicmodels, abstracts$text), NA)
+    expect_error(wsi(abstracts_topicmodels), NA)
 })

@@ -50,6 +50,9 @@
     Message <cliMessage>
       
       -- Summary (topic model): ------------------------------------------------------
+      
+      -- Word intrusion test --
+      
       i Mean model precision: 1
       i Quantiles of model precision: 1, 1, 1, 1, 1
       i P-value of the model precision
@@ -57,6 +60,9 @@
       i Krippendorff's alpha: 1
       i K Precision:
       1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
+      
+      -- Topic intrusion test --
+      
       i Mean TLO: 0
       i Median TLO: 0
       i Quantiles of TLO: 0, 0, 0, 0, 0
@@ -70,11 +76,56 @@
     Message <cliMessage>
       
       -- oolong (topic model) --------------------------------------------------------
-      x WI v TI
+      x WI v TI x WSI
       i TI: n = 25, 0 coded.
       
       -- Methods --
       
       * <$do_topic_intrusion_test()>: do topic intrusion test
       * <$lock()>: finalize and see the results
+
+# wsi only
+
+    Code
+      create_oolong(input_model = abstracts_stm, input_corpus = abstracts$text, type = "wsi",
+      wsi_n_top_terms = 100)
+    Message <cliMessage>
+      
+      -- oolong (topic model) --------------------------------------------------------
+      x WI x TI v WSI
+      i WSI: n = 20, 0 coded.
+      
+      -- Methods --
+      
+      * <$do_word_set_intrusion_test()>: do word set intrusion test
+      * <$lock()>: finalize and see the results
+
+# check_calculation_wsi_multiobject (printing)
+
+    Code
+      res
+    Message <cliMessage>
+      
+      -- Summary (topic model): ------------------------------------------------------
+      
+      -- Word set intrusion test --
+      
+      i Mean model precision: 0.916666666666667
+      i K Precision:
+      0.3, 0.7, 0.7, 0.7, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
+      i Krippendorff's alpha: 0.135
+
+---
+
+    Code
+      res
+    Message <cliMessage>
+      
+      -- Summary (topic model): ------------------------------------------------------
+      
+      -- Word set intrusion test --
+      
+      i Mean model precision: 1
+      i K Precision:
+      1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
 

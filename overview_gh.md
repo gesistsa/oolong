@@ -6,12 +6,13 @@ The validation test is called “oolong test” (for reading tea leaves).
 This package provides several functions for generating different types
 of oolong test.
 
-| function | purpose                                                                                                                     |
-| -------: | :-------------------------------------------------------------------------------------------------------------------------- |
-|   `wi()` | validating a topic model with [word intrusion test](#word-intrusion-test)                                                   |
-|   `ti()` | validating a topic model with [topic intrusion test](#topic-intrusion-test)                                                 |
-| `witi()` | validating a topic model with [word intrusion test](#word-intrusion-test) and [topic intrusion test](#topic-intrusion-test) |
-|   `gs()` | oolong test for [creating gold standard](#creating-gold-standard)                                                           |
+| function | purpose                                                                                                                                  |
+| -------: | :--------------------------------------------------------------------------------------------------------------------------------------- |
+|   `wi()` | validating a topic model with [word intrusion test](#word-intrusion-test) (Chang et al., 2008)                                           |
+|   `ti()` | validating a topic model with [topic intrusion test](#topic-intrusion-test) (Chang et al., 2008; aka “T8WSI” in Ying et al. forthcoming) |
+| `witi()` | validating a topic model with [word intrusion test](#word-intrusion-test) and [topic intrusion test](#topic-intrusion-test)              |
+|  `wsi()` | validating a topic model with [word set intrusion test](#word-set-intrusion-test) (Ying et al. forthcoming)                              |
+|   `gs()` | oolong test for [creating gold standard](#creating-gold-standard) (see Song et al., 2020)                                                |
 
 All of these tests can also be generated with the function
 [`create_oolong`](#backward-compatibility). As of version 0.3.20, it is
@@ -81,7 +82,7 @@ oolong_test <- wi(abstracts_stm, userid = "Hadley")
 oolong_test
 #> 
 #> ── oolong (topic model) ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-#> ✔ WI ✖ TI
+#> ✔ WI ✖ TI ✖ WSI
 #> ☺ Hadley
 #> ℹ WI: k = 20, 0 coded.
 #> 
@@ -106,13 +107,58 @@ oolong_test$lock()
 oolong_test
 #> 
 #> ── oolong (topic model) ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-#> ✔ WI ✖ TI
+#> ✔ WI ✖ TI ✖ WSI
 #> ☺ Hadley
 #> ℹ WI: k = 20, 20 coded.
 #> 
 #> ── Results: ──
 #> 
 #> ℹ 95%  precision
+```
+
+#### Word set intrusion test
+
+Word set intrusion test is a variant of word intrusion test (Ying et
+al., forthcoming), in which multiple word sets generated from top terms
+of one topic are juxtaposed with one intruder word set generated
+similarly from another topic. In Ying et al., this test is called
+“R4WSI” because 4 word sets are displayed. By default, oolong
+generates also R4WSI. However, it is also possible to generate R(N)WSI
+by setting the parameter `n_correct_ws` to N - 1.
+
+``` r
+oolong_test <- wsi(abstracts_stm, userid = "Garrett")
+oolong_test
+#> 
+#> ── oolong (topic model) ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+#> ✖ WI ✖ TI ✔ WSI
+#> ☺ Garrett
+#> ℹ WSI: n = 20, 0 coded.
+#> 
+#> ── Methods ──
+#> 
+#> • <$do_word_set_intrusion_test()>: do word set intrusion test
+#> • <$lock()>: finalize and see the results
+```
+
+Use the method `$do_word_set_intrusion_test()` to start coding.
+
+``` r
+oolong_test$do_word_set_intrusion_test()
+```
+
+``` r
+oolong_test$lock()
+oolong_test
+#> 
+#> ── oolong (topic model) ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+#> ✖ WI ✖ TI ✔ WSI
+#> ☺ Garrett
+#> ℹ WSI: n = 20, 20 coded.
+#> 
+#> ── Results: ──
+#> 
+#> ℹ 95%  precision (WSI)
 ```
 
 #### Topic intrusion test
@@ -147,7 +193,7 @@ oolong_test <- ti(abstracts_stm, abstracts$text, userid = "Julia")
 oolong_test
 #> 
 #> ── oolong (topic model) ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-#> ✖ WI ✔ TI
+#> ✖ WI ✔ TI ✖ WSI
 #> ☺ Julia
 #> ℹ TI: n = 25, 0 coded.
 #> 
@@ -170,13 +216,13 @@ oolong_test$lock()
 oolong_test
 #> 
 #> ── oolong (topic model) ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-#> ✖ WI ✔ TI
+#> ✖ WI ✔ TI ✖ WSI
 #> ☺ Julia
 #> ℹ TI: n = 25, 25 coded.
 #> 
 #> ── Results: ──
 #> 
-#> ℹ TLO: -0.151
+#> ℹ TLO: -0.243
 ```
 
 ### Suggested workflow
@@ -226,18 +272,24 @@ Get a summary of the two objects.
 summarize_oolong(oolong_test_rater1, oolong_test_rater2)
 #> 
 #> ── Summary (topic model): ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-#> ℹ Mean model precision: 0.3
-#> ℹ Quantiles of model precision: 0.15, 0.225, 0.3, 0.375, 0.45
+#> 
+#> ── Word intrusion test ──
+#> 
+#> ℹ Mean model precision: 0.375
+#> ℹ Quantiles of model precision: 0.3, 0.3375, 0.375, 0.4125, 0.45
 #> ℹ P-value of the model precision
-#> (H0: Model precision is not better than random guess): 0.0139
-#> ℹ Krippendorff's alpha: -0.161
+#> (H0: Model precision is not better than random guess): 0.0026
+#> ℹ Krippendorff's alpha: 0.272
 #> ℹ K Precision:
-#> 0.5, 0.5, 1, 0, 0, 0.5, 0, 0, 0.5, 0, 0, 0, 0.5, 0.5, 0, 0, 0.5, 0.5, 0.5, 0.5
-#> ℹ Mean TLO: -2.2
-#> ℹ Median TLO: -2.23
-#> ℹ Quantiles of TLO: -5.05, -3.65, -2.23, 0, 0
+#> 0, 0, 1, 0.5, 0, 1, 0, 0.5, 0.5, 1, 0.5, 0, 0, 0.5, 0, 0, 1, 0.5, 0, 0.5
+#> 
+#> ── Topic intrusion test ──
+#> 
+#> ℹ Mean TLO: -2.27
+#> ℹ Median TLO: -2.55
+#> ℹ Quantiles of TLO: -5.82, -3.98, -2.55, 0, 0
 #> ℹ P-Value of the median TLO 
-#> (H0: Median TLO is not better than random guess): 0.0993
+#> (H0: Median TLO is not better than random guess): 0.192
 ```
 
 ### About the p-values
@@ -325,7 +377,7 @@ oolong_test <- ti(abstracts_warplda, userid = "Lionel")
 oolong_test
 #> 
 #> ── oolong (topic model) ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-#> ✖ WI ✖ TI
+#> ✖ WI ✖ TI ✖ WSI
 #> ☺ Lionel
 #> 
 #> ── Methods ──
@@ -355,7 +407,7 @@ oolong_test <- witi(abstracts_warplda, abstracts$text, input_dfm = abstracts_dfm
 oolong_test
 #> 
 #> ── oolong (topic model) ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-#> ✔ WI ✔ TI
+#> ✔ WI ✔ TI ✖ WSI
 #> ☺ Mara
 #> ℹ WI: k = 20, 0 coded.
 #> ℹ TI: n = 25, 0 coded.
@@ -617,18 +669,21 @@ parameters are `input_model` and `input_corpus`. Setting each of them to
     (2009). Reading tea leaves: How humans interpret topic models. In
     Advances in neural information processing systems (pp. 288-296).
     [link](https://papers.nips.cc/paper/3700-reading-tea-leaves-how-humans-interpret-topic-models)
-2.  Song et al. (2020) In validations we trust? The impact of imperfect
+2.  Ying, L., Montgomery, J. M., & Stewart, B. M. (Forthcoming).
+    Inferring concepts from topics: Towards procedures for validating
+    topics as measures. Political Analysis.
+3.  Song et al. (2020) In validations we trust? The impact of imperfect
     human annotations as a gold standard on the quality of validation of
     automated content analysis. Political Communication.
     [link](https://doi.org/10.1080/10584609.2020.1723752)
-3.  Bland, J. M., & Altman, D. (1986). Statistical methods for assessing
+4.  Bland, J. M., & Altman, D. (1986). Statistical methods for assessing
     agreement between two methods of clinical measurement. The lancet,
     327(8476), 307-310.
-4.  Chan et al. (2020) Four best practices for measuring news sentiment
+5.  Chan et al. (2020) Four best practices for measuring news sentiment
     using ‘off-the-shelf’ dictionaries: a large-scale p-hacking
     experiment. Computational Communication Research.
     [link](https://osf.io/preprints/socarxiv/np5wa/)
-5.  Nielsen, F. Å. (2011). A new ANEW: Evaluation of a word list for
+6.  Nielsen, F. Å. (2011). A new ANEW: Evaluation of a word list for
     sentiment analysis in microblogs. arXiv preprint arXiv:1103.2903.
     [link](https://arxiv.org/abs/1103.2903)
 

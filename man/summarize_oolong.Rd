@@ -19,12 +19,12 @@ An oolong summary.
 Depends on purpose, an oolong summary object has the following values:
 \describe{
   \item{\code{$type}}{(gs/tm) type of analysis, either 'gs' or 'tm'}
-  \item{\code{$kripp_aplha}}{(gs/tm) Krippendorff's Alpha, if more than one oolong object is analyzed.}
-  \item{\code{$rater_precision}}{(tm) Model precision}
-  \item{\code{$res$rater_precision_p_value}}{(tm) Model precision's p-value calculated by one-sample binomial test and Fisher's Omnibus method.}
-  \item{\code{$k_precision}}{(tm) precision for each topic}
-  \item{\code{$tlo}}{(tm) vector of topic log odds}
-  \item{\code{$tlo_pvalue}}{(tm) Median topic log odds's p-value calculated by permutation test.}
+  \item{\code{$kripp_alpha}; \code{$kripp_alpha_wsi}}{(wi, wsi) Krippendorff's Alpha, if more than one oolong object is analyzed.}
+  \item{\code{$rater_precision}; \code{$rater_precision_wsi}}{(wi, wsi) Model precision}
+  \item{\code{$res$rater_precision_p_value}}{(wi) Model precision's p-value calculated by one-sample binomial test and Fisher's Omnibus method.}
+  \item{\code{$k_precision}; \code{$k_precision_wsi}}{(wi, wsi) precision for each topic}
+  \item{\code{$tlo}}{(ti) vector of topic log odds}
+  \item{\code{$tlo_pvalue}}{(ti) Median topic log odds's p-value calculated by permutation test.}
   \item{\code{$cor}}{(gs) Pearson's correlation between average answer and target value}
   \item{\code{$cor_length}}{(gs) Pearson's correlation between content length and target value}
   \item{\code{$diag_plot}}{(gs) diagnostic plot.}
@@ -51,6 +51,8 @@ if (interactive()) {
 Chang, J., Gerrish, S., Wang, C., Boyd-Graber, J. L., & Blei, D. M. (2009). Reading tea leaves: How humans interpret topic models. In Advances in neural information processing systems (pp. 288-296).
 
   Song et al. (2020) In validations we trust? The impact of imperfect human annotations as a gold standard on the quality of validation of automated content analysis. Political Communication.
+
+  Ying, L., Montgomery, J. M., & Stewart, B. M. (Forthcoming). Inferring concepts from topics: Towards procedures for validating topics as measures. Political Analysis.
 }
 \author{
 Chung-hong Chan

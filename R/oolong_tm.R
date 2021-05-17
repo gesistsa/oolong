@@ -57,10 +57,10 @@
     )
 )
 
-.ren_word_intrusion_test <- function(output, test_content, res) {
+.ren_word_intrusion_test <- function(output, test_content, res, prompt = "Which of the following is an intruder word?") {
     .ren_choices <- function(test_content, res) {
         shiny::renderUI({
-            shiny::radioButtons("intruder", label = "Which of the following is an intruder word?", choices = test_content$candidates[[res$current_row]], selected = res$intruder[res$current_row])
+            shiny::radioButtons("intruder", label = prompt, choices = test_content$candidates[[res$current_row]], selected = res$intruder[res$current_row])
         })
     }
     .ren_topic_bar <- function(test_content, res) {
@@ -99,6 +99,10 @@
     output$current_topic <- .ren_topic_bar(test_content, res)
     output$text_content <- .ren_text_content(test_content, res)
     return(output)
+}
+
+.ren_word_set_intrusion_test <- function(output, test_content, res, prompt = "Which of the following is an intruder word set?") {
+    .ren_word_intrusion_test(output = output, test_content = test_content, res = res, prompt = prompt)
 }
 
 ### It must take a UI and render function. For new test_content type, please prepare a new pair of .UI_XXX_test (in cap) and .ren_xxx_test
@@ -214,7 +218,34 @@
     return(test_content)
 }
 
-.generate_test_content <- function(input_model, input_corpus = NULL, n_top_terms = 5, bottom_terms_percentile = 0.6, exact_n = NULL, frac = 0.01, n_top_topics = 3, n_topiclabel_words = 8, difficulty = 1, use_frex_words = FALSE, input_dfm = NULL, btm_dataframe = NULL, type = "witi") {
+.slice_sample <- function(x, n_topiclabel_words, n_correct_ws) {
+    res <- split(.safe_sample(x), ceiling(seq_along(x) / n_topiclabel_words))
+    names(res) <- NULL
+    labels <- purrr::map_chr(res, ~(paste(., collapse = ", ")))
+    .safe_sample(labels, n_correct_ws)
+}
+
+.generate_candidates_wsi <- function(i, terms, n_correct_ws = 3, n_topiclabel_words = 4, wsi_n_top_terms = 20) {
+    if (n_correct_ws * n_topiclabel_words > wsi_n_top_terms) {
+        stop("wsi_n_top_terms too small: make it larger than n_correct_ws * n_topiclabel_words")
+    }
+    good_terms <- .slice_sample(head(terms[i,], wsi_n_top_terms), n_topiclabel_words, n_correct_ws)
+    intruder_topic <- .safe_sample(setdiff(seq_len(nrow(terms)), i), 1)
+    intruder <- .slice_sample(head(terms[intruder_topic,], wsi_n_top_terms), n_topiclabel_words, 1)
+    position <- .safe_sample(1:(n_correct_ws + 1), 1)
+    .insert(good_terms, intruder, position) -> res
+    res$t <- i
+    res$intruder <- res$candidates[[1]][res$position]
+    res$answer <- NA
+    return(res)
+}
+
+.generate_wsi <- function(ingredients, n_correct_ws = 3, n_topiclabel_words = 4, wsi_n_top_terms = 20) {
+    test_content <- purrr::map_dfr(seq_len(ingredients$K), .generate_candidates_wsi, terms = ingredients$terms, n_correct_ws = n_correct_ws, n_topiclabel_words = n_topiclabel_words, wsi_n_top_terms = wsi_n_top_terms)
+    return(test_content)
+}
+
+.generate_test_content <- function(input_model, input_corpus = NULL, n_top_terms = 5, bottom_terms_percentile = 0.6, exact_n = NULL, frac = 0.01, n_top_topics = 3, n_topiclabel_words = 8, difficulty = 1, use_frex_words = FALSE, input_dfm = NULL, btm_dataframe = NULL, type = "witi", n_correct_ws = 3, wsi_n_top_terms = 20) {
     ingredients <- .extract_ingredients(.convert_input_model_s3(input_model), n_top_terms = n_top_terms, difficulty = difficulty, need_topic = !is.null(input_corpus), n_topiclabel_words = n_topiclabel_words, input_dfm = input_dfm, use_frex_words = use_frex_words, input_corpus = input_corpus, btm_dataframe = btm_dataframe)
     test_content <- list()
     if (type %in% c("wi", "witi")) {
@@ -226,6 +257,11 @@
         test_content$topic <- .generate_topic_intrusion_test(input_corpus = input_corpus, ingredients = ingredients, exact_n = exact_n, frac = frac, n_top_topics = n_top_topics, n_topiclabel_words = n_topiclabel_words)
     } else {
         test_content$topic <- NULL        
+    }
+    if (type %in% c("wsi")) {
+        test_content$wsi <- .generate_wsi(ingredients, n_correct_ws = n_correct_ws, n_topiclabel_words = n_topiclabel_words, wsi_n_top_terms = wsi_n_top_terms)
+    } else {
+        test_content$wsi <- NULL
     }
     return(test_content)
 }
@@ -251,10 +287,11 @@
 .print_oolong_test_tm <- function(private, userid) {
     bool_word <- !is.null(private$test_content$word)
     bool_topic <- !is.null(private$test_content$topic)
+    bool_wsi <- !is.null(private$test_content$wsi)
     bool_finalized <- private$finalized
     cli::cli_h1("oolong (topic model)")
     .check_version(private)
-    cli::cli_text("{.sym_flip(bool_word)} WI {.sym_flip(bool_topic)} TI")
+    cli::cli_text("{.sym_flip(bool_word)} {.strong WI} {.sym_flip(bool_topic)} {.strong TI} {.sym_flip(bool_wsi)} {.strong WSI}")
     if (!is.na(userid)) {
         cli::cli_text(cli::symbol$smiley, " ", userid)
     }
@@ -264,9 +301,13 @@
     if (bool_topic) {
         cli::cli_alert_info("{.strong TI:} n = {nrow(private$test_content$topic)}, {sum(!is.na(private$test_content$topic$answer))} coded.")
     }
+    if (bool_wsi) {
+        cli::cli_alert_info("{.strong WSI:} n = {nrow(private$test_content$wsi)}, {sum(!is.na(private$test_content$wsi$answer))} coded.")
+    }
     if (bool_finalized) {
         cli::cli_h2("Results:")
         .cp(bool_word, round(.cal_model_precision(private$test_content$word), 3),"%  precision")
+        .cp(bool_wsi, round(.cal_model_precision(private$test_content$wsi), 3),"%  precision (WSI)")
         .cp(bool_topic, "TLO: ", round(.cal_tlo(private$test_content$topic, mean_value = TRUE), 3))
     } else {
         cli::cli_h2("Methods")
@@ -276,6 +317,9 @@
         }
         if (bool_topic) {
             cli::cli_li("{.cls $do_topic_intrusion_test()}: do topic intrusion test")
+        }
+        if (bool_wsi) {
+            cli::cli_li("{.cls $do_word_set_intrusion_test()}: do word set intrusion test")
         }
         cli::cli_li("{.cls $lock()}: finalize and see the results")
         cli::cli_end()
@@ -288,8 +332,8 @@ Oolong_test_tm <-
         "oolong_test_tm",
         inherit = Oolong_test,
         public = list(
-            initialize = function(input_model, input_corpus = NULL, n_top_terms = 5, bottom_terms_percentile = 0.6, exact_n = 15, frac = NULL, n_top_topics = 3, n_topiclabel_words = 8, difficulty = 1, use_frex_words = FALSE, input_dfm = NULL, btm_dataframe = NULL, userid = userid, type = "witi") {
-                private$test_content <- .generate_test_content(input_model, input_corpus, n_top_terms, bottom_terms_percentile, exact_n, frac, n_top_topics, n_topiclabel_words, difficulty, use_frex_words = use_frex_words, input_dfm = input_dfm, btm_dataframe = btm_dataframe, type = type)
+            initialize = function(input_model = NULL, input_corpus = NULL, n_top_terms = 5, bottom_terms_percentile = 0.6, exact_n = 15, frac = NULL, n_top_topics = 3, n_topiclabel_words = 8, difficulty = 1, use_frex_words = FALSE, input_dfm = NULL, btm_dataframe = NULL, userid = NA, n_correct_ws = 3, wsi_n_top_terms = 20, type = "witi") {
+                private$test_content <- .generate_test_content(input_model, input_corpus, n_top_terms, bottom_terms_percentile, exact_n, frac, n_top_topics, n_topiclabel_words, difficulty, use_frex_words = use_frex_words, input_dfm = input_dfm, btm_dataframe = btm_dataframe, type = type, n_correct_ws = n_correct_ws, wsi_n_top_terms = wsi_n_top_terms)
                 self$userid <- userid
                 private$hash <- .safe_hash(private$test_content)
                 private$hash_input_model <- .safe_hash(input_model)
@@ -308,6 +352,11 @@ Oolong_test_tm <-
                 private$check_finalized()
                 .cstop(is.null(private$test_content$topic), "No topic intrusion test cases. Create the oolong test with the corpus to generate topic intrusion test cases.")
                 private$test_content$topic <- .do_oolong_test(private$test_content$topic, ui = .UI_TOPIC_INTRUSION_TEST, .ren = .ren_topic_intrusion_test)
+            },
+            do_word_set_intrusion_test = function() {
+                private$check_finalized()
+                .cstop(is.null(private$test_content$wsi), "No word set intrusion test cases. Create the oolong test with the corpus to generate topic intrusion test cases.")
+                private$test_content$wsi <- .do_oolong_test(private$test_content$wsi, .ren = .ren_word_set_intrusion_test)
             }
         ),
         private = list(

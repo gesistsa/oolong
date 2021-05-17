@@ -55,6 +55,16 @@ test_that("ti basic", {
     expect_error(ti(abstracts_keyatm, abstracts$text), NA)
 })
 
+test_that("wsi basic", {
+    skip_on_cran()
+    expect_error(wsi(abstracts_stm), NA)    
+    expect_error(wsi(abstracts_warplda), NA)
+    expect_error(wsi(abstracts_warplda), NA)
+    expect_error(wsi(abstracts_btm), NA)
+    expect_error(wsi(abstracts_keyatm, abstracts$text), NA)
+})
+
+
 test_that("gs basic", {
     expect_error(gs(abstracts$text), NA)
 })
@@ -88,6 +98,15 @@ test_that("correct passing of n_topiclabel_words", {
         z <- ti(abstracts_stm, abstracts$text, n_topiclabel_words = i)
         topic_label <- z$.__enclos_env__$private$test_content$topic$topic_labels[[1]][1]
         expect_equal(length(strsplit(topic_label, ", ")[[1]]), i)
+    }
+})
+
+test_that("correct passing of n_topiclabel_words (wsi)", {
+    skip_on_cran()
+    for (g in sample(2:10)) {
+        az <- wsi(abstracts_stm, n_topiclabel_words = g, wsi_n_top_terms = 50)
+        ws_topic_label <- az$.__enclos_env__$private$test_content$wsi$candidates[[1]][1]
+        expect_equal(length(strsplit(ws_topic_label, ", ")[[1]]), g)
     }
 })
 
@@ -136,5 +155,16 @@ test_that("correct passing of userid", {
         expect_equal(z$userid, i)
         z <- gs(abstracts$text, userid = i)
         expect_equal(z$userid, i)
+        z <- wsi(abstracts_stm, userid = i)
+        expect_equal(z$userid, i)
     }
 })
+
+test_that("correct passing of n_correct_ws", {
+    skip_on_cran()
+    for (i in sample(2:5)) {
+        z <- wsi(abstracts_stm, n_correct_ws = i, wsi_n_top_terms = 50)
+        expect_equal(length(z$.__enclos_env__$private$test_content$wsi$candidates[[1]]), i + 1)
+    }
+})
+

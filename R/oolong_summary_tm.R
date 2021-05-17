@@ -33,6 +33,71 @@
     purrr::map(obj_list, ~ .$clone(deep = FALSE))
 }
 
+.cal_wi <- function(obj_list, res) {
+    all_word_test_content <- purrr::map(obj_list, ~ .$.__enclos_env__$private$test_content$word)
+    if (any(purrr::map_lgl(all_word_test_content, is.null))) {
+        res$rater_precision <- NA
+        res$k_precision <- NA
+        res$kripp_alpha <- NA
+        res$multiple_test <- NA
+        res$rater_precision_p_value <- NA
+    } else {
+        n_choices <- length(obj_list[[1]]$.__enclos_env__$private$test_content$word$candidates[[1]])
+        all_word_answers <- suppressMessages(purrr::map_dfc(obj_list, ~ .$.__enclos_env__$private$test_content$word$answer))
+        word_intruder <- obj_list[[1]]$.__enclos_env__$private$test_content$word$intruder
+        correction_matrix <- all_word_answers == word_intruder
+        res$k_precision <- apply(correction_matrix, 1, sum) / ncol(correction_matrix)
+        n_correct <- apply(correction_matrix, 2, sum)
+        res$rater_precision <- as.vector(n_correct / nrow(correction_matrix))
+        if (length(obj_list) == 1) {
+            res$kripp_alpha <- NA
+            res$multiple_test <- NA
+            res$rater_precision_p_value <- NA
+        } else {
+            res$kripp_alpha <- irr::kripp.alpha(t(ifelse(correction_matrix, 2, 1)))$value
+            res$multiple_test <- purrr::map(n_correct, ~binom.test(., n = nrow(correction_matrix), p = 1/n_choices, alternative = "greater"))
+            res$rater_precision_p_value <- .combine_p_fisher(purrr::map_dbl(res$multiple_test, "p.value"))
+        }
+    }
+    return(res)
+}
+
+.cal_ti <- function(obj_list, res) {
+    all_topic_test_content <- purrr::map(obj_list, ~ .$.__enclos_env__$private$test_content$topic)
+    if (any(purrr::map_lgl(all_topic_test_content, is.null))) {
+        res$tlo <- NA
+        res$tlo_p_value <- NA
+    } else {
+        res$tlo <- .cal_tlo(purrr::map_dfr(all_topic_test_content, ~.), mean_value = FALSE) ### it should not be just the mean.
+        monkey_median <- unlist(replicate(1500, .monkey_median(.clone_obj_list(obj_list))))
+        res$tlo_p_value <- sum(monkey_median > median(res$tlo)) / 1500
+    }
+    return(res)
+}
+
+.cal_wsi <- function(obj_list, res) {
+    all_wsi_test_content <- purrr::map(obj_list, ~ .$.__enclos_env__$private$test_content$wsi)
+    if (any(purrr::map_lgl(all_wsi_test_content, is.null))) {
+        res$rater_precision_wsi <- NA
+        res$k_precision_wsi <- NA
+        res$kripp_alpha_wsi <- NA
+    } else {
+        n_choices <- length(obj_list[[1]]$.__enclos_env__$private$test_content$wsi$candidates[[1]])
+        all_wsi_answers <- suppressMessages(purrr::map_dfc(obj_list, ~ .$.__enclos_env__$private$test_content$wsi$answer))
+        wsi_intruder <- obj_list[[1]]$.__enclos_env__$private$test_content$wsi$intruder
+        correction_matrix <- all_wsi_answers == wsi_intruder
+        res$k_precision_wsi <- apply(correction_matrix, 1, sum) / ncol(correction_matrix)
+        n_correct <- apply(correction_matrix, 2, sum)
+        res$rater_precision_wsi <- as.vector(n_correct / nrow(correction_matrix))
+        if (length(obj_list) == 1) {
+            res$kripp_alpha_wsi <- NA                        
+        } else {
+            res$kripp_alpha_wsi <- irr::kripp.alpha(t(ifelse(correction_matrix, 2, 1)))$value
+        }
+    }
+    return(res)
+}
+
 .summarize_oolong_tm <- function(...) {
     if(!.check_hash_dot(...)) {
         stop("Not all oolong object(s) are created with the same conditions.")
@@ -44,38 +109,11 @@
         warning("Some input objects were locked forcibly. Summary results might not make sense.")
     }
     obj_list <- list(...)
-    n_choices <- length(obj_list[[1]]$.__enclos_env__$private$test_content$word$candidates[[1]])
     res <- list()
-    all_word_answers <- suppressMessages(purrr::map_dfc(obj_list, ~ .$.__enclos_env__$private$test_content$word$answer))
-    word_intruder <- obj_list[[1]]$.__enclos_env__$private$test_content$word$intruder
-    correction_matrix <- all_word_answers == word_intruder
-    if (length(obj_list) == 1) {
-        res$kripp_alpha <- NA
-    } else {
-        res$kripp_alpha <- irr::kripp.alpha(t(ifelse(correction_matrix, 2, 1)))$value
-    }
-    res$k_precision <- apply(correction_matrix, 1, sum) / ncol(correction_matrix)
-    n_correct <- apply(correction_matrix, 2, sum)
-    res$rater_precision <- as.vector(n_correct / nrow(correction_matrix))
-    if (length(obj_list) == 1) {
-        res$kripp_alpha <- NA
-        res$multiple_test <- NA
-        res$rater_precision_p_value <- NA
-    } else {
-        res$kripp_alpha <- irr::kripp.alpha(t(ifelse(correction_matrix, 2, 1)))$value
-        res$multiple_test <- purrr::map(n_correct, ~binom.test(., n = nrow(correction_matrix), p = 1/n_choices, alternative = "greater"))
-        res$rater_precision_p_value <- .combine_p_fisher(purrr::map_dbl(res$multiple_test, "p.value"))
-
-    }    
     res$n_models <- length(obj_list)
-    all_topic_test_content <- purrr::map(obj_list, ~ .$.__enclos_env__$private$test_content$topic)
-    if (any(purrr::map_lgl(all_topic_test_content, is.null))) {
-        res$tlo <- NA
-    } else {
-        res$tlo <- .cal_tlo(purrr::map_dfr(all_topic_test_content, ~.), mean_value = FALSE) ### it should not be just the mean.
-        monkey_median <- unlist(replicate(1500, .monkey_median(.clone_obj_list(obj_list))))
-        res$tlo_p_value <- sum(monkey_median > median(res$tlo)) / 1500
-    }
+    res <- .cal_wi(obj_list, res)
+    res <- .cal_ti(obj_list, res)
+    res <- .cal_wsi(obj_list, res)
     res$obj_list <- .clone_obj_list(obj_list)
     res$type <- "tm"
     class(res) <- append(class(res), "oolong_summary")

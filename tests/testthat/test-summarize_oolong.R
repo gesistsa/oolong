@@ -10,6 +10,11 @@ genius_topic <- function(obj1) {
     return(obj1)
 }
 
+genius_wsi <- function(obj1) {
+    obj1$.__enclos_env__$private$test_content$wsi$answer <- obj1$.__enclos_env__$private$test_content$wsi$intruder
+    return(obj1)
+}
+
 test_that("Correct UI", {
     obj1 <- create_oolong(abstracts_stm)
     obj2 <- create_oolong(input_corpus = trump2k, exact_n = 20)
@@ -43,6 +48,7 @@ test_that("check_calculation_word_intrusion_multiobject", {
     res <- summarize_oolong(obj1)
     expect_length(res$rater_precision, 1)
 })
+
 
 test_that("check_calculation_word_intrusion_single_object", {
     obj1 <- create_oolong(abstracts_stm)
@@ -97,4 +103,28 @@ test_that("Monkeying problem #14", {
     summarise_oolong(obj1)
     new_answer <- obj1$.__enclos_env__$private$test_content$topic$answer
     expect_true(all.equal(previous_answer, new_answer))
+})
+
+
+test_that("check_calculation_wsi_multiobject", {
+    obj1 <- wsi(abstracts_stm)
+    obj2 <- clone_oolong(obj1)
+    obj3 <- clone_oolong(obj1)
+    ## Mocking coding
+    obj1 <- genius_wsi(obj1)
+    obj1$lock()
+    obj2 <- genius_wsi(obj2)
+    obj2$.__enclos_env__$private$test_content$wsi$answer[1] <- "wronganswer"
+    obj2$lock()
+    obj3 <- genius_wsi(obj3)
+    obj3$.__enclos_env__$private$test_content$wsi$answer[1:4] <- "wronganswer"
+    obj3$lock()
+    res <- summarize_oolong(obj1, obj2, obj3)
+    expect_length(res$rater_precision_wsi, 3)
+    expect_length(res$k_precision_wsi, 20)
+    expect_true(is.na(res$rater_precision))
+    ### Single object
+    res <- summarize_oolong(obj1)
+    expect_length(res$rater_precision_wsi, 1)
+    expect_true(is.na(res$rater_precision))
 })

@@ -6,15 +6,15 @@
 #' 
 #' Print function displays the following information:
 #' \describe{
-#'   \item{Mean model precision}{(tm) Higher value indicates better topic interpretability}
-#'   \item{Quantiles of model precision}{(tm) Higher value indicates better topic interpretability}
-#'   \item{P-value of the model precision}{(tm) Model precision's p-value calculated by one-sample binomial test and Fisher's Omnibus method.}
-#'   \item{Krippendorff's alpha}{(gs/tm) Krippendorff's Alpha, if more than one oolong object is analyzed.}
-#'   \item{K Precision}{(tm) Model precision for each topic.}
-#'   \item{Mean TLO}{(tm) Mean topic log odds, higher value indicates better interpretability}
-#'   \item{Median TLO}{(tm) Median topic log odds, higher value indicates better interpretability}
-#'   \item{Quantiles of TLO}{(tm) Quantiles of topic log odds}
-#'   \item{P-Value of the median TLO}{(tm) Median topic log odds's p-value calculated by permutation test.}
+#'   \item{Mean model precision}{(wi, wsi) Higher value indicates better topic interpretability}
+#'   \item{Quantiles of model precision}{(wi) Higher value indicates better topic interpretability}
+#'   \item{P-value of the model precision}{(wi) Model precision's p-value calculated by one-sample binomial test and Fisher's Omnibus method.}
+#'   \item{Krippendorff's alpha}{(wi, wsi, gs) Krippendorff's Alpha, if more than one oolong object is analyzed.}
+#'   \item{K Precision}{(wi, wsi) Model precision for each topic.}
+#'   \item{Mean TLO}{(ti) Mean topic log odds, higher value indicates better interpretability}
+#'   \item{Median TLO}{(ti) Median topic log odds, higher value indicates better interpretability}
+#'   \item{Quantiles of TLO}{(ti) Quantiles of topic log odds}
+#'   \item{P-Value of the median TLO}{(ti) Median topic log odds's p-value calculated by permutation test.}
 #'   \item{Correlation (average answer)}{(gs) Pearson's correlation between average answer and target value}
 #'   \item{Corrlation (content length)}{(gs) Pearson's correlation between content length and target value}
 #' }
@@ -58,16 +58,28 @@ plot.oolong_summary <- function(x, ...) {
 
 .print_oolong_summary_tm <- function(oolong_summary) {
     cli::cli_h1("Summary (topic model):")
-    .cp(TRUE, "Mean model precision: ", mean(oolong_summary$rater_precision))
-    .cp(oolong_summary$n_models > 1, "Quantiles of model precision: ", paste(quantile(oolong_summary$rater_precision), collapse = ", "))
-    .cp(oolong_summary$n_models > 1, "P-value of the model precision\n (H0: Model precision is not better than random guess): ", round(oolong_summary$rater_precision_p_value, 4))
-    .cp(oolong_summary$n_models > 1, "Krippendorff's alpha: ", round(oolong_summary$kripp_alpha, 3))
-    .cp(TRUE, "K Precision:\n", paste(round(oolong_summary$k_precision, 1), collapse = ", "))
-    .cp(!is.na(oolong_summary$tlo[1]), "Mean TLO: ", round(mean(oolong_summary$tlo), 2))
-    .cp(!is.na(oolong_summary$tlo[1]), "Median TLO: ", round(median(oolong_summary$tlo), 2))
-    .cp(!is.na(oolong_summary$tlo[1]), "Quantiles of TLO: ", paste(round(quantile(oolong_summary$tlo), 2), collapse = ", "))
+    if (!is.na(oolong_summary$rater_precision[1])) {
+        cli::cli_h2("Word intrusion test")
+        .cp(TRUE, "Mean model precision: ", mean(oolong_summary$rater_precision))
+        .cp(oolong_summary$n_models > 1, "Quantiles of model precision: ", paste(quantile(oolong_summary$rater_precision), collapse = ", "))
+        .cp(oolong_summary$n_models > 1, "P-value of the model precision\n (H0: Model precision is not better than random guess): ", round(oolong_summary$rater_precision_p_value, 4))
+        .cp(oolong_summary$n_models > 1, "Krippendorff's alpha: ", round(oolong_summary$kripp_alpha, 3))
+        .cp(TRUE, "K Precision:\n", paste(round(oolong_summary$k_precision, 1), collapse = ", "))
+    }
     if (!is.na(oolong_summary$tlo[1])) {
-        .cp(TRUE, "P-Value of the median TLO \n(H0: Median TLO is not better than random guess): ", round(oolong_summary$tlo_p_value, 4))
+        cli::cli_h2("Topic intrusion test")
+        .cp(!is.na(oolong_summary$tlo[1]), "Mean TLO: ", round(mean(oolong_summary$tlo), 2))
+        .cp(!is.na(oolong_summary$tlo[1]), "Median TLO: ", round(median(oolong_summary$tlo), 2))
+        .cp(!is.na(oolong_summary$tlo[1]), "Quantiles of TLO: ", paste(round(quantile(oolong_summary$tlo), 2), collapse = ", "))
+        if (!is.na(oolong_summary$tlo[1])) {
+            .cp(TRUE, "P-Value of the median TLO \n(H0: Median TLO is not better than random guess): ", round(oolong_summary$tlo_p_value, 4))
+        }
+    }
+    if (!is.na(oolong_summary$rater_precision_wsi[1])) {
+        cli::cli_h2("Word set intrusion test")
+        .cp(TRUE, "Mean model precision: ", mean(oolong_summary$rater_precision_wsi))
+        .cp(TRUE, "K Precision:\n", paste(round(oolong_summary$k_precision_wsi, 1), collapse = ", "))
+        .cp(oolong_summary$n_models > 1, "Krippendorff's alpha: ", round(oolong_summary$kripp_alpha_wsi, 3))
     }
 }
 
@@ -94,12 +106,12 @@ summarise_oolong <- function(..., target_value = NULL) {
 #' Depends on purpose, an oolong summary object has the following values:
 #' \describe{
 #'   \item{\code{$type}}{(gs/tm) type of analysis, either 'gs' or 'tm'}
-#'   \item{\code{$kripp_aplha}}{(gs/tm) Krippendorff's Alpha, if more than one oolong object is analyzed.}
-#'   \item{\code{$rater_precision}}{(tm) Model precision}
-#'   \item{\code{$res$rater_precision_p_value}}{(tm) Model precision's p-value calculated by one-sample binomial test and Fisher's Omnibus method.}
-#'   \item{\code{$k_precision}}{(tm) precision for each topic}
-#'   \item{\code{$tlo}}{(tm) vector of topic log odds}
-#'   \item{\code{$tlo_pvalue}}{(tm) Median topic log odds's p-value calculated by permutation test.}
+#'   \item{\code{$kripp_alpha}; \code{$kripp_alpha_wsi}}{(wi, wsi) Krippendorff's Alpha, if more than one oolong object is analyzed.}
+#'   \item{\code{$rater_precision}; \code{$rater_precision_wsi}}{(wi, wsi) Model precision}
+#'   \item{\code{$res$rater_precision_p_value}}{(wi) Model precision's p-value calculated by one-sample binomial test and Fisher's Omnibus method.}
+#'   \item{\code{$k_precision}; \code{$k_precision_wsi}}{(wi, wsi) precision for each topic}
+#'   \item{\code{$tlo}}{(ti) vector of topic log odds}
+#'   \item{\code{$tlo_pvalue}}{(ti) Median topic log odds's p-value calculated by permutation test.}
 #'   \item{\code{$cor}}{(gs) Pearson's correlation between average answer and target value}
 #'   \item{\code{$cor_length}}{(gs) Pearson's correlation between content length and target value}
 #'   \item{\code{$diag_plot}}{(gs) diagnostic plot.}
@@ -122,6 +134,8 @@ summarise_oolong <- function(..., target_value = NULL) {
 #'   Chang, J., Gerrish, S., Wang, C., Boyd-Graber, J. L., & Blei, D. M. (2009). Reading tea leaves: How humans interpret topic models. In Advances in neural information processing systems (pp. 288-296).
 #' 
 #'   Song et al. (2020) In validations we trust? The impact of imperfect human annotations as a gold standard on the quality of validation of automated content analysis. Political Communication.
+#'
+#'   Ying, L., Montgomery, J. M., & Stewart, B. M. (Forthcoming). Inferring concepts from topics: Towards procedures for validating topics as measures. Political Analysis.
 #' @export
 summarize_oolong <- function(..., target_value = NULL) {
     obj_list <- list(...)
@@ -140,7 +154,6 @@ summarize_oolong <- function(..., target_value = NULL) {
         return(FALSE)
     }
 }
-
 
 .plot_oolong_summary_gs <- function(oolong_summary) {
     oolong_summary$diag_plot

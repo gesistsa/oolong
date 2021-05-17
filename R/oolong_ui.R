@@ -18,6 +18,12 @@ ti <- function(input_model = NULL, input_corpus = NULL, userid = NA, exact_n = N
 
 #' @rdname create_oolong
 #' @export
+wsi <- function(input_model = NULL, userid = NA, n_topiclabel_words = 4, n_correct_ws = 3, wsi_n_top_terms = 20, difficulty = 1, use_frex_words = FALSE) {
+    create_oolong(input_model = input_model, difficulty = difficulty, use_frex_words = use_frex_words, n_topiclabel_words = n_topiclabel_words, n_correct_ws = n_correct_ws, wsi_n_top_terms = wsi_n_top_terms, userid = userid, type = "wsi")
+}
+
+#' @rdname create_oolong
+#' @export
 gs <- function(input_corpus = NULL, userid = NA, construct = "positive", exact_n = NULL, frac = 0.01) {
     create_oolong(input_corpus = input_corpus, exact_n = exact_n, frac = frac, construct = construct, userid = userid, type = "gs")
 }

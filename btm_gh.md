@@ -118,7 +118,7 @@ oolong <- create_oolong(trump_btm)
 oolong
 #> 
 #> ── oolong (topic model) ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-#> ✔ WI ✖ TI
+#> ✔ WI ✖ TI ✖ WSI
 #> ℹ WI: k = 8, 0 coded.
 #> 
 #> ── Methods ──
@@ -136,7 +136,7 @@ oolong <- create_oolong(trump_btm, trump_corpus, btm_dataframe = trump_dat)
 oolong
 #> 
 #> ── oolong (topic model) ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-#> ✔ WI ✔ TI
+#> ✔ WI ✔ TI ✖ WSI
 #> ℹ WI: k = 8, 0 coded.
 #> ℹ TI: n = 20, 0 coded.
 #> 

@@ -68,4 +68,6 @@ test_that("UI", {
     expect_error(ti(abstracts_unseededlda, abstracts$text), NA)
     expect_error(wi(abstracts_seededlda), NA)
     expect_error(wi(abstracts_unseededlda), NA)
+    expect_error(wsi(abstracts_seededlda), NA)
+    expect_error(wsi(abstracts_unseededlda), NA)
 })

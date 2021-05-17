@@ -5,6 +5,7 @@
 \alias{wi}
 \alias{witi}
 \alias{ti}
+\alias{wsi}
 \alias{gs}
 \title{Generate an oolong test}
 \usage{
@@ -22,6 +23,8 @@ create_oolong(
   input_dfm = NULL,
   construct = "positive",
   btm_dataframe = NULL,
+  n_correct_ws = 3,
+  wsi_n_top_terms = 20,
   userid = NA,
   type = "witi"
 )
@@ -65,6 +68,16 @@ ti(
   btm_dataframe = NULL
 )
 
+wsi(
+  input_model = NULL,
+  userid = NA,
+  n_topiclabel_words = 4,
+  n_correct_ws = 3,
+  wsi_n_top_terms = 20,
+  difficulty = 1,
+  use_frex_words = FALSE
+)
+
 gs(
   input_corpus = NULL,
   userid = NA,
@@ -74,46 +87,52 @@ gs(
 )
 }
 \arguments{
-\item{input_model}{(gs/tm) a STM, WarpLDA, topicmodels, KeyATM, seededlda or BTM object; if it is NULL, create_oolong assumes that you want to create gold standard.}
+\item{input_model}{(wi, ti, witi, wsi) a STM, WarpLDA, topicmodels, KeyATM, seededlda or BTM object; if it is NULL, create_oolong assumes that you want to create gold standard.}
 
-\item{input_corpus}{(gs/tm) if input_model is not null, it should be the corpus (character vector or quanteda::corpus object) to generate the model object. If input_model and input_corpus are not NULL, topic intrusion test cases are generated. If input_model is a BTM object, this argument is ignored. If input_model is null, it generates gold standard test cases.}
+\item{input_corpus}{(wi, ti, witi, wsi, gs) if input_model is not null, it should be the corpus (character vector or quanteda::corpus object) to generate the model object. If input_model and input_corpus are not NULL, topic intrusion test cases are generated. If input_model is a BTM object, this argument is ignored. If input_model is null, it generates gold standard test cases.}
 
-\item{n_top_terms}{(tm) integer, number of top topic words to be included in the candidates of word intrusion test.}
+\item{n_top_terms}{(wi, witi) integer, number of top topic words to be included in the candidates of word intrusion test.}
 
-\item{bottom_terms_percentile}{(tm) double, a term is considered to be an word intruder when its theta less than the percentile of this theta, must be within the range of 0 to 1}
+\item{bottom_terms_percentile}{(wi, witi) double, a term is considered to be an word intruder when its theta less than the percentile of this theta, must be within the range of 0 to 1}
 
-\item{exact_n}{(tm/gs) integer, number of topic intrusion test cases to generate, ignore if frac is not NULL}
+\item{exact_n}{(ti, witi, gs) integer, number of topic intrusion test cases to generate, ignore if frac is not NULL}
 
-\item{frac}{(tm/gs) double, fraction of test cases to be generated from the corpus}
+\item{frac}{(ti, witi, gs) double, fraction of test cases to be generated from the corpus}
 
-\item{n_top_topics}{(tm) integer, number of most relevant topics to be shown alongside the intruder topic}
+\item{n_top_topics}{(wi, witi) integer, number of most relevant topics to be shown alongside the intruder topic}
 
-\item{n_topiclabel_words}{(tm) integer, number of topic words to be shown as the topic label}
+\item{n_topiclabel_words}{(witi, ti, wsi) integer, number of topic words to be shown as the topic ("ti" and "witi") / word set ("wsi") label}
 
-\item{use_frex_words}{(tm) logical, for a STM object, use FREX words if TRUE, use PROB words if FALSE}
+\item{use_frex_words}{(wi, witi, ti, wsi) logical, for a STM object, use FREX words if TRUE, use PROB words if FALSE}
 
-\item{difficulty}{(tm) double, adjust the difficulty of the test. Higher value indicates higher difficulty and must be within the range of 0 to 1, no effect for STM if use_frex_words is FALSE. Ignore for topicmodels objects.}
+\item{difficulty}{(wi, witi, ti, wsi) double, adjust the difficulty of the test. Higher value indicates higher difficulty and must be within the range of 0 to 1, no effect for STM if use_frex_words is FALSE. Ignore for topicmodels objects}
 
-\item{input_dfm}{(tm) a dfm object used for training the input_model, if input_model is a WarpLDA object}
+\item{input_dfm}{(wi, witi, ti, wsi) a dfm object used for training the input_model, if input_model is a WarpLDA object}
 
-\item{construct}{(gs) string, an adjective to describe the construct you want your coders to code the the gold standard test cases.}
+\item{construct}{(gs) string, an adjective to describe the construct you want your coders to code the the gold standard test cases}
 
-\item{btm_dataframe}{(tm) dataframe used for training the input_model, if input_model is a BTM object}
+\item{btm_dataframe}{(witi, ti) dataframe used for training the input_model, if input_model is a BTM object}
 
-\item{userid}{a character string to denote the name of the coder. Default to NA (no userid); not recommended.}
+\item{n_correct_ws}{(wsi) number of word sets to be shown alongside the intruder word set}
 
-\item{type}{(tm/gs) a character string to denote what you want to create. "wi": word intrusion test; "ti": topic intrusion test; "witi": both word intrusion test and topic intrusion test; "gs": gold standard generation}
+\item{wsi_n_top_terms}{(wsi) number of top topic words from each topic to be randomzed selected as the word set label}
+
+\item{userid}{a character string to denote the name of the coder. Default to NA (no userid); not recommended}
+
+\item{type}{(create_oolong) a character string to denote what you want to create. "wi": word intrusion test; "ti": topic intrusion test; "witi": both word intrusion test and topic intrusion test; "gs": gold standard generation}
 }
 \value{
 an oolong test object.
 }
 \description{
-\code{create_oolong} generates an oolong test object that can either be used for validating a topic model or for creating ground truth (gold standard) of a text corpus. \code{wi} (word intrusion test), \code{ti} (topic intrusion test), \code{witi} (word and topic intrusion tests) and \code{gs} are handy wrappers to \code{create_oolong}. It is recommended to use these wrappers instead of \code{create_oolong}.
+\code{create_oolong} generates an oolong test object that can either be used for validating a topic model or for creating ground truth (gold standard) of a text corpus. \code{wi} (word intrusion test), \code{ti} (topic intrusion test), \code{witi} (word and topic intrusion tests), \code{wsi} (word set intrusion test) and \code{gs} are handy wrappers to \code{create_oolong}. It is recommended to use these wrappers instead of \code{create_oolong}.
 }
 \section{Usage}{
 
 
-Use \code{ti}, \code{ti}, \code{witi} or \code{gs} to generate an oolong test of your choice. It is recommended to supply also \code{userid} (current coder).
+Use \code{wi}, \code{ti}, \code{witi}, \code{wsi} or \code{gs} to generate an oolong test of your choice. It is recommended to supply also \code{userid} (current coder).
+The names of the tests (word intrusion test and topic intrusion test) follow Chang et al (2009). In Ying et al. (forthcoming), topic intrusion test is named "T8WSI" (Top 8 Word Set Intrusion). Word set intrusion test in this package is actually the "R4WSI" (Random 4 Word Set Intrusion) in Lu et al (forthcoming). The default settings of \code{wi}, \code{witi}, and \code{ti} follow Chang et al (2009), e.g. \code{n_top_terms} = 5; instead of \code{n_top_terms} = 4 as in Lu et al (forthcoming). The default setting of \code{wsi} follows Ying et al. (forthcoming), e.g. \code{n_topiclabel_words} = 4.
+As suggested by Song et al. (2020), 1% of the articles from \code{input_corpus} are randomly selected as the test cases of both \code{ti} and \code{gs}, i.e. \code{frac} = 0.01. However, it is generally believed that this proportion is dependent of the size of \code{input_corpus}, e.g. it does not make sense to draw 1% of the articles from only 100 articles. Use \code{exact_n} in these cases.
 }
 
 \section{About create_oolong}{
@@ -128,6 +147,7 @@ An oolong object, depends on its purpose, has the following methods:
 \describe{
   \item{\code{$do_word_intrusion_test()}}{(tm) launch the shiny-based word intrusion test. The coder should find out the intruder word that is not related to other words.}
   \item{\code{$do_topic_intrusion_test()}}{(tm) launch the shiny-based topic intrusion test. The coder should find out the intruder topic that is least likely to be the topic of the document.}
+  \item{\code{$do_word_set_intrusion_test()}}{(tm) launch the shiny-based word set intrusion test. The coder should find out the intruder word set that is not related to other word sets.}
   \item{\code{$do_gold_standard_test()}}{(gs) launch the shiny-based test for generating gold standard. The coder should determine the level of the predetermined constructs with a 5-point Likert scale.}
   \item{\code{$lock(force = FALSE)}}{(gs/tm) lock the object so that it cannot be changed anymore. It enables \code{\link{summarize_oolong}} and the following method.}
   \item{\code{$turn_gold()}}{(gs) convert the oolong object into a quanteda compatible corpus.}
@@ -144,6 +164,8 @@ oolong_test <- wi(input_model = abstracts_stm, userid = "Hadley")
 oolong_test <- witi(input_model = abstracts_stm, input_corpus = abstracts$text, userid = "Julia")
 ## Creation of oolong test with topic intrusion test
 oolong_test <- ti(input_model = abstracts_stm, input_corpus = abstracts$text, userid = "Jenny")
+## Creation of oolong test with word set intrusion test
+oolong_test <- wsi(input_model = abstracts_stm, userid = "Garrett")
 ## Creation of gold standard
 oolong_test <- gs(input_corpus = trump2k, userid = "Yihui")
 ## Using create_oolong(); not recommended
@@ -157,6 +179,8 @@ oolong_test <- create_oolong(input_corpus = abstracts$text, userid = "Winston", 
 Chang, J., Gerrish, S., Wang, C., Boyd-Graber, J. L., & Blei, D. M. (2009). Reading tea leaves: How humans interpret topic models. In Advances in neural information processing systems (pp. 288-296).
 
   Song et al. (2020) In validations we trust? The impact of imperfect human annotations as a gold standard on the quality of validation of automated content analysis. Political Communication.
+
+  Ying, L., Montgomery, J. M., & Stewart, B. M. (Forthcoming). Inferring concepts from topics: Towards procedures for validating topics as measures. Political Analysis
 }
 \author{
 Chung-hong Chan, Marius Sältzer

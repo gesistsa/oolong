@@ -37,3 +37,12 @@ test_that("generate_test_content type", {
     x <- oolong:::.generate_test_content(abstracts_stm, input_corpus = abstracts$text, type = 'ti')
     expect_null(x$word)
 })
+
+test_that("generate_test_content wsi", {
+    x <- oolong:::.generate_test_content(abstracts_stm, input_corpus = abstracts$text, n_topiclabel_words = 4, type = 'wsi')
+    expect_null(x$topic)
+    expect_null(x$words)
+    expect_false(is.null(x$wsi))
+    expect_error(oolong:::.generate_test_content(abstracts_stm, n_correct_ws = 10, n_topiclabel_words = 8, type = 'wsi'))
+    expect_error(oolong:::.generate_test_content(abstracts_stm, n_correct_ws = 10, n_topiclabel_words = 8, wsi_n_top_terms = 100,  type = 'wsi'), NA)
+})

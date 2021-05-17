@@ -25,15 +25,15 @@ These functions print or plot a useful summary of the results from \code{\link{s
 
 Print function displays the following information:
 \describe{
-  \item{Mean model precision}{(tm) Higher value indicates better topic interpretability}
-  \item{Quantiles of model precision}{(tm) Higher value indicates better topic interpretability}
-  \item{P-value of the model precision}{(tm) Model precision's p-value calculated by one-sample binomial test and Fisher's Omnibus method.}
-  \item{Krippendorff's alpha}{(gs/tm) Krippendorff's Alpha, if more than one oolong object is analyzed.}
-  \item{K Precision}{(tm) Model precision for each topic.}
-  \item{Mean TLO}{(tm) Mean topic log odds, higher value indicates better interpretability}
-  \item{Median TLO}{(tm) Median topic log odds, higher value indicates better interpretability}
-  \item{Quantiles of TLO}{(tm) Quantiles of topic log odds}
-  \item{P-Value of the median TLO}{(tm) Median topic log odds's p-value calculated by permutation test.}
+  \item{Mean model precision}{(wi, wsi) Higher value indicates better topic interpretability}
+  \item{Quantiles of model precision}{(wi) Higher value indicates better topic interpretability}
+  \item{P-value of the model precision}{(wi) Model precision's p-value calculated by one-sample binomial test and Fisher's Omnibus method.}
+  \item{Krippendorff's alpha}{(wi, wsi, gs) Krippendorff's Alpha, if more than one oolong object is analyzed.}
+  \item{K Precision}{(wi, wsi) Model precision for each topic.}
+  \item{Mean TLO}{(ti) Mean topic log odds, higher value indicates better interpretability}
+  \item{Median TLO}{(ti) Median topic log odds, higher value indicates better interpretability}
+  \item{Quantiles of TLO}{(ti) Quantiles of topic log odds}
+  \item{P-Value of the median TLO}{(ti) Median topic log odds's p-value calculated by permutation test.}
   \item{Correlation (average answer)}{(gs) Pearson's correlation between average answer and target value}
   \item{Corrlation (content length)}{(gs) Pearson's correlation between content length and target value}
 }

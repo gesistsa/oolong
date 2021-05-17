@@ -53,6 +53,16 @@ test_that("Can't launch $do_topic_intrusion_test() when no test content", {
     expect_error(x$do_topic_intrusion_test())
 })
 
+test_that("Can't launch $do_word_set_intrusion_test() when no test content", {
+    x <- create_oolong(abstracts_stm)
+    expect_error(x$do_word_set_intrusion_test())
+})
+
+test_that("Can't launch $do_word_intrusion_test() when no test content", {
+    x <- wsi(abstracts_stm)
+    expect_error(x$do_word_intrusion_test())
+})
+
 test_that("hash function", {
     expect_true(is.null(.safe_hash(NULL)))
     expect_type(.safe_hash(abstracts_stm), "character")
