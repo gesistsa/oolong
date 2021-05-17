@@ -236,7 +236,7 @@ All the API endpoints are the same, except the one for the creation of topic int
 
 ```{r warplda2}
 ### Just word intrusion test.
-oolong_test <- ti(abstracts_warplda, userid = "Lionel")
+oolong_test <- wi(abstracts_warplda, userid = "Lionel")
 oolong_test
 ```
 

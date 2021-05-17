@@ -33,7 +33,10 @@ test_that("wi basic", {
 
 test_that("witi basic", {
     skip_on_cran()
-    expect_error(witi(abstracts_stm, abstracts$text), NA)    
+    expect_error(witi(abstracts_stm, abstracts$text), NA)
+    ## We need to talk about how to handle these two.
+    expect_error(witi(abstracts_stm), NA)
+    expect_error(witi(abstracts_warplda), NA)
     expect_error(witi(abstracts_warplda, abstracts$text))
     expect_error(witi(abstracts_warplda, abstracts$text, input_dfm = abstracts_dfm), NA)
     expect_error(witi(abstracts_btm, abstracts$text))

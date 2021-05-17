@@ -249,6 +249,9 @@
 
 .generate_test_content <- function(input_model, input_corpus = NULL, n_top_terms = 5, bottom_terms_percentile = 0.6, exact_n = NULL, frac = 0.01, n_top_topics = 3, n_topiclabel_words = 8, difficulty = 1, use_frex_words = FALSE, input_dfm = NULL, btm_dataframe = NULL, type = "witi", n_correct_ws = 3, wsi_n_top_terms = 20) {
     ingredients <- .extract_ingredients(.convert_input_model_s3(input_model), n_top_terms = n_top_terms, difficulty = difficulty, need_topic = !is.null(input_corpus), n_topiclabel_words = n_topiclabel_words, input_dfm = input_dfm, use_frex_words = use_frex_words, input_corpus = input_corpus, btm_dataframe = btm_dataframe)
+    if (type %in% c("ti") & is.null(ingredients$theta)) {
+        .cstop(TRUE, "input_corpus can't be NULL for generating oolong test object with only topic intrusion test.")
+    }
     test_content <- list()
     if (type %in% c("wi", "witi")) {
         test_content$word <- .generate_word_intrusion_test(ingredients, bottom_terms_percentile = bottom_terms_percentile, n_top_terms = n_top_terms)

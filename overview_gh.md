@@ -373,15 +373,17 @@ topic intrusion test cases. You must supply also the `input_dfm`.
 
 ``` r
 ### Just word intrusion test.
-oolong_test <- ti(abstracts_warplda, userid = "Lionel")
+oolong_test <- wi(abstracts_warplda, userid = "Lionel")
 oolong_test
 #> 
 #> ── oolong (topic model) ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-#> ✖ WI ✖ TI ✖ WSI
+#> ✔ WI ✖ TI ✖ WSI
 #> ☺ Lionel
+#> ℹ WI: k = 20, 0 coded.
 #> 
 #> ── Methods ──
 #> 
+#> • <$do_word_intrusion_test()>: do word intrusion test
 #> • <$lock()>: finalize and see the results
 ```
 
