@@ -221,6 +221,8 @@
 .slice_sample <- function(x, n_topiclabel_words, n_correct_ws) {
     res <- split(.safe_sample(x), ceiling(seq_along(x) / n_topiclabel_words))
     names(res) <- NULL
+    ## Filter out things that are not of the length n_topiclabel_words to prevent .safe_sample below select the last one
+    res <- res[purrr::map_lgl(res, ~length(.) == n_topiclabel_words)]
     labels <- purrr::map_chr(res, ~(paste(., collapse = ", ")))
     .safe_sample(labels, n_correct_ws)
 }
