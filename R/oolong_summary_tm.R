@@ -62,15 +62,15 @@
     return(res)
 }
 
-.cal_ti <- function(obj_list, res) {
+.cal_ti <- function(obj_list, res, n_iter = 1500) {
     all_topic_test_content <- purrr::map(obj_list, ~ .$.__enclos_env__$private$test_content$topic)
     if (any(purrr::map_lgl(all_topic_test_content, is.null))) {
         res$tlo <- NA
         res$tlo_p_value <- NA
     } else {
         res$tlo <- .cal_tlo(purrr::map_dfr(all_topic_test_content, ~.), mean_value = FALSE) ### it should not be just the mean.
-        monkey_median <- unlist(replicate(1500, .monkey_median(.clone_obj_list(obj_list))))
-        res$tlo_p_value <- sum(monkey_median > median(res$tlo)) / 1500
+        monkey_median <- unlist(replicate(n_iter, .monkey_median(.clone_obj_list(obj_list))))
+        res$tlo_p_value <- sum(monkey_median > median(res$tlo)) / n_iter
     }
     return(res)
 }
@@ -98,7 +98,7 @@
     return(res)
 }
 
-.summarize_oolong_tm <- function(...) {
+.summarize_oolong_tm <- function(..., n_iter = 1500) {
     if(!.check_hash_dot(...)) {
         stop("Not all oolong object(s) are created with the same conditions.")
     }
@@ -112,7 +112,7 @@
     res <- list()
     res$n_models <- length(obj_list)
     res <- .cal_wi(obj_list, res)
-    res <- .cal_ti(obj_list, res)
+    res <- .cal_ti(obj_list, res, n_iter = n_iter)
     res <- .cal_wsi(obj_list, res)
     res$obj_list <- .clone_obj_list(obj_list)
     res$type <- "tm"

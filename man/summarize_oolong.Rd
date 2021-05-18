@@ -7,12 +7,14 @@
 \usage{
 summarise_oolong(..., target_value = NULL)
 
-summarize_oolong(..., target_value = NULL)
+summarize_oolong(..., target_value = NULL, n_iter = 1500)
 }
 \arguments{
-\item{...}{(tm/gs) one or more oolong objects to be summarized.}
+\item{...}{(tm/gs) one or more oolong objects to be summarized}
 
-\item{target_value}{(gs) a vector of numeric values, the value you want to validate against the human-coded gold standard. One example of this target value is sentiment score extracted automatically from text.}
+\item{target_value}{(gs) a vector of numeric values, the value you want to validate against the human-coded gold standard. One example of this target value is sentiment score extracted automatically from text}
+
+\item{n_iter}{(ti) number of iterations to calculate the median test}
 }
 \value{
 An oolong summary.

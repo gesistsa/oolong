@@ -100,8 +100,9 @@ summarise_oolong <- function(..., target_value = NULL) {
 #'
 #' This function summarizes one or more oolong objects. All oolong objects must be locked.
 #' 
-#' @param ... (tm/gs) one or more oolong objects to be summarized.
-#' @param target_value (gs) a vector of numeric values, the value you want to validate against the human-coded gold standard. One example of this target value is sentiment score extracted automatically from text.
+#' @param ... (tm/gs) one or more oolong objects to be summarized
+#' @param target_value (gs) a vector of numeric values, the value you want to validate against the human-coded gold standard. One example of this target value is sentiment score extracted automatically from text
+#' @param n_iter (ti) number of iterations to calculate the median test
 #' @return An oolong summary.
 #' Depends on purpose, an oolong summary object has the following values:
 #' \describe{
@@ -137,10 +138,10 @@ summarise_oolong <- function(..., target_value = NULL) {
 #'
 #'   Ying, L., Montgomery, J. M., & Stewart, B. M. (Forthcoming). Inferring concepts from topics: Towards procedures for validating topics as measures. Political Analysis.
 #' @export
-summarize_oolong <- function(..., target_value = NULL) {
+summarize_oolong <- function(..., target_value = NULL, n_iter = 1500) {
     obj_list <- list(...)
     if (.is.oolong_tm(obj_list[[1]])) {
-        return(.summarize_oolong_tm(...))
+        return(.summarize_oolong_tm(..., n_iter = n_iter))
     } else {
         return(.summarize_oolong_gs(..., target_value = target_value))
     }
