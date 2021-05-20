@@ -8,8 +8,8 @@
 
 }
 
-.gen_shinyapp <- function(test_content, ui = .UI_WORD_INTRUSION_TEST, .ren = .ren_word_intrusion_test, hash = NULL) {
-    server <- function(input, output, session) {
+.gen_shinyserver <- function(test_content, .ren = .ren_word_intrusion_test, hash = NULL) {
+    function(input, output, session) {
         res <- shiny::reactiveValues(intruder = test_content$answer, current_row = 1)
         output <- .ren(output, test_content, res, hash = hash)
         shiny::observeEvent(input$confirm, {
@@ -44,16 +44,20 @@
                 paste0('oolong_', Sys.time(), " ", input$userid, '.RDS')
             },
             content = function(file) {
-                res <- list()
+                output <- list()
                 test_content$answer <- res$intruder
-                res$test_content <- test_content
-                res$hash <- hash
-                res$hash <- .safe_hash(res$test_content)
-                res$userid <- input$userid
-                saveRDS(res, file)
+                output$test_content <- test_content
+                output$hash <- hash
+                output$test_content_hash <- .safe_hash(output$test_content)
+                output$userid <- input$userid
+                saveRDS(output, file)
             }
         )
     }
+}
+
+.gen_shinyapp <- function(test_content, ui = .UI_WORD_INTRUSION_TEST, .ren = .ren_word_intrusion_test, hash = NULL) {
+    server <- .gen_shinyserver(test_content = test_content, .ren = .ren, hash = hash)
     return(shiny::shinyApp(ui, server))
 }
 
@@ -215,13 +219,20 @@
     return(output)
 }
 
-.mobilize <- function(oolong) {
+.mobilize_defend <- function(oolong) {
     if (oolong$.__enclos_env__$private$finalized) {
         stop("oolong is locked.")
     }
     if (!.check_new(oolong)) {
         stop("oolong is partially coded.")
     }
+    if (length(oolong$.__enclos_env__$private$test_content) != 1) {
+        stop("Deployment of oolong object with more than two test items (e.g. witi) is not supported")
+    }
+}
+
+.mobilize <- function(oolong) {
+    .mobilize_defend(oolong)
     res <- list()
     res$test_content <- oolong$.__enclos_env__$private$test_content
     res$hash <- oolong$.__enclos_env__$private$hash
@@ -230,12 +241,12 @@
     return(res)
 }
 
-
+#' Deploy and export an oolong test
+#' 
+#' This function transforms your oolong test as a Shiny app that is ideal for only deployment. If you are using RStudio, you can use deploy_oolong() directly to deploy the launched Shiny app directly on shinyapps.io using the "Publish" button. If you are not using RStudio or you want to deploy the app to an alternative server (e.g. RStudio Connect or your own Shiny server), you should write the deployable version of your app into a directory using \code{export_oolong}. Please refer to the deployment guide for more details.
+#' 
 #' @export
-deploy <- function(oolong) {
-    if (length(oolong$.__enclos_env__$private$test_content) != 1) {
-        stop("Deployment of oolong with more than two test items (e.g. witi) is not supported")
-    }
+deploy_oolong <- function(oolong) {
     mob_oolong <- .mobilize(oolong)
     ### could use switch
     if (mob_oolong$type == "word") {
@@ -249,20 +260,31 @@ deploy <- function(oolong) {
             return(.ren_gold_standard_test(output, test_content, res, construct = mob_oolong$construct, hash = NULL))
         }
         return(.gen_shinyapp(mob_oolong$test_content$gold_standard, ui = .UI_GOLD_STANDARD_TEST, .ren = .ren, hash = mob_oolong$hash))
-    } 
-
+    }
 }
 
-undeploy <- function(oolong, tm_word_rds) {
-    res <- readRDS(tm_word_rds)
+#' @export
+export_oolong <- function(oolong, dir = base::tempdir(), verbose = TRUE) {
+    .mobilize_defend(oolong)
+    file.copy(system.file("app", "app.R", package = "oolong"), dir, overwrite = TRUE)
+    saveRDS(oolong, file = paste0(dir, "/oolong.RDS"))
+    .cp(verbose, "The Shiny has been written to the directory: ", base::path.expand(dir))
+    .cp(verbose, "You can test the app with: shiny::runApp(\"", base::path.expand(dir), "\")")
+    invisible(dir)
+}
+
+#' @export
+undeploy_oolong <- function(oolong, rds_file) {
+    res <- readRDS(rds_file)
+    if (res$test_content_hash != .safe_hash(res$test_content)) {
+        stop("The RDS seems to have been tampered. Please check with userid:", res$userid, ".", call. = FALSE )
+    }
     cloned_oolong <- clone_oolong(oolong)
-    hash <- unique(test_content$hash)
-    userid <- unique(test_content$userid)
-    if (hash != cloned_oolong$.__enclos_env__$private$hash) {
+    if (res$hash != cloned_oolong$.__enclos_env__$private$hash) {
         stop("The oolong test result does not match the original oolong object.", call. = FALSE)
     }
-    cloned_oolong$.__enclos_env__$private$test_content$word <- test_content[,1:5]
-    cloned_oolong$userid <- userid
+    cloned_oolong$.__enclos_env__$private$test_content[[1]] <- res$test_content
+    cloned_oolong$userid <- res$userid
     cloned_oolong$lock()
     return(cloned_oolong)
 }
