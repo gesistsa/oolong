@@ -100,11 +100,6 @@
     return(test_content)
 }
 
-.do_oolong_test <- function(test_content, ui = .UI_WORD_INTRUSION_TEST, .ren = .ren_word_intrusion_test) {
-    test_content$answer <- .code_oolong(test_content, ui = ui, .ren = .ren)
-    return(test_content)
-}
-
 .slice_sample <- function(x, n_topiclabel_words, n_correct_ws) {
     res <- split(.safe_sample(x), ceiling(seq_along(x) / n_topiclabel_words))
     names(res) <- NULL
