@@ -57,7 +57,7 @@ test_that("check_calculation_word_intrusion_single_object", {
     expect_error(summarize_oolong(obj1), NA)
 })
 
-test_that("check_calculation_topic_intrusion_single_object", {
+test_that("check_calculation_witi_single_object", {
     obj1 <- create_oolong(abstracts_stm, abstracts$text)
     obj1 <- genius_word(obj1)
     obj1 <- genius_topic(obj1)
@@ -65,7 +65,7 @@ test_that("check_calculation_topic_intrusion_single_object", {
     expect_error(summarize_oolong(obj1, n_iter = 100), NA)
 })
 
-test_that("check_calculation_topic_intrusion_multiobject", {
+test_that("check_calculation_witi_multiobject", {
     obj1 <- create_oolong(abstracts_stm, abstracts$text, exact_n = 10)
     obj2 <- clone_oolong(obj1)
     obj1 <- genius_word(obj1)
@@ -79,6 +79,27 @@ test_that("check_calculation_topic_intrusion_multiobject", {
     expect_length(res$tlo, 20)
     expect_error(plot(res))
 })
+
+test_that("check_calculation_ti_single_object", {
+    obj1 <- create_oolong(abstracts_stm, abstracts$text, type = "ti")
+    obj1 <- genius_topic(obj1)
+    obj1$lock()
+    expect_error(summarize_oolong(obj1, n_iter = 100), NA)
+})
+
+test_that("check_calculation_ti_multiobject", {
+    obj1 <- create_oolong(abstracts_stm, abstracts$text, exact_n = 10, type = "ti")
+    obj2 <- clone_oolong(obj1)
+    obj1 <- genius_topic(obj1)
+    obj1$lock()
+    obj2 <- genius_topic(obj2)
+    obj2$lock()
+    res <- summarize_oolong(obj1, obj2, n_iter = 10)
+    expect_length(res$tlo_p_value, 1)
+    expect_length(res$tlo, 20)
+    expect_error(plot(res))
+})
+
 
 test_that("Forcibly locking", {
     ex1 <- create_oolong(abstracts_stm, abstracts$text, exact_n = 100)
