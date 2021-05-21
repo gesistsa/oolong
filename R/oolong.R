@@ -146,3 +146,26 @@ clone_oolong <- function(oolong, userid = NA) {
     newoolongobj$userid <- userid
     return(newoolongobj)
 }
+
+#' Obtain a locked oolong from a downloaded data file
+#'
+#' To generate a locked oolong object with the original oolong object and the RDS file. The RDS file should have been downloaded from a deployed Shiny app.
+#' @param oolong an oolong object used for deployment
+#' @param rds_file path to the downloaded RDS file
+#' @return a locked oolong object based on the data in the downloaded RDS file
+#' @author Chung-hong Chan
+#' @export
+revert_oolong <- function(oolong, rds_file) {
+    res <- readRDS(rds_file)
+    if (res$test_content_hash != .safe_hash(res$test_content)) {
+        stop("The RDS file seems to have been tampered. Please check with userid:", res$userid, ".", call. = FALSE )
+    }
+    cloned_oolong <- clone_oolong(oolong)
+    if (res$hash != cloned_oolong$.__enclos_env__$private$hash) {
+        stop("The oolong test result does not match the original oolong object.", call. = FALSE)
+    }
+    cloned_oolong$.__enclos_env__$private$test_content[[1]] <- res$test_content
+    cloned_oolong$userid <- res$userid
+    cloned_oolong$lock()
+    return(cloned_oolong)
+}

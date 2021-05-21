@@ -39,7 +39,7 @@
         shiny::observeEvent(input$done, (
             shiny::stopApp(res$intruder)
         ))
-        output$download <- downloadHandler(
+        output$download <- shiny::downloadHandler(
             filename = function() {
                 paste0('oolong_', Sys.time(), " ", input$userid, '.RDS')
             },
@@ -241,10 +241,19 @@
     return(res)
 }
 
-#' Deploy and export an oolong test
+#' Deploy an oolong test
 #' 
-#' This function transforms your oolong test as a Shiny app that is ideal for only deployment. If you are using RStudio, you can use deploy_oolong() directly to deploy the launched Shiny app directly on shinyapps.io using the "Publish" button. If you are not using RStudio or you want to deploy the app to an alternative server (e.g. RStudio Connect or your own Shiny server), you should write the deployable version of your app into a directory using \code{export_oolong}. Please refer to the deployment guide for more details.
-#' 
+#' This function transforms your oolong test into a launched Shiny app that is ideal for online deployment. Deploying the Shiny app online allows your coders to conduct the test online with their browser, rather than having to install R on their own computer. If you are using RStudio, you can use this function to directly deploy the launched Shiny app on shinyapps.io using the "Publish" button. If you are not using RStudio or you want to deploy the app to an alternative service (e.g. RStudio Connect or your own Shiny server), you should write the deployable version of your app into a directory using \code{export_oolong}. In constrast to the testing interfaces launched with methods such as \code{$do_word_intrusion_test()}, the deployable version provides data download after the coder finished coding. Downloaded data can then revert back to a locked oolong object using \code{revert_oolong}. Further version might provide solutions to permanent storage. Please refer to the deployment guide for more details.
+#' @param oolong an oolong object to be deployed. Please note that the "witi" type, i.e. oolong object with both word and topic intrusion tests, cannot be deployed. Also the object must not be locked and ever coded.
+#' @return Nothing, it launches a deployable version of the coding interface
+#' @examples
+#' # Please try this example in interactive R sessions only.
+#' if (interactive()) {
+#'    data(abstracts_stm)
+#'    x <- wi(abstracts_stm)
+#'    deploy_oolong(x)
+#' }
+#' @author Chung-hong Chan
 #' @export
 deploy_oolong <- function(oolong) {
     mob_oolong <- .mobilize(oolong)
@@ -263,28 +272,29 @@ deploy_oolong <- function(oolong) {
     }
 }
 
+#' Export a deployable Shiny app from an oolong object into a directory
+#' This function transforms your oolong test into a deployable Shiny app that is in a directory. The Shiny app is both launchable with shiny::runApp() and deployable with rsconnect::deployApp(). See \code{deploy_oolong} and the deployment guide for more details.
+#' @param oolong an oolong object to be exported. Please note that the "witi" type, i.e. oolong object with both word and topic intrusion tests, cannot be exported. Also the object must not be locked and ever coded.
+#' @param dir character string, the directory to be exported. Default to a temporary directory
+#' @param verbose logical, whether to display information after exporting
+#' @return directory exported, invisible
+#' @examples
+#' # Please try this example in interactive R sessions only.
+#' if (interactive()) {
+#'    data(abstracts_stm)
+#'    x <- wi(abstracts_stm)
+#'    export_oolong(x)
+#' }
+#' @author Chung-hong Chan
 #' @export
 export_oolong <- function(oolong, dir = base::tempdir(), verbose = TRUE) {
     .mobilize_defend(oolong)
+    if (!dir.exists(dir)) {
+        dir.create(dir)
+    }
     file.copy(system.file("app", "app.R", package = "oolong"), dir, overwrite = TRUE)
     saveRDS(oolong, file = paste0(dir, "/oolong.RDS"))
     .cp(verbose, "The Shiny has been written to the directory: ", base::path.expand(dir))
     .cp(verbose, "You can test the app with: shiny::runApp(\"", base::path.expand(dir), "\")")
     invisible(dir)
-}
-
-#' @export
-undeploy_oolong <- function(oolong, rds_file) {
-    res <- readRDS(rds_file)
-    if (res$test_content_hash != .safe_hash(res$test_content)) {
-        stop("The RDS seems to have been tampered. Please check with userid:", res$userid, ".", call. = FALSE )
-    }
-    cloned_oolong <- clone_oolong(oolong)
-    if (res$hash != cloned_oolong$.__enclos_env__$private$hash) {
-        stop("The oolong test result does not match the original oolong object.", call. = FALSE)
-    }
-    cloned_oolong$.__enclos_env__$private$test_content[[1]] <- res$test_content
-    cloned_oolong$userid <- res$userid
-    cloned_oolong$lock()
-    return(cloned_oolong)
 }
