@@ -23,10 +23,7 @@
 
 ### check whether the oolong object is in a new state. (i.e. Not yet coded in either word, topic and wsi tests.)
 .check_new <- function(oolong) {
-    word_clean <- is.null(oolong$.__enclos_env__$private$test_content$word) | (!is.null(oolong$.__enclos_env__$private$test_content$word) & all(is.na(oolong$.__enclos_env__$private$test_content$word$answer)))
-    topic_clean <- is.null(oolong$.__enclos_env__$private$test_content$topic) | (!is.null(oolong$.__enclos_env__$private$test_content$topic) & all(is.na(oolong$.__enclos_env__$private$test_content$topic$answer)))
-    wsi_clean <- is.null(oolong$.__enclos_env__$private$test_content$wsi) | (!is.null(oolong$.__enclos_env__$private$test_content$wsi) & all(is.na(oolong$.__enclos_env__$private$test_content$wsi$answer)))
-    return(word_clean & topic_clean & wsi_clean)
+    all(purrr::map_lgl(oolong$.__enclos_env__$private$test_content, ~is.null(.) | (!is.null(.) & all(is.na(.$answer)))))
 }
 
 
