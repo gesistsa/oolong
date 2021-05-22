@@ -48,6 +48,43 @@ test_that("cloning", {
     expect_false(y$.__enclos_env__$private$finalized)
 })
 
+test_that("cloning all types", {
+    ## pure wi
+    x <- wi(abstracts_stm)
+    expect_error(clone_oolong(x), NA)
+    x$.__enclos_env__$private$test_content$word$answer[1] <- "x"
+    expect_error(clone_oolong(x))
+    ## pure ti
+    x <- ti(abstracts_stm, abstracts$text)
+    expect_error(clone_oolong(x), NA)
+    x$.__enclos_env__$private$test_content$topic$answer[1] <- "x"
+    expect_error(clone_oolong(x))
+    ## witi
+    x <- witi(abstracts_stm, abstracts$text)
+    expect_error(clone_oolong(x), NA)
+    x$.__enclos_env__$private$test_content$topic$answer[1] <- "x"
+    expect_error(clone_oolong(x))
+    x <- witi(abstracts_stm, abstracts$text)
+    expect_error(clone_oolong(x), NA)
+    x$.__enclos_env__$private$test_content$word$answer[1] <- "x"
+    expect_error(clone_oolong(x))
+    x <- witi(abstracts_stm, abstracts$text)
+    expect_error(clone_oolong(x), NA)
+    x$.__enclos_env__$private$test_content$word$answer[1] <- "x"
+    x$.__enclos_env__$private$test_content$topic$answer[1] <- "x"
+    expect_error(clone_oolong(x))
+    ## wsi
+    x <- wsi(abstracts_stm)
+    expect_error(clone_oolong(x), NA)
+    x$.__enclos_env__$private$test_content$wsi$answer[1] <- "x"
+    expect_error(clone_oolong(x))
+    ## gs
+    x <- gs(abstracts$text)
+    expect_error(clone_oolong(x), NA)
+    x$.__enclos_env__$private$test_content$gold_standard$answer[1] <- 1
+    expect_error(clone_oolong(x))    
+})
+
 test_that("Can't launch $do_topic_intrusion_test() when no test content", {
     x <- create_oolong(abstracts_stm)
     expect_error(x$do_topic_intrusion_test())
