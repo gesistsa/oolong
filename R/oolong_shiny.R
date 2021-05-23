@@ -278,6 +278,7 @@ deploy_oolong <- function(oolong) {
 #' @param oolong an oolong object to be exported. Please note that the "witi" type, i.e. oolong object with both word and topic intrusion tests, cannot be exported. Also the object must not be locked and ever coded.
 #' @param dir character string, the directory to be exported. Default to a temporary directory
 #' @param verbose logical, whether to display information after exporting
+#' @param use_full_path logical, whether to expand dir into full path
 #' @return directory exported, invisible
 #' @examples
 #' # Please try this example in interactive R sessions only.
@@ -288,14 +289,17 @@ deploy_oolong <- function(oolong) {
 #' }
 #' @author Chung-hong Chan
 #' @export
-export_oolong <- function(oolong, dir = base::tempdir(), verbose = TRUE) {
+export_oolong <- function(oolong, dir = base::tempdir(), verbose = TRUE, use_full_path = TRUE) {
     .mobilize_defend(oolong)
     if (!dir.exists(dir)) {
         dir.create(dir)
     }
+    if (use_full_path) {
+        dir <- base::path.expand(dir)
+    }
     file.copy(system.file("app", "app.R", package = "oolong"), dir, overwrite = TRUE)
     saveRDS(oolong, file = paste0(dir, "/oolong.RDS"))
-    .cp(verbose, "The Shiny has been written to the directory: ", base::path.expand(dir))
-    .cp(verbose, "You can test the app with: shiny::runApp(\"", base::path.expand(dir), "\")")
+    .cp(verbose, "The Shiny has been written to the directory: ", dir)
+    .cp(verbose, "You can test the app with: shiny::runApp(\"", dir, "\")")
     invisible(dir)
 }

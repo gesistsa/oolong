@@ -129,3 +129,16 @@
       i K Precision:
       1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
 
+# export printing
+
+    Code
+      export_oolong(obj1, dir = newdir, verbose = TRUE, use_full_path = FALSE)
+    Message <cliMessage>
+      i The Shiny has been written to the directory: ~/oolong_testing
+      i You can test the app with: shiny::runApp("~/oolong_testing")
+
+---
+
+    Code
+      export_oolong(obj1, dir = newdir, verbose = FALSE, use_full_path = FALSE)
+
