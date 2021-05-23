@@ -33,6 +33,7 @@
 ^data/abstracts_unseededlda\.rda$
 ^tests/testthat/test-topicmodels\.R$
 ^tests/testthat/test-seededlda\.R$
+^tests/testthat/test-revert\.R$
 ^tests/testdata/downloaded$
 \.udpipe$
 ^paper/
