@@ -21,6 +21,10 @@
 ^btm\.Rmd$
 ^btm_gh\.md$
 ^btm_gh\.html$
+^deploy_gh\.Rmd$
+^deploy\.Rmd$
+^deploy_gh\.md$
+^deploy_gh\.html$
 ^gh_head\.Rmd$
 ^CRAN-RELEASE$
 ^cran-comments\.md$
@@ -29,6 +33,8 @@
 ^data/abstracts_unseededlda\.rda$
 ^tests/testthat/test-topicmodels\.R$
 ^tests/testthat/test-seededlda\.R$
+^tests/testthat/test-revert\.R$
+^tests/testdata/downloaded$
 \.udpipe$
 ^paper/
 ^CODE_OF_CONDUCT\.md$

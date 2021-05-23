@@ -74,7 +74,7 @@ test_that("gs basic", {
 
 test_that("correct passing of n_top_terms",{
     skip_on_cran()
-    for (i in sample(2:10)) {
+    for (i in sample(2:10, 5)) {
         z <- witi(abstracts_stm, abstracts$text, n_top_terms = i)
         expect_equal(length(z$.__enclos_env__$private$test_content$word$candidates[[1]]), i + 1)
         z <- wi(abstracts_stm, abstracts$text, n_top_terms = i)
@@ -84,7 +84,7 @@ test_that("correct passing of n_top_terms",{
 
 test_that("correct passing of n_top_topics", {
     skip_on_cran()
-    for (i in sample(2:10)) {
+    for (i in sample(2:10, 3)) {
         z <- witi(abstracts_stm, abstracts$text, n_top_topics = i)
         expect_equal(length(z$.__enclos_env__$private$test_content$topic$candidates[[1]]), i + 1)
         z <- ti(abstracts_stm, abstracts$text, n_top_topics = i)
@@ -94,7 +94,7 @@ test_that("correct passing of n_top_topics", {
 
 test_that("correct passing of n_topiclabel_words", {
     skip_on_cran()
-    for (i in sample(2:10)) {
+    for (i in sample(2:10, 3)) {
         z <- witi(abstracts_stm, abstracts$text, n_topiclabel_words = i)
         topic_label <- z$.__enclos_env__$private$test_content$topic$topic_labels[[1]][1]
         expect_equal(length(strsplit(topic_label, ", ")[[1]]), i)
@@ -106,7 +106,7 @@ test_that("correct passing of n_topiclabel_words", {
 
 test_that("correct passing of n_topiclabel_words (wsi)", {
     skip_on_cran()
-    for (g in sample(2:10)) {
+    for (g in sample(2:10, 3)) {
         az <- wsi(abstracts_stm, n_topiclabel_words = g, wsi_n_top_terms = 50)
         ws_topic_label <- az$.__enclos_env__$private$test_content$wsi$candidates[[1]][1]
         expect_equal(length(strsplit(ws_topic_label, ", ")[[1]]), g)
@@ -124,7 +124,7 @@ test_that("correct passing of construct", {
 
 test_that("correct passing of exact_n", {
     skip_on_cran()
-    for (i in sample(5:90, size = 10)) {
+    for (i in sample(5:90, size = 3)) {
         z <- witi(abstracts_stm, abstracts$text, exact_n = i)
         expect_equal(nrow(z$.__enclos_env__$private$test_content$topic), i)
         z <- ti(abstracts_stm, abstracts$text, exact_n = i)
@@ -136,7 +136,7 @@ test_that("correct passing of exact_n", {
 
 test_that("correct passing of frac", {
     skip_on_cran()
-    for (i in sample(seq(0.01, 0.8, by = 0.02), size = 10)) {
+    for (i in sample(seq(0.01, 0.8, by = 0.02), size = 3)) {
         expect_ans <- floor(length(abstracts$text) * i)
         z <- witi(abstracts_stm, abstracts$text, frac = i)
         expect_equal(nrow(z$.__enclos_env__$private$test_content$topic), expect_ans)
@@ -149,7 +149,7 @@ test_that("correct passing of frac", {
 
 test_that("correct passing of userid", {
     skip_on_cran()
-    for (i in sample(c("Ich", "bin", "eine", "Katze"))) {
+    for (i in sample(c("Ich", "bin", "eine", "Katze"), 3)) {
         z <- wi(abstracts_stm, userid = i)
         expect_equal(z$userid, i)
         z <- witi(abstracts_stm, abstracts$text, userid = i)
@@ -165,7 +165,7 @@ test_that("correct passing of userid", {
 
 test_that("correct passing of n_correct_ws", {
     skip_on_cran()
-    for (i in sample(2:5)) {
+    for (i in sample(2:5, 3)) {
         z <- wsi(abstracts_stm, n_correct_ws = i, wsi_n_top_terms = 50)
         expect_equal(length(z$.__enclos_env__$private$test_content$wsi$candidates[[1]]), i + 1)
     }

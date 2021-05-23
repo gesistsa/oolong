@@ -21,7 +21,7 @@
     all(purrr::map_lgl(list(...), ~ .check_finished(.)))
 }
 
-### check whether the oolong object is in a new state. (i.e. Not yet coded in either word and topic tests.)
+### check whether the oolong object is in a new state. (i.e. Not yet coded in either word, topic and wsi tests.)
 .check_new <- function(oolong) {
     all(purrr::map_lgl(oolong$.__enclos_env__$private$test_content, ~is.null(.) | (!is.null(.) & all(is.na(.$answer)))))
 }

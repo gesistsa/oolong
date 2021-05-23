@@ -13,45 +13,6 @@
     return(test_content)
 }
 
-.UI_GOLD_STANDARD_TEST <-
-    miniUI::miniPage(
-        miniUI::gadgetTitleBar("oolong"),
-        miniUI::miniContentPanel(
-            shiny::uiOutput("current_topic"),
-            shiny::uiOutput("text_content"),
-            shiny::uiOutput("score_slider"),
-            shiny::actionButton("confirm", "confirm"),
-            shiny::actionButton("nextq", "skip"),
-            shiny::actionButton("ff", "jump to uncoded item")
-            
-        )
-    )
-
-.ren_gold_standard_test <- function(output, test_content, res, construct = "positive") {
-    .ren_choices <- function(test_content, res, construct) {        
-        shiny::renderUI({
-            shiny::sliderInput("intruder", label = paste("How ", construct, "is this text? (1 = Very not ", construct, "; 5 = Very ", construct, ")"), min = 1, max = 5, value = ifelse(is.na(res$intruder[res$current_row]), 3, res$intruder[res$current_row]), ticks = FALSE)
-        })
-    }
-    .ren_topic_bar <- function(test_content, res) {
-        shiny::renderUI({
-            shiny::strong(paste("Case ", res$current_row, "of", nrow(test_content), ifelse(is.na(res$intruder[res$current_row]), "", " [coded]")))
-        })
-    }
-    .ren_text_content <- function(test_content, res) {
-        shiny::renderUI({
-            shiny::tagList(
-                shiny::hr(),
-                shiny::p(test_content$text[res$current_row]),
-                shiny::hr()
-            )
-        })
-    }
-    output$score_slider <- .ren_choices(test_content, res, construct)
-    output$current_topic <- .ren_topic_bar(test_content, res)
-    output$text_content <- .ren_text_content(test_content, res)
-    return(output)
-}
 
 .turn_gold <- function(test_content) {
     res <- quanteda::corpus(test_content$gold_standard$text)
@@ -116,8 +77,8 @@ Oolong_test_gs <-
             },
             do_gold_standard_test = function() {
                 private$check_finalized()
-                .ren <- function(output, test_content, res) {
-                    return(.ren_gold_standard_test(output, test_content, res, construct = private$construct))
+                .ren <- function(output, test_content, res, hash = NULL) {
+                    return(.ren_gold_standard_test(output, test_content, res, construct = private$construct, hash = NULL))
                 }
                 private$test_content$gold_standard <- .do_oolong_test(private$test_content$gold_standard, ui = .UI_GOLD_STANDARD_TEST, .ren = .ren)
             },
