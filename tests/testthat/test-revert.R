@@ -11,7 +11,7 @@ all_downloads_rds <- list.files("../testdata/downloaded/", full.names = TRUE)
 test_that("big_revert", {
     expect_error(purrr::map(all_downloads_rds, ~revert_oolong(massive_oolong, .)), NA)
     all_res <- purrr::map(all_downloads_rds, ~revert_oolong(massive_oolong, .))
-    expect_error(summarise_oolong(all_res[[1]], all_res[[2]], all_res[[3]], all_res[[4]], all_res[[5]]), NA)
+    expect_error(summarise_oolong(all_res[[1]], all_res[[2]], all_res[[3]], all_res[[4]], all_res[[5]], all_res[[6]]), NA)
 })
 
 
