@@ -64,7 +64,7 @@ test_that("wsi basic", {
     expect_error(wsi(abstracts_warplda), NA)
     expect_error(wsi(abstracts_warplda), NA)
     expect_error(wsi(abstracts_btm), NA)
-    expect_error(wsi(abstracts_keyatm, abstracts$text), NA)
+    expect_error(wsi(abstracts_keyatm), NA)
 })
 
 
@@ -77,7 +77,7 @@ test_that("correct passing of n_top_terms",{
     for (i in sample(2:10, 5)) {
         z <- witi(abstracts_stm, abstracts$text, n_top_terms = i)
         expect_equal(length(z$.__enclos_env__$private$test_content$word$candidates[[1]]), i + 1)
-        z <- wi(abstracts_stm, abstracts$text, n_top_terms = i)
+        z <- wi(abstracts_stm, n_top_terms = i)
         expect_equal(length(z$.__enclos_env__$private$test_content$word$candidates[[1]]), i + 1)
     }
 })

@@ -118,6 +118,9 @@ create_oolong <- function(input_model = NULL, input_corpus = NULL, n_top_terms =
             stop("input_model is not a topic model. If you want to create gold standard with an input_corpus, use: create_oolong(input_corpus = input_corpus)")
         }
     }
+    if (length(userid) > 1) {
+        stop("userid must not be a vector with length > 1.")
+    }
     if (!is.null(input_model) & type %in% c("wi", "ti", "witi", "wsi")) {
         return(Oolong_test_tm$new(input_model = input_model, input_corpus = input_corpus, n_top_terms = n_top_terms, bottom_terms_percentile = bottom_terms_percentile, exact_n = exact_n, frac = frac, n_top_topics = n_top_topics, n_topiclabel_words = n_topiclabel_words, difficulty = difficulty, use_frex_words = use_frex_words, input_dfm = input_dfm, btm_dataframe = btm_dataframe, n_correct_ws = n_correct_ws, wsi_n_top_terms = wsi_n_top_terms, userid = userid, type = type))
     }

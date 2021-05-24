@@ -129,3 +129,9 @@ test_that("invalid type", {
     expect_error(create_oolong(abstracts_stm, type = "1111"))
     expect_error(create_oolong(abstracts_stm, type = NA))
 })
+
+test_that("userid",  {
+    expect_error(wi(abstracts_stm, userid = c("a", "b")))
+    expect_error(wi(abstracts_stm, userid = "a"), NA)
+    expect_error(wsi(abtracts_stm, abstracts$text))
+})
