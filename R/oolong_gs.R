@@ -9,8 +9,8 @@
     }
     sample_vec <- .sample_corpus(input_corpus, exact_n)
     target_text <- input_corpus[sample_vec]
-    test_content <- tibble::tibble(case = seq_len(exact_n), text = target_text, answer = NA)
-    return(test_content)
+    test_items <- tibble::tibble(case = seq_len(exact_n), text = target_text, answer = NA)
+    return(test_items)
 }
 
 

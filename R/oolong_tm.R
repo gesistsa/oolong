@@ -24,12 +24,12 @@
     return(res)
 }
 
-.cal_model_precision <- function(oolong_test) {
-    if (all(is.na(oolong_test$answer))) {
+.cal_model_precision <- function(test_items) {
+    if (all(is.na(test_items$answer))) {
         return(0)
     } else {
-        base <- sum(!is.na(oolong_test$answer))
-        n_correct <- sum(oolong_test$answer[!is.na(oolong_test$answer)] == oolong_test$intruder[!is.na(oolong_test$answer)])
+        base <- sum(!is.na(test_items$answer))
+        n_correct <- sum(test_items$answer[!is.na(test_items$answer)] == test_items$intruder[!is.na(test_items$answer)])
         return(round((n_correct / base) * 100, 2))
     }
 }
@@ -44,8 +44,8 @@
 ## refer to oolong_stm.R for an example
 
 .generate_word_intrusion_test <- function(ingredients, bottom_terms_percentile = 0.6, n_top_terms) {
-    test_content <- purrr::map_dfr(seq_len(ingredients$K), .generate_candidates, terms = ingredients$terms, all_terms = ingredients$all_terms, bottom_terms_percentile = bottom_terms_percentile, n_top_terms = n_top_terms)
-    return(test_content)
+    test_items <- purrr::map_dfr(seq_len(ingredients$K), .generate_candidates, terms = ingredients$terms, all_terms = ingredients$all_terms, bottom_terms_percentile = bottom_terms_percentile, n_top_terms = n_top_terms)
+    return(test_items)
 }
 
 .sample_corpus <- function(input_corpus, exact_n = 30) {
@@ -96,8 +96,8 @@
     target_theta <- ingredients$theta[sample_vec,]
     k <- ncol(target_theta)
     target_text <- input_corpus[sample_vec]
-    test_content <- purrr::map_dfr(seq_len(exact_n), .generate_topic_frame, target_text = target_text, target_theta = target_theta, model_terms = ingredients$model_terms, k = k, n_top_topics = n_top_topics)
-    return(test_content)
+    test_items <- purrr::map_dfr(seq_len(exact_n), .generate_topic_frame, target_text = target_text, target_theta = target_theta, model_terms = ingredients$model_terms, k = k, n_top_topics = n_top_topics)
+    return(test_items)
 }
 
 .slice_sample <- function(x, n_topiclabel_words, n_correct_ws) {
@@ -157,14 +157,14 @@
     all(purrr::map_lgl(test_content, ~all(!is.na(.$answer))))
 }
 
-.cal_lr_diff <- function(i, test_content) {
-    intruder_idx <- which(test_content$candidates[[i]] == test_content$intruder[i])
-    answer_idx <- which(test_content$candidates[[i]] == test_content$answer[i])
-    log(test_content$thetas[[i]][intruder_idx]) - log(test_content$thetas[[i]][answer_idx])
+.cal_lr_diff <- function(i, test_items) {
+    intruder_idx <- which(test_items$candidates[[i]] == test_items$intruder[i])
+    answer_idx <- which(test_items$candidates[[i]] == test_items$answer[i])
+    log(test_items$thetas[[i]][intruder_idx]) - log(test_items$thetas[[i]][answer_idx])
 }
 
-.cal_tlo <- function(test_content, mean_value = TRUE) {
-    res <- purrr::map_dbl(seq_len(nrow(test_content[!is.na(test_content$answer),])), .cal_lr_diff, test_content = test_content[!is.na(test_content$answer),])
+.cal_tlo <- function(test_items, mean_value = TRUE) {
+    res <- purrr::map_dbl(seq_len(nrow(test_items[!is.na(test_items$answer),])), .cal_lr_diff, test_items = test_items[!is.na(test_items$answer),])
     if (mean_value) {
         return(mean(res))
     }
