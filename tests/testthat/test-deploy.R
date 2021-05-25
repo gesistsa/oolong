@@ -1,11 +1,11 @@
 
 genius_word <- function(obj1) {
-    obj1$.__enclos_env__$private$test_content$word$answer <- obj1$.__enclos_env__$private$test_content$word$intruder
+    obj1$.__enclos_env__$private$test_content$wi$answer <- obj1$.__enclos_env__$private$test_content$wi$intruder
     return(obj1)
 }
 
 genius_topic <- function(obj1) {
-    obj1$.__enclos_env__$private$test_content$topic$answer <- obj1$.__enclos_env__$private$test_content$topic$intruder
+    obj1$.__enclos_env__$private$test_content$ti$answer <- obj1$.__enclos_env__$private$test_content$ti$intruder
     return(obj1)
 }
 
@@ -42,7 +42,7 @@ test_that("preconditions coded", {
     x <- gs(abstracts$text)
     expect_error(deploy_oolong(x), NA)
     expect_error(export_oolong(x, verbose = FALSE), NA)
-    x$.__enclos_env__$private$test_content$gold_standard$answer <- 1
+    x$.__enclos_env__$private$test_content$gs$answer <- 1
     expect_error(deploy_oolong(x))
     expect_error(export_oolong(x))
 })

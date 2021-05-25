@@ -1,12 +1,12 @@
 ## context("Support for BTM")
 
 genius_word <- function(obj1) {
-    obj1$.__enclos_env__$private$test_content$word$answer <- obj1$.__enclos_env__$private$test_content$word$intruder
+    obj1$.__enclos_env__$private$test_content$wi$answer <- obj1$.__enclos_env__$private$test_content$wi$intruder
     return(obj1)
 }
 
 genius_topic <- function(obj1) {
-    obj1$.__enclos_env__$private$test_content$topic$answer <- obj1$.__enclos_env__$private$test_content$topic$intruder
+    obj1$.__enclos_env__$private$test_content$ti$answer <- obj1$.__enclos_env__$private$test_content$ti$intruder
     return(obj1)
 }
 
@@ -18,7 +18,7 @@ test_that("generate_test_content", {
 test_that("BTM word intrusion", {
     x <- oolong:::.generate_test_content(abstracts_btm)
     expect_false(oolong:::.check_test_content_complete(x))
-    x$word$answer <- 1
+    x$wi$answer <- 1
     expect_true(oolong:::.check_test_content_complete(x))
     z <- create_oolong(abstracts_btm)
     expect_error(z$lock())

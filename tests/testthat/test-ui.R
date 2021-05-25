@@ -1,12 +1,12 @@
 ## context("Support for topicmodels")
 
 genius_word <- function(obj1) {
-    obj1$.__enclos_env__$private$test_content$word$answer <- obj1$.__enclos_env__$private$test_content$word$intruder
+    obj1$.__enclos_env__$private$test_content$wi$answer <- obj1$.__enclos_env__$private$test_content$wi$intruder
     return(obj1)
 }
 
 genius_topic <- function(obj1) {
-    obj1$.__enclos_env__$private$test_content$topic$answer <- obj1$.__enclos_env__$private$test_content$topic$intruder
+    obj1$.__enclos_env__$private$test_content$ti$answer <- obj1$.__enclos_env__$private$test_content$ti$intruder
     return(obj1)
 }
 
@@ -76,9 +76,9 @@ test_that("correct passing of n_top_terms",{
     skip_on_cran()
     for (i in sample(2:10, 5)) {
         z <- witi(abstracts_stm, abstracts$text, n_top_terms = i)
-        expect_equal(length(z$.__enclos_env__$private$test_content$word$candidates[[1]]), i + 1)
+        expect_equal(length(z$.__enclos_env__$private$test_content$wi$candidates[[1]]), i + 1)
         z <- wi(abstracts_stm, n_top_terms = i)
-        expect_equal(length(z$.__enclos_env__$private$test_content$word$candidates[[1]]), i + 1)
+        expect_equal(length(z$.__enclos_env__$private$test_content$wi$candidates[[1]]), i + 1)
     }
 })
 
@@ -86,9 +86,9 @@ test_that("correct passing of n_top_topics", {
     skip_on_cran()
     for (i in sample(2:10, 3)) {
         z <- witi(abstracts_stm, abstracts$text, n_top_topics = i)
-        expect_equal(length(z$.__enclos_env__$private$test_content$topic$candidates[[1]]), i + 1)
+        expect_equal(length(z$.__enclos_env__$private$test_content$ti$candidates[[1]]), i + 1)
         z <- ti(abstracts_stm, abstracts$text, n_top_topics = i)
-        expect_equal(length(z$.__enclos_env__$private$test_content$topic$candidates[[1]]), i + 1)
+        expect_equal(length(z$.__enclos_env__$private$test_content$ti$candidates[[1]]), i + 1)
     }
 })
 
@@ -96,10 +96,10 @@ test_that("correct passing of n_topiclabel_words", {
     skip_on_cran()
     for (i in sample(2:10, 3)) {
         z <- witi(abstracts_stm, abstracts$text, n_topiclabel_words = i)
-        topic_label <- z$.__enclos_env__$private$test_content$topic$topic_labels[[1]][1]
+        topic_label <- z$.__enclos_env__$private$test_content$ti$topic_labels[[1]][1]
         expect_equal(length(strsplit(topic_label, ", ")[[1]]), i)
         z <- ti(abstracts_stm, abstracts$text, n_topiclabel_words = i)
-        topic_label <- z$.__enclos_env__$private$test_content$topic$topic_labels[[1]][1]
+        topic_label <- z$.__enclos_env__$private$test_content$ti$topic_labels[[1]][1]
         expect_equal(length(strsplit(topic_label, ", ")[[1]]), i)
     }
 })
@@ -126,11 +126,11 @@ test_that("correct passing of exact_n", {
     skip_on_cran()
     for (i in sample(5:90, size = 3)) {
         z <- witi(abstracts_stm, abstracts$text, exact_n = i)
-        expect_equal(nrow(z$.__enclos_env__$private$test_content$topic), i)
+        expect_equal(nrow(z$.__enclos_env__$private$test_content$ti), i)
         z <- ti(abstracts_stm, abstracts$text, exact_n = i)
-        expect_equal(nrow(z$.__enclos_env__$private$test_content$topic), i)
+        expect_equal(nrow(z$.__enclos_env__$private$test_content$ti), i)
         z <- gs(abstracts$text, exact_n = i)
-        expect_equal(nrow(z$.__enclos_env__$private$test_content$gold_standard), i)
+        expect_equal(nrow(z$.__enclos_env__$private$test_content$gs), i)
     }
 })
 
@@ -139,11 +139,11 @@ test_that("correct passing of frac", {
     for (i in sample(seq(0.01, 0.8, by = 0.02), size = 3)) {
         expect_ans <- floor(length(abstracts$text) * i)
         z <- witi(abstracts_stm, abstracts$text, frac = i)
-        expect_equal(nrow(z$.__enclos_env__$private$test_content$topic), expect_ans)
+        expect_equal(nrow(z$.__enclos_env__$private$test_content$ti), expect_ans)
         z <- ti(abstracts_stm, abstracts$text, frac = i)
-        expect_equal(nrow(z$.__enclos_env__$private$test_content$topic), expect_ans)
+        expect_equal(nrow(z$.__enclos_env__$private$test_content$ti), expect_ans)
         z <- gs(abstracts$text, frac = i)
-        expect_equal(nrow(z$.__enclos_env__$private$test_content$gold_standard), expect_ans)
+        expect_equal(nrow(z$.__enclos_env__$private$test_content$gs), expect_ans)
     }
 })
 

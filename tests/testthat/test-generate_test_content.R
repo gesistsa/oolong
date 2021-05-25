@@ -2,21 +2,21 @@
 
 test_that("generate_test_content", {
     x <- oolong:::.generate_test_content(abstracts_stm)
-    expect_null(x$topic)
+    expect_null(x$ti)
     x <- oolong:::.generate_test_content(abstracts_stm, quanteda::corpus(abstracts$text))
-    expect_false(is.null(x$topic))
+    expect_false(is.null(x$ti))
 })
 
 test_that("check_complete", {
     x <- oolong:::.generate_test_content(abstracts_stm)
     expect_false(oolong:::.check_test_content_complete(x))
-    x$word$answer <- 1
+    x$wi$answer <- 1
     expect_true(oolong:::.check_test_content_complete(x))
     y <- oolong:::.generate_test_content(abstracts_stm, abstracts$text)
     expect_false(oolong:::.check_test_content_complete(y))
-    y$topic$answer <- 1
+    y$ti$answer <- 1
     expect_false(oolong:::.check_test_content_complete(y))
-    y$word$answer <- 1
+    y$wi$answer <- 1
     expect_true(oolong:::.check_test_content_complete(y))
     z <- create_oolong(abstracts_stm)
     expect_error(z$lock())
@@ -28,20 +28,20 @@ test_that("K is too small", {
 
 test_that("n_top_terms is considered #29", {
     z <- oolong:::.generate_test_content(abstracts_stm, abstracts$text, n_top_terms = 10)
-    expect_equal(length(z$word$candidates[[1]]), 11)
+    expect_equal(length(z$wi$candidates[[1]]), 11)
 })
 
 test_that("generate_test_content type", {
     x <- oolong:::.generate_test_content(abstracts_stm, input_corpus = abstracts$text, type = 'wi')
-    expect_null(x$topic)
+    expect_null(x$ti)
     x <- oolong:::.generate_test_content(abstracts_stm, input_corpus = abstracts$text, type = 'ti')
-    expect_null(x$word)
+    expect_null(x$wi)
 })
 
 test_that("generate_test_content wsi", {
     x <- oolong:::.generate_test_content(abstracts_stm, input_corpus = abstracts$text, n_topiclabel_words = 4, type = 'wsi')
-    expect_null(x$topic)
-    expect_null(x$words)
+    expect_null(x$ti)
+    expect_null(x$wi)
     expect_false(is.null(x$wsi))
     expect_error(oolong:::.generate_test_content(abstracts_stm, n_correct_ws = 10, n_topiclabel_words = 8, type = 'wsi'))
     expect_error(oolong:::.generate_test_content(abstracts_stm, n_correct_ws = 10, n_topiclabel_words = 8, wsi_n_top_terms = 100,  type = 'wsi'), NA)

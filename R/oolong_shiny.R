@@ -141,7 +141,7 @@
 .ren_topic_intrusion_test <- function(output, test_content, res, hash = NULL) {
     .ren_choices <- function(test_content, res) {
         shiny::renderUI({
-            shiny::radioButtons("intruder", label = "Which of the following is an intruder topic?", choiceNames = test_content$topic_labels[[res$current_row]], choiceValues = test_content$candidates[[res$current_row]], selected = res$intruder[res$current_row])
+            shiny::radioButtons("intruder", label = "Which of the following is an intruder topic?", choiceNames = test_content$ti_labels[[res$current_row]], choiceValues = test_content$candidates[[res$current_row]], selected = res$intruder[res$current_row])
         })
     }
     .ren_topic_bar <- function(test_content, res) {
@@ -259,16 +259,16 @@ deploy_oolong <- function(oolong) {
     mob_oolong <- .mobilize(oolong)
     ### could use switch
     if (mob_oolong$type == "word") {
-        return(.gen_shinyapp(mob_oolong$test_content$word, ui = .UI_WORD_INTRUSION_TEST, .ren = .ren_word_intrusion_test, hash = mob_oolong$hash))
+        return(.gen_shinyapp(mob_oolong$test_content$wi, ui = .UI_WORD_INTRUSION_TEST, .ren = .ren_word_intrusion_test, hash = mob_oolong$hash))
     } else if (mob_oolong$type == "topic") {
-        return(.gen_shinyapp(mob_oolong$test_content$topic, ui = .UI_TOPIC_INTRUSION_TEST, .ren = .ren_topic_intrusion_test, hash = mob_oolong$hash))
+        return(.gen_shinyapp(mob_oolong$test_content$ti, ui = .UI_TOPIC_INTRUSION_TEST, .ren = .ren_topic_intrusion_test, hash = mob_oolong$hash))
     } else if (mob_oolong$type == "wsi") {
         return(.gen_shinyapp(mob_oolong$test_content$wsi, ui = .UI_WORD_INTRUSION_TEST, .ren = .ren_word_set_intrusion_test, hash = mob_oolong$hash))
     } else if (mob_oolong$type == "gold_standard") {
         .ren <- function(output, test_content, res, hash = NULL) {
             return(.ren_gold_standard_test(output, test_content, res, construct = mob_oolong$construct, hash = hash))
         }
-        return(.gen_shinyapp(mob_oolong$test_content$gold_standard, ui = .UI_GOLD_STANDARD_TEST, .ren = .ren, hash = mob_oolong$hash))
+        return(.gen_shinyapp(mob_oolong$test_content$gs, ui = .UI_GOLD_STANDARD_TEST, .ren = .ren, hash = mob_oolong$hash))
     }
 }
 
