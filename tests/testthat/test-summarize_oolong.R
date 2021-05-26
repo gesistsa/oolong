@@ -1,12 +1,12 @@
 ## context("summarize_oolong")
 
 genius_word <- function(obj1) {
-    obj1$.__enclos_env__$private$test_content$word$answer <- obj1$.__enclos_env__$private$test_content$word$intruder
+    obj1$.__enclos_env__$private$test_content$wi$answer <- obj1$.__enclos_env__$private$test_content$wi$intruder
     return(obj1)
 }
 
 genius_topic <- function(obj1) {
-    obj1$.__enclos_env__$private$test_content$topic$answer <- obj1$.__enclos_env__$private$test_content$topic$intruder
+    obj1$.__enclos_env__$private$test_content$ti$answer <- obj1$.__enclos_env__$private$test_content$ti$intruder
     return(obj1)
 }
 
@@ -22,7 +22,7 @@ test_that("Correct UI", {
     obj1$lock()
     res1 <- summarize_oolong(obj1)
     expect_true(res1$type == "tm")
-    obj2$.__enclos_env__$private$test_content$gold_standard$answer <- sample(1:5, size = 20, replace = TRUE)
+    obj2$.__enclos_env__$private$test_content$gs$answer <- sample(1:5, size = 20, replace = TRUE)
     obj2$lock()
     res2 <- summarize_oolong(obj2, target_value = rnorm(n = 20))
     expect_true(res2$type == "gs")
@@ -36,10 +36,10 @@ test_that("check_calculation_word_intrusion_multiobject", {
     obj1 <- genius_word(obj1)
     obj1$lock()
     obj2 <- genius_word(obj2)
-    obj2$.__enclos_env__$private$test_content$word$answer[1] <- "wronganswer"
+    obj2$.__enclos_env__$private$test_content$wi$answer[1] <- "wronganswer"
     obj2$lock()
     obj3 <- genius_word(obj3)
-    obj3$.__enclos_env__$private$test_content$word$answer[1:4] <- "wronganswer"
+    obj3$.__enclos_env__$private$test_content$wi$answer[1:4] <- "wronganswer"
     obj3$lock()
     res <- summarize_oolong(obj1, obj2, obj3)
     expect_length(res$rater_precision, 3)
@@ -109,7 +109,7 @@ test_that("Forcibly locking", {
     ex1$lock()
     ex2 <- genius_word(ex2)
     ex2 <- genius_topic(ex2)
-    ex2$.__enclos_env__$private$test_content$topic$answer[1] <- NA
+    ex2$.__enclos_env__$private$test_content$ti$answer[1] <- NA
     ex2$lock(force = TRUE)
     expect_warning({ res <- summarize_oolong(ex1, ex2) })
     expect_warning({ res <- summarize_oolong(ex2) })
@@ -119,10 +119,10 @@ test_that("Monkeying problem #14", {
     obj1 <- create_oolong(abstracts_stm, abstracts$text)
     obj1 <- genius_topic(obj1)
     obj1 <- genius_word(obj1)
-    previous_answer <- obj1$.__enclos_env__$private$test_content$topic$answer
+    previous_answer <- obj1$.__enclos_env__$private$test_content$ti$answer
     obj1$lock(force = TRUE)
     summarise_oolong(obj1)
-    new_answer <- obj1$.__enclos_env__$private$test_content$topic$answer
+    new_answer <- obj1$.__enclos_env__$private$test_content$ti$answer
     expect_true(all.equal(previous_answer, new_answer))
 })
 

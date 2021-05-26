@@ -8,10 +8,10 @@
 
 
 .check_finished <- function(oolong) {
-    if (!is.null(oolong$.__enclos_env__$private$test_content$word) & any(is.na(oolong$.__enclos_env__$private$test_content$word$answer))) {
+    if (!is.null(oolong$.__enclos_env__$private$test_content$wi) & any(is.na(oolong$.__enclos_env__$private$test_content$wi$answer))) {
         return(FALSE)
     }
-    if (!is.null(oolong$.__enclos_env__$private$test_content$topic) & any(is.na(oolong$.__enclos_env__$private$test_content$topic$answer))) {
+    if (!is.null(oolong$.__enclos_env__$private$test_content$ti) & any(is.na(oolong$.__enclos_env__$private$test_content$ti$answer))) {
         return(FALSE)
     }
     return(TRUE)
@@ -32,7 +32,7 @@
 }
 
 .cal_wi <- function(obj_list, res) {
-    all_word_test_content <- purrr::map(obj_list, ~ .$.__enclos_env__$private$test_content$word)
+    all_word_test_content <- purrr::map(obj_list, ~ .$.__enclos_env__$private$test_content$wi)
     if (any(purrr::map_lgl(all_word_test_content, is.null))) {
         res$rater_precision <- NA
         res$k_precision <- NA
@@ -40,9 +40,9 @@
         res$multiple_test <- NA
         res$rater_precision_p_value <- NA
     } else {
-        n_choices <- length(obj_list[[1]]$.__enclos_env__$private$test_content$word$candidates[[1]])
-        all_word_answers <- suppressMessages(purrr::map_dfc(obj_list, ~ .$.__enclos_env__$private$test_content$word$answer))
-        word_intruder <- obj_list[[1]]$.__enclos_env__$private$test_content$word$intruder
+        n_choices <- length(obj_list[[1]]$.__enclos_env__$private$test_content$wi$candidates[[1]])
+        all_word_answers <- suppressMessages(purrr::map_dfc(obj_list, ~ .$.__enclos_env__$private$test_content$wi$answer))
+        word_intruder <- obj_list[[1]]$.__enclos_env__$private$test_content$wi$intruder
         correction_matrix <- all_word_answers == word_intruder
         res$k_precision <- apply(correction_matrix, 1, sum) / ncol(correction_matrix)
         n_correct <- apply(correction_matrix, 2, sum)
@@ -61,7 +61,7 @@
 }
 
 .cal_ti <- function(obj_list, res, n_iter = 1500) {
-    all_topic_test_content <- purrr::map(obj_list, ~ .$.__enclos_env__$private$test_content$topic)
+    all_topic_test_content <- purrr::map(obj_list, ~ .$.__enclos_env__$private$test_content$ti)
     if (any(purrr::map_lgl(all_topic_test_content, is.null))) {
         res$tlo <- NA
         res$tlo_p_value <- NA
@@ -126,23 +126,23 @@
 }
 
 .monkey_test <- function(oolong, intelligent = 0) {
-    if (!is.null(oolong$.__enclos_env__$private$test_content$word)) {
-        oolong$.__enclos_env__$private$test_content$word$answer <- purrr::map_chr(oolong$.__enclos_env__$private$test_content$word$candidates, ~ .safe_sample(., 1))
-        correct <- rep(FALSE, nrow(oolong$.__enclos_env__$private$test_content$word))
+    if (!is.null(oolong$.__enclos_env__$private$test_content$wi)) {
+        oolong$.__enclos_env__$private$test_content$wi$answer <- purrr::map_chr(oolong$.__enclos_env__$private$test_content$wi$candidates, ~ .safe_sample(., 1))
+        correct <- rep(FALSE, nrow(oolong$.__enclos_env__$private$test_content$wi))
         correct[.safe_sample(seq_along(correct), size = floor(length(correct) * intelligent))] <- TRUE
-        oolong$.__enclos_env__$private$test_content$word$answer[correct] <- oolong$.__enclos_env__$private$test_content$word$intruder[correct]
+        oolong$.__enclos_env__$private$test_content$wi$answer[correct] <- oolong$.__enclos_env__$private$test_content$wi$intruder[correct]
     }
-    if (!is.null(oolong$.__enclos_env__$private$test_content$topic)) {
-        oolong$.__enclos_env__$private$test_content$topic$answer <- purrr::map_int(oolong$.__enclos_env__$private$test_content$topic$candidates, ~ .safe_sample(., 1))
-        correct <- rep(FALSE, nrow(oolong$.__enclos_env__$private$test_content$topic))
+    if (!is.null(oolong$.__enclos_env__$private$test_content$ti)) {
+        oolong$.__enclos_env__$private$test_content$ti$answer <- purrr::map_int(oolong$.__enclos_env__$private$test_content$ti$candidates, ~ .safe_sample(., 1))
+        correct <- rep(FALSE, nrow(oolong$.__enclos_env__$private$test_content$ti))
         correct[.safe_sample(seq_along(correct), size = floor(length(correct) * intelligent))] <- TRUE
-        oolong$.__enclos_env__$private$test_content$topic$answer[correct] <- oolong$.__enclos_env__$private$test_content$topic$intruder[correct]
+        oolong$.__enclos_env__$private$test_content$ti$answer[correct] <- oolong$.__enclos_env__$private$test_content$ti$intruder[correct]
     }
     return(oolong)
 }
 
 .monkey_median <- function(obj_list) {
     monkeyed_obj_list <- purrr::map(obj_list, .monkey_test)
-    all_topic_test_content <- purrr::map(monkeyed_obj_list, ~ .$.__enclos_env__$private$test_content$topic)
+    all_topic_test_content <- purrr::map(monkeyed_obj_list, ~ .$.__enclos_env__$private$test_content$ti)
     median(.cal_tlo(purrr::map_dfr(all_topic_test_content, ~.), mean_value = FALSE))
 }

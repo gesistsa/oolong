@@ -1,12 +1,12 @@
 ## context("Prining objects")
 
 genius_word <- function(obj1) {
-    obj1$.__enclos_env__$private$test_content$word$answer <- obj1$.__enclos_env__$private$test_content$word$intruder
+    obj1$.__enclos_env__$private$test_content$wi$answer <- obj1$.__enclos_env__$private$test_content$wi$intruder
     return(obj1)
 }
 
 genius_topic <- function(obj1) {
-    obj1$.__enclos_env__$private$test_content$topic$answer <- obj1$.__enclos_env__$private$test_content$topic$intruder
+    obj1$.__enclos_env__$private$test_content$ti$answer <- obj1$.__enclos_env__$private$test_content$ti$intruder
     return(obj1)
 }
 
@@ -74,4 +74,17 @@ test_that("export printing", {
     expect_snapshot(export_oolong(obj1, dir = newdir, verbose = TRUE, use_full_path = FALSE))
     expect_snapshot(export_oolong(obj1, dir = newdir, verbose = FALSE, use_full_path = FALSE))
     unlink(newdir, recursive = TRUE)
+})
+
+test_that("update", {
+    skip_on_cran()
+    y <- readRDS("../testdata/oolong_tm_prev4.RDS")
+    expect_snapshot(update_oolong(y))
+    y <- readRDS("../testdata/oolong_gs_prev4.RDS")
+    expect_snapshot(update_oolong(y))
+    y <- readRDS("../testdata/oolong_gs_prev4_locked.RDS")
+    expect_snapshot(update_oolong(y))
+    y <- readRDS("../testdata/massive_oolong_old.RDS")
+    expect_snapshot_error(print(y))
+    expect_snapshot(update_oolong(y))
 })

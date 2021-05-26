@@ -32,7 +32,7 @@
 
 .summarize_oolong_gs <- function(..., target_value = NULL, plot = TRUE) {
     obj_list <- list(...)
-    answers <- purrr::map_dfc(obj_list, ~.$.__enclos_env__$private$test_content$gold_standard$answer)
+    answers <- purrr::map_dfc(obj_list, ~.$.__enclos_env__$private$test_content$gs$answer)
     colnames(answers) <- paste0("answer", seq_len(ncol(answers)))
     avg_answer <- apply(answers, 1, mean)
     answers$avg_answer <- avg_answer

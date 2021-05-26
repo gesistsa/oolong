@@ -75,8 +75,8 @@ After the coding, you need to first lock the test. Then, you can look at the mod
 
 ```{r, include = FALSE}
 ### Mock this process
-oolong_test$.__enclos_env__$private$test_content$word$answer <- oolong_test$.__enclos_env__$private$test_content$word$intruder
-oolong_test$.__enclos_env__$private$test_content$word$answer[1] <- "wronganswer"
+oolong_test$.__enclos_env__$private$test_content$wi$answer <- oolong_test$.__enclos_env__$private$test_content$wi$intruder
+oolong_test$.__enclos_env__$private$test_content$wi$answer[1] <- "wronganswer"
 ```
 
 ```{r lock}
@@ -135,15 +135,15 @@ oolong_test$lock()
 
 ```{r, include = FALSE}
 genius_topic <- function(obj1) {
-    obj1$.__enclos_env__$private$test_content$topic$answer <- obj1$.__enclos_env__$private$test_content$topic$intruder
+    obj1$.__enclos_env__$private$test_content$ti$answer <- obj1$.__enclos_env__$private$test_content$ti$intruder
     return(obj1)
 }
 genius_word <- function(obj1) {
-    obj1$.__enclos_env__$private$test_content$word$answer <- obj1$.__enclos_env__$private$test_content$word$intruder
+    obj1$.__enclos_env__$private$test_content$wi$answer <- obj1$.__enclos_env__$private$test_content$wi$intruder
     return(obj1)
 }
 oolong_test <- genius_word(genius_topic(oolong_test))
-oolong_test$.__enclos_env__$private$test_content$topic$answer[2] <- sample(oolong_test$.__enclos_env__$private$test_content$topic$candidates[[2]], 1)
+oolong_test$.__enclos_env__$private$test_content$ti$answer[2] <- sample(oolong_test$.__enclos_env__$private$test_content$ti$candidates[[2]], 1)
 oolong_test$lock()
 ```
 
@@ -283,7 +283,7 @@ oolong_test$do_gold_standard_test()
 After the coding, you need to first lock the test and then the `$turn_gold()` method is available.
 
 ```{r, include = FALSE}
-oolong_test$.__enclos_env__$private$test_content$gold_standard <- 
+oolong_test$.__enclos_env__$private$test_content$gs <- 
 structure(list(case = 1:20, text = c("Thank you Eau Claire, Wisconsin. \n#VoteTrump on Tuesday, April 5th!\nMAKE AMERICA GREAT AGAIN! https://t.co/JI5JqwHnMC", 
 "\"@bobby990r_1: @realDonaldTrump would lead polls the second he announces candidacy! America is waiting for him to LEAD us out of this mess!", 
 "\"@KdanielsK: @misstcassidy @AllAboutTheTea_ @realDonaldTrump My money is on Kenya getting fired first.\"", 
@@ -361,7 +361,7 @@ trump2$lock()
 ```
 
 ```{r, include = FALSE}
-trump$.__enclos_env__$private$test_content$gold_standard <- 
+trump$.__enclos_env__$private$test_content$gs <- 
 structure(list(case = 1:20, text = c("Thank you Eau Claire, Wisconsin. \n#VoteTrump on Tuesday, April 5th!\nMAKE AMERICA GREAT AGAIN! https://t.co/JI5JqwHnMC", 
 "\"@bobby990r_1: @realDonaldTrump would lead polls the second he announces candidacy! America is waiting for him to LEAD us out of this mess!", 
 "\"@KdanielsK: @misstcassidy @AllAboutTheTea_ @realDonaldTrump My money is on Kenya getting fired first.\"", 
@@ -388,7 +388,7 @@ NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA,
 NA)), row.names = c(NA, -20L), class = c("tbl_df", "tbl", "data.frame"
                                          ))
 
-trump2$.__enclos_env__$private$test_content$gold_standard <- 
+trump2$.__enclos_env__$private$test_content$gs <- 
 structure(list(case = 1:20, text = c("Thank you Eau Claire, Wisconsin. \n#VoteTrump on Tuesday, April 5th!\nMAKE AMERICA GREAT AGAIN! https://t.co/JI5JqwHnMC", 
 "\"@bobby990r_1: @realDonaldTrump would lead polls the second he announces candidacy! America is waiting for him to LEAD us out of this mess!", 
 "\"@KdanielsK: @misstcassidy @AllAboutTheTea_ @realDonaldTrump My money is on Kenya getting fired first.\"", 

@@ -24,12 +24,12 @@
     return(res)
 }
 
-.cal_model_precision <- function(oolong_test) {
-    if (all(is.na(oolong_test$answer))) {
+.cal_model_precision <- function(test_items) {
+    if (all(is.na(test_items$answer))) {
         return(0)
     } else {
-        base <- sum(!is.na(oolong_test$answer))
-        n_correct <- sum(oolong_test$answer[!is.na(oolong_test$answer)] == oolong_test$intruder[!is.na(oolong_test$answer)])
+        base <- sum(!is.na(test_items$answer))
+        n_correct <- sum(test_items$answer[!is.na(test_items$answer)] == test_items$intruder[!is.na(test_items$answer)])
         return(round((n_correct / base) * 100, 2))
     }
 }
@@ -44,8 +44,8 @@
 ## refer to oolong_stm.R for an example
 
 .generate_word_intrusion_test <- function(ingredients, bottom_terms_percentile = 0.6, n_top_terms) {
-    test_content <- purrr::map_dfr(seq_len(ingredients$K), .generate_candidates, terms = ingredients$terms, all_terms = ingredients$all_terms, bottom_terms_percentile = bottom_terms_percentile, n_top_terms = n_top_terms)
-    return(test_content)
+    test_items <- purrr::map_dfr(seq_len(ingredients$K), .generate_candidates, terms = ingredients$terms, all_terms = ingredients$all_terms, bottom_terms_percentile = bottom_terms_percentile, n_top_terms = n_top_terms)
+    return(test_items)
 }
 
 .sample_corpus <- function(input_corpus, exact_n = 30) {
@@ -96,8 +96,8 @@
     target_theta <- ingredients$theta[sample_vec,]
     k <- ncol(target_theta)
     target_text <- input_corpus[sample_vec]
-    test_content <- purrr::map_dfr(seq_len(exact_n), .generate_topic_frame, target_text = target_text, target_theta = target_theta, model_terms = ingredients$model_terms, k = k, n_top_topics = n_top_topics)
-    return(test_content)
+    test_items <- purrr::map_dfr(seq_len(exact_n), .generate_topic_frame, target_text = target_text, target_theta = target_theta, model_terms = ingredients$model_terms, k = k, n_top_topics = n_top_topics)
+    return(test_items)
 }
 
 .slice_sample <- function(x, n_topiclabel_words, n_correct_ws) {
@@ -136,14 +136,14 @@
     }
     test_content <- list()
     if (type %in% c("wi", "witi")) {
-        test_content$word <- .generate_word_intrusion_test(ingredients, bottom_terms_percentile = bottom_terms_percentile, n_top_terms = n_top_terms)
+        test_content$wi <- .generate_word_intrusion_test(ingredients, bottom_terms_percentile = bottom_terms_percentile, n_top_terms = n_top_terms)
     }
     if (is.null(ingredients$theta)) {
-        test_content$topic <- NULL
+        test_content$ti <- NULL
     } else if (type %in% c("witi", "ti")) {
-        test_content$topic <- .generate_topic_intrusion_test(input_corpus = input_corpus, ingredients = ingredients, exact_n = exact_n, frac = frac, n_top_topics = n_top_topics, n_topiclabel_words = n_topiclabel_words)
+        test_content$ti <- .generate_topic_intrusion_test(input_corpus = input_corpus, ingredients = ingredients, exact_n = exact_n, frac = frac, n_top_topics = n_top_topics, n_topiclabel_words = n_topiclabel_words)
     } else {
-        test_content$topic <- NULL        
+        test_content$ti <- NULL        
     }
     if (type %in% c("wsi")) {
         test_content$wsi <- .generate_wsi(ingredients, n_correct_ws = n_correct_ws, n_topiclabel_words = n_topiclabel_words, wsi_n_top_terms = wsi_n_top_terms)
@@ -157,14 +157,14 @@
     all(purrr::map_lgl(test_content, ~all(!is.na(.$answer))))
 }
 
-.cal_lr_diff <- function(i, test_content) {
-    intruder_idx <- which(test_content$candidates[[i]] == test_content$intruder[i])
-    answer_idx <- which(test_content$candidates[[i]] == test_content$answer[i])
-    log(test_content$thetas[[i]][intruder_idx]) - log(test_content$thetas[[i]][answer_idx])
+.cal_lr_diff <- function(i, test_items) {
+    intruder_idx <- which(test_items$candidates[[i]] == test_items$intruder[i])
+    answer_idx <- which(test_items$candidates[[i]] == test_items$answer[i])
+    log(test_items$thetas[[i]][intruder_idx]) - log(test_items$thetas[[i]][answer_idx])
 }
 
-.cal_tlo <- function(test_content, mean_value = TRUE) {
-    res <- purrr::map_dbl(seq_len(nrow(test_content[!is.na(test_content$answer),])), .cal_lr_diff, test_content = test_content[!is.na(test_content$answer),])
+.cal_tlo <- function(test_items, mean_value = TRUE) {
+    res <- purrr::map_dbl(seq_len(nrow(test_items[!is.na(test_items$answer),])), .cal_lr_diff, test_items = test_items[!is.na(test_items$answer),])
     if (mean_value) {
         return(mean(res))
     }
@@ -172,30 +172,30 @@
 }
 
 .print_oolong_test_tm <- function(private, userid) {
-    bool_word <- !is.null(private$test_content$word)
-    bool_topic <- !is.null(private$test_content$topic)
+    .check_version(private)
+    bool_word <- !is.null(private$test_content$wi)
+    bool_topic <- !is.null(private$test_content$ti)
     bool_wsi <- !is.null(private$test_content$wsi)
     bool_finalized <- private$finalized
     cli::cli_h1("oolong (topic model)")
-    .check_version(private)
     cli::cli_text("{.sym_flip(bool_word)} {.strong WI} {.sym_flip(bool_topic)} {.strong TI} {.sym_flip(bool_wsi)} {.strong WSI}")
     if (!is.na(userid)) {
         cli::cli_text(cli::symbol$smiley, " ", userid)
     }
     if (bool_word) {
-        cli::cli_alert_info("{.strong WI:} k = {nrow(private$test_content$word)}, {sum(!is.na(private$test_content$word$answer))} coded.")
+        cli::cli_alert_info("{.strong WI:} k = {nrow(private$test_content$wi)}, {sum(!is.na(private$test_content$wi$answer))} coded.")
     }
     if (bool_topic) {
-        cli::cli_alert_info("{.strong TI:} n = {nrow(private$test_content$topic)}, {sum(!is.na(private$test_content$topic$answer))} coded.")
+        cli::cli_alert_info("{.strong TI:} n = {nrow(private$test_content$ti)}, {sum(!is.na(private$test_content$ti$answer))} coded.")
     }
     if (bool_wsi) {
         cli::cli_alert_info("{.strong WSI:} n = {nrow(private$test_content$wsi)}, {sum(!is.na(private$test_content$wsi$answer))} coded.")
     }
     if (bool_finalized) {
         cli::cli_h2("Results:")
-        .cp(bool_word, round(.cal_model_precision(private$test_content$word), 3),"%  precision")
+        .cp(bool_word, round(.cal_model_precision(private$test_content$wi), 3),"%  precision")
         .cp(bool_wsi, round(.cal_model_precision(private$test_content$wsi), 3),"%  precision (WSI)")
-        .cp(bool_topic, "TLO: ", round(.cal_tlo(private$test_content$topic, mean_value = TRUE), 3))
+        .cp(bool_topic, "TLO: ", round(.cal_tlo(private$test_content$ti, mean_value = TRUE), 3))
     } else {
         cli::cli_h2("Methods")
         cli::cli_ul()
@@ -232,13 +232,13 @@ Oolong_test_tm <-
             },
             do_word_intrusion_test = function() {
                 private$check_finalized()
-                .cstop(is.null(private$test_content$word), "No word intrusion test cases. Create the oolong test with type being 'wi' or 'witi' to generate word intrusion test cases.")
-                private$test_content$word <- .do_oolong_test(private$test_content$word)
+                .cstop(is.null(private$test_content$wi), "No word intrusion test cases. Create the oolong test with type being 'wi' or 'witi' to generate word intrusion test cases.")
+                private$test_content$wi <- .do_oolong_test(private$test_content$wi)
             },
             do_topic_intrusion_test = function() {
                 private$check_finalized()
-                .cstop(is.null(private$test_content$topic), "No topic intrusion test cases. Create the oolong test with the corpus to generate topic intrusion test cases.")
-                private$test_content$topic <- .do_oolong_test(private$test_content$topic, ui = .UI_TOPIC_INTRUSION_TEST, .ren = .ren_topic_intrusion_test)
+                .cstop(is.null(private$test_content$ti), "No topic intrusion test cases. Create the oolong test with the corpus to generate topic intrusion test cases.")
+                private$test_content$ti <- .do_oolong_test(private$test_content$ti, ui = .UI_TOPIC_INTRUSION_TEST, .ren = .ren_topic_intrusion_test)
             },
             do_word_set_intrusion_test = function() {
                 private$check_finalized()

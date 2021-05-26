@@ -6,7 +6,8 @@ test_that("case in vignette", {
 })
 
 massive_oolong <- readRDS("../testdata/massive_oolong.RDS")
-all_downloads_rds <- list.files("../testdata/downloaded/", full.names = TRUE)
+all_downloads_rds <- list.files("../testdata/downloaded", full.names = TRUE)
+
 
 test_that("big_revert", {
     expect_error(purrr::map(all_downloads_rds, ~revert_oolong(massive_oolong, .)), NA)

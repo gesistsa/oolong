@@ -1,12 +1,12 @@
 ##context("Defensive program")
 
 genius_word <- function(obj1) {
-    obj1$.__enclos_env__$private$test_content$word$answer <- obj1$.__enclos_env__$private$test_content$word$intruder
+    obj1$.__enclos_env__$private$test_content$wi$answer <- obj1$.__enclos_env__$private$test_content$wi$intruder
     return(obj1)
 }
 
 genius_topic <- function(obj1) {
-    obj1$.__enclos_env__$private$test_content$topic$answer <- obj1$.__enclos_env__$private$test_content$topic$intruder
+    obj1$.__enclos_env__$private$test_content$ti$answer <- obj1$.__enclos_env__$private$test_content$ti$intruder
     return(obj1)
 }
 
@@ -52,26 +52,26 @@ test_that("cloning all types", {
     ## pure wi
     x <- wi(abstracts_stm)
     expect_error(clone_oolong(x), NA)
-    x$.__enclos_env__$private$test_content$word$answer[1] <- "x"
+    x$.__enclos_env__$private$test_content$wi$answer[1] <- "x"
     expect_error(clone_oolong(x))
     ## pure ti
     x <- ti(abstracts_stm, abstracts$text)
     expect_error(clone_oolong(x), NA)
-    x$.__enclos_env__$private$test_content$topic$answer[1] <- "x"
+    x$.__enclos_env__$private$test_content$ti$answer[1] <- "x"
     expect_error(clone_oolong(x))
     ## witi
     x <- witi(abstracts_stm, abstracts$text)
     expect_error(clone_oolong(x), NA)
-    x$.__enclos_env__$private$test_content$topic$answer[1] <- "x"
+    x$.__enclos_env__$private$test_content$ti$answer[1] <- "x"
     expect_error(clone_oolong(x))
     x <- witi(abstracts_stm, abstracts$text)
     expect_error(clone_oolong(x), NA)
-    x$.__enclos_env__$private$test_content$word$answer[1] <- "x"
+    x$.__enclos_env__$private$test_content$wi$answer[1] <- "x"
     expect_error(clone_oolong(x))
     x <- witi(abstracts_stm, abstracts$text)
     expect_error(clone_oolong(x), NA)
-    x$.__enclos_env__$private$test_content$word$answer[1] <- "x"
-    x$.__enclos_env__$private$test_content$topic$answer[1] <- "x"
+    x$.__enclos_env__$private$test_content$wi$answer[1] <- "x"
+    x$.__enclos_env__$private$test_content$ti$answer[1] <- "x"
     expect_error(clone_oolong(x))
     ## wsi
     x <- wsi(abstracts_stm)
@@ -81,7 +81,7 @@ test_that("cloning all types", {
     ## gs
     x <- gs(abstracts$text)
     expect_error(clone_oolong(x), NA)
-    x$.__enclos_env__$private$test_content$gold_standard$answer[1] <- 1
+    x$.__enclos_env__$private$test_content$gs$answer[1] <- 1
     expect_error(clone_oolong(x))    
 })
 

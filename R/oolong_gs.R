@@ -9,14 +9,14 @@
     }
     sample_vec <- .sample_corpus(input_corpus, exact_n)
     target_text <- input_corpus[sample_vec]
-    test_content <- tibble::tibble(case = seq_len(exact_n), text = target_text, answer = NA)
-    return(test_content)
+    test_items <- tibble::tibble(case = seq_len(exact_n), text = target_text, answer = NA)
+    return(test_items)
 }
 
 
 .turn_gold <- function(test_content) {
-    res <- quanteda::corpus(test_content$gold_standard$text)
-    quanteda::docvars(res, "answer") <- test_content$gold_standard$answer
+    res <- quanteda::corpus(test_content$gs$text)
+    quanteda::docvars(res, "answer") <- test_content$gs$answer
     class(res) <- append("oolong_gold_standard", class(res))
     return(res)
 }
@@ -46,7 +46,7 @@ print.oolong_gold_standard <- function(x, ...) {
     if (!is.na(userid)) {
         cli::cli_text(cli::symbol$smiley, " ", userid)
     }
-    cli::cli_alert_info("{.strong GS:} n = {nrow(private$test_content$gold_standard)}, {sum(!is.na(private$test_content$gold_standard$answer))} coded.")
+    cli::cli_alert_info("{.strong GS:} n = {nrow(private$test_content$gs)}, {sum(!is.na(private$test_content$gs$answer))} coded.")
     cli::cli_alert_info("{.strong Construct:}  {private$construct}.")
     cli::cli_h2("Methods")
     cli::cli_ul()
@@ -65,7 +65,7 @@ Oolong_test_gs <-
         inherit = Oolong_test,
         public = list(
             initialize = function(input_corpus, exact_n = NULL, frac = 0.01, construct = "positive", userid = NA) {
-                private$test_content$gold_standard <- .generate_gold_standard(input_corpus, exact_n, frac)
+                private$test_content$gs <- .generate_gold_standard(input_corpus, exact_n, frac)
                 self$userid <- userid
                 private$construct <- construct
                 private$hash <- .safe_hash(private$test_content)
@@ -80,7 +80,7 @@ Oolong_test_gs <-
                 .ren <- function(output, test_content, res, hash = NULL) {
                     return(.ren_gold_standard_test(output, test_content, res, construct = private$construct, hash = NULL))
                 }
-                private$test_content$gold_standard <- .do_oolong_test(private$test_content$gold_standard, ui = .UI_GOLD_STANDARD_TEST, .ren = .ren)
+                private$test_content$gs <- .do_oolong_test(private$test_content$gs, ui = .UI_GOLD_STANDARD_TEST, .ren = .ren)
             },
             turn_gold = function() {
                 .cstop(!private$finalized, "You must first lock this object to use this method.")

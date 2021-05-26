@@ -1,31 +1,31 @@
-.code_oolong <- function(test_content, ui = .UI_WORD_INTRUSION_TEST, .ren = .ren_word_intrusion_test) {
-    shiny::runGadget(.gen_shinyapp(test_content = test_content, ui = ui, .ren = .ren, hash = NULL))
+.code_oolong <- function(test_items, ui = .UI_WORD_INTRUSION_TEST, .ren = .ren_word_intrusion_test) {
+    shiny::runGadget(.gen_shinyapp(test_items = test_items, ui = ui, .ren = .ren, hash = NULL))
 }
 
-.do_oolong_test <- function(test_content, ui = .UI_WORD_INTRUSION_TEST, .ren = .ren_word_intrusion_test) {
-    test_content$answer <- .code_oolong(test_content, ui = ui, .ren = .ren)
-    return(test_content)
+.do_oolong_test <- function(test_items, ui = .UI_WORD_INTRUSION_TEST, .ren = .ren_word_intrusion_test) {
+    test_items$answer <- .code_oolong(test_items, ui = ui, .ren = .ren)
+    return(test_items)
 
 }
 
-.gen_shinyserver <- function(test_content, .ren = .ren_word_intrusion_test, hash = NULL) {
+.gen_shinyserver <- function(test_items, .ren = .ren_word_intrusion_test, hash = NULL) {
     function(input, output, session) {
-        res <- shiny::reactiveValues(intruder = test_content$answer, current_row = 1)
-        output <- .ren(output, test_content, res, hash = hash)
+        res <- shiny::reactiveValues(intruder = test_items$answer, current_row = 1)
+        output <- .ren(output, test_items, res, hash = hash)
         shiny::observeEvent(input$confirm, {
             res$intruder[res$current_row] <- input$intruder
             res$current_row <- res$current_row + 1
-            if (res$current_row > nrow(test_content)) {
+            if (res$current_row > nrow(test_items)) {
                 res$current_row <- 1
             }
-            output <- .ren(output, test_content, res, hash = hash)
+            output <- .ren(output, test_items, res, hash = hash)
         })
         shiny::observeEvent(input$nextq, {
             res$current_row <- res$current_row + 1
-            if (res$current_row > nrow(test_content)) {
+            if (res$current_row > nrow(test_items)) {
                 res$current_row <- 1
             }
-            output <- .ren(output, test_content, res, hash = hash)
+            output <- .ren(output, test_items, res, hash = hash)
         })
         shiny::observeEvent(input$ff, {
             res_with_na <- which(is.na(res$intruder))
@@ -34,7 +34,7 @@
             } else {
                 res$current_row <- min(res_with_na)
             }
-            output <- .ren(output, test_content, res, hash = hash)
+            output <- .ren(output, test_items, res, hash = hash)
         })
         shiny::observeEvent(input$done, (
             shiny::stopApp(res$intruder)
@@ -45,10 +45,10 @@
             },
             content = function(file) {
                 output <- list()
-                test_content$answer <- res$intruder
-                output$test_content <- test_content
+                test_items$answer <- res$intruder
+                output$test_items <- test_items
                 output$hash <- hash
-                output$test_content_hash <- .safe_hash(output$test_content)
+                output$test_items_hash <- .safe_hash(output$test_items)
                 output$userid <- input$userid
                 saveRDS(output, file)
             }
@@ -56,8 +56,8 @@
     }
 }
 
-.gen_shinyapp <- function(test_content, ui = .UI_WORD_INTRUSION_TEST, .ren = .ren_word_intrusion_test, hash = NULL) {
-    server <- .gen_shinyserver(test_content = test_content, .ren = .ren, hash = hash)
+.gen_shinyapp <- function(test_items, ui = .UI_WORD_INTRUSION_TEST, .ren = .ren_word_intrusion_test, hash = NULL) {
+    server <- .gen_shinyserver(test_items = test_items, .ren = .ren, hash = hash)
     return(shiny::shinyApp(ui, server))
 }
 
@@ -109,20 +109,20 @@
         )
 
 
-.ren_word_intrusion_test <- function(output, test_content, res, prompt = "Which of the following is an intruder word?", hash = NULL) {
-    .ren_choices <- function(test_content, res) {
+.ren_word_intrusion_test <- function(output, test_items, res, prompt = "Which of the following is an intruder word?", hash = NULL) {
+    .ren_choices <- function(test_items, res) {
         shiny::renderUI({
-            shiny::radioButtons("intruder", label = prompt, choices = test_content$candidates[[res$current_row]], selected = res$intruder[res$current_row])
+            shiny::radioButtons("intruder", label = prompt, choices = test_items$candidates[[res$current_row]], selected = res$intruder[res$current_row])
         })
     }
-    .ren_topic_bar <- function(test_content, res) {
+    .ren_topic_bar <- function(test_items, res) {
         shiny::renderUI({
             shiny::strong(
-                paste("Topic ", res$current_row, "of", nrow(test_content), ifelse(is.na(res$intruder[res$current_row]), "", " [coded]")))
+                paste("Topic ", res$current_row, "of", nrow(test_items), ifelse(is.na(res$intruder[res$current_row]), "", " [coded]")))
         })
     }
-    output$intruder_choice <- .ren_choices(test_content, res)
-    output$current_topic <- .ren_topic_bar(test_content, res)
+    output$intruder_choice <- .ren_choices(test_items, res)
+    output$current_topic <- .ren_topic_bar(test_items, res)
     if (!is.null(hash)) {
         output$download_button <- shiny::renderUI({
             if (!any(is.na(res$intruder))) {
@@ -138,30 +138,30 @@
     return(output)
 }
 
-.ren_topic_intrusion_test <- function(output, test_content, res, hash = NULL) {
-    .ren_choices <- function(test_content, res) {
+.ren_topic_intrusion_test <- function(output, test_items, res, hash = NULL) {
+    .ren_choices <- function(test_items, res) {
         shiny::renderUI({
-            shiny::radioButtons("intruder", label = "Which of the following is an intruder topic?", choiceNames = test_content$topic_labels[[res$current_row]], choiceValues = test_content$candidates[[res$current_row]], selected = res$intruder[res$current_row])
+            shiny::radioButtons("intruder", label = "Which of the following is an intruder topic?", choiceNames = test_items$topic_labels[[res$current_row]], choiceValues = test_items$candidates[[res$current_row]], selected = res$intruder[res$current_row])
         })
     }
-    .ren_topic_bar <- function(test_content, res) {
+    .ren_topic_bar <- function(test_items, res) {
         shiny::renderUI({
             shiny::strong(
-                paste("Case ", res$current_row, "of", nrow(test_content), ifelse(is.na(res$intruder[res$current_row]), "", " [coded]")))
+                paste("Case ", res$current_row, "of", nrow(test_items), ifelse(is.na(res$intruder[res$current_row]), "", " [coded]")))
         })
     }
-    .ren_text_content <- function(test_content, res) {
+    .ren_text_content <- function(test_items, res) {
         shiny::renderUI({
             shiny::tagList(
                 shiny::hr(),
-                shiny::p(test_content$text[res$current_row]),
+                shiny::p(test_items$text[res$current_row]),
                 shiny::hr()
             )
         })
     }
-    output$intruder_choice <- .ren_choices(test_content, res)
-    output$current_topic <- .ren_topic_bar(test_content, res)
-    output$text_content <- .ren_text_content(test_content, res)
+    output$intruder_choice <- .ren_choices(test_items, res)
+    output$current_topic <- .ren_topic_bar(test_items, res)
+    output$text_content <- .ren_text_content(test_items, res)
     if (!is.null(hash)) {
         output$download_button <- shiny::renderUI({
             if (!any(is.na(res$intruder))) {
@@ -177,33 +177,33 @@
     return(output)
 }
 
-.ren_word_set_intrusion_test <- function(output, test_content, res, prompt = "Which of the following is an intruder word set?", hash = NULL) {
-    .ren_word_intrusion_test(output = output, test_content = test_content, res = res, prompt = prompt, hash = hash)
+.ren_word_set_intrusion_test <- function(output, test_items, res, prompt = "Which of the following is an intruder word set?", hash = NULL) {
+    .ren_word_intrusion_test(output = output, test_items = test_items, res = res, prompt = prompt, hash = hash)
 }
 
-.ren_gold_standard_test <- function(output, test_content, res, construct = "positive", hash = NULL) {
-    .ren_choices <- function(test_content, res, construct) {
+.ren_gold_standard_test <- function(output, test_items, res, construct = "positive", hash = NULL) {
+    .ren_choices <- function(test_items, res, construct) {
         shiny::renderUI({
             shiny::sliderInput("intruder", label = paste("How ", construct, "is this text? (1 = Very not ", construct, "; 5 = Very ", construct, ")"), min = 1, max = 5, value = ifelse(is.na(res$intruder[res$current_row]), 3, res$intruder[res$current_row]), ticks = FALSE)
         })
     }
-    .ren_topic_bar <- function(test_content, res) {
+    .ren_topic_bar <- function(test_items, res) {
         shiny::renderUI({
-            shiny::strong(paste("Case ", res$current_row, "of", nrow(test_content), ifelse(is.na(res$intruder[res$current_row]), "", " [coded]")))
+            shiny::strong(paste("Case ", res$current_row, "of", nrow(test_items), ifelse(is.na(res$intruder[res$current_row]), "", " [coded]")))
         })
     }
-    .ren_text_content <- function(test_content, res) {
+    .ren_text_content <- function(test_items, res) {
         shiny::renderUI({
             shiny::tagList(
                 shiny::hr(),
-                shiny::p(test_content$text[res$current_row]),
+                shiny::p(test_items$text[res$current_row]),
                 shiny::hr()
             )
         })
     }
-    output$score_slider <- .ren_choices(test_content, res, construct)
-    output$current_topic <- .ren_topic_bar(test_content, res)
-    output$text_content <- .ren_text_content(test_content, res)
+    output$score_slider <- .ren_choices(test_items, res, construct)
+    output$current_topic <- .ren_topic_bar(test_items, res)
+    output$text_content <- .ren_text_content(test_items, res)
     if (!is.null(hash)) {
         output$download_button <- shiny::renderUI({
             if (!any(is.na(res$intruder))) {
@@ -259,16 +259,16 @@ deploy_oolong <- function(oolong) {
     mob_oolong <- .mobilize(oolong)
     ### could use switch
     if (mob_oolong$type == "word") {
-        return(.gen_shinyapp(mob_oolong$test_content$word, ui = .UI_WORD_INTRUSION_TEST, .ren = .ren_word_intrusion_test, hash = mob_oolong$hash))
+        return(.gen_shinyapp(mob_oolong$test_content$wi, ui = .UI_WORD_INTRUSION_TEST, .ren = .ren_word_intrusion_test, hash = mob_oolong$hash))
     } else if (mob_oolong$type == "topic") {
-        return(.gen_shinyapp(mob_oolong$test_content$topic, ui = .UI_TOPIC_INTRUSION_TEST, .ren = .ren_topic_intrusion_test, hash = mob_oolong$hash))
+        return(.gen_shinyapp(mob_oolong$test_content$ti, ui = .UI_TOPIC_INTRUSION_TEST, .ren = .ren_topic_intrusion_test, hash = mob_oolong$hash))
     } else if (mob_oolong$type == "wsi") {
         return(.gen_shinyapp(mob_oolong$test_content$wsi, ui = .UI_WORD_INTRUSION_TEST, .ren = .ren_word_set_intrusion_test, hash = mob_oolong$hash))
     } else if (mob_oolong$type == "gold_standard") {
         .ren <- function(output, test_content, res, hash = NULL) {
             return(.ren_gold_standard_test(output, test_content, res, construct = mob_oolong$construct, hash = hash))
         }
-        return(.gen_shinyapp(mob_oolong$test_content$gold_standard, ui = .UI_GOLD_STANDARD_TEST, .ren = .ren, hash = mob_oolong$hash))
+        return(.gen_shinyapp(mob_oolong$test_content$gs, ui = .UI_GOLD_STANDARD_TEST, .ren = .ren, hash = mob_oolong$hash))
     }
 }
 

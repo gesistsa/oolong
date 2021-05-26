@@ -11,7 +11,6 @@ status](https://travis-ci.org/chainsawriot/oolong.svg?branch=master)](https://tr
 coverage](https://codecov.io/gh/chainsawriot/oolong/branch/master/graph/badge.svg)](https://codecov.io/gh/chainsawriot/oolong?branch=master)
 [![joss
 stataus](https://joss.theoj.org/papers/6e535564e7142d705f4f3d68b18dac62/status.svg)](https://joss.theoj.org/papers/6e535564e7142d705f4f3d68b18dac62)
-[![zenodo](https://zenodo.org/badge/224468858.svg)](https://zenodo.org/badge/latestdoi/224468858)
 [![CRAN
 status](https://www.r-pkg.org/badges/version/oolong)](https://CRAN.R-project.org/package=oolong)
 [![R-CMD-check](https://github.com/chainsawriot/oolong/workflows/R-CMD-check/badge.svg)](https://github.com/chainsawriot/oolong/actions)
