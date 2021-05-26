@@ -142,3 +142,77 @@
     Code
       export_oolong(obj1, dir = newdir, verbose = FALSE, use_full_path = FALSE)
 
+# update
+
+    Code
+      update_oolong(y)
+    Warning <simpleWarning>
+      Please consider setting the userid by assigning the userid to the slot $userid, e.g. oolong$userid <- "myname"
+      The oolong object is too old. Some security features might not be available in the updated oolong object.
+    Message <cliMessage>
+      
+      -- oolong (topic model) --------------------------------------------------------
+      v WI v TI x WSI
+      i WI: k = 10, 0 coded.
+      i TI: n = 10, 0 coded.
+      
+      -- Methods --
+      
+      * <$do_word_intrusion_test()>: do word intrusion test
+      * <$do_topic_intrusion_test()>: do topic intrusion test
+      * <$lock()>: finalize and see the results
+
+---
+
+    Code
+      update_oolong(y)
+    Warning <simpleWarning>
+      Please consider setting the userid by assigning the userid to the slot $userid, e.g. oolong$userid <- "myname"
+      The oolong object is too old. Some security features might not be available in the updated oolong object.
+    Message <cliMessage>
+      
+      -- oolong (gold standard generation) -------------------------------------------
+      i GS: n = 25, 0 coded.
+      i Construct:  positive.
+      
+      -- Methods --
+      
+      * <$do_gold_standard_test()>: generate gold standard
+      * <$lock()>: finalize this object and see the results
+
+---
+
+    Code
+      update_oolong(y)
+    Warning <simpleWarning>
+      Please consider setting the userid by assigning the userid to the slot $userid, e.g. oolong$userid <- "myname"
+      The oolong object is too old. Some security features might not be available in the updated oolong object.
+    Message <cliMessage>
+      
+      -- oolong (gold standard generation) -------------------------------------------
+      i GS: n = 25, 0 coded.
+      i Construct:  positive.
+      
+      -- Methods --
+      
+      * <$turn_gold()>: convert the test results into a quanteda corpus
+
+---
+
+    
+
+---
+
+    Code
+      update_oolong(y)
+    Message <cliMessage>
+      
+      -- oolong (topic model) --------------------------------------------------------
+      v WI x TI x WSI
+      i WI: k = 20, 0 coded.
+      
+      -- Methods --
+      
+      * <$do_word_intrusion_test()>: do word intrusion test
+      * <$lock()>: finalize and see the results
+

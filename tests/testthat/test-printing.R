@@ -75,3 +75,16 @@ test_that("export printing", {
     expect_snapshot(export_oolong(obj1, dir = newdir, verbose = FALSE, use_full_path = FALSE))
     unlink(newdir, recursive = TRUE)
 })
+
+test_that("update", {
+    skip_on_cran()
+    y <- readRDS("../testdata/oolong_tm_prev4.RDS")
+    expect_snapshot(update_oolong(y))
+    y <- readRDS("../testdata/oolong_gs_prev4.RDS")
+    expect_snapshot(update_oolong(y))
+    y <- readRDS("../testdata/oolong_gs_prev4_locked.RDS")
+    expect_snapshot(update_oolong(y))
+    y <- readRDS("../testdata/massive_oolong_old.RDS")
+    expect_snapshot_error(print(y))
+    expect_snapshot(update_oolong(y))
+})

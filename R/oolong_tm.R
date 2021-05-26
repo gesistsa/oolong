@@ -172,12 +172,12 @@
 }
 
 .print_oolong_test_tm <- function(private, userid) {
+    .check_version(private)
     bool_word <- !is.null(private$test_content$wi)
     bool_topic <- !is.null(private$test_content$ti)
     bool_wsi <- !is.null(private$test_content$wsi)
     bool_finalized <- private$finalized
     cli::cli_h1("oolong (topic model)")
-    .check_version(private)
     cli::cli_text("{.sym_flip(bool_word)} {.strong WI} {.sym_flip(bool_topic)} {.strong TI} {.sym_flip(bool_wsi)} {.strong WSI}")
     if (!is.na(userid)) {
         cli::cli_text(cli::symbol$smiley, " ", userid)

@@ -44,7 +44,7 @@
 #' @importFrom quanteda print corpus
 NULL
 
-utils::globalVariables(c('cookd', 'diffxy', 'index', 'meanxy', 'word_length', 'avg_answer'))
+utils::globalVariables(c('cookd', 'diffxy', 'index', 'meanxy', 'word_length', 'avg_answer', 'abstracts_stm', 'abstracts'))
 
 ### print the ... if boolean_test is true
 .cp <- function(boolean_test, ...) {
@@ -79,13 +79,6 @@ utils::globalVariables(c('cookd', 'diffxy', 'index', 'meanxy', 'word_length', 'a
          )
 }
 
-## For future update, to notify users about old version and run update_oolong.
-.check_version <- function(private) {
-    ## if (private$meta$`package-version` < "0.4") {
-    ##     cli::cli_alert_warning("This object was created using an old version of oolong. Please update this object using update_oolong().")
-    ## }
-}
-
 .sym_flip <- function(bool) {
     ifelse(bool, cli::symbol$tick, cli::symbol$cross)
 }
@@ -96,3 +89,4 @@ utils::globalVariables(c('cookd', 'diffxy', 'index', 'meanxy', 'word_length', 'a
     }
     return(digest::digest(x, algo = "sha1"))
 }
+
