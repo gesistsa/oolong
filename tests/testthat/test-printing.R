@@ -1,5 +1,7 @@
 ## context("Prining objects")
 
+set.seed(46709394)
+
 genius_word <- function(obj1) {
     obj1$.__enclos_env__$private$test_content$wi$answer <- obj1$.__enclos_env__$private$test_content$wi$intruder
     return(obj1)

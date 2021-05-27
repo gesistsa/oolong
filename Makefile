@@ -1,4 +1,4 @@
-all: vignettes overviewgh ghdocs build
+all: vignettes overviewgh build ghdocs 
 
 .FORCE:
 

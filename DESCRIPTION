@@ -38,7 +38,8 @@ Suggests:
     stringr,
     knitr,
     rmarkdown,
-    fs
+    fs,
+    quanteda.textmodels
 BugReports: https://github.com/chainsawriot/oolong/issues
 VignetteBuilder: knitr
 Config/testthat/edition: 3

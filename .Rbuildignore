@@ -39,3 +39,4 @@
 ^paper/
 ^CODE_OF_CONDUCT\.md$
 ^\.github$
+^rawdata/

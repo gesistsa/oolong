@@ -22,22 +22,22 @@
     Output
       Corpus consisting of 25 documents and 1 docvar.
       text1 :
-      "This article explores the authors' experiences in creating a..."
+      "The China Tobacco Control Media Campaign on Sina Weibo is no..."
       
       text2 :
-      "Drawing on Social Representations Theory, this study investi..."
+      "This study uniquely examined the effects on self, cognition,..."
       
       text3 :
-      "Until now, social marketing campaigns mainly targeted childr..."
+      "This article elaborates the role of interpersonal communicat..."
       
       text4 :
-      "Two studies investigated (a) how public figures' interaction..."
+      "The computing education in Taiwan's vocational schools usual..."
       
       text5 :
-      "This study focuses on how Social Media Networks (SMN) have b..."
+      "This study examined whether historical percentages of U.S. h..."
       
       text6 :
-      "According to previous research conducted mainly in the Unite..."
+      "Many adolescents and adults do not seek treatment for mental..."
       
       [ reached max_ndoc ... 19 more documents ]
     Message <cliMessage>

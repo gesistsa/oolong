@@ -39,6 +39,13 @@
 #' This is a random sample of 2000 tweets from @realdonaldtrump account before his assumption of duty as the president of the United States.
 "trump2k"
 
+#' Naive Bayes model trained on 20 newsgroups data
+#'
+#' This is a Naive Bayes model (of the class 'textmodel_nb') trained on 20 newsgroups data.
+#' @references
+#'   Lang, K. (1995). Newsweeder: Learning to filter netnews. In Machine Learning Proceedings 1995 (pp. 331-339). Morgan Kaufmann.
+"newsgroup_nb"
+
 #' @importFrom stats cooks.distance cor.test lm median pchisq quantile sd predict
 #' @importFrom utils head
 #' @importFrom quanteda print corpus

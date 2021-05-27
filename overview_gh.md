@@ -43,8 +43,10 @@ install.packages("oolong")
 `abstracts` using the `stm` package. Currently, this package supports
 structural topic models / correlated topic models from `stm`, Warp LDA
 models from `text2vec` , LDA/CTM models from `topicmodels`, Biterm Topic
-Models from `BTM`, Keyword Assisted Topic Models from `keyATM` and
-seeded LDA models from `seededlda`.
+Models from `BTM`, Keyword Assisted Topic Models from `keyATM`, and
+seeded LDA models from `seededlda`. Although not strictly a topic model,
+Naive Bayes models from `quanteda.textmodels` are also supported. See
+the section on [Naive Bayes](#about-naive-bayes) for more information.
 
 ``` r
 library(oolong)
@@ -424,6 +426,48 @@ oolong_test
 ## About Biterm Topic Model
 
 Please refer to the vignette about BTM.
+
+## About Naive Bayes
+
+Naive Bayes model is a supervised machine learning model. This package
+supports Naive Bayes models trained using `quanteda.textmodels`.
+
+Suppose `newsgroup_nb` is a Naive Bayes model trained on a subset of the
+classical \[20 newgroups\] dataset.
+
+``` r
+tokens(newsgroup5$text, remove_punct = TRUE, remove_symbols = TRUE, remove_numbers = TRUE, remove_url = TRUE, spilit_hyphens = TRUE) %>% tokens_wordstem %>% tokens_remove(stopwords("en")) %>% dfm(tolower = TRUE) %>% dfm_trim(min_termfreq = 3, max_docfreq = 0.06, docfreq_type = "prop") -> newsgroup_dfm
+docvars(newsgroup_dfm, "group") <- newsgroup5$title
+newsgroup_nb <- textmodel_nb(newsgroup_dfm, docvars(newsgroup_dfm, "group"), distribution = "Bernoulli")
+```
+
+You can still generate word intrusion and word set intrusion tests.
+
+``` r
+wi(newsgroup_nb)
+#> 
+#> ── oolong (topic model) ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+#> ✔ WI ✖ TI ✖ WSI
+#> ℹ WI: k = 20, 0 coded.
+#> 
+#> ── Methods ──
+#> 
+#> • <$do_word_intrusion_test()>: do word intrusion test
+#> • <$lock()>: finalize and see the results
+```
+
+``` r
+wsi(newsgroup_nb)
+#> 
+#> ── oolong (topic model) ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+#> ✖ WI ✖ TI ✔ WSI
+#> ℹ WSI: n = 20, 0 coded.
+#> 
+#> ── Methods ──
+#> 
+#> • <$do_word_set_intrusion_test()>: do word set intrusion test
+#> • <$lock()>: finalize and see the results
+```
 
 ## Validating Dictionary-based Methods
 
