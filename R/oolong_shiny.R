@@ -13,7 +13,6 @@
         res <- shiny::reactiveValues(intruder = test_items$answer, current_row = 1)
         output <- .ren(output, test_items, res, hash = hash)
         shiny::observeEvent(input$confirm, {
-            print(input$intruder)
             if (!is.null(input$intruder)) {
                 res$intruder[res$current_row] <- input$intruder
                 res$current_row <- res$current_row + 1

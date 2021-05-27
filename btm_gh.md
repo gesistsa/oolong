@@ -151,12 +151,12 @@ oolong
 
 ``` r
 oolong <- create_oolong(trump_btm, trump_corpus)
-#> Error in .extract_ingredients.input_model_s3_btm(.convert_input_model_s3(input_model), : You need to provide input_corpus (in quanteda format) and btm_dataframe for generating topic intrusion tests.
+#> Error: You need to provide input_corpus (in quanteda format) and btm_dataframe for generating topic intrusion tests.
 ```
 
 `input_corpus` must be a quanteda corpus.
 
 ``` r
 oolong <- create_oolong(trump_btm, trump2k, btm_dataframe = trump_dat)
-#> Error in .extract_ingredients.input_model_s3_btm(.convert_input_model_s3(input_model), : You need to provide input_corpus (in quanteda format) and btm_dataframe for generating topic intrusion tests.
+#> Error: You need to provide input_corpus (in quanteda format) and btm_dataframe for generating topic intrusion tests.
 ```

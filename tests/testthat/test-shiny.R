@@ -1,0 +1,41 @@
+require(shinytest)
+
+if (!dependenciesInstalled()) {
+    installDependencies()
+}
+
+test_that("Click of death bug #51", {
+    skip_on_cran()
+    dir <- tempdir()
+    x <- wi(abstracts_stm)
+    export_oolong(x, dir = dir, verbose = FALSE)
+    test <- ShinyDriver$new(dir)
+    test$click("confirm")
+    expect_error(test$getAllValues(), NA)
+    test$finalize()
+})
+
+test_that("launch", {
+    skip_on_cran()
+    dir <- tempdir()
+    x <- wi(abstracts_stm)
+    export_oolong(x, dir = dir, verbose = FALSE)
+    test <- ShinyDriver$new(dir)
+    expect_error(test$getAllValues(), NA)
+    test$finalize()
+    x <- wsi(abstracts_stm)
+    export_oolong(x, dir = dir, verbose = FALSE)
+    test <- ShinyDriver$new(dir)
+    expect_error(test$getAllValues(), NA)
+    test$finalize()
+    x <- gs(abstracts$text)
+    export_oolong(x, dir = dir, verbose = FALSE)
+    test <- ShinyDriver$new(dir)
+    expect_error(test$getAllValues(), NA)
+    test$finalize()
+    x <- ti(abstracts_stm, abstracts$text)
+    export_oolong(x, dir = dir, verbose = FALSE)
+    test <- ShinyDriver$new(dir)
+    expect_error(test$getAllValues(), NA)
+    test$finalize()
+})
