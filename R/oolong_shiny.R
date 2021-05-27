@@ -13,10 +13,13 @@
         res <- shiny::reactiveValues(intruder = test_items$answer, current_row = 1)
         output <- .ren(output, test_items, res, hash = hash)
         shiny::observeEvent(input$confirm, {
-            res$intruder[res$current_row] <- input$intruder
-            res$current_row <- res$current_row + 1
-            if (res$current_row > nrow(test_items)) {
-                res$current_row <- 1
+            print(input$intruder)
+            if (!is.null(input$intruder)) {
+                res$intruder[res$current_row] <- input$intruder
+                res$current_row <- res$current_row + 1
+                if (res$current_row > nrow(test_items)) {
+                    res$current_row <- 1
+                }
             }
             output <- .ren(output, test_items, res, hash = hash)
         })
@@ -254,13 +257,13 @@
 deploy_oolong <- function(oolong) {
     mob_oolong <- .mobilize(oolong)
     ### could use switch
-    if (mob_oolong$type == "word") {
+    if (mob_oolong$type == "wi") {
         return(.gen_shinyapp(mob_oolong$test_content$wi, ui = .UI_WORD_INTRUSION_TEST, .ren = .ren_word_intrusion_test, hash = mob_oolong$hash))
-    } else if (mob_oolong$type == "topic") {
+    } else if (mob_oolong$type == "ti") {
         return(.gen_shinyapp(mob_oolong$test_content$ti, ui = .UI_TOPIC_INTRUSION_TEST, .ren = .ren_topic_intrusion_test, hash = mob_oolong$hash))
     } else if (mob_oolong$type == "wsi") {
         return(.gen_shinyapp(mob_oolong$test_content$wsi, ui = .UI_WORD_INTRUSION_TEST, .ren = .ren_word_set_intrusion_test, hash = mob_oolong$hash))
-    } else if (mob_oolong$type == "gold_standard") {
+    } else if (mob_oolong$type == "gs") {
         .ren <- function(output, test_content, res, hash = NULL) {
             return(.ren_gold_standard_test(output, test_content, res, construct = mob_oolong$construct, hash = hash))
         }
