@@ -51,7 +51,7 @@ plot.oolong_summary <- function(x, ...) {
     if (x$type == "gs") {
         .plot_oolong_summary_gs(x)
     } else {
-        stop("Don't know how to plot this oolong_summary.")
+        .cstop(TRUE, "Don't know how to plot this oolong_summary.")
     }
     
 }

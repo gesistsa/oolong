@@ -22,7 +22,7 @@
     all_terms <- unique(as.vector(terms[,seq_len(n_top_terms)]))
     if (need_topic) {
         if (is.null(input_corpus) | is.null(btm_dataframe) | !"corpus" %in% class(input_corpus)) {
-            stop("You need to provide input_corpus (in quanteda format) and btm_dataframe for generating topic intrusion tests.")
+            .cstop(TRUE, "You need to provide input_corpus (in quanteda format) and btm_dataframe for generating topic intrusion tests.")
         }
         model_terms <- terms[, seq_len(n_topiclabel_words)]
         theta <- .generate_btm_theta(input_model, btm_dataframe, input_corpus)        

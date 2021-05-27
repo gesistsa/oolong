@@ -97,12 +97,8 @@
 }
 
 .summarize_oolong_tm <- function(..., n_iter = 1500) {
-    if(!.check_hash_dot(...)) {
-        stop("Not all oolong object(s) are created with the same conditions.")
-    }
-    if(!.check_lock_dot(...)) {
-        stop("Not all oolong objects(s) are locked.")
-    }
+    .cstop(!.check_hash_dot(...), "Not all oolong object(s) are created with the same conditions.")
+    .cstop(!.check_lock_dot(...), "Not all oolong objects(s) are locked.")
     if(!.check_finished_dot(...)) {
         warning("Some input objects were locked forcibly. Summary results might not make sense.")
     }

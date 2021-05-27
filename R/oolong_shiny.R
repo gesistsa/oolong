@@ -220,14 +220,10 @@
 }
 
 .mobilize_defend <- function(oolong) {
-    if (oolong$.__enclos_env__$private$finalized) {
-        stop("oolong is locked.")
-    }
-    if (!.check_new(oolong)) {
-        stop("oolong is partially coded.")
-    }
+    .cstop(oolong$.__enclos_env__$private$finalized, "oolong is locked.")
+    .cstop(!.check_new(oolong), "oolong is partially coded.")
     if (length(oolong$.__enclos_env__$private$test_content) != 1) {
-        stop("Deployment of oolong object with more than two test items (e.g. witi) is not supported")
+        .cstop(TRUE, "Deployment of oolong object with more than two test items (e.g. witi) is not supported")
     }
 }
 

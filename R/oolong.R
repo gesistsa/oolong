@@ -16,9 +16,7 @@ Oolong_test <- R6::R6Class(
         initialize = function(input_model, input_corpus = NULL) {
         },
         lock = function(force = FALSE) {
-            if (!.check_test_content_complete(private$test_content) & !force) {
-                stop("Not all tests are completed. Do all the tests or use $lock(force = TRUE) to bypass this.")
-            }
+            .cstop(!.check_test_content_complete(private$test_content) & !force, "Not all tests are completed. Do all the tests or use $lock(force = TRUE) to bypass this.")
             private$finalized <- TRUE
         },
         userid = NA
@@ -107,20 +105,12 @@ Oolong_test <- R6::R6Class(
 #' 
 #' @export
 create_oolong <- function(input_model = NULL, input_corpus = NULL, n_top_terms = 5, bottom_terms_percentile = 0.6, exact_n = NULL, frac = 0.01, n_top_topics = 3, n_topiclabel_words = 8, use_frex_words = FALSE, difficulty = 1, input_dfm = NULL, construct = "positive", btm_dataframe = NULL, n_correct_ws = 3, wsi_n_top_terms = 20, userid = NA, type = "witi") {
-    if (!type %in% c("wi", "witi", "ti", "gs", "wsi")) {
-        stop("Unknown type, available types are 'wi', 'witi', 'ti', 'wsi' and 'gs'")
-    }
-    if (is.null(input_model) & is.null(input_corpus)) {
-        stop("input_model and input_corpus cannot be both NULL.")
-    }
+    .cstop(!type %in% c("wi", "witi", "ti", "gs", "wsi"), "Unknown type, available types are 'wi', 'witi', 'ti', 'wsi' and 'gs'")
+    .cstop(is.null(input_model) & is.null(input_corpus), "input_model and input_corpus cannot be both NULL.")
     if (!is.null(input_model)) {
-        if (!.is_topic_model(input_model)) {
-            stop("input_model is not a topic model. If you want to create gold standard with an input_corpus, use: create_oolong(input_corpus = input_corpus) or gs(input_corpus)")
-        }
+        .cstop(!.is_topic_model(input_model), "input_model is not a topic model. If you want to create gold standard with an input_corpus, use: create_oolong(input_corpus = input_corpus) or gs(input_corpus)")
     }
-    if (length(userid) > 1) {
-        stop("userid must not be a vector with length > 1.")
-    }
+    .cstop(length(userid) > 1, "userid must not be a vector with length > 1.")
     if (!is.null(input_model) & type %in% c("wi", "ti", "witi", "wsi")) {
         return(Oolong_test_tm$new(input_model = input_model, input_corpus = input_corpus, n_top_terms = n_top_terms, bottom_terms_percentile = bottom_terms_percentile, exact_n = exact_n, frac = frac, n_top_topics = n_top_topics, n_topiclabel_words = n_topiclabel_words, difficulty = difficulty, use_frex_words = use_frex_words, input_dfm = input_dfm, btm_dataframe = btm_dataframe, n_correct_ws = n_correct_ws, wsi_n_top_terms = wsi_n_top_terms, userid = userid, type = type))
     }
@@ -160,13 +150,9 @@ clone_oolong <- function(oolong, userid = NA) {
 #' @export
 revert_oolong <- function(oolong, rds_file) {
     res <- readRDS(rds_file)
-    if (res$test_content_hash != .safe_hash(res$test_content)) {
-        stop("The RDS file seems to have been tampered. Please check with userid:", res$userid, ".", call. = FALSE )
-    }
+    .cstop(res$test_content_hash != .safe_hash(res$test_content), "The RDS file seems to have been tampered. Please check with userid:", res$userid, ".")
     cloned_oolong <- clone_oolong(oolong)
-    if (res$hash != cloned_oolong$.__enclos_env__$private$hash) {
-        stop("The oolong test result does not match the original oolong object.", call. = FALSE)
-    }
+    .cstop(res$hash != cloned_oolong$.__enclos_env__$private$hash, "The oolong test result does not match the original oolong object.", call. = FALSE)
     cloned_oolong$.__enclos_env__$private$test_content[[1]] <- res$test_content
     cloned_oolong$userid <- res$userid
     cloned_oolong$lock()

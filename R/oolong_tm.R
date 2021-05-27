@@ -75,19 +75,13 @@
     if ("corpus" %in% class(input_corpus)) {
         input_corpus <- as.character(input_corpus)
     }
-    if (n_top_topics <= 1) {
-        stop("n_top_topics must be larger than 1")
-    }
-    if (n_top_topics + 1 > ingredients$K) {
-        stop("n_top_topics + 1 must be smaller than K.")
-    }
+    .cstop(n_top_topics <= 1, "n_top_topics must be larger than 1")
+    .cstop(n_top_topics + 1 > ingredients$K, "n_top_topics + 1 must be smaller than K.")
     if (!is.null(frac) & is.null(exact_n)) {
         stopifnot(frac >= 0 & frac <= 1)
         exact_n <- floor(length(input_corpus) * frac)
     }
-    if (exact_n <=1 ) {
-        stop("exact_n or frac are too small for your sample size. Please increase either the exact_n or frac.")
-    }
+    .cstop(exact_n <=1, "exact_n or frac are too small for your sample size. Please increase either the exact_n or frac.")
     if (exact_n > length(input_corpus)) {
         warning("exact_n is larger than the size of input_corpus. Switch to frac = 1")
         exact_n <- length(input_corpus)
@@ -110,9 +104,7 @@
 }
 
 .generate_candidates_wsi <- function(i, terms, n_correct_ws = 3, n_topiclabel_words = 4, wsi_n_top_terms = 20) {
-    if (n_correct_ws * n_topiclabel_words > wsi_n_top_terms) {
-        stop("wsi_n_top_terms too small: make it larger than n_correct_ws * n_topiclabel_words")
-    }
+    .cstop(n_correct_ws * n_topiclabel_words > wsi_n_top_terms, "wsi_n_top_terms too small: make it larger than n_correct_ws * n_topiclabel_words")
     good_terms <- .slice_sample(head(terms[i,], wsi_n_top_terms), n_topiclabel_words, n_correct_ws)
     intruder_topic <- .safe_sample(setdiff(seq_len(nrow(terms)), i), 1)
     intruder <- .slice_sample(head(terms[intruder_topic,], wsi_n_top_terms), n_topiclabel_words, 1)
@@ -131,9 +123,7 @@
 
 .generate_test_content <- function(input_model, input_corpus = NULL, n_top_terms = 5, bottom_terms_percentile = 0.6, exact_n = NULL, frac = 0.01, n_top_topics = 3, n_topiclabel_words = 8, difficulty = 1, use_frex_words = FALSE, input_dfm = NULL, btm_dataframe = NULL, type = "witi", n_correct_ws = 3, wsi_n_top_terms = 20) {
     ingredients <- .extract_ingredients(.convert_input_model_s3(input_model), n_top_terms = n_top_terms, difficulty = difficulty, need_topic = !is.null(input_corpus), n_topiclabel_words = n_topiclabel_words, input_dfm = input_dfm, use_frex_words = use_frex_words, input_corpus = input_corpus, btm_dataframe = btm_dataframe)
-    if (type %in% c("ti") & is.null(ingredients$theta)) {
-        .cstop(TRUE, "input_corpus can't be NULL for generating oolong test object with only topic intrusion test.")
-    }
+    .cstop(type %in% c("ti") & is.null(ingredients$theta), "input_corpus can't be NULL for generating oolong test object with only topic intrusion test.")
     test_content <- list()
     if (type %in% c("wi", "witi")) {
         test_content$wi <- .generate_word_intrusion_test(ingredients, bottom_terms_percentile = bottom_terms_percentile, n_top_terms = n_top_terms)

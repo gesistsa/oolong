@@ -5,9 +5,7 @@
     terms <- t(input_model$get_top_words(n = V, lambda = difficulty))
     all_terms <- unique(as.vector(terms[,seq_len(n_top_terms)]))
     if (need_topic) {
-        if (is.null(input_dfm)) {
-            stop("input_dfm must not be NULL when input_model is a WarpLDA object.")
-        }
+        .cstop(is.null(input_dfm), "input_dfm must not be NULL when input_model is a WarpLDA object.")
         model_terms <- t(input_model$get_top_words(n = n_topiclabel_words, lambda = difficulty))
         theta <- input_model$transform(input_dfm)
     } else {

@@ -63,7 +63,7 @@ utils::globalVariables(c('cookd', 'diffxy', 'index', 'meanxy', 'word_length', 'a
 ### stop if boolean_test is true and print the ...
 .cstop <- function(boolean_test, ...) {
     if (boolean_test) {
-        stop(...)
+        stop(..., call. = FALSE)
     }
 }
 
