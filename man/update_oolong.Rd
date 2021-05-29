@@ -15,7 +15,7 @@ update_oolong(oolong, verbose = TRUE)
 an updated oolong object
 }
 \description{
-This fuction update an old oolong object to the latest version.
+This function update an old oolong object to the latest version.
 }
 \author{
 Chung-hong Chan

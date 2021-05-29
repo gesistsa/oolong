@@ -115,7 +115,7 @@ gs(
 
 \item{n_correct_ws}{(wsi) number of word sets to be shown alongside the intruder word set}
 
-\item{wsi_n_top_terms}{(wsi) number of top topic words from each topic to be randomzed selected as the word set label}
+\item{wsi_n_top_terms}{(wsi) number of top topic words from each topic to be randomized selected as the word set label}
 
 \item{userid}{a character string to denote the name of the coder. Default to NA (no userid); not recommended}
 

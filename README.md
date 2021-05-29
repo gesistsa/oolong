@@ -23,9 +23,9 @@ tests easily for typical automated content analysis tools such as topic
 models and dictionary-based tools.
 
 Please refer to the [overview](overview_gh.md) for an introduction to
-this package. If you need to deeploy the test online, please refer to
-the [Deployment Vignette](deploy_gh.md). If you use BTM, please refer to
-the [BTM Vignette](btm_gh.md).
+this package. If you need to deploy the test online, please refer to the
+[Deployment Vignette](deploy_gh.md). If you use BTM, please refer to the
+[BTM Vignette](btm_gh.md).
 
 ## Citation
 

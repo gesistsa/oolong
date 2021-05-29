@@ -74,7 +74,7 @@ Oolong_test <- R6::R6Class(
 #' @param btm_dataframe (witi, ti) dataframe used for training the input_model, if input_model is a BTM object
 #' @param userid a character string to denote the name of the coder. Default to NA (no userid); not recommended
 #' @param n_correct_ws (wsi) number of word sets to be shown alongside the intruder word set
-#' @param wsi_n_top_terms (wsi) number of top topic words from each topic to be randomzed selected as the word set label
+#' @param wsi_n_top_terms (wsi) number of top topic words from each topic to be randomized selected as the word set label
 #' @return an oolong test object.
 #' @examples
 #' ## Creation of oolong test with only word intrusion test

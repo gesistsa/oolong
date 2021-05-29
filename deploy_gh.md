@@ -16,7 +16,7 @@ back from the data file to an oolong object.
 
 Please note that one cannot deploy oolong test objects with *both* word
 and topic intrusion tests, i.e. those created using `witi()` online. If
-you need to do both tests, you need to deploy them as two seperate
+you need to do both tests, you need to deploy them as two separate
 instances: one created using `wi()` and another created using `ti()`.
 
 In this guide, we assume you want to deploy a word set intrusion test
@@ -27,7 +27,7 @@ library(oolong)
 wsi_test <- wsi(abstracts_stm)
 wsi_test
 #> 
-#> ── oolong (topic model) ───────────────────────────────────────────────────────
+#> ── oolong (topic model) ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> ✖ WI ✖ TI ✔ WSI
 #> ℹ WSI: n = 20, 0 coded.
 #> 
@@ -108,7 +108,7 @@ and return it to you. \[1\]
 # Revert
 
 You can then obtain a locked oolong object from the original oolong and
-the downloaded data file. `revert_oolong` will do verfications with the
+the downloaded data file. `revert_oolong` will do verifications with the
 original oolong object to make sure no error and no cheating.
 
 ``` r
@@ -116,7 +116,7 @@ revert_oolong(wsi_test, "oolong_2021-05-22 20 51 26 Hadley Wickham.RDS")
 ```
 
     #> 
-    #> ── oolong (topic model) ───────────────────────────────────────────────────────
+    #> ── oolong (topic model) ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
     #> ✖ WI ✖ TI ✔ WSI
     #> ☺ Hadley Wickham
     #> ℹ WSI: n = 20, 20 coded.

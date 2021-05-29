@@ -4,7 +4,7 @@ The basic workflow is simple: 1) create the oolong test object as usual; 2) depl
 
 # Create an oolong test
 
-Please note that one cannot deploy oolong test objects with *both* word and topic intrusion tests, i.e. those created using `witi()` online. If you need to do both tests, you need to deploy them as two seperate instances: one created using `wi()` and another created using `ti()`.
+Please note that one cannot deploy oolong test objects with *both* word and topic intrusion tests, i.e. those created using `witi()` online. If you need to do both tests, you need to deploy them as two separate instances: one created using `wi()` and another created using `ti()`.
 
 In this guide, we assume you want to deploy a word set intrusion test online.
 
@@ -62,7 +62,7 @@ You should instruct your coders to download the data file after coding and retur
 
 # Revert
 
-You can then obtain a locked oolong object from the original oolong and the downloaded data file. `revert_oolong` will do verfications with the original oolong object to make sure no error and no cheating.
+You can then obtain a locked oolong object from the original oolong and the downloaded data file. `revert_oolong` will do verifications with the original oolong object to make sure no error and no cheating.
 
 ```{r, include = FALSE}
 wsi_test <- readRDS(system.file("extdata", "wsi_test.RDS", package = "oolong"))

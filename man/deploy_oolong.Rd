@@ -13,7 +13,7 @@ deploy_oolong(oolong)
 Nothing, it launches a deployable version of the coding interface
 }
 \description{
-In most of the time, you should not use this function. You should write the deployable version of your app into a directory using \code{export_oolong} instead. Please refer to the deployment guide for more details.
+In most of the time, you should not use this function. You should write the deployable version of your app into a directory using \code{export_oolong} instead. Please refer to \code{vignette("deploy", package = "oolong")} for more details.
 }
 \examples{
 # Please try this example in interactive R sessions only.

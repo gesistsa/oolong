@@ -245,7 +245,7 @@ Please refer to the vignette about BTM.
 
 Naive Bayes model is a supervised machine learning model. This package supports Naive Bayes models trained using `quanteda.textmodels`.
 
-Suppose `newsgroup_nb` is a Naive Bayes model trained on a subset of the classic [20 newgroups] dataset.
+Suppose `newsgroup_nb` is a Naive Bayes model trained on a subset of the classic [20 newsgroups] dataset.
 
 ```r
 tokens(newsgroup5$text, remove_punct = TRUE, remove_symbols = TRUE, remove_numbers = TRUE, remove_url = TRUE, spilit_hyphens = TRUE) %>% tokens_wordstem %>% tokens_remove(stopwords("en")) %>% dfm(tolower = TRUE) %>% dfm_trim(min_termfreq = 3, max_docfreq = 0.06, docfreq_type = "prop") -> newsgroup_dfm

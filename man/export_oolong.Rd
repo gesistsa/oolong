@@ -24,7 +24,7 @@ export_oolong(
 directory exported, invisible
 }
 \description{
-This function exports your oolong test into a launched Shiny app that is ideal for online deployment. Deploying the Shiny app online allows coders to conduct the test online with their browser, rather than having to install R on their own computer. In constrast to the testing interfaces launched with methods such as \code{$do_word_intrusion_test()}, the deployable version provides data download after the coder finished coding. Downloaded data can then revert back to a locked oolong object using \code{revert_oolong}. Further version might provide solutions to permanent storage. The deployable Shiny app will be in a directory. The Shiny app is both launchable with shiny::runApp() and deployable with rsconnect::deployApp(). See the deployment guide for more details.
+This function exports your oolong test into a launched Shiny app that is ideal for online deployment. Deploying the Shiny app online allows coders to conduct the test online with their browser, rather than having to install R on their own computer. In contrast to the testing interfaces launched with methods such as \code{$do_word_intrusion_test()}, the deployable version provides data download after the coder finished coding. Downloaded data can then revert back to a locked oolong object using \code{revert_oolong}. Further version might provide solutions to permanent storage. The deployable Shiny app will be in a directory. The Shiny app is both launchable with shiny::runApp() and deployable with rsconnect::deployApp(). Please refer to \code{vignette("deploy", package = "oolong")} for more details.
 }
 \examples{
 # Please try this example in interactive R sessions only.

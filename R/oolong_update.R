@@ -31,7 +31,7 @@ check_oolong <- function(oolong, verbose = FALSE) {
 
 #' Update an oolong object to the latest version
 #'
-#' This fuction update an old oolong object to the latest version.
+#' This function update an old oolong object to the latest version.
 #'
 #' @param oolong an oolong object to be updated
 #' @param verbose, logical, display messages
