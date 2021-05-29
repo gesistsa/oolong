@@ -34,6 +34,8 @@
 ^tests/testthat/test-topicmodels\.R$
 ^tests/testthat/test-seededlda\.R$
 ^tests/testthat/test-revert\.R$
+^tests/testthat/test-shiny\.R$
+^tests/testthat/apps/
 ^tests/testdata/downloaded$
 \.udpipe$
 ^paper/

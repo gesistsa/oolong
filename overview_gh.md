@@ -83,7 +83,7 @@ be doing the test.
 oolong_test <- wi(abstracts_stm, userid = "Hadley")
 oolong_test
 #> 
-#> ── oolong (topic model) ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+#> ── oolong (topic model) ───────────────────────────────────────────────────────
 #> ✔ WI ✖ TI ✖ WSI
 #> ☺ Hadley
 #> ℹ WI: k = 20, 0 coded.
@@ -108,7 +108,7 @@ the model precision by printing the oolong test.
 oolong_test$lock()
 oolong_test
 #> 
-#> ── oolong (topic model) ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+#> ── oolong (topic model) ───────────────────────────────────────────────────────
 #> ✔ WI ✖ TI ✖ WSI
 #> ☺ Hadley
 #> ℹ WI: k = 20, 20 coded.
@@ -132,7 +132,7 @@ by setting the parameter `n_correct_ws` to N - 1.
 oolong_test <- wsi(abstracts_stm, userid = "Garrett")
 oolong_test
 #> 
-#> ── oolong (topic model) ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+#> ── oolong (topic model) ───────────────────────────────────────────────────────
 #> ✖ WI ✖ TI ✔ WSI
 #> ☺ Garrett
 #> ℹ WSI: n = 20, 0 coded.
@@ -153,7 +153,7 @@ oolong_test$do_word_set_intrusion_test()
 oolong_test$lock()
 oolong_test
 #> 
-#> ── oolong (topic model) ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+#> ── oolong (topic model) ───────────────────────────────────────────────────────
 #> ✖ WI ✖ TI ✔ WSI
 #> ☺ Garrett
 #> ℹ WSI: n = 20, 20 coded.
@@ -194,7 +194,7 @@ topic model will generate topic intrusion test cases.
 oolong_test <- ti(abstracts_stm, abstracts$text, userid = "Julia")
 oolong_test
 #> 
-#> ── oolong (topic model) ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+#> ── oolong (topic model) ───────────────────────────────────────────────────────
 #> ✖ WI ✔ TI ✖ WSI
 #> ☺ Julia
 #> ℹ TI: n = 25, 0 coded.
@@ -217,7 +217,7 @@ oolong_test$lock()
 ``` r
 oolong_test
 #> 
-#> ── oolong (topic model) ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+#> ── oolong (topic model) ───────────────────────────────────────────────────────
 #> ✖ WI ✔ TI ✖ WSI
 #> ☺ Julia
 #> ℹ TI: n = 25, 25 coded.
@@ -273,7 +273,7 @@ Get a summary of the two objects.
 ``` r
 summarize_oolong(oolong_test_rater1, oolong_test_rater2)
 #> 
-#> ── Summary (topic model): ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+#> ── Summary (topic model): ─────────────────────────────────────────────────────
 #> 
 #> ── Word intrusion test ──
 #> 
@@ -378,7 +378,7 @@ topic intrusion test cases. You must supply also the `input_dfm`.
 oolong_test <- wi(abstracts_warplda, userid = "Lionel")
 oolong_test
 #> 
-#> ── oolong (topic model) ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+#> ── oolong (topic model) ───────────────────────────────────────────────────────
 #> ✔ WI ✖ TI ✖ WSI
 #> ☺ Lionel
 #> ℹ WI: k = 20, 0 coded.
@@ -410,7 +410,7 @@ oolong_test <- witi(abstracts_warplda, abstracts$text, input_dfm = abstracts_dfm
 ``` r
 oolong_test
 #> 
-#> ── oolong (topic model) ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+#> ── oolong (topic model) ───────────────────────────────────────────────────────
 #> ✔ WI ✔ TI ✖ WSI
 #> ☺ Mara
 #> ℹ WI: k = 20, 0 coded.
@@ -446,7 +446,7 @@ You can still generate word intrusion and word set intrusion tests.
 ``` r
 wi(newsgroup_nb)
 #> 
-#> ── oolong (topic model) ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+#> ── oolong (topic model) ───────────────────────────────────────────────────────
 #> ✔ WI ✖ TI ✖ WSI
 #> ℹ WI: k = 20, 0 coded.
 #> 
@@ -459,7 +459,7 @@ wi(newsgroup_nb)
 ``` r
 wsi(newsgroup_nb)
 #> 
-#> ── oolong (topic model) ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+#> ── oolong (topic model) ───────────────────────────────────────────────────────
 #> ✖ WI ✖ TI ✔ WSI
 #> ℹ WSI: n = 20, 0 coded.
 #> 
@@ -504,7 +504,7 @@ should be an adjective, e.g. positive, liberal, populistic, etc.
 oolong_test <- gs(input_corpus = trump2k, construct = "positive", userid = "Joe")
 oolong_test
 #> 
-#> ── oolong (gold standard generation) ───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+#> ── oolong (gold standard generation) ──────────────────────────────────────────
 #> ☺ Joe
 #> ℹ GS: n = 20, 0 coded.
 #> ℹ Construct:  positive.
@@ -529,7 +529,7 @@ After the coding, you need to first lock the test and then the
 oolong_test$lock()
 oolong_test
 #> 
-#> ── oolong (gold standard generation) ───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+#> ── oolong (gold standard generation) ──────────────────────────────────────────
 #> ☺ Joe
 #> ℹ GS: n = 20, 20 coded.
 #> ℹ Construct:  positive.
@@ -602,7 +602,7 @@ summarize_oolong(oolong_test, target_value = all_afinn_score)
 #> `geom_smooth()` using formula 'y ~ x'
 #> `geom_smooth()` using formula 'y ~ x'
 #> 
-#> ── Summary (gold standard generation): ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+#> ── Summary (gold standard generation): ────────────────────────────────────────
 #> ℹ Correlation: 0.718 (p = 4e-04)
 #> ℹ Effect of content length: -0.323 (p = 0.1643)
 ```
@@ -681,7 +681,7 @@ acceptable cut-off.
 ``` r
 res
 #> 
-#> ── Summary (gold standard generation): ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+#> ── Summary (gold standard generation): ────────────────────────────────────────
 #> ℹ Krippendorff's Alpha: 0.931
 #> ℹ Correlation: 0.744 (p = 2e-04)
 #> ℹ Effect of content length: -0.323 (p = 0.1643)
