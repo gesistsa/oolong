@@ -19,10 +19,10 @@ test_that("precondiction", {
 
 test_that("locking", {
     ## premature locking
-    x <- create_oolong(abstracts_stm)
+    x <- create_oolong(abstracts_keyatm)
     expect_error(x$lock())
     expect_error(x$lock(force = TRUE), NA)
-    x <- create_oolong(abstracts_stm, abstracts$text)
+    x <- create_oolong(abstracts_keyatm, abstracts$text)
     expect_error(x$lock())
     ## error when only word intrusion test is done.
     x <- genius_word(x)
@@ -32,16 +32,16 @@ test_that("locking", {
 })
 
 test_that("cloning", {
-    x <- create_oolong(abstracts_stm)
+    x <- create_oolong(abstracts_keyatm)
     expect_error(clone_oolong(x), NA)
     x <- genius_word(x)
     ## Cannot clone a partially coded object.
     expect_error(clone_oolong(x))
-    x <- create_oolong(abstracts_stm)
+    x <- create_oolong(abstracts_keyatm)
     x$lock(force = TRUE)
     expect_error(clone_oolong(x))
     ## Cloned object is not sharing the same private space.
-    x <- create_oolong(abstracts_stm)
+    x <- create_oolong(abstracts_keyatm)
     y <- clone_oolong(x)
     x$lock(force = TRUE)
     expect_true(x$.__enclos_env__$private$finalized)
@@ -50,31 +50,31 @@ test_that("cloning", {
 
 test_that("cloning all types", {
     ## pure wi
-    x <- wi(abstracts_stm)
+    x <- wi(abstracts_keyatm)
     expect_error(clone_oolong(x), NA)
     x$.__enclos_env__$private$test_content$wi$answer[1] <- "x"
     expect_error(clone_oolong(x))
     ## pure ti
-    x <- ti(abstracts_stm, abstracts$text)
+    x <- ti(abstracts_keyatm, abstracts$text)
     expect_error(clone_oolong(x), NA)
     x$.__enclos_env__$private$test_content$ti$answer[1] <- "x"
     expect_error(clone_oolong(x))
     ## witi
-    x <- witi(abstracts_stm, abstracts$text)
+    x <- witi(abstracts_keyatm, abstracts$text)
     expect_error(clone_oolong(x), NA)
     x$.__enclos_env__$private$test_content$ti$answer[1] <- "x"
     expect_error(clone_oolong(x))
-    x <- witi(abstracts_stm, abstracts$text)
+    x <- witi(abstracts_keyatm, abstracts$text)
     expect_error(clone_oolong(x), NA)
     x$.__enclos_env__$private$test_content$wi$answer[1] <- "x"
     expect_error(clone_oolong(x))
-    x <- witi(abstracts_stm, abstracts$text)
+    x <- witi(abstracts_keyatm, abstracts$text)
     expect_error(clone_oolong(x), NA)
     x$.__enclos_env__$private$test_content$wi$answer[1] <- "x"
     x$.__enclos_env__$private$test_content$ti$answer[1] <- "x"
     expect_error(clone_oolong(x))
     ## wsi
-    x <- wsi(abstracts_stm)
+    x <- wsi(abstracts_keyatm)
     expect_error(clone_oolong(x), NA)
     x$.__enclos_env__$private$test_content$wsi$answer[1] <- "x"
     expect_error(clone_oolong(x))
@@ -86,35 +86,35 @@ test_that("cloning all types", {
 })
 
 test_that("Can't launch $do_topic_intrusion_test() when no test content", {
-    x <- create_oolong(abstracts_stm)
+    x <- create_oolong(abstracts_keyatm)
     expect_error(x$do_topic_intrusion_test())
 })
 
 test_that("Can't launch $do_word_set_intrusion_test() when no test content", {
-    x <- create_oolong(abstracts_stm)
+    x <- create_oolong(abstracts_keyatm)
     expect_error(x$do_word_set_intrusion_test())
 })
 
 test_that("Can't launch $do_word_intrusion_test() when no test content", {
-    x <- wsi(abstracts_stm)
+    x <- wsi(abstracts_keyatm)
     expect_error(x$do_word_intrusion_test())
 })
 
 test_that("hash function", {
     expect_true(is.null(.safe_hash(NULL)))
-    expect_type(.safe_hash(abstracts_stm), "character")
+    expect_type(.safe_hash(abstracts_keyatm), "character")
 })
 
 test_that("hash_input_model tm", {
     ## TI
-    x <- create_oolong(abstracts_stm)
+    x <- create_oolong(abstracts_keyatm)
     expect_false(is.null(x$.__enclos_env__$private$hash_input_model))
-    expect_equal(x$.__enclos_env__$private$hash_input_model, .safe_hash(abstracts_stm))
+    expect_equal(x$.__enclos_env__$private$hash_input_model, .safe_hash(abstracts_keyatm))
     ## WITI
-    x <- create_oolong(abstracts_stm, abstracts$text)
+    x <- create_oolong(abstracts_keyatm, abstracts$text)
     expect_false(is.null(x$.__enclos_env__$private$hash_input_model))
     expect_false(is.null(x$.__enclos_env__$private$hash_input_corpus))
-    expect_equal(x$.__enclos_env__$private$hash_input_model, .safe_hash(abstracts_stm))
+    expect_equal(x$.__enclos_env__$private$hash_input_model, .safe_hash(abstracts_keyatm))
     expect_equal(x$.__enclos_env__$private$hash_input_corpus, .safe_hash(abstracts$text))
 })
 
@@ -126,12 +126,12 @@ test_that("hash_input_corpus gs", {
 })
 
 test_that("invalid type", {
-    expect_error(create_oolong(abstracts_stm, type = "1111"))
-    expect_error(create_oolong(abstracts_stm, type = NA))
+    expect_error(create_oolong(abstracts_keyatm, type = "1111"))
+    expect_error(create_oolong(abstracts_keyatm, type = NA))
 })
 
 test_that("userid",  {
-    expect_error(wi(abstracts_stm, userid = c("a", "b")))
-    expect_error(wi(abstracts_stm, userid = "a"), NA)
+    expect_error(wi(abstracts_keyatm, userid = c("a", "b")))
+    expect_error(wi(abstracts_keyatm, userid = "a"), NA)
     expect_error(wsi(abtracts_stm, abstracts$text))
 })

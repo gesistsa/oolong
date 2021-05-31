@@ -78,21 +78,21 @@ Oolong_test <- R6::R6Class(
 #' @return an oolong test object.
 #' @examples
 #' ## Creation of oolong test with only word intrusion test
-#' data(abstracts_stm)
+#' data(abstracts_keyatm)
 #' data(abstracts)
-#' oolong_test <- wi(input_model = abstracts_stm, userid = "Hadley")
+#' oolong_test <- wi(input_model = abstracts_keyatm, userid = "Hadley")
 #' ## Creation of oolong test with both word intrusion test and topic intrusion test
-#' oolong_test <- witi(input_model = abstracts_stm, input_corpus = abstracts$text, userid = "Julia")
+#' oolong_test <- witi(input_model = abstracts_keyatm, input_corpus = abstracts$text, userid = "Julia")
 #' ## Creation of oolong test with topic intrusion test
-#' oolong_test <- ti(input_model = abstracts_stm, input_corpus = abstracts$text, userid = "Jenny")
+#' oolong_test <- ti(input_model = abstracts_keyatm, input_corpus = abstracts$text, userid = "Jenny")
 #' ## Creation of oolong test with word set intrusion test
-#' oolong_test <- wsi(input_model = abstracts_stm, userid = "Garrett")
+#' oolong_test <- wsi(input_model = abstracts_keyatm, userid = "Garrett")
 #' ## Creation of gold standard
 #' oolong_test <- gs(input_corpus = trump2k, userid = "Yihui")
 #' ## Using create_oolong(); not recommended
-#' oolong_test <- create_oolong(input_model = abstracts_stm,
+#' oolong_test <- create_oolong(input_model = abstracts_keyatm,
 #' input_corpus = abstracts$text, userid = "JJ")
-#' oolong_test <- create_oolong(input_model = abstracts_stm,
+#' oolong_test <- create_oolong(input_model = abstracts_keyatm,
 #' input_corpus = abstracts$text, userid = "Mara", type = "ti")
 #' oolong_test <- create_oolong(input_corpus = abstracts$text, userid = "Winston", type = "gs")
 #' @author Chung-hong Chan, Marius Sältzer
@@ -150,10 +150,10 @@ clone_oolong <- function(oolong, userid = NA) {
 #' @export
 revert_oolong <- function(oolong, rds_file) {
     res <- readRDS(rds_file)
-    .cstop(res$test_content_hash != .safe_hash(res$test_content), "The RDS file seems to have been tampered. Please check with userid:", res$userid, ".")
+    .cstop(res$test_items_hash != .safe_hash(res$test_items), "The RDS file seems to have been tampered. Please check with userid:", res$userid, ".")
     cloned_oolong <- clone_oolong(oolong)
     .cstop(res$hash != cloned_oolong$.__enclos_env__$private$hash, "The oolong test result does not match the original oolong object.", call. = FALSE)
-    cloned_oolong$.__enclos_env__$private$test_content[[1]] <- res$test_content
+    cloned_oolong$.__enclos_env__$private$test_content[[1]] <- res$test_items
     cloned_oolong$userid <- res$userid
     cloned_oolong$lock()
     return(cloned_oolong)

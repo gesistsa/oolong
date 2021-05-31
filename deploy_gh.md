@@ -24,12 +24,12 @@ online.
 
 ``` r
 library(oolong)
-wsi_test <- wsi(abstracts_stm)
+wsi_test <- wsi(abstracts_keyatm)
 wsi_test
 #> 
 #> ── oolong (topic model) ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> ✖ WI ✖ TI ✔ WSI
-#> ℹ WSI: n = 20, 0 coded.
+#> ℹ WSI: n = 10, 0 coded.
 #> 
 #> ── Methods ──
 #> 
@@ -119,10 +119,10 @@ revert_oolong(wsi_test, "oolong_2021-05-22 20 51 26 Hadley Wickham.RDS")
     #> ── oolong (topic model) ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
     #> ✖ WI ✖ TI ✔ WSI
     #> ☺ Hadley Wickham
-    #> ℹ WSI: n = 20, 20 coded.
+    #> ℹ WSI: n = 10, 10 coded.
     #> 
     #> ── Results: ──
     #> 
-    #> ℹ 30%  precision (WSI)
+    #> ℹ 80%  precision (WSI)
 
 1.  Future versions might provide permanent storage

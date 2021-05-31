@@ -22,7 +22,6 @@ as.data.frame.tokens <- function(x) {
 }
 abstracts_df <- as.data.frame.tokens(toks_q)
 
-
 test_that("wi basic", {
     skip_on_cran()
     expect_error(wi(abstracts_stm), NA)

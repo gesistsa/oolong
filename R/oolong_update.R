@@ -42,7 +42,7 @@ update_oolong <- function(oolong, verbose = TRUE) {
     .cstop(!.check_oolong(oolong$.__enclos_env__$private), "This oolong object does not need to be updated.")
     if ("oolong_test_tm" %in% class(oolong)) {
         ## generate a dummy oolong object
-        new_oolong <- create_oolong(abstracts_stm)
+        new_oolong <- create_oolong(abstracts_keyatm)
         new_oolong$.__enclos_env__$private$finalized <- oolong$.__enclos_env__$private$finalized
         new_oolong$.__enclos_env__$private$test_content <- oolong$.__enclos_env__$private$test_content
         ## renaming test_content

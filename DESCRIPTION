@@ -11,7 +11,7 @@ LazyData: true
 Depends:
     R (>= 3.5)
 Imports: 
-    stm,
+    keyATM (>= 0.2.2),
     purrr,
     tibble,
     shiny,
@@ -32,7 +32,7 @@ Suggests:
     testthat (>= 3.0.2),
     BTM,
     topicmodels,
-    keyATM (>= 0.2.2),
+    stm,
     seededlda,
     covr,
     stringr,

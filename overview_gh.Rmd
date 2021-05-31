@@ -45,23 +45,23 @@ install.packages("oolong")
 
 #### Word intrusion test
 
-`abstracts_stm` is an example topic model trained with the data `abstracts` using the `stm` package. Currently, this package supports structural topic models / correlated topic models from `stm`, Warp LDA models from `text2vec` , LDA/CTM models from `topicmodels`,  Biterm Topic Models from `BTM`, Keyword Assisted Topic Models from `keyATM`, and seeded LDA models from `seededlda`. Although not strictly a topic model, Naive Bayes models from `quanteda.textmodels` are also supported. See the section on [Naive Bayes](#about-naive-bayes) for more information.
+`abstracts_keyatm` is an example topic model trained with the data `abstracts` using the `keyATM` package. Currently, this package supports structural topic models / correlated topic models from `stm`, Warp LDA models from `text2vec` , LDA/CTM models from `topicmodels`,  Biterm Topic Models from `BTM`, Keyword Assisted Topic Models from `keyATM`, and seeded LDA models from `seededlda`. Although not strictly a topic model, Naive Bayes models from `quanteda.textmodels` are also supported. See the section on [Naive Bayes](#about-naive-bayes) for more information.
 
 ```{r}
 library(oolong)
-library(stm)
+library(keyATM)
 library(quanteda)
 library(dplyr)
 ```
 
 ```{r example}
-abstracts_stm
+abstracts_keyatm
 ```
 
 To create an oolong test with word intrusion test, use the function `wi`. It is recommended to provide a user id of coder who are going to be doing the test.
 
 ```{r createtest}
-oolong_test <- wi(abstracts_stm, userid = "Hadley")
+oolong_test <- wi(abstracts_keyatm, userid = "Hadley")
 oolong_test
 ```
 
@@ -89,7 +89,7 @@ oolong_test
 Word set intrusion test is a variant of word intrusion test (Ying et al., forthcoming), in which multiple word sets generated from top terms of one topic are juxtaposed with one intruder word set generated similarly from another topic. In Ying et al., this test is called "R4WSI" because 4 word sets are displayed. By default, oolong generates also R4WSI. However, it is also possible to generate R(N)WSI by setting the parameter `n_correct_ws` to N - 1.
 
 ```{r wsi1}
-oolong_test <- wsi(abstracts_stm, userid = "Garrett")
+oolong_test <- wsi(abstracts_keyatm, userid = "Garrett")
 oolong_test
 ```
 
@@ -112,7 +112,7 @@ oolong_test
 
 #### Topic intrusion test
 
-For example, `abstracts_stm` was generated with the corpus `abstracts$text`
+For example, `abstracts_keyatm` was generated with the corpus `abstracts$text`
 
 ```{r newgroup5}
 library(tibble)
@@ -122,7 +122,7 @@ abstracts
 Creating the oolong test object with the corpus used for training the topic model will generate topic intrusion test cases. 
 
 ```{r createtest2}
-oolong_test <- ti(abstracts_stm, abstracts$text, userid = "Julia")
+oolong_test <- ti(abstracts_keyatm, abstracts$text, userid = "Julia")
 oolong_test
 ```
 
@@ -155,19 +155,23 @@ oolong_test
 
 The test makes more sense if more than one coder is involved. A suggested workflow is to create the test, then clone the oolong object. Ask multiple coders to do the test(s) and then summarize the results.
 
+Preprocess and create a document-feature matrix
+
+```{r, eval = FALSE}
+dfm(abstracts$text, tolower = TRUE, stem = TRUE, remove = stopwords('english'), remove_punct = TRUE, remove_numbers = TRUE, remove_symbols = TRUE, remove_hyphens = TRUE) %>% dfm_trim(min_docfreq = 3, max_docfreq = 500) %>% dfm_select(min_nchar = 3, pattern = "^[a-zA-Z]+$", valuetype = "regex") -> abstracts_dfm
+```
+
 Train a topic model.
 
 ```{r step0, eval = FALSE}
-dfm(abstracts$text, tolower = TRUE, stem = TRUE, remove = stopwords('english'), remove_punct = TRUE, remove_numbers = TRUE, remove_symbols = TRUE, remove_hyphens = TRUE) %>% dfm_trim(min_docfreq = 5, max_docfreq = 1000) %>% dfm_select(min_nchar = 3, pattern = "^[a-zA-Z]+$", valuetype = "regex") -> abstracts_dfm
-docvars(abstracts_dfm, "title") <- abstracts$title
-abstracts_dfm %>% convert(to = "stm", omit_empty = FALSE) -> abstracts_stm
-abstracts_stm <- stm(abstracts_stm$documents, abstracts_stm$vocab, data =abstracts_stm$meta, K = 10, seed = 42)
+require(keyATM)
+abstracts_keyatm <- keyATM(keyATM_read(abstracts_dfm), no_keyword_topics = 0, keywords = abstracts_dictionary, model = "base", options = list(seed = 46709394))
 ```
 
 Create a new oolong object.
 
 ```{r step1}
-oolong_test_rater1 <- witi(abstracts_stm, abstracts$text, userid = "Yihui")
+oolong_test_rater1 <- witi(abstracts_keyatm, abstracts$text, userid = "Yihui")
 ```
 
 Clone the oolong object to be used by other raters.

@@ -39,8 +39,8 @@ install.packages("oolong")
 
 #### Word intrusion test
 
-`abstracts_stm` is an example topic model trained with the data
-`abstracts` using the `stm` package. Currently, this package supports
+`abstracts_keyatm` is an example topic model trained with the data
+`abstracts` using the `keyATM` package. Currently, this package supports
 structural topic models / correlated topic models from `stm`, Warp LDA
 models from `text2vec` , LDA/CTM models from `topicmodels`, Biterm Topic
 Models from `BTM`, Keyword Assisted Topic Models from `keyATM`, and
@@ -50,9 +50,10 @@ the section on [Naive Bayes](#about-naive-bayes) for more information.
 
 ``` r
 library(oolong)
-library(stm)
-#> stm v1.3.6 successfully loaded. See ?stm for help. 
-#>  Papers, resources, and other materials at structuraltopicmodel.com
+library(keyATM)
+#> keyATM 0.4.0 successfully loaded.
+#>  Papers, examples, resources, and other materials are at
+#>  https://keyatm.github.io/keyATM/
 library(quanteda)
 #> Package version: 3.0.9000
 #> Unicode version: 13.0
@@ -71,8 +72,8 @@ library(dplyr)
 ```
 
 ``` r
-abstracts_stm
-#> A topic model with 20 topics, 2500 documents and a 3998 word dictionary.
+abstracts_keyatm
+#> keyATM_output object for the base model.
 ```
 
 To create an oolong test with word intrusion test, use the function
@@ -80,13 +81,13 @@ To create an oolong test with word intrusion test, use the function
 be doing the test.
 
 ``` r
-oolong_test <- wi(abstracts_stm, userid = "Hadley")
+oolong_test <- wi(abstracts_keyatm, userid = "Hadley")
 oolong_test
 #> 
 #> ── oolong (topic model) ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> ✔ WI ✖ TI ✖ WSI
 #> ☺ Hadley
-#> ℹ WI: k = 20, 0 coded.
+#> ℹ WI: k = 10, 0 coded.
 #> 
 #> ── Methods ──
 #> 
@@ -111,11 +112,11 @@ oolong_test
 #> ── oolong (topic model) ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> ✔ WI ✖ TI ✖ WSI
 #> ☺ Hadley
-#> ℹ WI: k = 20, 20 coded.
+#> ℹ WI: k = 10, 10 coded.
 #> 
 #> ── Results: ──
 #> 
-#> ℹ 95%  precision
+#> ℹ 90%  precision
 ```
 
 #### Word set intrusion test
@@ -129,13 +130,13 @@ generates also R4WSI. However, it is also possible to generate R(N)WSI
 by setting the parameter `n_correct_ws` to N - 1.
 
 ``` r
-oolong_test <- wsi(abstracts_stm, userid = "Garrett")
+oolong_test <- wsi(abstracts_keyatm, userid = "Garrett")
 oolong_test
 #> 
 #> ── oolong (topic model) ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> ✖ WI ✖ TI ✔ WSI
 #> ☺ Garrett
-#> ℹ WSI: n = 20, 0 coded.
+#> ℹ WSI: n = 10, 0 coded.
 #> 
 #> ── Methods ──
 #> 
@@ -156,16 +157,16 @@ oolong_test
 #> ── oolong (topic model) ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> ✖ WI ✖ TI ✔ WSI
 #> ☺ Garrett
-#> ℹ WSI: n = 20, 20 coded.
+#> ℹ WSI: n = 10, 10 coded.
 #> 
 #> ── Results: ──
 #> 
-#> ℹ 95%  precision (WSI)
+#> ℹ 90%  precision (WSI)
 ```
 
 #### Topic intrusion test
 
-For example, `abstracts_stm` was generated with the corpus
+For example, `abstracts_keyatm` was generated with the corpus
 `abstracts$text`
 
 ``` r
@@ -191,7 +192,7 @@ Creating the oolong test object with the corpus used for training the
 topic model will generate topic intrusion test cases.
 
 ``` r
-oolong_test <- ti(abstracts_stm, abstracts$text, userid = "Julia")
+oolong_test <- ti(abstracts_keyatm, abstracts$text, userid = "Julia")
 oolong_test
 #> 
 #> ── oolong (topic model) ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
@@ -224,7 +225,7 @@ oolong_test
 #> 
 #> ── Results: ──
 #> 
-#> ℹ TLO: -0.243
+#> ℹ TLO: 0
 ```
 
 ### Suggested workflow
@@ -233,19 +234,23 @@ The test makes more sense if more than one coder is involved. A
 suggested workflow is to create the test, then clone the oolong object.
 Ask multiple coders to do the test(s) and then summarize the results.
 
+Preprocess and create a document-feature matrix
+
+``` r
+dfm(abstracts$text, tolower = TRUE, stem = TRUE, remove = stopwords('english'), remove_punct = TRUE, remove_numbers = TRUE, remove_symbols = TRUE, remove_hyphens = TRUE) %>% dfm_trim(min_docfreq = 3, max_docfreq = 500) %>% dfm_select(min_nchar = 3, pattern = "^[a-zA-Z]+$", valuetype = "regex") -> abstracts_dfm
+```
+
 Train a topic model.
 
 ``` r
-dfm(abstracts$text, tolower = TRUE, stem = TRUE, remove = stopwords('english'), remove_punct = TRUE, remove_numbers = TRUE, remove_symbols = TRUE, remove_hyphens = TRUE) %>% dfm_trim(min_docfreq = 5, max_docfreq = 1000) %>% dfm_select(min_nchar = 3, pattern = "^[a-zA-Z]+$", valuetype = "regex") -> abstracts_dfm
-docvars(abstracts_dfm, "title") <- abstracts$title
-abstracts_dfm %>% convert(to = "stm", omit_empty = FALSE) -> abstracts_stm
-abstracts_stm <- stm(abstracts_stm$documents, abstracts_stm$vocab, data =abstracts_stm$meta, K = 10, seed = 42)
+require(keyATM)
+abstracts_keyatm <- keyATM(keyATM_read(abstracts_dfm), no_keyword_topics = 0, keywords = abstracts_dictionary, model = "base", options = list(seed = 46709394))
 ```
 
 Create a new oolong object.
 
 ``` r
-oolong_test_rater1 <- witi(abstracts_stm, abstracts$text, userid = "Yihui")
+oolong_test_rater1 <- witi(abstracts_keyatm, abstracts$text, userid = "Yihui")
 ```
 
 Clone the oolong object to be used by other raters.
@@ -277,21 +282,21 @@ summarize_oolong(oolong_test_rater1, oolong_test_rater2)
 #> 
 #> ── Word intrusion test ──
 #> 
-#> ℹ Mean model precision: 0.375
-#> ℹ Quantiles of model precision: 0.3, 0.3375, 0.375, 0.4125, 0.45
+#> ℹ Mean model precision: 0.2
+#> ℹ Quantiles of model precision: 0.1, 0.15, 0.2, 0.25, 0.3
 #> ℹ P-value of the model precision
-#> (H0: Model precision is not better than random guess): 0.0026
-#> ℹ Krippendorff's alpha: 0.272
+#> (H0: Model precision is not better than random guess): 0.503
+#> ℹ Krippendorff's alpha: -0.188
 #> ℹ K Precision:
-#> 0, 0, 1, 0.5, 0, 1, 0, 0.5, 0.5, 1, 0.5, 0, 0, 0.5, 0, 0, 1, 0.5, 0, 0.5
+#> 0, 0.5, 0.5, 0, 0, 0, 0, 0.5, 0, 0.5
 #> 
 #> ── Topic intrusion test ──
 #> 
-#> ℹ Mean TLO: -2.27
-#> ℹ Median TLO: -2.55
-#> ℹ Quantiles of TLO: -5.82, -3.98, -2.55, 0, 0
+#> ℹ Mean TLO: -3.74
+#> ℹ Median TLO: -4.7
+#> ℹ Quantiles of TLO: -8.08, -6.41, -4.7, 0, 0
 #> ℹ P-Value of the median TLO 
-#> (H0: Median TLO is not better than random guess): 0.192
+#> (H0: Median TLO is not better than random guess): 0.038
 ```
 
 ### About the p-values
