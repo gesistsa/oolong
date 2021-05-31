@@ -1,10 +1,10 @@
 # oolong 0.4.0
 
-* Add `export_oolong` and `deploy_oolong` for online deployment [thanks Marius Sältzer, Daniel Brady (and his friend Louis), Johannes Gruber and Felicia Loecherbach for testing this feature; thanks SAGE Ocean for the concept grant to support the development of this feature]
+* Add `export_oolong` and `deploy_oolong` for online deployment [thanks Marius Sältzer, Daniel Braby (and his friend Louis), Johannes Gruber and Felicia Loecherbach for testing this feature; thanks SAGE Ocean for the concept grant to support the development of this feature]
 * Support models from `seededlda` [thanks Marius Sältzer]
 * Support Naive Bayes models from `quanteda.textmodels` [thanks Marius Sältzer]
 * Support generation of word set intrusion test (Ying et al. forthcoming)
-* Support generation of topic intrusion test only
+* Support generation of oolong object with only topic intrusion test
 * Add new wrappers: `wi`, `ti`, `witi`, `wsi`, and `gs`
 * Add `userid` as an suggested parameter
 * Total revamp of the object of all oolong tests; add more meta data. Add `update_oolong` for updating object created by older versions of oolong
