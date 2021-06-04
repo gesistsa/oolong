@@ -68,47 +68,64 @@
 ## 2. .ren_xxx_test
 
 ## WSI also use .UI_WORD_INTRUSION_TEST
-.UI_WORD_INTRUSION_TEST <- miniUI::miniPage(
-    miniUI::gadgetTitleBar("oolong"),
-    miniUI::miniContentPanel(
-        shiny::uiOutput("current_topic"),
-        shiny::uiOutput("intruder_choice"),
-        shiny::actionButton("confirm", "confirm"),
-        shiny::actionButton("nextq", "skip"),
-        shiny::actionButton("ff", "jump to uncoded item"),
-        shiny::uiOutput("userid_entry"),
-        shiny::uiOutput("download_button")
-        )
-    )
 
-.UI_TOPIC_INTRUSION_TEST <- miniUI::miniPage(
-    miniUI::gadgetTitleBar("oolong"),
-    miniUI::miniContentPanel(
-        shiny::uiOutput("current_topic"),
-        shiny::uiOutput("text_content"),
-        shiny::uiOutput("intruder_choice"),
-        shiny::actionButton("confirm", "confirm"),
-        shiny::actionButton("nextq", "skip"),
-        shiny::actionButton("ff", "jump to uncoded item"),
-        shiny::uiOutput("userid_entry"),
-        shiny::uiOutput("download_button")
-        )
-    )
+.UI_WORD_INTRUSION_TEST <-
+    shiny::fluidPage(
+               shiny::titlePanel("oolong"),
+               shiny::sidebarLayout(
+                          shiny::sidebarPanel(
+                                     shiny::uiOutput("current_topic"),
+                                     shiny::uiOutput("userid_entry"),
+                                     shiny::uiOutput("download_button"),
+                                     shiny::uiOutput("done_button")
+                                 ),
+                          shiny::mainPanel(
+                                     shiny::uiOutput("intruder_choice"),
+                                     shiny::actionButton("confirm", "confirm"),
+                                     shiny::actionButton("nextq", "skip"),
+                                     shiny::actionButton("ff", "jump to uncoded item"))
+                      )
+           )
+
+.UI_TOPIC_INTRUSION_TEST <-
+    shiny::fluidPage(
+               shiny::titlePanel("oolong"),
+               shiny::sidebarLayout(
+                          shiny::sidebarPanel(
+                                     shiny::uiOutput("current_topic"),
+                                     shiny::uiOutput("userid_entry"),
+                                     shiny::uiOutput("download_button"),
+                                     shiny::uiOutput("done_button")
+                                 ),
+                          shiny::mainPanel(
+                                     shiny::uiOutput("text_content"),
+                                     shiny::uiOutput("intruder_choice"),
+                                     shiny::actionButton("confirm", "confirm"),
+                                     shiny::actionButton("nextq", "skip"),
+                                     shiny::actionButton("ff", "jump to uncoded item")
+                                     )
+                      )
+           )
 
 .UI_GOLD_STANDARD_TEST <-
-    miniUI::miniPage(
-        miniUI::gadgetTitleBar("oolong"),
-        miniUI::miniContentPanel(
-            shiny::uiOutput("current_topic"),
-            shiny::uiOutput("text_content"),
-            shiny::uiOutput("score_slider"),
-            shiny::actionButton("confirm", "confirm"),
-            shiny::actionButton("nextq", "skip"),
-            shiny::actionButton("ff", "jump to uncoded item"),
-            shiny::uiOutput("userid_entry"),
-            shiny::uiOutput("download_button")
-            )
-        )
+    shiny::fluidPage(
+               shiny::titlePanel("oolong"),
+               shiny::sidebarLayout(
+                          shiny::sidebarPanel(
+                                     shiny::uiOutput("current_topic"),
+                                     shiny::uiOutput("userid_entry"),
+                                     shiny::uiOutput("download_button"),
+                                     shiny::uiOutput("done_button")
+                                 ),
+                          shiny::mainPanel(
+                                     shiny::uiOutput("text_content"),
+                                     shiny::uiOutput("score_slider"),
+                                     shiny::actionButton("confirm", "confirm"),
+                                     shiny::actionButton("nextq", "skip"),
+                                     shiny::actionButton("ff", "jump to uncoded item"),
+                                     )
+                          )
+           )
 
 
 .ren_word_intrusion_test <- function(output, test_items, res, prompt = "Which of the following is an intruder word?", hash = NULL) {
@@ -135,6 +152,10 @@
             if (!any(is.na(res$intruder))) {
                 shiny::textInput("userid", "Your name:", NULL)
             }
+        })
+    } else {
+        output$done_button <- shiny::renderUI({
+            shiny::actionButton(inputId = "done", label = "Finish", width = "40%", class = "btn-info btn-lg")
         })
     }
     return(output)
@@ -174,6 +195,10 @@
             if (!any(is.na(res$intruder))) {
                 shiny::textInput("userid", "Your name:", NULL)
             }
+        })
+    } else {
+        output$done_button <- shiny::renderUI({
+            shiny::actionButton(inputId = "done", label = "Finish", class = "btn-info btn-lg")
         })
     }
     return(output)
@@ -216,6 +241,10 @@
             if (!any(is.na(res$intruder))) {
                 shiny::textInput("userid", "Your name:", NULL)
             }
+        })
+    }  else {
+        output$done_button <- shiny::renderUI({
+            shiny::actionButton(inputId = "done", label = "Finish", class = "btn-info btn-lg")
         })
     }
     return(output)

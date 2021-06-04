@@ -15,7 +15,6 @@ Imports:
     purrr,
     tibble,
     shiny,
-    miniUI,
     text2vec (>= 0.6),
     digest,
     R6,

@@ -102,6 +102,7 @@ test_that("wi next q & ff (exported)", {
     export_oolong(x, dir = dir, verbose = FALSE)
     test <- ShinyDriver$new(dir)
     nextq(test)
+    expect_error(test$getValue("done", "input"))
     test$finalize()    
 })
 
@@ -112,6 +113,7 @@ test_that("wi next q & ff (native)", {
     ## there should be no download button or userid_entry
     expect_equal("", test$getValue("download_button", "output"))
     expect_equal("", test$getValue("userid_entry", "output"))
+    expect_error(test$getValue("done", "input"), NA)
     test$finalize()
 })
 
@@ -122,6 +124,7 @@ test_that("wsi next q & ff (exported)", {
     export_oolong(x, dir = dir, verbose = FALSE)
     test <- ShinyDriver$new(dir)
     nextq(test)
+    expect_error(test$getValue("done", "input"))
     test$finalize()    
 })
 
@@ -132,6 +135,7 @@ test_that("wsi next q & ff (native)", {
     ## there should be no download button or userid_entry
     expect_equal("", test$getValue("download_button", "output"))
     expect_equal("", test$getValue("userid_entry", "output"))
+    expect_error(test$getValue("done", "input"), NA)
     test$finalize()
 })
 
@@ -157,6 +161,7 @@ test_that("ti (exported)", {
     test_ti(test)
     expect_false("" == test$getValue("download_button", "output"))
     expect_false("" == test$getValue("userid_entry", "output"))
+    expect_error(test$getValue("done", "input"))
     test$finalize()
 })
 
@@ -167,6 +172,7 @@ test_that("ti (native)", {
     ## there should be no download button or userid_entry
     expect_equal("", test$getValue("download_button", "output"))
     expect_equal("", test$getValue("userid_entry", "output"))
+    expect_error(test$getValue("done", "input"), NA)
     test$finalize()
 })
 
@@ -190,6 +196,7 @@ test_that("gs (native)", {
     ## there should be no download button or userid_entry
     expect_equal("", test$getValue("download_button", "output"))
     expect_equal("", test$getValue("userid_entry", "output"))
+    expect_error(test$getValue("done", "input"), NA)
     test$finalize()
 })
 
@@ -201,5 +208,6 @@ test_that("gs (exported)", {
     test_gs(test)
     expect_false("" == test$getValue("download_button", "output"))
     expect_false("" == test$getValue("userid_entry", "output"))
+    expect_error(test$getValue("done", "input"))
     test$finalize()
 })
