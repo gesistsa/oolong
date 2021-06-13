@@ -1,4 +1,4 @@
 library(testthat)
 library(oolong)
 
-test_check("oolong")
+test_check("oolong", report = "minimal")
