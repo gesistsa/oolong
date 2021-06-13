@@ -96,7 +96,7 @@ jobs:
 
       - name: Show testthat output
         if: always()
-        run: find check -name 'bigtest.txt' -exec cat '{}' \; || true
+        run: cat 'bigtest.txt' \; || true
         shell: bash
 
       - name: Upload check results
