@@ -70,7 +70,6 @@ test_that("check_calculation_wsi_multiobject (printing)", {
 
 test_that("export printing", {
     skip_on_cran()
-    skip_on_ci()
     obj1 <- wsi(abstracts_stm)
     newdir <- "~/oolong_testing"
     expect_snapshot(export_oolong(obj1, dir = newdir, verbose = TRUE, use_full_path = FALSE))

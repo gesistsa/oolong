@@ -17,6 +17,7 @@ test_that("Click of death bug #51", {
     first_ele <- test$findElement("div.radio")$getText()
     test$setValue("intruder", first_ele)
     test$click("confirm")
+    Sys.sleep(SLEEPTIME)
     ## still moving after confirm
     expect_equal(test$getValue("current_topic"), "<strong>Topic  2 of 20 </strong>")
     test$finalize()
