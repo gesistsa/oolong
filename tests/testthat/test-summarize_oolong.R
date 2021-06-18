@@ -149,3 +149,12 @@ test_that("check_calculation_wsi_multiobject", {
     expect_length(res$rater_precision_wsi, 1)
     expect_true(is.na(res$rater_precision))
 })
+
+test_that("summarise_oolong problem #59", {
+    obj2 <- create_oolong(input_corpus = trump2k, exact_n = 20)
+    obj2$.__enclos_env__$private$test_content$gs$answer <- sample(1:5, size = 20, replace = TRUE)
+    obj2$lock()
+    x <- sample(1:5, size = 20, replace = TRUE)
+    warning_z <- capture_warnings(summarise_oolong(obj2, target_value = sample(1:5, size = 20, replace = TRUE)))
+    expect_equal(warning_z, character(0))
+})

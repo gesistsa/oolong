@@ -90,12 +90,6 @@ plot.oolong_summary <- function(x, ...) {
     .cp(!is.null(oolong_summary$cor_length), "Effect of content length: ", round(oolong_summary$cor_length$estimate, 3), " (p = ", round(oolong_summary$cor_length$p.value, 4), ")")
 }
 
-#' @rdname summarize_oolong
-#' @export
-summarise_oolong <- function(..., target_value = NULL) {
-    summarize_oolong(..., target_value = NULL)
-}
-
 #' Summarize oolong objects
 #'
 #' This function summarizes one or more oolong objects. All oolong objects must be locked.
@@ -146,6 +140,13 @@ summarize_oolong <- function(..., target_value = NULL, n_iter = 1500) {
         return(.summarize_oolong_gs(..., target_value = target_value))
     }
 }
+
+#' @rdname summarize_oolong
+#' @export
+summarise_oolong <- function(..., target_value = NULL, n_iter = 1500) {
+    summarize_oolong(..., target_value = target_value, n_iter = n_iter)
+}
+
 
 ### test whether the oolong obj is created for a topic model
 .is.oolong_tm <- function(oolong) {
