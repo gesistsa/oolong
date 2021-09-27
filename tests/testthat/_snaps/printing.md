@@ -22,22 +22,22 @@
     Output
       Corpus consisting of 25 documents and 1 docvar.
       text1 :
-      "The China Tobacco Control Media Campaign on Sina Weibo is no..."
+      "This study examined the relationship among personal network ..."
       
       text2 :
-      "This study uniquely examined the effects on self, cognition,..."
+      "Privacy seals were developed to address concerns about onlin..."
       
       text3 :
-      "This article elaborates the role of interpersonal communicat..."
+      "Using a questionnaire validated by the project Biohead-Citiz..."
       
       text4 :
-      "The computing education in Taiwan's vocational schools usual..."
+      "Communication and language barriers isolate Deaf American Si..."
       
       text5 :
-      "This study examined whether historical percentages of U.S. h..."
+      "Media use and aging is an important interdisciplinary topic ..."
       
       text6 :
-      "Many adolescents and adults do not seek treatment for mental..."
+      "In the last decade, research has provided a series of insigh..."
       
       [ reached max_ndoc ... 19 more documents ]
     Message <cliMessage>

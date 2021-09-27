@@ -172,7 +172,7 @@ For example, `abstracts_keyatm` was generated with the corpus
 ``` r
 library(tibble)
 abstracts
-#> # A tibble: 2,500 x 1
+#> # A tibble: 2,500 × 1
 #>    text                                                                         
 #>    <chr>                                                                        
 #>  1 This study explores the benefits and risks featured in medical tourism broke…
@@ -225,7 +225,7 @@ oolong_test
 #> 
 #> ── Results: ──
 #> 
-#> ℹ TLO: 0
+#> ℹ TLO: -0.009
 ```
 
 ### Suggested workflow
@@ -282,21 +282,21 @@ summarize_oolong(oolong_test_rater1, oolong_test_rater2)
 #> 
 #> ── Word intrusion test ──
 #> 
-#> ℹ Mean model precision: 0.2
-#> ℹ Quantiles of model precision: 0.1, 0.15, 0.2, 0.25, 0.3
+#> ℹ Mean model precision: 0.3
+#> ℹ Quantiles of model precision: 0.1, 0.2, 0.3, 0.4, 0.5
 #> ℹ P-value of the model precision
-#> (H0: Model precision is not better than random guess): 0.503
-#> ℹ Krippendorff's alpha: -0.188
+#> (H0: Model precision is not better than random guess): 0.0693
+#> ℹ Krippendorff's alpha: 0.095
 #> ℹ K Precision:
-#> 0, 0.5, 0.5, 0, 0, 0, 0, 0.5, 0, 0.5
+#> 0, 0.5, 1, 0, 0, 0.5, 0, 0.5, 0, 0.5
 #> 
 #> ── Topic intrusion test ──
 #> 
-#> ℹ Mean TLO: -3.74
-#> ℹ Median TLO: -4.7
-#> ℹ Quantiles of TLO: -8.08, -6.41, -4.7, 0, 0
+#> ℹ Mean TLO: -3.2
+#> ℹ Median TLO: -4.07
+#> ℹ Quantiles of TLO: -8.26, -6.09, -4.07, 0, 0
 #> ℹ P-Value of the median TLO 
-#> (H0: Median TLO is not better than random guess): 0.038
+#> (H0: Median TLO is not better than random guess): 0.096
 ```
 
 ### About the p-values
@@ -482,7 +482,7 @@ wsi(newsgroup_nb)
 
 ``` r
 tibble(text = trump2k)
-#> # A tibble: 2,000 x 1
+#> # A tibble: 2,000 × 1
 #>    text                                                                         
 #>    <chr>                                                                        
 #>  1 "In just out book, Secret Service Agent Gary Byrne doesn't believe that Croo…
