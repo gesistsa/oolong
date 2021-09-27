@@ -6,13 +6,13 @@ The validation test is called “oolong test” (for reading tea leaves).
 This package provides several functions for generating different types
 of oolong test.
 
-| function | purpose                                                                                                                                  |
-| -------: | :--------------------------------------------------------------------------------------------------------------------------------------- |
-|   `wi()` | validating a topic model with [word intrusion test](#word-intrusion-test) (Chang et al., 2008)                                           |
-|   `ti()` | validating a topic model with [topic intrusion test](#topic-intrusion-test) (Chang et al., 2008; aka “T8WSI” in Ying et al. forthcoming) |
-| `witi()` | validating a topic model with [word intrusion test](#word-intrusion-test) and [topic intrusion test](#topic-intrusion-test)              |
-|  `wsi()` | validating a topic model with [word set intrusion test](#word-set-intrusion-test) (Ying et al. forthcoming)                              |
-|   `gs()` | oolong test for [creating gold standard](#creating-gold-standard) (see Song et al., 2020)                                                |
+| function | purpose                                                                                                                           |
+| -------: | :-------------------------------------------------------------------------------------------------------------------------------- |
+|   `wi()` | validating a topic model with [word intrusion test](#word-intrusion-test) (Chang et al., 2008)                                    |
+|   `ti()` | validating a topic model with [topic intrusion test](#topic-intrusion-test) (Chang et al., 2008; aka “T8WSI” in Ying et al. 2021) |
+| `witi()` | validating a topic model with [word intrusion test](#word-intrusion-test) and [topic intrusion test](#topic-intrusion-test)       |
+|  `wsi()` | validating a topic model with [word set intrusion test](#word-set-intrusion-test) (Ying et al. 2021)                              |
+|   `gs()` | oolong test for [creating gold standard](#creating-gold-standard) (see Song et al., 2020)                                         |
 
 All of these tests can also be generated with the function
 [`create_oolong`](#backward-compatibility). As of version 0.3.20, it is
@@ -122,12 +122,12 @@ oolong_test
 #### Word set intrusion test
 
 Word set intrusion test is a variant of word intrusion test (Ying et
-al., forthcoming), in which multiple word sets generated from top terms
-of one topic are juxtaposed with one intruder word set generated
-similarly from another topic. In Ying et al., this test is called
-“R4WSI” because 4 word sets are displayed. By default, oolong
-generates also R4WSI. However, it is also possible to generate R(N)WSI
-by setting the parameter `n_correct_ws` to N - 1.
+al., 2021), in which multiple word sets generated from top terms of one
+topic are juxtaposed with one intruder word set generated similarly from
+another topic. In Ying et al., this test is called “R4WSI” because 4
+word sets are displayed. By default, oolong generates also R4WSI.
+However, it is also possible to generate R(N)WSI by setting the
+parameter `n_correct_ws` to N - 1.
 
 ``` r
 oolong_test <- wsi(abstracts_keyatm, userid = "Garrett")
@@ -720,9 +720,10 @@ parameters are `input_model` and `input_corpus`. Setting each of them to
     (2009). Reading tea leaves: How humans interpret topic models. In
     Advances in neural information processing systems (pp. 288-296).
     [link](https://papers.nips.cc/paper/3700-reading-tea-leaves-how-humans-interpret-topic-models)
-2.  Ying, L., Montgomery, J. M., & Stewart, B. M. (Forthcoming).
-    Inferring concepts from topics: Towards procedures for validating
-    topics as measures. Political Analysis.
+2.  Ying, L., Montgomery, J. M., & Stewart, B. M. (2021). Inferring
+    concepts from topics: Towards procedures for validating topics as
+    measures. Political Analysis.
+    [link](https://doi.org/10.1017/pan.2021.33)
 3.  Song et al. (2020) In validations we trust? The impact of imperfect
     human annotations as a gold standard on the quality of validation of
     automated content analysis. Political Communication.
