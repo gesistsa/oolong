@@ -1,3 +1,8 @@
+# oolong 0.4.1
+
+* Eliminate `miniUI` as a dependency.
+* Update the documentation to reflect newly published papers, e.g. Ying et al.
+
 # oolong 0.4.0
 
 * Add `export_oolong` and `deploy_oolong` for online deployment [thanks Marius Sältzer, Daniel Braby (and his friend Louis), Johannes Gruber and Felicia Loecherbach for testing this feature; thanks SAGE Ocean for the concept grant to support the development of this feature]
