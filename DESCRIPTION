@@ -22,7 +22,6 @@ Imports:
     irr,
     ggplot2,
     cowplot,
-    dplyr,
     cli,
     stats,
     utils
@@ -30,6 +29,7 @@ RoxygenNote: 7.1.1.9001
 Suggests: 
     testthat (>= 3.0.2),
     BTM,
+    dplyr,
     topicmodels,
     stm,
     seededlda,
