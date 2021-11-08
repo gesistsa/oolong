@@ -8,6 +8,7 @@
 #' @docType package
 #' @author Chung-hong Chan
 #' @name oolong
+#' @importFrom R6 R6Class
 NULL
 
 Oolong_test <- R6::R6Class(
