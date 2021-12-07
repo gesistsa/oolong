@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# oolong <img src="man/figures/oolong_logo.png" align="right" height="200" />
+# oolong <img src="man/figures/oolong_logo.svg" align="right" height="200" />
 
 <!-- badges: start -->
 

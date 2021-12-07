@@ -24,7 +24,7 @@ Imports:
     cli,
     stats,
     utils
-RoxygenNote: 7.1.1.9001
+RoxygenNote: 7.1.2
 Suggests: 
     testthat (>= 3.0.2),
     text2vec (>= 0.6),
