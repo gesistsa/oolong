@@ -12,6 +12,7 @@ test_that("Click of death bug #51", {
     export_oolong(x, dir = dir, verbose = FALSE)
     test <- ShinyDriver$new(dir)
     test$click("confirm")
+    Sys.sleep(SLEEPTIME)
     expect_error(test$getAllValues(), NA)
     first_ele <- test$findElement("div.radio")$getText()
     test$setValue("intruder", first_ele)
@@ -28,21 +29,25 @@ test_that("launchable", {
     x <- wi(abstracts_keyatm)
     export_oolong(x, dir = dir, verbose = FALSE)
     test <- ShinyDriver$new(dir)
+    Sys.sleep(SLEEPTIME)
     expect_error(test$getAllValues(), NA)
     test$finalize()
     x <- wsi(abstracts_keyatm)
     export_oolong(x, dir = dir, verbose = FALSE)
     test <- ShinyDriver$new(dir)
+    Sys.sleep(SLEEPTIME)
     expect_error(test$getAllValues(), NA)
     test$finalize()
     x <- gs(abstracts$text)
     export_oolong(x, dir = dir, verbose = FALSE)
     test <- ShinyDriver$new(dir)
+    Sys.sleep(SLEEPTIME)
     expect_error(test$getAllValues(), NA)
     test$finalize()
     x <- ti(abstracts_keyatm, abstracts$text)
     export_oolong(x, dir = dir, verbose = FALSE)
     test <- ShinyDriver$new(dir)
+    Sys.sleep(SLEEPTIME)
     expect_error(test$getAllValues(), NA)
     test$finalize()
 })
@@ -58,7 +63,7 @@ test_that("Downloading", {
         expect_equal("", test$getValue("userid_entry", "output"))
         test$findElement("input[type='radio']")$click()
         test$click("confirm")
-        Sys.sleep(SLEEPTIME)        
+        Sys.sleep(SLEEPTIME)
     }
     ## now the download button should be there
     expect_false("" == test$getValue("download_button", "output"))
@@ -72,7 +77,7 @@ test_that("Downloading", {
 
 nextq <- function(test, k = 10) {
 ##    skip_on_cran()
-    Sys.sleep(SLEEPTIME)        
+    Sys.sleep(SLEEPTIME)
     test$click("nextq")
     Sys.sleep(SLEEPTIME)
     expect_equal(test$getValue("current_topic"), paste0("<strong>Topic  2 of ", k," </strong>"))
@@ -80,7 +85,7 @@ nextq <- function(test, k = 10) {
         first_ele <- test$findElement("div.radio")$getText()
         test$setValue("intruder", first_ele)
         test$click("confirm")
-        Sys.sleep(SLEEPTIME)        
+        Sys.sleep(SLEEPTIME)
     }
     ## item 1 is not coded
     expect_equal(paste0("<strong>Topic  1 of ", k," </strong>"), test$getValue("current_topic"))
@@ -106,7 +111,7 @@ test_that("wi next q & ff (exported)", {
     test <- ShinyDriver$new(dir)
     nextq(test)
     expect_error(test$getValue("done", "input"))
-    test$finalize()    
+    test$finalize()
 })
 
 test_that("wi next q & ff (native)", {
@@ -151,7 +156,7 @@ test_ti <- function(test, k = 10) {
         expect_null(test$getValue("intruder"))
         test$findElement("input[type='radio']")$click()
         expect_false(is.null(test$getValue("intruder")))
-        Sys.sleep(SLEEPTIME)    
+        Sys.sleep(SLEEPTIME)
         test$click("confirm")
         Sys.sleep(SLEEPTIME)
     }
@@ -189,7 +194,7 @@ test_gs <- function(test) {
     for (i in 1:5) {
         test$getValue("intruder")
         test$setValue("intruder", sample(1:5, 1), "input")
-        Sys.sleep(SLEEPTIME)    
+        Sys.sleep(SLEEPTIME)
         expect_equal(test$getValue("current_topic"), paste0("<strong>Case  ", i, " of 5 </strong>"))
         test$click("confirm")
         Sys.sleep(SLEEPTIME)
