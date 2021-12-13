@@ -1,5 +1,6 @@
 ##context("check Warp LDA support")
 test_that("generate_test_content", {
+    skip_if_not(file.exists("../../data/abstracts_warplda.rda"))
     x <- oolong:::.generate_test_content(abstracts_warplda)
     expect_null(x$ti)
     ### NO input_dfm
