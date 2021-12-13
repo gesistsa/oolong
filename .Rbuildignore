@@ -32,13 +32,6 @@
 ^data/abstracts_seededlda\.rda$
 ^data/abstracts_unseededlda\.rda$
 ^data/abstracts_stm\.rda$
-^tests/testthat/test-topicmodels\.R$
-^tests/testthat/test-seededlda\.R$
-^tests/testthat/test-warplda\.R$
-^tests/testthat/test-revert\.R$
-^tests/testthat/test-shiny\.R$
-^tests/testthat/test-ui\.R$
-^tests/testthat/test-printing\.R$
 ^tests/testthat/apps/
 ^tests/testdata/downloaded$
 \.udpipe$

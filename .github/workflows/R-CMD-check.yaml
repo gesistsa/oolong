@@ -28,7 +28,7 @@ jobs:
         config:
           - {os: macOS-latest,   r: 'release'}
           - {os: windows-latest, r: 'release'}
-          - {os: windows-latest, r: '3.6', rspm: "https://packagemanager.rstudio.com/cran/latest"}
+          # - {os: windows-latest, r: '3.6', rspm: "https://packagemanager.rstudio.com/cran/latest"}
           - {os: ubuntu-20.04,   r: 'devel', rspm: "https://packagemanager.rstudio.com/cran/__linux__/focal/latest", http-user-agent: "R/4.1.0 (ubuntu-18.04) R (4.1.0 x86_64-pc-linux-gnu x86_64 linux-gnu) on GitHub Actions" }
           - {os: ubuntu-20.04,   r: 'release', rspm: "https://packagemanager.rstudio.com/cran/__linux__/focal/latest"}
           - {os: ubuntu-20.04,   r: 'oldrel',  rspm: "https://packagemanager.rstudio.com/cran/__linux__/focal/latest"}
@@ -91,14 +91,7 @@ jobs:
         run: |
           options(crayon.enabled = TRUE)
           rcmdcheck::rcmdcheck(args = c("--no-manual", "--as-cran"), error_on = "warning", check_dir = "check")
-          devtools::install(quick = TRUE, upgrade = FALSE)
-          sink("bigtest.txt"); devtools::test(reporter = "summary"); sink(file = NULL)
         shell: Rscript {0}
-
-      - name: Show testthat output
-        if: always()
-        run: cat 'bigtest.txt' || true
-        shell: bash
 
       - name: Upload check results
         if: failure()
