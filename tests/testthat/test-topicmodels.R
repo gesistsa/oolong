@@ -12,7 +12,7 @@ genius_topic <- function(obj1) {
 
 test_that("generate_test_content", {
     skip_on_cran()
-    skip_if_not(file.exists("../../data/abstracts_topicmodels.rda"))
+    skip_if_not(exists("abstracts_topicmodels"))
     x <- oolong:::.generate_test_content(abstracts_topicmodels)
     expect_null(x$ti)
     x <- oolong:::.generate_test_content(abstracts_topicmodels, quanteda::corpus(abstracts$text))
@@ -21,7 +21,7 @@ test_that("generate_test_content", {
 
 test_that("check_complete", {
     skip_on_cran()
-    skip_if_not(file.exists("../../data/abstracts_topicmodels.rda"))
+    skip_if_not(exists("abstracts_topicmodels"))
     x <- oolong:::.generate_test_content(abstracts_topicmodels)
     expect_false(oolong:::.check_test_content_complete(x))
     x$wi$answer <- 1
@@ -56,7 +56,7 @@ test_that("github issue #8 - topic", {
 })
 
 test_that("generate_topic_content", {
-    skip_if_not(file.exists("../../data/abstracts_topicmodels.rda"))
+    skip_if_not(exists("abstracts_topicmodels"))
     ## reference issue #8
     ## frac too small!
     expect_error(oolong:::.generate_test_content(abstracts_topicmodels, abstracts$text[1:10], frac = 0.1))
@@ -64,7 +64,7 @@ test_that("generate_topic_content", {
 })
 
 test_that("ui", {
-    skip_if_not(file.exists("../../data/abstracts_topicmodels.rda"))
+    skip_if_not(exists("abstracts_topicmodels"))
     expect_error(wi(abstracts_topicmodels), NA)
     expect_error(witi(abstracts_topicmodels, abstracts$text), NA)
     expect_error(ti(abstracts_topicmodels, abstracts$text), NA)

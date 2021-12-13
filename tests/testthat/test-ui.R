@@ -24,7 +24,7 @@ abstracts_df <- as.data.frame.tokens(toks_q)
 
 test_that("wi basic", {
     skip_on_cran()
-    skip_if_not(file.exists("../../data/abstracts_stm.rda"))
+    skip_if_not(exists("abstracts_stm"))
     expect_error(wi(abstracts_stm), NA)
     expect_error(wi(abstracts_warplda), NA)
     expect_error(wi(abstracts_btm), NA)
@@ -33,7 +33,7 @@ test_that("wi basic", {
 
 test_that("witi basic", {
     skip_on_cran()
-    skip_if_not(file.exists("../../data/abstracts_stm.rda"))
+    skip_if_not(exists("abstracts_stm"))
     expect_error(witi(abstracts_stm, abstracts$text), NA)
     ## We need to talk about how to handle these two.
     expect_error(witi(abstracts_stm), NA)
@@ -49,7 +49,7 @@ test_that("witi basic", {
 
 test_that("ti basic", {
     skip_on_cran()
-    skip_if_not(file.exists("../../data/abstracts_stm.rda"))
+    skip_if_not(exists("abstracts_stm"))
     expect_error(ti(abstracts_stm, abstracts$text), NA)
     expect_error(ti(abstracts_warplda, abstracts$text))
     expect_error(ti(abstracts_warplda, abstracts$text, input_dfm = abstracts_dfm), NA)
@@ -62,7 +62,7 @@ test_that("ti basic", {
 
 test_that("wsi basic", {
     skip_on_cran()
-    skip_if_not(file.exists("../../data/abstracts_stm.rda"))
+    skip_if_not(exists("abstracts_stm"))
     expect_error(wsi(abstracts_stm), NA)    
     expect_error(wsi(abstracts_warplda), NA)
     expect_error(wsi(abstracts_warplda), NA)
@@ -77,7 +77,7 @@ test_that("gs basic", {
 
 test_that("correct passing of n_top_terms",{
     skip_on_cran()
-    skip_if_not(file.exists("../../data/abstracts_stm.rda"))
+    skip_if_not(exists("abstracts_stm"))
     for (i in sample(2:10, 5)) {
         z <- witi(abstracts_stm, abstracts$text, n_top_terms = i)
         expect_equal(length(z$.__enclos_env__$private$test_content$wi$candidates[[1]]), i + 1)
@@ -88,7 +88,7 @@ test_that("correct passing of n_top_terms",{
 
 test_that("correct passing of n_top_topics", {
     skip_on_cran()
-    skip_if_not(file.exists("../../data/abstracts_stm.rda"))
+    skip_if_not(exists("abstracts_stm"))
     for (i in sample(2:10, 3)) {
         z <- witi(abstracts_stm, abstracts$text, n_top_topics = i)
         expect_equal(length(z$.__enclos_env__$private$test_content$ti$candidates[[1]]), i + 1)
@@ -99,7 +99,7 @@ test_that("correct passing of n_top_topics", {
 
 test_that("correct passing of n_topiclabel_words", {
     skip_on_cran()
-    skip_if_not(file.exists("../../data/abstracts_stm.rda"))
+    skip_if_not(exists("abstracts_stm"))
     for (i in sample(2:10, 3)) {
         z <- witi(abstracts_stm, abstracts$text, n_topiclabel_words = i)
         topic_label <- z$.__enclos_env__$private$test_content$ti$topic_labels[[1]][1]
@@ -112,7 +112,7 @@ test_that("correct passing of n_topiclabel_words", {
 
 test_that("correct passing of n_topiclabel_words (wsi)", {
     skip_on_cran()
-    skip_if_not(file.exists("../../data/abstracts_stm.rda"))
+    skip_if_not(exists("abstracts_stm"))
     for (g in sample(2:10, 3)) {
         az <- wsi(abstracts_stm, n_topiclabel_words = g, wsi_n_top_terms = 50)
         ws_topic_label <- az$.__enclos_env__$private$test_content$wsi$candidates[[1]][1]
@@ -131,7 +131,7 @@ test_that("correct passing of construct", {
 
 test_that("correct passing of exact_n", {
     skip_on_cran()
-    skip_if_not(file.exists("../../data/abstracts_stm.rda"))
+    skip_if_not(exists("abstracts_stm"))
     for (i in sample(5:90, size = 3)) {
         z <- witi(abstracts_stm, abstracts$text, exact_n = i)
         expect_equal(nrow(z$.__enclos_env__$private$test_content$ti), i)
@@ -144,7 +144,7 @@ test_that("correct passing of exact_n", {
 
 test_that("correct passing of frac", {
     skip_on_cran()
-    skip_if_not(file.exists("../../data/abstracts_stm.rda"))
+    skip_if_not(exists("abstracts_stm"))
     for (i in sample(seq(0.01, 0.8, by = 0.02), size = 3)) {
         expect_ans <- floor(length(abstracts$text) * i)
         z <- witi(abstracts_stm, abstracts$text, frac = i)
@@ -158,7 +158,7 @@ test_that("correct passing of frac", {
 
 test_that("correct passing of userid", {
     skip_on_cran()
-    skip_if_not(file.exists("../../data/abstracts_stm.rda"))
+    skip_if_not(exists("abstracts_stm"))
     for (i in sample(c("Ich", "bin", "eine", "Katze"), 3)) {
         z <- wi(abstracts_stm, userid = i)
         expect_equal(z$userid, i)
@@ -175,7 +175,7 @@ test_that("correct passing of userid", {
 
 test_that("correct passing of n_correct_ws", {
     skip_on_cran()
-    skip_if_not(file.exists("../../data/abstracts_stm.rda"))
+    skip_if_not(exists("abstracts_stm"))
     for (i in sample(2:5, 3)) {
         z <- wsi(abstracts_stm, n_correct_ws = i, wsi_n_top_terms = 50)
         expect_equal(length(z$.__enclos_env__$private$test_content$wsi$candidates[[1]]), i + 1)
