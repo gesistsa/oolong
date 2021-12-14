@@ -4,9 +4,6 @@ SLEEPTIME <- 0.5
 
 test_that("Click of death bug #51", {
     skip_on_cran()
-    if (!dependenciesInstalled()) {
-        installDependencies()
-    }
     dir <- tempdir()
     x <- wi(abstracts_keyatm)
     export_oolong(x, dir = dir, verbose = FALSE)
