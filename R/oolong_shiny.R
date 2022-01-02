@@ -325,7 +325,7 @@ export_oolong <- function(oolong, dir = base::tempdir(), verbose = TRUE, use_ful
         dir <- base::path.expand(dir)
     }
     file.copy(system.file("app", "app.R", package = "oolong"), dir, overwrite = TRUE)
-    saveRDS(oolong, file = paste0(dir, "/oolong.RDS"))
+    saveRDS(oolong, file = file.path(dir, "oolong.RDS"))
     .cp(verbose, "The Shiny has been written to the directory: ", dir)
     .cp(verbose, "You can test the app with: shiny::runApp(\"", dir, "\")")
     invisible(dir)
