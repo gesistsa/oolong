@@ -18,9 +18,6 @@
 "abstracts_keyatm"
 
 #' @rdname abstracts_keyatm
-"abstracts_warplda"
-
-#' @rdname abstracts_keyatm
 "abstracts_btm"
 
 #' AFINN dictionary

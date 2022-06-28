@@ -55,7 +55,7 @@ library(keyATM)
 #>  Papers, examples, resources, and other materials are at
 #>  https://keyatm.github.io/keyATM/
 library(quanteda)
-#> Package version: 3.2.0
+#> Package version: 3.2.1
 #> Unicode version: 13.0
 #> ICU version: 66.1
 #> Parallel computing: 8 of 8 threads used.
@@ -84,7 +84,7 @@ be doing the test.
 oolong_test <- wi(abstracts_keyatm, userid = "Hadley")
 oolong_test
 #> 
-#> ── oolong (topic model) ────────────────────────────────────────────────────────
+#> ── oolong (topic model) ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> ✔ WI ✖ TI ✖ WSI
 #> ☺ Hadley
 #> ℹ WI: k = 10, 0 coded.
@@ -109,7 +109,7 @@ the model precision by printing the oolong test.
 oolong_test$lock()
 oolong_test
 #> 
-#> ── oolong (topic model) ────────────────────────────────────────────────────────
+#> ── oolong (topic model) ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> ✔ WI ✖ TI ✖ WSI
 #> ☺ Hadley
 #> ℹ WI: k = 10, 10 coded.
@@ -133,7 +133,7 @@ parameter `n_correct_ws` to N - 1.
 oolong_test <- wsi(abstracts_keyatm, userid = "Garrett")
 oolong_test
 #> 
-#> ── oolong (topic model) ────────────────────────────────────────────────────────
+#> ── oolong (topic model) ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> ✖ WI ✖ TI ✔ WSI
 #> ☺ Garrett
 #> ℹ WSI: n = 10, 0 coded.
@@ -154,7 +154,7 @@ oolong_test$do_word_set_intrusion_test()
 oolong_test$lock()
 oolong_test
 #> 
-#> ── oolong (topic model) ────────────────────────────────────────────────────────
+#> ── oolong (topic model) ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> ✖ WI ✖ TI ✔ WSI
 #> ☺ Garrett
 #> ℹ WSI: n = 10, 10 coded.
@@ -195,7 +195,7 @@ topic model will generate topic intrusion test cases.
 oolong_test <- ti(abstracts_keyatm, abstracts$text, userid = "Julia")
 oolong_test
 #> 
-#> ── oolong (topic model) ────────────────────────────────────────────────────────
+#> ── oolong (topic model) ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> ✖ WI ✔ TI ✖ WSI
 #> ☺ Julia
 #> ℹ TI: n = 25, 0 coded.
@@ -218,7 +218,7 @@ oolong_test$lock()
 ``` r
 oolong_test
 #> 
-#> ── oolong (topic model) ────────────────────────────────────────────────────────
+#> ── oolong (topic model) ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> ✖ WI ✔ TI ✖ WSI
 #> ☺ Julia
 #> ℹ TI: n = 25, 25 coded.
@@ -278,7 +278,7 @@ Get a summary of the two objects.
 ``` r
 summarize_oolong(oolong_test_rater1, oolong_test_rater2)
 #> 
-#> ── Summary (topic model): ──────────────────────────────────────────────────────
+#> ── Summary (topic model): ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> 
 #> ── Word intrusion test ──
 #> 
@@ -320,113 +320,9 @@ One must notice that the two statistical tests are testing the bear
 minimum. A significant test only indicates the topic model can make the
 rater(s) perform better than random guess. It is not an indication of
 good topic interpretability. Also, one should use a very conservative
-significant level, e.g. \(\alpha < 0.001\).
-
-### About Warp LDA
-
-There is a subtle difference between the support for `stm` and for
-`text2vec`.
-
-`abstracts_warplda` is a Warp LDA object trained with the same dataset
-as the `abstracts_stm`
-
-``` r
-abstracts_warplda
-#> <WarpLDA>
-#>   Inherits from: <LDA>
-#>   Public:
-#>     clone: function (deep = FALSE) 
-#>     components: 0 1 0 46 0 95 0 20 42 8 31 36 50 23 0 0 0 58 0 43 0 0 0  ...
-#>     fit_transform: function (x, n_iter = 1000, convergence_tol = 0.001, n_check_convergence = 10, 
-#>     get_top_words: function (n = 10, topic_number = 1L:private$n_topics, lambda = 1) 
-#>     initialize: function (n_topics = 10L, doc_topic_prior = 50/n_topics, topic_word_prior = 1/n_topics, 
-#>     plot: function (lambda.step = 0.1, reorder.topics = FALSE, doc_len = private$doc_len, 
-#>     topic_word_distribution: 0 9.41796948577887e-05 0 0.00446992517733942 0 0.0086837 ...
-#>     transform: function (x, n_iter = 1000, convergence_tol = 0.001, n_check_convergence = 10, 
-#>   Private:
-#>     calc_pseudo_loglikelihood: function (ptr = private$ptr) 
-#>     check_convert_input: function (x) 
-#>     components_: 0 1 0 46 0 95 0 20 42 8 31 36 50 23 0 0 0 58 0 43 0 0 0  ...
-#>     doc_len: 80 68 85 88 69 118 99 50 57 88 70 67 53 62 66 92 89 79 1 ...
-#>     doc_topic_distribution: function () 
-#>     doc_topic_distribution_with_prior: function () 
-#>     doc_topic_matrix: 0 0 0 0 0 3 111 0 0 0 0 0 90 134 0 174 0 321 0 0 109 38  ...
-#>     doc_topic_prior: 0.1
-#>     fit_transform_internal: function (model_ptr, n_iter, convergence_tol, n_check_convergence, 
-#>     get_c_all: function () 
-#>     get_c_all_local: function () 
-#>     get_doc_topic_matrix: function (prt, nr) 
-#>     get_topic_word_count: function () 
-#>     init_model_dtm: function (x, ptr = private$ptr) 
-#>     internal_matrix_formats: list
-#>     is_initialized: FALSE
-#>     n_iter_inference: 10
-#>     n_topics: 20
-#>     ptr: externalptr
-#>     reset_c_local: function () 
-#>     run_iter_doc: function (update_topics = TRUE, ptr = private$ptr) 
-#>     run_iter_word: function (update_topics = TRUE, ptr = private$ptr) 
-#>     seeds: 135203513.874082 471172603.061186
-#>     set_c_all: function (x) 
-#>     set_internal_matrix_formats: function (sparse = NULL, dense = NULL) 
-#>     topic_word_distribution_with_prior: function () 
-#>     topic_word_prior: 0.01
-#>     transform_internal: function (x, n_iter = 1000, convergence_tol = 0.001, n_check_convergence = 10, 
-#>     vocabulary: explor benefit risk featur medic broker websit well type ...
-```
-
-All the API endpoints are the same, except the one for the creation of
-topic intrusion test cases. You must supply also the `input_dfm`.
-
-``` r
-### Just word intrusion test.
-oolong_test <- wi(abstracts_warplda, userid = "Lionel")
-oolong_test
-#> 
-#> ── oolong (topic model) ────────────────────────────────────────────────────────
-#> ✔ WI ✖ TI ✖ WSI
-#> ☺ Lionel
-#> ℹ WI: k = 20, 0 coded.
-#> 
-#> ── Methods ──
-#> 
-#> • <$do_word_intrusion_test()>: do word intrusion test
-#> • <$lock()>: finalize and see the results
-```
-
-``` r
-abstracts_dfm
-#> Document-feature matrix of: 2,500 documents, 3,998 features (98.61% sparse) and 0 docvars.
-#>        features
-#> docs    explor benefit risk featur medic broker websit well type persuas
-#>   text1      1       2    2      2     6      3      6    1    3       1
-#>   text2      0       0    1      0     0      0      0    0    1       0
-#>   text3      0       1    0      0     0      0      0    0    0       0
-#>   text4      1       0    0      0     0      0      0    0    0       0
-#>   text5      1       0    0      0     0      0      0    0    0       0
-#>   text6      0       1    1      0     0      0      0    0    0       0
-#> [ reached max_ndoc ... 2,494 more documents, reached max_nfeat ... 3,988 more features ]
-```
-
-``` r
-oolong_test <- witi(abstracts_warplda, abstracts$text, input_dfm = abstracts_dfm, userid = "Mara")
-```
-
-``` r
-oolong_test
-#> 
-#> ── oolong (topic model) ────────────────────────────────────────────────────────
-#> ✔ WI ✔ TI ✖ WSI
-#> ☺ Mara
-#> ℹ WI: k = 20, 0 coded.
-#> ℹ TI: n = 25, 0 coded.
-#> 
-#> ── Methods ──
-#> 
-#> • <$do_word_intrusion_test()>: do word intrusion test
-#> • <$do_topic_intrusion_test()>: do topic intrusion test
-#> • <$lock()>: finalize and see the results
-```
+significant level, e.g. ![\\alpha
+\< 0.001](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Calpha%20%3C%200.001
+"\\alpha \< 0.001").
 
 ## About Biterm Topic Model
 
@@ -451,7 +347,7 @@ You can still generate word intrusion and word set intrusion tests.
 ``` r
 wi(newsgroup_nb)
 #> 
-#> ── oolong (topic model) ────────────────────────────────────────────────────────
+#> ── oolong (topic model) ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> ✔ WI ✖ TI ✖ WSI
 #> ℹ WI: k = 20, 0 coded.
 #> 
@@ -464,7 +360,7 @@ wi(newsgroup_nb)
 ``` r
 wsi(newsgroup_nb)
 #> 
-#> ── oolong (topic model) ────────────────────────────────────────────────────────
+#> ── oolong (topic model) ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> ✖ WI ✖ TI ✔ WSI
 #> ℹ WSI: n = 20, 0 coded.
 #> 
@@ -509,7 +405,7 @@ should be an adjective, e.g. positive, liberal, populistic, etc.
 oolong_test <- gs(input_corpus = trump2k, construct = "positive", userid = "Joe")
 oolong_test
 #> 
-#> ── oolong (gold standard generation) ───────────────────────────────────────────
+#> ── oolong (gold standard generation) ───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> ☺ Joe
 #> ℹ GS: n = 20, 0 coded.
 #> ℹ Construct:  positive.
@@ -534,7 +430,7 @@ After the coding, you need to first lock the test and then the
 oolong_test$lock()
 oolong_test
 #> 
-#> ── oolong (gold standard generation) ───────────────────────────────────────────
+#> ── oolong (gold standard generation) ───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> ☺ Joe
 #> ℹ GS: n = 20, 20 coded.
 #> ℹ Construct:  positive.
@@ -603,13 +499,14 @@ study the correlation between the gold standard and AFINN.
 ``` r
 summarize_oolong(oolong_test, target_value = all_afinn_score)
 #> New names:
-#> * NA -> ...1
 #> `geom_smooth()` using formula 'y ~ x'
 #> `geom_smooth()` using formula 'y ~ x'
 #> 
-#> ── Summary (gold standard generation): ─────────────────────────────────────────
+#> ── Summary (gold standard generation):
+#> ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> ℹ Correlation: 0.718 (p = 4e-04)
 #> ℹ Effect of content length: -0.323 (p = 0.1643)
+#> • `` -> `...1`
 ```
 
 ### Suggested workflow
@@ -650,10 +547,10 @@ Summarize all oolong objects with the target value.
 ``` r
 res <- summarize_oolong(trump, trump2, target_value = target_value)
 #> New names:
-#> * NA -> ...1
-#> * NA -> ...2
 #> `geom_smooth()` using formula 'y ~ x'
 #> `geom_smooth()` using formula 'y ~ x'
+#> • `` -> `...1`
+#> • `` -> `...2`
 ```
 
 Read the results. The diagnostic plot consists of 4 subplots. It is a
@@ -686,7 +583,7 @@ acceptable cut-off.
 ``` r
 res
 #> 
-#> ── Summary (gold standard generation): ─────────────────────────────────────────
+#> ── Summary (gold standard generation): ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> ℹ Krippendorff's Alpha: 0.931
 #> ℹ Correlation: 0.744 (p = 2e-04)
 #> ℹ Effect of content length: -0.323 (p = 0.1643)

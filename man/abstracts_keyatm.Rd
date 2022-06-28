@@ -3,20 +3,15 @@
 \docType{data}
 \name{abstracts_keyatm}
 \alias{abstracts_keyatm}
-\alias{abstracts_warplda}
 \alias{abstracts_btm}
 \title{Topic models trained with the abstracts dataset.}
 \format{
 An object of class \code{keyATM_output} (inherits from \code{base}, \code{list}) of length 18.
 
-An object of class \code{WarpLDA} (inherits from \code{LDA}, \code{TopicModel}, \code{mlapiDecomposition}, \code{mlapiTransformation}, \code{mlapiBase}, \code{R6}) of length 9.
-
 An object of class \code{BTM} of length 9.
 }
 \usage{
 abstracts_keyatm
-
-abstracts_warplda
 
 abstracts_btm
 }

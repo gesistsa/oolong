@@ -210,37 +210,6 @@ H1: Median TLO is better than random guess.
 
 One must notice that the two statistical tests are testing the bear minimum. A significant test only indicates the topic model can make the rater(s) perform better than random guess. It is not an indication of good topic interpretability. Also, one should use a very conservative significant level, e.g. $\alpha < 0.001$.
 
-### About Warp LDA
-
-There is a subtle difference between the support for `stm` and for `text2vec`.
-
-`abstracts_warplda` is a Warp LDA object trained with the same dataset as the `abstracts_stm`
-
-```{r warplda}
-abstracts_warplda
-```
-
-All the API endpoints are the same, except the one for the creation of topic intrusion test cases. You must supply also the `input_dfm`.
-
-```{r warplda2}
-### Just word intrusion test.
-oolong_test <- wi(abstracts_warplda, userid = "Lionel")
-oolong_test
-```
-
-
-```{r warplda3}
-abstracts_dfm
-```
-
-```{r warplda4, , message = FALSE, results = 'hide', warning = FALSE}
-oolong_test <- witi(abstracts_warplda, abstracts$text, input_dfm = abstracts_dfm, userid = "Mara")
-```
-
-```{r warplda5}
-oolong_test
-```
-
 ## About Biterm Topic Model
 
 Please refer to the vignette about BTM.
