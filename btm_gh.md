@@ -20,7 +20,7 @@ require(BTM)
 #> Loading required package: BTM
 require(quanteda)
 #> Loading required package: quanteda
-#> Package version: 3.2.0
+#> Package version: 3.2.1
 #> Unicode version: 13.0
 #> ICU version: 66.1
 #> Parallel computing: 8 of 8 threads used.
@@ -63,9 +63,10 @@ trump_btm <- BTM(trump_dat, k = 8, iter = 500, trace = 10)
 
 ## Pecularities of BTM
 
-This is how you should generate \(\theta_{t}\) . However, there are many
-NaN and there are only 1994 rows (`trump2k` has 2000 tweets) due to
-empty documents.
+This is how you should generate
+![\\theta\_{t}](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Ctheta_%7Bt%7D
+"\\theta_{t}") . However, there are many NaN and there are only 1994
+rows (`trump2k` has 2000 tweets) due to empty documents.
 
 ``` r
 theta <- predict(trump_btm, newdata = trump_dat)
@@ -117,7 +118,7 @@ with other topic models.
 oolong <- create_oolong(trump_btm)
 oolong
 #> 
-#> ── oolong (topic model) ────────────────────────────────────────────────────────
+#> ── oolong (topic model) ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> ✔ WI ✖ TI ✖ WSI
 #> ℹ WI: k = 8, 0 coded.
 #> 
@@ -135,7 +136,7 @@ frame you used for training (in this case `trump_dat`). Your
 oolong <- create_oolong(trump_btm, trump_corpus, btm_dataframe = trump_dat)
 oolong
 #> 
-#> ── oolong (topic model) ────────────────────────────────────────────────────────
+#> ── oolong (topic model) ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> ✔ WI ✔ TI ✖ WSI
 #> ℹ WI: k = 8, 0 coded.
 #> ℹ TI: n = 20, 0 coded.
