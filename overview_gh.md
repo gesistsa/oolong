@@ -51,13 +51,13 @@ the section on [Naive Bayes](#about-naive-bayes) for more information.
 ``` r
 library(oolong)
 library(keyATM)
-#> keyATM 0.4.0 successfully loaded.
+#> keyATM 0.5.0 successfully loaded.
 #>  Papers, examples, resources, and other materials are at
 #>  https://keyatm.github.io/keyATM/
 library(quanteda)
-#> Package version: 3.2.1
-#> Unicode version: 13.0
-#> ICU version: 66.1
+#> Package version: 3.3.1
+#> Unicode version: 14.0
+#> ICU version: 70.1
 #> Parallel computing: 8 of 8 threads used.
 #> See https://quanteda.io for tutorials and examples.
 library(dplyr)
@@ -84,7 +84,7 @@ be doing the test.
 oolong_test <- wi(abstracts_keyatm, userid = "Hadley")
 oolong_test
 #> 
-#> ── oolong (topic model) ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+#> ── oolong (topic model) ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> ✔ WI ✖ TI ✖ WSI
 #> ☺ Hadley
 #> ℹ WI: k = 10, 0 coded.
@@ -102,14 +102,20 @@ coding.
 oolong_test$do_word_intrusion_test()
 ```
 
-After the coding, you need to first lock the test. Then, you can look at
-the model precision by printing the oolong test.
+You can pause the test by clicking the “Exit” button. Your progress will
+be recorded in the object. If you want to save your progress, just save
+the object (e.g. `saveRDS(oolong_test, "oolong_test.RDS")`). To resume
+the test, launch the test again.
+
+After the coding (all items are coded), you need to press the “Exit”
+button to quit the coding interface and then lock the test. Then, you
+can look at the model precision by printing the oolong test.
 
 ``` r
 oolong_test$lock()
 oolong_test
 #> 
-#> ── oolong (topic model) ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+#> ── oolong (topic model) ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> ✔ WI ✖ TI ✖ WSI
 #> ☺ Hadley
 #> ℹ WI: k = 10, 10 coded.
@@ -133,7 +139,7 @@ parameter `n_correct_ws` to N - 1.
 oolong_test <- wsi(abstracts_keyatm, userid = "Garrett")
 oolong_test
 #> 
-#> ── oolong (topic model) ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+#> ── oolong (topic model) ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> ✖ WI ✖ TI ✔ WSI
 #> ☺ Garrett
 #> ℹ WSI: n = 10, 0 coded.
@@ -154,7 +160,7 @@ oolong_test$do_word_set_intrusion_test()
 oolong_test$lock()
 oolong_test
 #> 
-#> ── oolong (topic model) ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+#> ── oolong (topic model) ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> ✖ WI ✖ TI ✔ WSI
 #> ☺ Garrett
 #> ℹ WSI: n = 10, 10 coded.
@@ -185,7 +191,7 @@ abstracts
 #>  8 This research study examined Bud Goodall's online health narrative as a case…
 #>  9 Information technology and new media allow for collecting and sharing person…
 #> 10 Using a national, telephone survey of 1,762 adolescents aged 12-17 years, th…
-#> # … with 2,490 more rows
+#> # ℹ 2,490 more rows
 ```
 
 Creating the oolong test object with the corpus used for training the
@@ -195,7 +201,7 @@ topic model will generate topic intrusion test cases.
 oolong_test <- ti(abstracts_keyatm, abstracts$text, userid = "Julia")
 oolong_test
 #> 
-#> ── oolong (topic model) ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+#> ── oolong (topic model) ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> ✖ WI ✔ TI ✖ WSI
 #> ☺ Julia
 #> ℹ TI: n = 25, 0 coded.
@@ -218,7 +224,7 @@ oolong_test$lock()
 ``` r
 oolong_test
 #> 
-#> ── oolong (topic model) ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+#> ── oolong (topic model) ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> ✖ WI ✔ TI ✖ WSI
 #> ☺ Julia
 #> ℹ TI: n = 25, 25 coded.
@@ -278,7 +284,7 @@ Get a summary of the two objects.
 ``` r
 summarize_oolong(oolong_test_rater1, oolong_test_rater2)
 #> 
-#> ── Summary (topic model): ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+#> ── Summary (topic model): ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> 
 #> ── Word intrusion test ──
 #> 
@@ -347,7 +353,7 @@ You can still generate word intrusion and word set intrusion tests.
 ``` r
 wi(newsgroup_nb)
 #> 
-#> ── oolong (topic model) ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+#> ── oolong (topic model) ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> ✔ WI ✖ TI ✖ WSI
 #> ℹ WI: k = 20, 0 coded.
 #> 
@@ -360,7 +366,7 @@ wi(newsgroup_nb)
 ``` r
 wsi(newsgroup_nb)
 #> 
-#> ── oolong (topic model) ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+#> ── oolong (topic model) ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> ✖ WI ✖ TI ✔ WSI
 #> ℹ WSI: n = 20, 0 coded.
 #> 
@@ -391,7 +397,7 @@ tibble(text = trump2k)
 #>  8 "Big Republican Dinner tonight at Mar-a-Lago in Palm Beach. I will be there!"
 #>  9 ".@HillaryClinton loves to lie. America has had enough of the CLINTON'S! It …
 #> 10 "\"@brianstoya: @realDonaldTrump For POTUS #2016\""                          
-#> # … with 1,990 more rows
+#> # ℹ 1,990 more rows
 ```
 
 For example, you are interested in studying the sentiment of these
@@ -405,7 +411,7 @@ should be an adjective, e.g. positive, liberal, populistic, etc.
 oolong_test <- gs(input_corpus = trump2k, construct = "positive", userid = "Joe")
 oolong_test
 #> 
-#> ── oolong (gold standard generation) ───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+#> ── oolong (gold standard generation) ───────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> ☺ Joe
 #> ℹ GS: n = 20, 0 coded.
 #> ℹ Construct:  positive.
@@ -430,7 +436,7 @@ After the coding, you need to first lock the test and then the
 oolong_test$lock()
 oolong_test
 #> 
-#> ── oolong (gold standard generation) ───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+#> ── oolong (gold standard generation) ───────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> ☺ Joe
 #> ℹ GS: n = 20, 20 coded.
 #> ℹ Construct:  positive.
@@ -499,13 +505,13 @@ study the correlation between the gold standard and AFINN.
 ``` r
 summarize_oolong(oolong_test, target_value = all_afinn_score)
 #> New names:
-#> `geom_smooth()` using formula 'y ~ x'
-#> `geom_smooth()` using formula 'y ~ x'
+#> `geom_smooth()` using formula = 'y ~ x'
+#> `geom_smooth()` using formula = 'y ~ x'
 #> 
 #> ── Summary (gold standard generation):
-#> ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+#> ─────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> ℹ Correlation: 0.718 (p = 4e-04)
-#> ℹ Effect of content length: -0.323 (p = 0.1643)
+#> ℹ Effect of content length: -0.319 (p = 0.1709)
 #> • `` -> `...1`
 ```
 
@@ -547,8 +553,8 @@ Summarize all oolong objects with the target value.
 ``` r
 res <- summarize_oolong(trump, trump2, target_value = target_value)
 #> New names:
-#> `geom_smooth()` using formula 'y ~ x'
-#> `geom_smooth()` using formula 'y ~ x'
+#> `geom_smooth()` using formula = 'y ~ x'
+#> `geom_smooth()` using formula = 'y ~ x'
 #> • `` -> `...1`
 #> • `` -> `...2`
 ```
@@ -583,10 +589,10 @@ acceptable cut-off.
 ``` r
 res
 #> 
-#> ── Summary (gold standard generation): ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+#> ── Summary (gold standard generation): ─────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> ℹ Krippendorff's Alpha: 0.931
 #> ℹ Correlation: 0.744 (p = 2e-04)
-#> ℹ Effect of content length: -0.323 (p = 0.1643)
+#> ℹ Effect of content length: -0.319 (p = 0.1709)
 ```
 
 ``` r

@@ -155,7 +155,7 @@
         })
     } else {
         output$done_button <- shiny::renderUI({
-            shiny::actionButton(inputId = "done", label = "Finish", width = "40%", class = "btn-info btn-lg")
+            shiny::actionButton(inputId = "done", label = "Exit", width = "40%", class = "btn-info btn-lg")
         })
     }
     return(output)
@@ -198,7 +198,7 @@
         })
     } else {
         output$done_button <- shiny::renderUI({
-            shiny::actionButton(inputId = "done", label = "Finish", class = "btn-info btn-lg")
+            shiny::actionButton(inputId = "done", label = "Exit", class = "btn-info btn-lg")
         })
     }
     return(output)
@@ -244,7 +244,7 @@
         })
     }  else {
         output$done_button <- shiny::renderUI({
-            shiny::actionButton(inputId = "done", label = "Finish", class = "btn-info btn-lg")
+            shiny::actionButton(inputId = "done", label = "Exit", class = "btn-info btn-lg")
         })
     }
     return(output)
