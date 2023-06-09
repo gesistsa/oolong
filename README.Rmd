@@ -17,7 +17,6 @@ set.seed(42)
 # oolong <img src="man/figures/oolong_logo.svg" align="right" height="200" />
 
 <!-- badges: start -->
-[![Travis build status](https://travis-ci.org/chainsawriot/oolong.svg?branch=master)](https://travis-ci.org/chainsawriot/oolong)
 [![Codecov test coverage](https://codecov.io/gh/chainsawriot/oolong/branch/master/graph/badge.svg)](https://codecov.io/gh/chainsawriot/oolong?branch=master)
 [![joss stataus](https://joss.theoj.org/papers/6e535564e7142d705f4f3d68b18dac62/status.svg)](https://joss.theoj.org/papers/6e535564e7142d705f4f3d68b18dac62)
 [![CRAN status](https://www.r-pkg.org/badges/version/oolong)](https://CRAN.R-project.org/package=oolong)
