@@ -14,6 +14,7 @@ stataus](https://joss.theoj.org/papers/6e535564e7142d705f4f3d68b18dac62/status.s
 [![CRAN
 status](https://www.r-pkg.org/badges/version/oolong)](https://CRAN.R-project.org/package=oolong)
 [![R-CMD-check](https://github.com/chainsawriot/oolong/workflows/R-CMD-check/badge.svg)](https://github.com/chainsawriot/oolong/actions)
+[![R-CMD-check](https://github.com/chainsawriot/oolong/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/chainsawriot/oolong/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
 <img src="man/figures/oolong_demo.gif" align="center" height="400" />
