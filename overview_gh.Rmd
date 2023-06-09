@@ -71,7 +71,9 @@ As instructed, use the method `$do_word_intrusion_test()` to start coding.
 oolong_test$do_word_intrusion_test()
 ```
 
-After the coding, you need to first lock the test. Then, you can look at the model precision by printing the oolong test.
+You can pause the test by clicking the "Exit" button. Your progress will be recorded in the object. If you want to save your progress, just save the object (e.g. `saveRDS(oolong_test, "oolong_test.RDS")`). To resume the test, launch the test again.
+
+After the coding (all items are coded), you need to press the "Exit" button to quit the coding interface and then lock the test. Then, you can look at the model precision by printing the oolong test.
 
 ```{r, include = FALSE}
 ### Mock this process

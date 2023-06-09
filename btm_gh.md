@@ -20,9 +20,9 @@ require(BTM)
 #> Loading required package: BTM
 require(quanteda)
 #> Loading required package: quanteda
-#> Package version: 3.2.1
-#> Unicode version: 13.0
-#> ICU version: 66.1
+#> Package version: 3.3.1
+#> Unicode version: 14.0
+#> ICU version: 70.1
 #> Parallel computing: 8 of 8 threads used.
 #> See https://quanteda.io for tutorials and examples.
 require(oolong)
@@ -71,12 +71,12 @@ rows (`trump2k` has 2000 tweets) due to empty documents.
 ``` r
 theta <- predict(trump_btm, newdata = trump_dat)
 dim(theta)
-#> [1] 1994    8
+#> [1] 1993    8
 ```
 
 ``` r
 setdiff(docid(trump_corpus), row.names(theta))
-#> [1] "text604"  "text633"  "text659"  "text1586" "text1587" "text1761"
+#> [1] "text604"  "text624"  "text633"  "text659"  "text1586" "text1587" "text1761"
 ```
 
 ``` r
@@ -118,7 +118,7 @@ with other topic models.
 oolong <- create_oolong(trump_btm)
 oolong
 #> 
-#> ── oolong (topic model) ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+#> ── oolong (topic model) ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> ✔ WI ✖ TI ✖ WSI
 #> ℹ WI: k = 8, 0 coded.
 #> 
@@ -136,7 +136,7 @@ frame you used for training (in this case `trump_dat`). Your
 oolong <- create_oolong(trump_btm, trump_corpus, btm_dataframe = trump_dat)
 oolong
 #> 
-#> ── oolong (topic model) ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+#> ── oolong (topic model) ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> ✔ WI ✔ TI ✖ WSI
 #> ℹ WI: k = 8, 0 coded.
 #> ℹ TI: n = 20, 0 coded.
