@@ -39,7 +39,7 @@ Suggests:
     rmarkdown,
     fs,
     quanteda.textmodels,
-    shinytest
+    shinytest2
 BugReports: https://github.com/chainsawriot/oolong/issues
 VignetteBuilder: knitr
 Config/testthat/edition: 3
