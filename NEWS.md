@@ -1,3 +1,9 @@
+# oolong 0.4.3
+
+* Upgrade Shiny test cases to `shinytest2`
+* Clarify the coding task can be paused, saved, and resumed in the Vignette
+* Package maintenance
+
 # oolong 0.4.1
 
 * Eliminate `miniUI` as a dependency.
