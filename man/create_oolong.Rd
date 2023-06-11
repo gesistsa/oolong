@@ -131,7 +131,7 @@ an oolong test object.
 
 
 Use \code{wi}, \code{ti}, \code{witi}, \code{wsi} or \code{gs} to generate an oolong test of your choice. It is recommended to supply also \code{userid} (current coder).
-The names of the tests (word intrusion test and topic intrusion test) follow Chang et al (2009). In Ying et al. (forthcoming), topic intrusion test is named "T8WSI" (Top 8 Word Set Intrusion). Word set intrusion test in this package is actually the "R4WSI" (Random 4 Word Set Intrusion) in Lu et al (forthcoming). The default settings of \code{wi}, \code{witi}, and \code{ti} follow Chang et al (2009), e.g. \code{n_top_terms} = 5; instead of \code{n_top_terms} = 4 as in Lu et al (forthcoming). The default setting of \code{wsi} follows Ying et al. (forthcoming), e.g. \code{n_topiclabel_words} = 4.
+The names of the tests (word intrusion test and topic intrusion test) follow Chang et al (2009). In Ying et al. (2021), topic intrusion test is named "T8WSI" (Top 8 Word Set Intrusion). Word set intrusion test in this package is actually the "R4WSI" (Random 4 Word Set Intrusion) in Lu et al (forthcoming). The default settings of \code{wi}, \code{witi}, and \code{ti} follow Chang et al (2009), e.g. \code{n_top_terms} = 5; instead of \code{n_top_terms} = 4 as in Lu et al (forthcoming). The default setting of \code{wsi} follows Ying et al. (forthcoming), e.g. \code{n_topiclabel_words} = 4.
 As suggested by Song et al. (2020), 1% of the articles from \code{input_corpus} are randomly selected as the test cases of both \code{ti} and \code{gs}, i.e. \code{frac} = 0.01. However, it is generally believed that this proportion is dependent of the size of \code{input_corpus}, e.g. it does not make sense to draw 1% of the articles from only 100 articles. Use \code{exact_n} in these cases.
 }
 
@@ -180,7 +180,7 @@ Chang, J., Gerrish, S., Wang, C., Boyd-Graber, J. L., & Blei, D. M. (2009). Read
 
   Song et al. (2020) In validations we trust? The impact of imperfect human annotations as a gold standard on the quality of validation of automated content analysis. Political Communication.
 
-  Ying, L., Montgomery, J. M., & Stewart, B. M. (Forthcoming). Inferring concepts from topics: Towards procedures for validating topics as measures. Political Analysis
+  Ying, L., Montgomery, J. M., & Stewart, B. M. (2021). Topics, Concepts, and Measurement: A Crowdsourced Procedure for Validating Topics as Measures. Political Analysis
 }
 \author{
 Chung-hong Chan, Marius Sältzer

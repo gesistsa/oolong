@@ -54,7 +54,7 @@ Chang, J., Gerrish, S., Wang, C., Boyd-Graber, J. L., & Blei, D. M. (2009). Read
 
   Song et al. (2020) In validations we trust? The impact of imperfect human annotations as a gold standard on the quality of validation of automated content analysis. Political Communication.
 
-  Ying, L., Montgomery, J. M., & Stewart, B. M. (Forthcoming). Inferring concepts from topics: Towards procedures for validating topics as measures. Political Analysis.
+  Ying, L., Montgomery, J. M., & Stewart, B. M. (2021). Topics, Concepts, and Measurement: A Crowdsourced Procedure for Validating Topics as Measures. Political Analysis.
 }
 \author{
 Chung-hong Chan
