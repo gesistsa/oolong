@@ -1,13 +1,3 @@
-### CODING STYLE
-### function names: use full name, except ren for render
-### data structures: use singular, except list-column.
-
-#' Oolong: create and administrate validation tests for typical automated content analysis tools
-#'
-#' The oolong package makes it very easy to create, administrate and evaluate typical automated content analysis tools by providing a framework for creating human-in-the-loop validation tests. For topic models, oolong can generate tests such as word intrusion test, topic intrusion test (Chang et al.) and word set intrusion test (Ying et al.) For dictionary-based methods, oolong can generate standardized interface for making gold standard ('Ground truth') data.
-#' @docType package
-#' @author Chung-hong Chan
-#' @name oolong
 #' @importFrom R6 R6Class
 NULL
 
