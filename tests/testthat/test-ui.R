@@ -63,7 +63,7 @@ test_that("ti basic", {
 test_that("wsi basic", {
     skip_on_cran()
     skip_if_not(exists("abstracts_stm"))
-    expect_error(wsi(abstracts_stm), NA)    
+    expect_error(wsi(abstracts_stm), NA)
     expect_error(wsi(abstracts_warplda), NA)
     expect_error(wsi(abstracts_warplda), NA)
     expect_error(wsi(abstracts_btm), NA)
@@ -180,4 +180,94 @@ test_that("correct passing of n_correct_ws", {
         z <- wsi(abstracts_stm, n_correct_ws = i, wsi_n_top_terms = 50)
         expect_equal(length(z$.__enclos_env__$private$test_content$wsi$candidates[[1]]), i + 1)
     }
+})
+
+test_that("correct passing of frexweight and use_frex_words", {
+    skip_on_cran()
+    skip_if_not(exists("abstracts_stm"))
+    set.seed(123)
+    z <- wi(abstracts_stm) ## prob words
+    set.seed(123)
+    z2 <- wi(abstracts_stm, frexweight = 0.8) ## no effect, use_frexwords is FALSE
+    expect_true(identical(z$.__enclos_env__$private$test_content$wi$candidates,
+                          z2$.__enclos_env__$private$test_content$wi$candidates))
+    set.seed(123)
+    z3 <- wi(abstracts_stm, frexweight = 0.8, use_frex_words = TRUE)
+    expect_false(identical(z2$.__enclos_env__$private$test_content$wi$candidates,
+                           z3$.__enclos_env__$private$test_content$wi$candidates))
+    set.seed(123)
+    z4 <- wi(abstracts_stm, frexweight = 0.5, use_frex_words = TRUE)
+    expect_false(identical(z3$.__enclos_env__$private$test_content$wi$candidates,
+                           z4$.__enclos_env__$private$test_content$wi$candidates))
+})
+
+test_that("legacy `difficulty` #74", {
+    skip_on_cran()
+    skip_if_not(exists("abstracts_stm"))
+    set.seed(123)
+    z <- wi(abstracts_stm) ## prob words
+    set.seed(123)
+    z2 <- wi(abstracts_stm, difficulty = 0.5) ## no effect, use_frexwords is FALSE
+    expect_true(identical(z$.__enclos_env__$private$test_content$wi$candidates,
+                          z2$.__enclos_env__$private$test_content$wi$candidates))
+    set.seed(123)
+    z3 <- wi(abstracts_stm, difficulty = 0.8, use_frex_words = TRUE)
+    expect_false(identical(z2$.__enclos_env__$private$test_content$wi$candidates,
+                           z3$.__enclos_env__$private$test_content$wi$candidates))
+    ##equvalent
+    set.seed(123)
+    z4 <- wi(abstracts_stm, frexweight = 0.8, use_frex_words = TRUE)
+    expect_true(identical(z3$.__enclos_env__$private$test_content$wi$candidates,
+                          z4$.__enclos_env__$private$test_content$wi$candidates))
+})
+
+test_that("correct passing of lambda", {
+    skip_on_cran()
+    skip_if_not(exists("abstracts_warplda"))
+    set.seed(123)
+    z <- wi(abstracts_warplda) ## lambda = 1
+    set.seed(123)
+    z2 <- wi(abstracts_warplda, lambda = 1) ## lambda = 1
+    expect_true(identical(z$.__enclos_env__$private$test_content$wi$candidates,
+                          z2$.__enclos_env__$private$test_content$wi$candidates))
+    set.seed(123)
+    z3 <- wi(abstracts_warplda, lambda = .5)
+    expect_false(identical(z$.__enclos_env__$private$test_content$wi$candidates,
+                           z3$.__enclos_env__$private$test_content$wi$candidates))
+})
+
+test_that("legacy `difficulty` #74", {
+    skip_on_cran()
+    skip_if_not(exists("abstracts_stm"))
+    skip_if_not(exists("abstracts_warplda"))
+    set.seed(123)
+    z <- wi(abstracts_stm) ## prob words
+    set.seed(123)
+    z2 <- wi(abstracts_stm, difficulty = 0.5) ## no effect, use_frexwords is FALSE
+    expect_true(identical(z$.__enclos_env__$private$test_content$wi$candidates,
+                          z2$.__enclos_env__$private$test_content$wi$candidates))
+    set.seed(123)
+    z3 <- wi(abstracts_stm, difficulty = 0.8, use_frex_words = TRUE)
+    expect_false(identical(z2$.__enclos_env__$private$test_content$wi$candidates,
+                           z3$.__enclos_env__$private$test_content$wi$candidates))
+    ##equivalent
+    set.seed(123)
+    z4 <- wi(abstracts_stm, frexweight = 0.8, use_frex_words = TRUE)
+    expect_true(identical(z3$.__enclos_env__$private$test_content$wi$candidates,
+                          z4$.__enclos_env__$private$test_content$wi$candidates))
+    set.seed(123)
+    z <- wi(abstracts_warplda) ## lambda = 1
+    set.seed(123)
+    z2 <- wi(abstracts_warplda, difficulty = 1) ## lambda = 1
+    set.seed(123)
+    z3 <- wi(abstracts_warplda, lambda = 1) ## lambda = 1
+
+    expect_true(identical(z$.__enclos_env__$private$test_content$wi$candidates,
+                          z2$.__enclos_env__$private$test_content$wi$candidates))
+    expect_true(identical(z2$.__enclos_env__$private$test_content$wi$candidates,
+                          z3$.__enclos_env__$private$test_content$wi$candidates))
+    set.seed(123)
+    z4 <- wi(abstracts_warplda, lambda = 0.1)
+    expect_false(identical(z3$.__enclos_env__$private$test_content$wi$candidates,
+                           z4$.__enclos_env__$private$test_content$wi$candidates))
 })
