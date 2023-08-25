@@ -121,8 +121,8 @@
     return(test_content)
 }
 
-.generate_test_content <- function(input_model, input_corpus = NULL, n_top_terms = 5, bottom_terms_percentile = 0.6, exact_n = NULL, frac = 0.01, n_top_topics = 3, n_topiclabel_words = 8, difficulty = 1, use_frex_words = FALSE, input_dfm = NULL, btm_dataframe = NULL, type = "witi", n_correct_ws = 3, wsi_n_top_terms = 20) {
-    ingredients <- .extract_ingredients(.convert_input_model_s3(input_model), n_top_terms = n_top_terms, difficulty = difficulty, need_topic = !is.null(input_corpus), n_topiclabel_words = n_topiclabel_words, input_dfm = input_dfm, use_frex_words = use_frex_words, input_corpus = input_corpus, btm_dataframe = btm_dataframe)
+.generate_test_content <- function(input_model, input_corpus = NULL, n_top_terms = 5, bottom_terms_percentile = 0.6, exact_n = NULL, frac = 0.01, n_top_topics = 3, n_topiclabel_words = 8, frexweight = .5, use_frex_words = FALSE, input_dfm = NULL, btm_dataframe = NULL, type = "witi", n_correct_ws = 3, wsi_n_top_terms = 20, lambda = 1) {
+    ingredients <- .extract_ingredients(.convert_input_model_s3(input_model), n_top_terms = n_top_terms, frexweight = frexweight, need_topic = !is.null(input_corpus), n_topiclabel_words = n_topiclabel_words, input_dfm = input_dfm, use_frex_words = use_frex_words, input_corpus = input_corpus, btm_dataframe = btm_dataframe, lambda = lambda)
     .cstop(type %in% c("ti") & is.null(ingredients$theta), "input_corpus can't be NULL for generating oolong test object with only topic intrusion test.")
     test_content <- list()
     if (type %in% c("wi", "witi")) {
@@ -133,7 +133,7 @@
     } else if (type %in% c("witi", "ti")) {
         test_content$ti <- .generate_topic_intrusion_test(input_corpus = input_corpus, ingredients = ingredients, exact_n = exact_n, frac = frac, n_top_topics = n_top_topics, n_topiclabel_words = n_topiclabel_words)
     } else {
-        test_content$ti <- NULL        
+        test_content$ti <- NULL
     }
     if (type %in% c("wsi")) {
         test_content$wsi <- .generate_wsi(ingredients, n_correct_ws = n_correct_ws, n_topiclabel_words = n_topiclabel_words, wsi_n_top_terms = wsi_n_top_terms)
@@ -209,8 +209,23 @@ Oolong_test_tm <-
         "oolong_test_tm",
         inherit = Oolong_test,
         public = list(
-            initialize = function(input_model = NULL, input_corpus = NULL, n_top_terms = 5, bottom_terms_percentile = 0.6, exact_n = 15, frac = NULL, n_top_topics = 3, n_topiclabel_words = 8, difficulty = 1, use_frex_words = FALSE, input_dfm = NULL, btm_dataframe = NULL, userid = NA, n_correct_ws = 3, wsi_n_top_terms = 20, type = "witi") {
-                private$test_content <- .generate_test_content(input_model, input_corpus, n_top_terms, bottom_terms_percentile, exact_n, frac, n_top_topics, n_topiclabel_words, difficulty, use_frex_words = use_frex_words, input_dfm = input_dfm, btm_dataframe = btm_dataframe, type = type, n_correct_ws = n_correct_ws, wsi_n_top_terms = wsi_n_top_terms)
+            initialize = function(input_model = NULL, input_corpus = NULL, n_top_terms = 5, bottom_terms_percentile = 0.6, exact_n = 15, frac = NULL, n_top_topics = 3, n_topiclabel_words = 8, frexweight = .5, use_frex_words = FALSE, input_dfm = NULL, btm_dataframe = NULL, userid = NA, n_correct_ws = 3, wsi_n_top_terms = 20, lambda = 1, type = "witi") {
+                private$test_content <- .generate_test_content(input_model = input_model,
+                                                               input_corpus = input_corpus,
+                                                               n_top_terms = n_top_terms,
+                                                               bottom_terms_percentile = bottom_terms_percentile,
+                                                               exact_n = exact_n,
+                                                               frac = frac,
+                                                               n_top_topics = n_top_topics,
+                                                               n_topiclabel_words = n_topiclabel_words,
+                                                               frexweight = frexweight,
+                                                               use_frex_words = use_frex_words,
+                                                               input_dfm = input_dfm,
+                                                               btm_dataframe = btm_dataframe,
+                                                               type = type,
+                                                               n_correct_ws = n_correct_ws,
+                                                               wsi_n_top_terms = wsi_n_top_terms,
+                                                               lambda = lambda)
                 self$userid <- userid
                 private$hash <- .safe_hash(private$test_content)
                 private$hash_input_model <- .safe_hash(input_model)
@@ -242,5 +257,3 @@ Oolong_test_tm <-
             finalized = FALSE
         )
         )
-
-

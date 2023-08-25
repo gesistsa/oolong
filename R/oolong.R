@@ -51,14 +51,15 @@ Oolong_test <- R6::R6Class(
 #' For more details, please see the overview vignette: \code{vignette("overview", package = "oolong")}
 #' @param input_model (wi, ti, witi, wsi) a STM, WarpLDA, topicmodels, KeyATM, seededlda, textmodel_nb, or BTM object; if it is NULL, create_oolong assumes that you want to create gold standard.
 #' @param input_corpus (wi, ti, witi, wsi, gs) if input_model is not null, it should be the corpus (character vector or quanteda::corpus object) to generate the model object. If input_model and input_corpus are not NULL, topic intrusion test cases are generated. If input_model is a BTM object, this argument is ignored. If input_model is null, it generates gold standard test cases.
-#' @param n_top_terms (wi, witi) integer, number of top topic words to be included in the candidates of word intrusion test. 
+#' @param n_top_terms (wi, witi) integer, number of top topic words to be included in the candidates of word intrusion test.
 #' @param bottom_terms_percentile (wi, witi) double, a term is considered to be an word intruder when its theta less than the percentile of this theta, must be within the range of 0 to 1
 #' @param exact_n (ti, witi, gs) integer, number of topic intrusion test cases to generate, ignore if frac is not NULL
 #' @param frac (ti, witi, gs) double, fraction of test cases to be generated from the corpus
 #' @param n_top_topics (wi, witi) integer, number of most relevant topics to be shown alongside the intruder topic
 #' @param n_topiclabel_words (witi, ti, wsi) integer, number of topic words to be shown as the topic ("ti" and "witi") / word set ("wsi") label
 #' @param use_frex_words (wi, witi, ti, wsi) logical, for a STM object, use FREX words if TRUE, use PROB words if FALSE
-#' @param difficulty (wi, witi, ti, wsi) double, adjust the difficulty of the test. Higher value indicates higher difficulty and must be within the range of 0 to 1, no effect for STM if use_frex_words is FALSE. Ignore for topicmodels objects
+#' @param frexweight (wi, witi, ti, wsi) double, adjust the `frexweight` for STM (see [stm::labelTopics()]), no effect for STM if use_frex_words is FALSE
+#' @param lamba (wi, witi, ti, wsi) double, adjust the `lambda` for WarpLDA (see [text2vec::LatentDirichletAllocation()])
 #' @param type (create_oolong) a character string to denote what you want to create. "wi": word intrusion test; "ti": topic intrusion test; "witi": both word intrusion test and topic intrusion test; "gs": gold standard generation
 #' @param input_dfm (wi, witi, ti, wsi) a dfm object used for training the input_model, if input_model is a WarpLDA object
 #' @param construct (gs) string, an adjective to describe the construct you want your coders to code the the gold standard test cases
@@ -66,6 +67,7 @@ Oolong_test <- R6::R6Class(
 #' @param userid a character string to denote the name of the coder. Default to NA (no userid); not recommended
 #' @param n_correct_ws (wsi) number of word sets to be shown alongside the intruder word set
 #' @param wsi_n_top_terms (wsi) number of top topic words from each topic to be randomized selected as the word set label
+#' @param difficulty (wi, witi, ti, wsi) double, deprecated, for backward compatibility
 #' @return an oolong test object.
 #' @examples
 #' ## Creation of oolong test with only word intrusion test
@@ -93,17 +95,21 @@ Oolong_test <- R6::R6Class(
 #'   Song et al. (2020) In validations we trust? The impact of imperfect human annotations as a gold standard on the quality of validation of automated content analysis. Political Communication.
 #'
 #'   Ying, L., Montgomery, J. M., & Stewart, B. M. (2021). Topics, Concepts, and Measurement: A Crowdsourced Procedure for Validating Topics as Measures. Political Analysis
-#' 
+#'
 #' @export
-create_oolong <- function(input_model = NULL, input_corpus = NULL, n_top_terms = 5, bottom_terms_percentile = 0.6, exact_n = NULL, frac = 0.01, n_top_topics = 3, n_topiclabel_words = 8, use_frex_words = FALSE, difficulty = 1, input_dfm = NULL, construct = "positive", btm_dataframe = NULL, n_correct_ws = 3, wsi_n_top_terms = 20, userid = NA, type = "witi") {
+create_oolong <- function(input_model = NULL, input_corpus = NULL, n_top_terms = 5, bottom_terms_percentile = 0.6, exact_n = NULL, frac = 0.01, n_top_topics = 3, n_topiclabel_words = 8, use_frex_words = FALSE, frexweight = .5, input_dfm = NULL, construct = "positive", btm_dataframe = NULL, n_correct_ws = 3, wsi_n_top_terms = 20, userid = NA, type = "witi", lambda = 1, difficulty = NULL) {
     .cstop(!type %in% c("wi", "witi", "ti", "gs", "wsi"), "Unknown type, available types are 'wi', 'witi', 'ti', 'wsi' and 'gs'")
     .cstop(is.null(input_model) & is.null(input_corpus), "input_model and input_corpus cannot be both NULL.")
     if (!is.null(input_model)) {
         .cstop(!.is_topic_model(input_model), "input_model is not a topic model. If you want to create gold standard with an input_corpus, use: create_oolong(input_corpus = input_corpus) or gs(input_corpus)")
     }
     .cstop(length(userid) > 1, "userid must not be a vector with length > 1.")
+    if (!is.null(difficulty)) {
+        frexweight <- difficulty
+        lambda <- difficulty
+    }
     if (!is.null(input_model) & type %in% c("wi", "ti", "witi", "wsi")) {
-        return(Oolong_test_tm$new(input_model = input_model, input_corpus = input_corpus, n_top_terms = n_top_terms, bottom_terms_percentile = bottom_terms_percentile, exact_n = exact_n, frac = frac, n_top_topics = n_top_topics, n_topiclabel_words = n_topiclabel_words, difficulty = difficulty, use_frex_words = use_frex_words, input_dfm = input_dfm, btm_dataframe = btm_dataframe, n_correct_ws = n_correct_ws, wsi_n_top_terms = wsi_n_top_terms, userid = userid, type = type))
+        return(Oolong_test_tm$new(input_model = input_model, input_corpus = input_corpus, n_top_terms = n_top_terms, bottom_terms_percentile = bottom_terms_percentile, exact_n = exact_n, frac = frac, n_top_topics = n_top_topics, n_topiclabel_words = n_topiclabel_words, frexweight = frexweight, use_frex_words = use_frex_words, input_dfm = input_dfm, btm_dataframe = btm_dataframe, n_correct_ws = n_correct_ws, wsi_n_top_terms = wsi_n_top_terms, userid = userid, type = type, lambda = lambda))
     }
     if (is.null(input_model) | type == "gs") {
         return(Oolong_test_gs$new(input_corpus = input_corpus, exact_n = exact_n, frac = frac, construct = construct, userid = userid))

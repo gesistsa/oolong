@@ -19,14 +19,16 @@ create_oolong(
   n_top_topics = 3,
   n_topiclabel_words = 8,
   use_frex_words = FALSE,
-  difficulty = 1,
+  frexweight = 0.5,
   input_dfm = NULL,
   construct = "positive",
   btm_dataframe = NULL,
   n_correct_ws = 3,
   wsi_n_top_terms = 20,
   userid = NA,
-  type = "witi"
+  type = "witi",
+  lambda = 1,
+  difficulty = NULL
 )
 
 wi(
@@ -34,8 +36,10 @@ wi(
   userid = NA,
   n_top_terms = 5,
   bottom_terms_percentile = 0.6,
-  difficulty = 1,
-  use_frex_words = FALSE
+  frexweight = 0.5,
+  use_frex_words = FALSE,
+  lambda = 1,
+  difficulty = NULL
 )
 
 witi(
@@ -48,10 +52,12 @@ witi(
   frac = 0.01,
   n_top_topics = 3,
   n_topiclabel_words = 8,
+  frexweight = 0.5,
   use_frex_words = FALSE,
-  difficulty = 1,
   input_dfm = NULL,
-  btm_dataframe = NULL
+  btm_dataframe = NULL,
+  lambda = 1,
+  difficulty = NULL
 )
 
 ti(
@@ -62,10 +68,12 @@ ti(
   frac = 0.01,
   n_top_topics = 3,
   n_topiclabel_words = 8,
+  frexweight = 0.5,
   use_frex_words = FALSE,
-  difficulty = 1,
   input_dfm = NULL,
-  btm_dataframe = NULL
+  btm_dataframe = NULL,
+  lambda = 1,
+  difficulty = NULL
 )
 
 wsi(
@@ -74,8 +82,10 @@ wsi(
   n_topiclabel_words = 4,
   n_correct_ws = 3,
   wsi_n_top_terms = 20,
-  difficulty = 1,
-  use_frex_words = FALSE
+  frexweight = 0.5,
+  use_frex_words = FALSE,
+  lambda = 1,
+  difficulty = NULL
 )
 
 gs(
@@ -105,7 +115,7 @@ gs(
 
 \item{use_frex_words}{(wi, witi, ti, wsi) logical, for a STM object, use FREX words if TRUE, use PROB words if FALSE}
 
-\item{difficulty}{(wi, witi, ti, wsi) double, adjust the difficulty of the test. Higher value indicates higher difficulty and must be within the range of 0 to 1, no effect for STM if use_frex_words is FALSE. Ignore for topicmodels objects}
+\item{frexweight}{(wi, witi, ti, wsi) double, adjust the `frexweight` for STM (see [stm::labelTopics()]), no effect for STM if use_frex_words is FALSE}
 
 \item{input_dfm}{(wi, witi, ti, wsi) a dfm object used for training the input_model, if input_model is a WarpLDA object}
 
@@ -120,6 +130,10 @@ gs(
 \item{userid}{a character string to denote the name of the coder. Default to NA (no userid); not recommended}
 
 \item{type}{(create_oolong) a character string to denote what you want to create. "wi": word intrusion test; "ti": topic intrusion test; "witi": both word intrusion test and topic intrusion test; "gs": gold standard generation}
+
+\item{difficulty}{(wi, witi, ti, wsi) double, deprecated, for backward compatibility}
+
+\item{lamba}{(wi, witi, ti, wsi) double, adjust the `lambda` for WarpLDA (see [text2vec::LatentDirichletAllocation()])}
 }
 \value{
 an oolong test object.
