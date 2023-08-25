@@ -131,9 +131,9 @@ gs(
 
 \item{type}{(create_oolong) a character string to denote what you want to create. "wi": word intrusion test; "ti": topic intrusion test; "witi": both word intrusion test and topic intrusion test; "gs": gold standard generation}
 
-\item{difficulty}{(wi, witi, ti, wsi) double, deprecated, for backward compatibility}
+\item{lambda}{(wi, witi, ti, wsi) double, adjust the `lambda` for WarpLDA (see [text2vec::LatentDirichletAllocation()])}
 
-\item{lamba}{(wi, witi, ti, wsi) double, adjust the `lambda` for WarpLDA (see [text2vec::LatentDirichletAllocation()])}
+\item{difficulty}{(wi, witi, ti, wsi) double, deprecated, for backward compatibility}
 }
 \value{
 an oolong test object.

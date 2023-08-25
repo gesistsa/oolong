@@ -41,3 +41,4 @@
 ^\.github$
 ^rawdata/
 ^CRAN-SUBMISSION$
+^\.editorconfig$

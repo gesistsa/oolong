@@ -59,7 +59,7 @@ Oolong_test <- R6::R6Class(
 #' @param n_topiclabel_words (witi, ti, wsi) integer, number of topic words to be shown as the topic ("ti" and "witi") / word set ("wsi") label
 #' @param use_frex_words (wi, witi, ti, wsi) logical, for a STM object, use FREX words if TRUE, use PROB words if FALSE
 #' @param frexweight (wi, witi, ti, wsi) double, adjust the `frexweight` for STM (see [stm::labelTopics()]), no effect for STM if use_frex_words is FALSE
-#' @param lamba (wi, witi, ti, wsi) double, adjust the `lambda` for WarpLDA (see [text2vec::LatentDirichletAllocation()])
+#' @param lambda (wi, witi, ti, wsi) double, adjust the `lambda` for WarpLDA (see [text2vec::LatentDirichletAllocation()])
 #' @param type (create_oolong) a character string to denote what you want to create. "wi": word intrusion test; "ti": topic intrusion test; "witi": both word intrusion test and topic intrusion test; "gs": gold standard generation
 #' @param input_dfm (wi, witi, ti, wsi) a dfm object used for training the input_model, if input_model is a WarpLDA object
 #' @param construct (gs) string, an adjective to describe the construct you want your coders to code the the gold standard test cases
