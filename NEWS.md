@@ -1,3 +1,25 @@
+# oolong 0.5.0
+
+* Potential breaking change: the parameter `difficulty` is deprecated. Instead, please use the respective `frewweight` (for STM) and `lambda` (for Warp LDA). For legacy code explicitly using the `difficulty` parameter, this change does not break your code. However, if you use the following pattern, you might need to change your legacy code accordingly.
+
+```r
+## This code is okay
+set.seed(123)
+wsi(abstracts_stm, use_frex_words = TRUE, difficulty = 0.8)
+
+set.seed(123)
+## You will get different results with oolong 0.5.0
+wsi(abstracts_stm, use_frex_words = TRUE)
+
+## You need to explicitly use the old default, which is quite high
+set.seed(123)
+wsi(abstracts_stm, use_frex_words = TRUE, frexweight = 1)
+```
+
+* The package-level documentation is removed.
+
+* Increase the required R version to 4.0 because of `keyATM`
+
 # oolong 0.4.3
 
 * Upgrade Shiny test cases to `shinytest2`
