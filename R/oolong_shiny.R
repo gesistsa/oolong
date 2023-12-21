@@ -43,7 +43,7 @@
         ))
         output$download <- shiny::downloadHandler(
             filename = function() {
-                paste0('oolong_', Sys.time(), " ", input$userid, '.RDS')
+                paste0("oolong_", Sys.time(), " ", input$userid, ".RDS")
             },
             content = function(file) {
                 output <- list()
@@ -269,7 +269,7 @@
 }
 
 #' Deploy an oolong test
-#' 
+#'
 #' In most of the time, you should not use this function. You should write the deployable version of your app into a directory using \code{export_oolong} instead. Please refer to \code{vignette("deploy", package = "oolong")} for more details.
 #' @param oolong an oolong object to be deployed. Please note that the "witi" type, i.e. oolong object with both word and topic intrusion tests, cannot be deployed. Also the object must not be locked and ever coded.
 #' @return Nothing, it launches a deployable version of the coding interface
@@ -287,20 +287,22 @@ deploy_oolong <- function(oolong) {
     ### could use switch
     if (mob_oolong$type == "wi") {
         return(.gen_shinyapp(mob_oolong$test_content$wi, ui = .UI_WORD_INTRUSION_TEST, .ren = .ren_word_intrusion_test, hash = mob_oolong$hash))
-    } else if (mob_oolong$type == "ti") {
-        return(.gen_shinyapp(mob_oolong$test_content$ti, ui = .UI_TOPIC_INTRUSION_TEST, .ren = .ren_topic_intrusion_test, hash = mob_oolong$hash))
-    } else if (mob_oolong$type == "wsi") {
-        return(.gen_shinyapp(mob_oolong$test_content$wsi, ui = .UI_WORD_INTRUSION_TEST, .ren = .ren_word_set_intrusion_test, hash = mob_oolong$hash))
-    } else if (mob_oolong$type == "gs") {
-        .ren <- function(output, test_content, res, hash = NULL) {
-            return(.ren_gold_standard_test(output, test_content, res, construct = mob_oolong$construct, hash = hash))
-        }
-        return(.gen_shinyapp(mob_oolong$test_content$gs, ui = .UI_GOLD_STANDARD_TEST, .ren = .ren, hash = mob_oolong$hash))
     }
+    if (mob_oolong$type == "ti") {
+        return(.gen_shinyapp(mob_oolong$test_content$ti, ui = .UI_TOPIC_INTRUSION_TEST, .ren = .ren_topic_intrusion_test, hash = mob_oolong$hash))
+    }
+    if (mob_oolong$type == "wsi") {
+        return(.gen_shinyapp(mob_oolong$test_content$wsi, ui = .UI_WORD_INTRUSION_TEST, .ren = .ren_word_set_intrusion_test, hash = mob_oolong$hash))
+    }
+    ## gs
+    .ren <- function(output, test_content, res, hash = NULL) {
+        return(.ren_gold_standard_test(output, test_content, res, construct = mob_oolong$construct, hash = hash))
+    }
+    return(.gen_shinyapp(mob_oolong$test_content$gs, ui = .UI_GOLD_STANDARD_TEST, .ren = .ren, hash = mob_oolong$hash))
 }
 
 #' Export a deployable Shiny app from an oolong object into a directory
-#' 
+#'
 #' This function exports your oolong test into a launched Shiny app that is ideal for online deployment. Deploying the Shiny app online allows coders to conduct the test online with their browser, rather than having to install R on their own computer. In contrast to the testing interfaces launched with methods such as \code{$do_word_intrusion_test()}, the deployable version provides data download after the coder finished coding. Downloaded data can then revert back to a locked oolong object using \code{revert_oolong}. Further version might provide solutions to permanent storage. The deployable Shiny app will be in a directory. The Shiny app is both launchable with shiny::runApp() and deployable with rsconnect::deployApp(). Please refer to \code{vignette("deploy", package = "oolong")} for more details.
 #' @param oolong an oolong object to be exported. Please note that the "witi" type, i.e. oolong object with both word and topic intrusion tests, cannot be exported. Also the object must not be locked and ever coded.
 #' @param dir character string, the directory to be exported. Default to a temporary directory

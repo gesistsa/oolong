@@ -14,6 +14,10 @@
 
 ##oolong for formats
 
+.add_class <- function(output, added_class) {
+    class(output) <- append(class(output), added_class)
+    return(output)
+}
 
 .convert_input_model_s3 <- function(input_model) {
     if (!.is_topic_model(input_model)) {
@@ -22,20 +26,24 @@
     output <- list()
     output$model <- input_model
     if ("WarpLDA" %in% class(input_model)) {
-        class(output) <- append(class(output), "input_model_s3_warplda")
-    } else if ("textmodel_lda" %in% class(input_model)) {
-        class(output) <- append(class(output), "input_model_s3_seededlda")
-    } else if ("textmodel_nb" %in% class(input_model)) {
-        class(output) <- append(class(output), "input_model_s3_nb")
-    } else if ("STM" %in% class(input_model)) {
-        class(output) <- append(class(output), "input_model_s3_stm")
-    } else if ("BTM" %in% class(input_model)) {
-        class(output) <- append(class(output), "input_model_s3_btm")
-    } else if ("keyATM_output" %in% class(input_model)) {
-        class(output) <- append(class(output), "input_model_s3_keyatm")
-    } else if ("topicmodels" == attr(class(input_model), "package")) {
-        class(output) <- append(class(output), "input_model_s3_topicmodels")
-    }    
-    return(output)
+        return(.add_class(output, "input_model_s3_warplda"))
+    }
+    if ("textmodel_lda" %in% class(input_model)) {
+        return(.add_class(output, "input_model_s3_seededlda"))
+    }
+    if ("textmodel_nb" %in% class(input_model)) {
+        return(.add_class(output, "input_model_s3_nb"))
+    }
+    if ("STM" %in% class(input_model)) {
+        return(.add_class(output, "input_model_s3_stm"))
+    }
+    if ("BTM" %in% class(input_model)) {
+        return(.add_class(output, "input_model_s3_btm"))
+    }
+    if ("keyATM_output" %in% class(input_model)) {
+        return(.add_class(output, "input_model_s3_keyatm"))
+    }
+    if ("topicmodels" == attr(class(input_model), "package")) {
+        return(.add_class(output, "input_model_s3_topicmodels"))
+    }
 }
-
