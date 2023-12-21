@@ -2,7 +2,7 @@
 
     Code
       create_oolong(input_corpus = abstracts$text)
-    Message <cliMessage>
+    Message
       
       -- oolong (gold standard generation) -------------------------------------------
       i GS: n = 25, 0 coded.
@@ -40,14 +40,14 @@
       "In the last decade, research has provided a series of insigh..."
       
       [ reached max_ndoc ... 19 more documents ]
-    Message <cliMessage>
+    Message
       i Access the answer from the coding with quanteda::docvars(obj, 'answer')
 
 # check_calculation_topic_intrusion_multiobject (Printing)
 
     Code
       res
-    Message <cliMessage>
+    Message
       
       -- Summary (topic model): ------------------------------------------------------
       
@@ -74,7 +74,7 @@
     Code
       create_oolong(input_model = abstracts_keyatm, input_corpus = abstracts$text,
       type = "ti")
-    Message <cliMessage>
+    Message
       
       -- oolong (topic model) --------------------------------------------------------
       x WI v TI x WSI
@@ -90,7 +90,7 @@
     Code
       create_oolong(input_model = abstracts_keyatm, input_corpus = abstracts$text,
       type = "wsi", wsi_n_top_terms = 100)
-    Message <cliMessage>
+    Message
       
       -- oolong (topic model) --------------------------------------------------------
       x WI x TI v WSI
@@ -105,7 +105,7 @@
 
     Code
       res
-    Message <cliMessage>
+    Message
       
       -- Summary (topic model): ------------------------------------------------------
       
@@ -120,7 +120,7 @@
 
     Code
       res
-    Message <cliMessage>
+    Message
       
       -- Summary (topic model): ------------------------------------------------------
       
@@ -134,7 +134,7 @@
 
     Code
       export_oolong(obj1, dir = newdir, verbose = TRUE, use_full_path = FALSE)
-    Message <cliMessage>
+    Message
       i The Shiny has been written to the directory: ~/oolong_testing
       i You can test the app with: shiny::runApp("~/oolong_testing")
 
@@ -147,10 +147,12 @@
 
     Code
       update_oolong(y)
-    Warning <simpleWarning>
+    Condition
+      Warning in `update_oolong()`:
       Please consider setting the userid by assigning the userid to the slot $userid, e.g. oolong$userid <- "myname"
+      Warning in `update_oolong()`:
       The oolong object is too old. Some security features might not be available in the updated oolong object.
-    Message <cliMessage>
+    Message
       
       -- oolong (topic model) --------------------------------------------------------
       v WI v TI x WSI
@@ -167,10 +169,12 @@
 
     Code
       update_oolong(y)
-    Warning <simpleWarning>
+    Condition
+      Warning in `update_oolong()`:
       Please consider setting the userid by assigning the userid to the slot $userid, e.g. oolong$userid <- "myname"
+      Warning in `update_oolong()`:
       The oolong object is too old. Some security features might not be available in the updated oolong object.
-    Message <cliMessage>
+    Message
       
       -- oolong (gold standard generation) -------------------------------------------
       i GS: n = 25, 0 coded.
@@ -185,10 +189,12 @@
 
     Code
       update_oolong(y)
-    Warning <simpleWarning>
+    Condition
+      Warning in `update_oolong()`:
       Please consider setting the userid by assigning the userid to the slot $userid, e.g. oolong$userid <- "myname"
+      Warning in `update_oolong()`:
       The oolong object is too old. Some security features might not be available in the updated oolong object.
-    Message <cliMessage>
+    Message
       
       -- oolong (gold standard generation) -------------------------------------------
       i GS: n = 25, 0 coded.
@@ -206,7 +212,7 @@
 
     Code
       update_oolong(y)
-    Message <cliMessage>
+    Message
       
       -- oolong (topic model) --------------------------------------------------------
       v WI x TI x WSI
