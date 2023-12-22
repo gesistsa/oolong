@@ -2,7 +2,7 @@
 title: "Deploy"
 output: rmarkdown::html_vignette
 author:
-  - Chung-hong Chan ^[University of Mannheim]
+  - Chung-hong Chan ^[GESIS]
 vignette: >
   %\VignetteIndexEntry{Deploy}
   %\VignetteEngine{knitr::rmarkdown}
@@ -16,7 +16,6 @@ knitr::opts_chunk$set(
   )
 set.seed(46709394)
 ```
-
 In oolong 0.3.22, functions for deploying oolong tests were added (`export_oolong`, `revert_oolong` etc.). These functions make it possible for the coders to conduct validation tests online using their browser, rather than having to install R on their computer.
 
 The basic workflow is simple: 1) create the oolong test object as usual; 2) deploy the test online and obtain the URL to the test; 3) ask your coders to conduct the test online and send back the data file; 4) revert back from the data file to an oolong object.

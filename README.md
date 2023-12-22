@@ -6,7 +6,7 @@
 <!-- badges: start -->
 
 [![Codecov test
-coverage](https://codecov.io/gh/chainsawriot/oolong/branch/v0.5/graph/badge.svg)](https://codecov.io/gh/chainsawriot/oolong?branch=v0.5)
+coverage](https://codecov.io/gh/gesistsa/oolong/branch/v0.5/graph/badge.svg)](https://codecov.io/gh/gesistsa/oolong?branch=v0.5)
 [![joss
 stataus](https://joss.theoj.org/papers/6e535564e7142d705f4f3d68b18dac62/status.svg)](https://joss.theoj.org/papers/6e535564e7142d705f4f3d68b18dac62)
 [![CRAN

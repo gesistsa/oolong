@@ -2,7 +2,7 @@
 title: "{title}"
 output: rmarkdown::html_vignette
 author:
-  - Chung-hong Chan ^[University of Mannheim]
+  - Chung-hong Chan ^[GESIS]
 vignette: >
   %\VignetteIndexEntry{{title}}
   %\VignetteEngine{knitr::rmarkdown}
@@ -16,4 +16,3 @@ knitr::opts_chunk$set(
   )
 set.seed(46709394)
 ```
-

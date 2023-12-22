@@ -2,7 +2,7 @@
 title: "BTM"
 output: rmarkdown::html_vignette
 author:
-  - Chung-hong Chan ^[University of Mannheim]
+  - Chung-hong Chan ^[GESIS]
 vignette: >
   %\VignetteIndexEntry{BTM}
   %\VignetteEngine{knitr::rmarkdown}
@@ -16,7 +16,6 @@ knitr::opts_chunk$set(
   )
 set.seed(46709394)
 ```
-
 
 The package BTM by Jan Wijffels et al. finds "topics in collections of short text". Compared to other topic model packages, BTM requires a special data format for training. Oolong has no problem generating word intrusion tests with BTM. However, that special data format can make creation of topic intrusion tests very tricky.
 

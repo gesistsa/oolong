@@ -2,7 +2,7 @@
 title: "{title}"
 output: github_document
 author:
-  - Chung-hong Chan ^[University of Mannheim]
+  - Chung-hong Chan ^[GESIS]
 ---
 
 ```{r, include = FALSE}

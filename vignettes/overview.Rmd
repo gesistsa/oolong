@@ -2,7 +2,7 @@
 title: "Overview"
 output: rmarkdown::html_vignette
 author:
-  - Chung-hong Chan ^[University of Mannheim]
+  - Chung-hong Chan ^[GESIS]
 vignette: >
   %\VignetteIndexEntry{Overview}
   %\VignetteEngine{knitr::rmarkdown}
@@ -16,7 +16,6 @@ knitr::opts_chunk$set(
   )
 set.seed(46709394)
 ```
-
 The validation test is called "oolong test" (for reading tea leaves). This package provides several functions for generating different types of oolong test.
 
 | function | purpose                                                                                                                           |

@@ -118,7 +118,7 @@ with other topic models.
 oolong <- create_oolong(trump_btm)
 oolong
 #> 
-#> ── oolong (topic model) ──────────────────────────────────────────────────────────────────────────────────────────────
+#> ── oolong (topic model) ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> ✔ WI ✖ TI ✖ WSI
 #> ℹ WI: k = 8, 0 coded.
 #> 
@@ -136,7 +136,7 @@ frame you used for training (in this case `trump_dat`). Your
 oolong <- create_oolong(trump_btm, trump_corpus, btm_dataframe = trump_dat)
 oolong
 #> 
-#> ── oolong (topic model) ──────────────────────────────────────────────────────────────────────────────────────────────
+#> ── oolong (topic model) ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> ✔ WI ✔ TI ✖ WSI
 #> ℹ WI: k = 8, 0 coded.
 #> ℹ TI: n = 20, 0 coded.
