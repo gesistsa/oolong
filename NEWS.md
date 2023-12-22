@@ -1,3 +1,7 @@
+# oolong 0.5.1
+
+* Transfer ownership to `gesistsa`.
+
 # oolong 0.5.0
 
 * Potential breaking change: the parameter `difficulty` is deprecated. Instead, please use the respective `frewweight` (for STM) and `lambda` (for Warp LDA). For legacy code explicitly using the `difficulty` parameter, this change does not break your code. However, if you use the following pattern, you might need to change your legacy code accordingly.
