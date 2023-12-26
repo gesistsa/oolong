@@ -14,7 +14,7 @@ knitr::opts_chunk$set(
 set.seed(42)
 ```
 
-# oolong <img src="man/figures/oolong_logo.svg" align="right" height="200" />
+# oolong <img src="man/figures/oolong_logo.png" align="right" width="120" />
 
 <!-- badges: start -->
 [![Codecov test coverage](https://codecov.io/gh/gesistsa/oolong/branch/v0.5/graph/badge.svg)](https://codecov.io/gh/gesistsa/oolong?branch=v0.5)
