@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# oolong <img src="man/figures/oolong_logo.svg" align="right" height="200" />
+# oolong <img src="man/figures/oolong_logo.png" align="right" width="120" />
 
 <!-- badges: start -->
 
@@ -19,10 +19,13 @@ The goal of oolong \[1\] is to generate and administrate validation
 tests easily for typical automated content analysis tools such as topic
 models and dictionary-based tools.
 
-Please refer to the [overview](overview_gh.md) for an introduction to
-this package. If you need to deploy the test online, please refer to the
-[Deployment Vignette](deploy_gh.md). If you use BTM, please refer to the
-[BTM Vignette](btm_gh.md).
+Please refer to the
+[overview](https://gesistsa.github.io/oolong/articles/overview.html) for
+an introduction to this package. If you need to deploy the test online,
+please refer to the [Deployment
+Vignette](https://gesistsa.github.io/oolong/articles/deploy.html). If
+you use BTM, please refer to the [BTM
+Vignette](https://gesistsa.github.io/oolong/articles/btm.html).
 
 ## Citation
 

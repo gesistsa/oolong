@@ -42,3 +42,6 @@
 ^rawdata/
 ^CRAN-SUBMISSION$
 ^\.editorconfig$
+^_pkgdown\.yml$
+^docs$
+^pkgdown$
