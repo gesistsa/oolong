@@ -1,6 +1,7 @@
 # oolong 0.5.1
 
 * Transfer ownership to `gesistsa`.
+* Add pkgdown website and clean up many documents.
 
 # oolong 0.5.0
 
