@@ -26,7 +26,7 @@ set.seed(42)
 
 The goal of oolong ^[/ˈuːlʊŋ/ 烏龍, literally means "Dark Dragon", is a semi-oxidized tea from Asia. It is very popular in Taiwan, Japan and Hong Kong. In Cantonese and Taiwanese Mandarin, the same word can also mean "confused". It perfectly captures the spirit of human-in-the-loop validation. ] is to generate and administrate validation tests easily for typical automated content analysis tools such as topic models and dictionary-based tools.
 
-Please refer to the [overview](overview_gh.md) for an introduction to this package. If you need to deploy the test online, please refer to the [Deployment Vignette](deploy_gh.md). If you use BTM, please refer to the [BTM Vignette](btm_gh.md).
+Please refer to the [overview](https://gesistsa.github.io/oolong/articles/overview.html) for an introduction to this package. If you need to deploy the test online, please refer to the [Deployment Vignette](https://gesistsa.github.io/oolong/articles/deploy.html). If you use BTM, please refer to the [BTM Vignette](https://gesistsa.github.io/oolong/articles/btm.html).
 
 ## Citation
 
