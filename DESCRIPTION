@@ -10,9 +10,9 @@ Encoding: UTF-8
 URL: https://gesistsa.github.io/oolong, https://github.com/gesistsa/oolong
 LazyData: true
 Depends:
-    R (>= 4.0)
-Imports: 
-    keyATM (>= 0.2.2),
+    R (>= 3.5.0)
+Imports:
+    seededlda,
     purrr,
     tibble,
     shiny,
@@ -25,15 +25,15 @@ Imports:
     cli,
     stats,
     utils
-RoxygenNote: 7.2.3
-Suggests: 
+RoxygenNote: 7.3.1
+Suggests:
+    keyATM (>= 0.2.2),
     testthat (>= 3.0.2),
     text2vec (>= 0.6),
     BTM,
     dplyr,
     topicmodels,
     stm,
-    seededlda,
     covr,
     stringr,
     knitr,

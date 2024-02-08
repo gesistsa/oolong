@@ -4,7 +4,7 @@
     K <- input_model$K
     better_theta <- dirty_theta[match(quanteda::docid(input_corpus), row.names(dirty_theta)),]
     ## replace NA value with ambiguous theta, i.e. 1/K
-    better_theta[is.na(better_theta)] <- 1/K
+    better_theta[is.na(better_theta)] <- 1 / K
     rownames(better_theta) <- quanteda::docid(input_corpus)
     return(better_theta)
 }
@@ -13,7 +13,7 @@
     input_model <- input_model_s3$model
     K <- input_model$K
     V <- input_model$W
-    terms <- t(apply(input_model$phi, MARGIN = 2, FUN = function(x){
+    terms <- t(apply(input_model$phi, MARGIN = 2, FUN = function(x) {
         x <- data.frame(token = names(x), probability = x)
         x <- x[order(x$probability, decreasing = TRUE), ]
         x <- x$token
@@ -21,11 +21,11 @@
     }))
     all_terms <- unique(as.vector(terms[,seq_len(n_top_terms)]))
     if (need_topic) {
-        if (is.null(input_corpus) | is.null(btm_dataframe) | !"corpus" %in% class(input_corpus)) {
+        if (is.null(input_corpus) || is.null(btm_dataframe) || !"corpus" %in% class(input_corpus)) {
             .cstop(TRUE, "You need to provide input_corpus (in quanteda format) and btm_dataframe for generating topic intrusion tests.")
         }
         model_terms <- terms[, seq_len(n_topiclabel_words)]
-        theta <- .generate_btm_theta(input_model, btm_dataframe, input_corpus)        
+        theta <- .generate_btm_theta(input_model, btm_dataframe, input_corpus)
     } else {
         model_terms <- NULL
         theta <- NULL

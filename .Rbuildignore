@@ -29,8 +29,8 @@
 ^CRAN-RELEASE$
 ^cran-comments\.md$
 ^data/abstracts_topicmodels\.rda$
-^data/abstracts_seededlda\.rda$
 ^data/abstracts_unseededlda\.rda$
+^data/abstracts_keyatm\.rda$
 ^data/abstracts_warplda\.rda$
 ^data/abstracts_stm\.rda$
 ^tests/testthat/apps/
