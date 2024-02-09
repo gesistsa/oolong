@@ -51,7 +51,7 @@ install.packages("oolong")
 
 ```{r}
 library(oolong)
-library(keyATM)
+library(seededlda)
 library(quanteda)
 library(dplyr)
 ```
