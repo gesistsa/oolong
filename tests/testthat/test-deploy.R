@@ -16,24 +16,24 @@ genius_wsi <- function(obj1) {
 
 
 test_that("preconditions witi", {
-    expect_error(deploy_oolong(witi(abstracts_keyatm, abstracts$text)))
-    expect_error(export_oolong(witi(abstracts_keyatm, abstracts$text)))
+    expect_error(deploy_oolong(witi(abstracts_seededlda, abstracts$text)))
+    expect_error(export_oolong(witi(abstracts_seededlda, abstracts$text)))
 })
 
 test_that("preconditions coded", {
-    x <- wi(abstracts_keyatm)
+    x <- wi(abstracts_seededlda)
     expect_error(deploy_oolong(x), NA)
     expect_error(export_oolong(x, verbose = FALSE), NA)
     x <- genius_word(x)
     expect_error(deploy_oolong(x))
     expect_error(export_oolong(x))
-    x <- ti(abstracts_keyatm, abstracts$text)
+    x <- ti(abstracts_seededlda, abstracts$text)
     expect_error(deploy_oolong(x), NA)
     expect_error(export_oolong(x, verbose = FALSE), NA)
     x <- genius_topic(x)
     expect_error(deploy_oolong(x))
     expect_error(export_oolong(x, verbose = FALSE))
-    x <- wsi(abstracts_keyatm)
+    x <- wsi(abstracts_seededlda)
     expect_error(deploy_oolong(x), NA)
     expect_error(export_oolong(x, verbose = FALSE), NA)
     x <- genius_wsi(x)
@@ -48,15 +48,15 @@ test_that("preconditions coded", {
 })
 
 test_that("preconditions locked", {
-    x <- wi(abstracts_keyatm)
+    x <- wi(abstracts_seededlda)
     x$lock(force = TRUE)
     expect_error(deploy_oolong(x))
     expect_error(export_oolong(x))
-    x <- ti(abstracts_keyatm, abstracts$text)
+    x <- ti(abstracts_seededlda, abstracts$text)
     x$lock(force = TRUE)
     expect_error(deploy_oolong(x))
     expect_error(export_oolong(x))
-    x <- wsi(abstracts_keyatm)
+    x <- wsi(abstracts_seededlda)
     x$lock(force = TRUE)
     expect_error(deploy_oolong(x))
     expect_error(export_oolong(x))
@@ -69,9 +69,9 @@ test_that("preconditions locked", {
 test_that("export_app dir", {
     ## new dir
     newdir <- paste0(tempdir(), "/test")
-    expect_error(export_oolong(wsi(abstracts_keyatm), dir = newdir, verbose = FALSE), NA)
+    expect_error(export_oolong(wsi(abstracts_seededlda), dir = newdir, verbose = FALSE), NA)
     ## existing dir
     olddir <- newdir
-    expect_error(export_oolong(wsi(abstracts_keyatm), dir = olddir, verbose = FALSE), NA)
+    expect_error(export_oolong(wsi(abstracts_seededlda), dir = olddir, verbose = FALSE), NA)
     unlink(olddir, recursive = TRUE)
 })

@@ -12,12 +12,14 @@ genius_topic <- function(obj1) {
 
 test_that("generate_test_content", {
     skip_on_cran()
+    skip_if_not(exists("abstracts_keyatm"))
     x <- oolong:::.generate_test_content(abstracts_keyatm)
     expect_null(x$ti)
 })
 
 test_that("check_complete", {
     skip_on_cran()
+    skip_if_not(exists("abstracts_keyatm"))
     x <- oolong:::.generate_test_content(abstracts_keyatm)
     expect_false(oolong:::.check_test_content_complete(x))
     x$wi$answer <- 1

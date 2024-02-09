@@ -15,9 +15,9 @@
 #' Topic models trained with the abstracts dataset.
 #'
 #' These are topic models trained with different topic model packages.
-"abstracts_keyatm"
+"abstracts_seededlda"
 
-#' @rdname abstracts_keyatm
+#' @rdname abstracts_seededlda
 "abstracts_btm"
 
 #' AFINN dictionary
@@ -44,7 +44,7 @@
 #' @importFrom quanteda print corpus
 NULL
 
-utils::globalVariables(c('cookd', 'diffxy', 'index', 'meanxy', 'word_length', 'avg_answer', 'abstracts_keyatm', 'abstracts'))
+utils::globalVariables(c('cookd', 'diffxy', 'index', 'meanxy', 'word_length', 'avg_answer', 'abstracts_seededlda', 'abstracts'))
 
 ### print the ... if boolean_test is true
 .cp <- function(boolean_test, ...) {
@@ -89,4 +89,3 @@ utils::globalVariables(c('cookd', 'diffxy', 'index', 'meanxy', 'word_length', 'a
     }
     return(digest::digest(x, algo = "sha1"))
 }
-

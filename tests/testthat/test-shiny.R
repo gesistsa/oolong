@@ -18,7 +18,7 @@ SLEEPTIME <- 0.5
 test_that("Click of death bug #51", {
     skip_on_cran()
     dir <- tempdir()
-    x <- wi(abstracts_keyatm)
+    x <- wi(abstracts_seededlda)
     export_oolong(x, dir = dir, verbose = FALSE)
     test <- AppDriver$new(dir)
     test$click("confirm")
@@ -36,13 +36,13 @@ test_that("Click of death bug #51", {
 test_that("launchable", {
     skip_on_cran()
     dir <- tempdir()
-    x <- wi(abstracts_keyatm)
+    x <- wi(abstracts_seededlda)
     export_oolong(x, dir = dir, verbose = FALSE)
     test <- AppDriver$new(dir)
     Sys.sleep(SLEEPTIME)
     expect_error(test$get_values(), NA)
     test$stop()
-    x <- wsi(abstracts_keyatm)
+    x <- wsi(abstracts_seededlda)
     export_oolong(x, dir = dir, verbose = FALSE)
     test <- AppDriver$new(dir)
     Sys.sleep(SLEEPTIME)
@@ -54,7 +54,7 @@ test_that("launchable", {
     Sys.sleep(SLEEPTIME)
     expect_error(test$get_values(), NA)
     test$stop()
-    x <- ti(abstracts_keyatm, abstracts$text)
+    x <- ti(abstracts_seededlda, abstracts$text)
     export_oolong(x, dir = dir, verbose = FALSE)
     test <- AppDriver$new(dir)
     Sys.sleep(SLEEPTIME)
@@ -65,7 +65,7 @@ test_that("launchable", {
 test_that("Downloading", {
     skip_on_cran()
     dir <- tempdir()
-    x <- wi(abstracts_keyatm)
+    x <- wi(abstracts_seededlda)
     export_oolong(x, dir = dir, verbose = FALSE)
     test <- AppDriver$new(dir)
     for (i in 1:10) {
@@ -113,7 +113,7 @@ nextq <- function(test, k = 10) {
 test_that("wi next q & ff (exported)", {
     skip_on_cran()
     dir <- tempdir()
-    x <- wi(abstracts_keyatm)
+    x <- wi(abstracts_seededlda)
     export_oolong(x, dir = dir, verbose = FALSE)
     test <- AppDriver$new(dir)
     nextq(test)
@@ -135,7 +135,7 @@ test_that("wi next q & ff (native)", {
 test_that("wsi next q & ff (exported)", {
     skip_on_cran()
     dir <- tempdir()
-    x <- wsi(abstracts_keyatm)
+    x <- wsi(abstracts_seededlda)
     export_oolong(x, dir = dir, verbose = FALSE)
     test <- AppDriver$new(dir)
     nextq(test)
@@ -172,7 +172,7 @@ test_ti <- function(test, k = 10) {
 test_that("ti (exported)", {
     skip_on_cran()
     dir <- tempdir()
-    x <- ti(abstracts_keyatm, abstracts$text, exact_n = 10)
+    x <- ti(abstracts_seededlda, abstracts$text, exact_n = 10)
     export_oolong(x, dir = dir, verbose = FALSE)
     test <- AppDriver$new(dir)
     test_ti(test)
@@ -232,4 +232,3 @@ test_that("gs (native)", {
     expect_false(is.null(test$get_value(input = "done")))
     test$stop()
 })
-

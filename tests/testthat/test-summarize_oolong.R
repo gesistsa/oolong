@@ -16,7 +16,7 @@ genius_wsi <- function(obj1) {
 }
 
 test_that("Correct UI", {
-    obj1 <- create_oolong(abstracts_keyatm)
+    obj1 <- create_oolong(abstracts_seededlda)
     obj2 <- create_oolong(input_corpus = trump2k, exact_n = 20)
     obj1 <- genius_word(obj1)
     obj1$lock()
@@ -29,7 +29,7 @@ test_that("Correct UI", {
 })
 
 test_that("check_calculation_word_intrusion_multiobject", {
-    obj1 <- create_oolong(abstracts_keyatm)
+    obj1 <- create_oolong(abstracts_seededlda)
     obj2 <- clone_oolong(obj1)
     obj3 <- clone_oolong(obj1)
     ## Mocking coding
@@ -51,14 +51,14 @@ test_that("check_calculation_word_intrusion_multiobject", {
 
 
 test_that("check_calculation_word_intrusion_single_object", {
-    obj1 <- create_oolong(abstracts_keyatm)
+    obj1 <- create_oolong(abstracts_seededlda)
     obj1 <- genius_word(obj1)
     obj1$lock()
     expect_error(summarize_oolong(obj1), NA)
 })
 
 test_that("check_calculation_witi_single_object", {
-    obj1 <- create_oolong(abstracts_keyatm, abstracts$text)
+    obj1 <- create_oolong(abstracts_seededlda, abstracts$text)
     obj1 <- genius_word(obj1)
     obj1 <- genius_topic(obj1)
     obj1$lock()
@@ -66,7 +66,7 @@ test_that("check_calculation_witi_single_object", {
 })
 
 test_that("check_calculation_witi_multiobject", {
-    obj1 <- create_oolong(abstracts_keyatm, abstracts$text, exact_n = 10)
+    obj1 <- create_oolong(abstracts_seededlda, abstracts$text, exact_n = 10)
     obj2 <- clone_oolong(obj1)
     obj1 <- genius_word(obj1)
     obj1 <- genius_topic(obj1)
@@ -81,14 +81,14 @@ test_that("check_calculation_witi_multiobject", {
 })
 
 test_that("check_calculation_ti_single_object", {
-    obj1 <- create_oolong(abstracts_keyatm, abstracts$text, type = "ti")
+    obj1 <- create_oolong(abstracts_seededlda, abstracts$text, type = "ti")
     obj1 <- genius_topic(obj1)
     obj1$lock()
     expect_error(summarize_oolong(obj1, n_iter = 100), NA)
 })
 
 test_that("check_calculation_ti_multiobject", {
-    obj1 <- create_oolong(abstracts_keyatm, abstracts$text, exact_n = 10, type = "ti")
+    obj1 <- create_oolong(abstracts_seededlda, abstracts$text, exact_n = 10, type = "ti")
     obj2 <- clone_oolong(obj1)
     obj1 <- genius_topic(obj1)
     obj1$lock()
@@ -102,7 +102,7 @@ test_that("check_calculation_ti_multiobject", {
 
 
 test_that("Forcibly locking", {
-    ex1 <- create_oolong(abstracts_keyatm, abstracts$text, exact_n = 100)
+    ex1 <- create_oolong(abstracts_seededlda, abstracts$text, exact_n = 100)
     ex2 <- clone_oolong(ex1)
     ex1 <- genius_word(ex1)
     ex1 <- genius_topic(ex1)
@@ -116,7 +116,7 @@ test_that("Forcibly locking", {
 })
 
 test_that("Monkeying problem #14", {
-    obj1 <- create_oolong(abstracts_keyatm, abstracts$text)
+    obj1 <- create_oolong(abstracts_seededlda, abstracts$text)
     obj1 <- genius_topic(obj1)
     obj1 <- genius_word(obj1)
     previous_answer <- obj1$.__enclos_env__$private$test_content$ti$answer
@@ -128,7 +128,7 @@ test_that("Monkeying problem #14", {
 
 
 test_that("check_calculation_wsi_multiobject", {
-    obj1 <- wsi(abstracts_keyatm)
+    obj1 <- wsi(abstracts_seededlda)
     obj2 <- clone_oolong(obj1)
     obj3 <- clone_oolong(obj1)
     ## Mocking coding

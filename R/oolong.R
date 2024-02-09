@@ -71,21 +71,23 @@ Oolong_test <- R6::R6Class(
 #' @return an oolong test object.
 #' @examples
 #' ## Creation of oolong test with only word intrusion test
-#' data(abstracts_keyatm)
+#' data(abstracts_seededlda)
 #' data(abstracts)
-#' oolong_test <- wi(input_model = abstracts_keyatm, userid = "Hadley")
+#' oolong_test <- wi(input_model = abstracts_seededlda, userid = "Hadley")
 #' ## Creation of oolong test with both word intrusion test and topic intrusion test
-#' oolong_test <- witi(input_model = abstracts_keyatm, input_corpus = abstracts$text, userid = "Julia")
+#' oolong_test <- witi(input_model = abstracts_seededlda,
+#' input_corpus = abstracts$text, userid = "Julia")
 #' ## Creation of oolong test with topic intrusion test
-#' oolong_test <- ti(input_model = abstracts_keyatm, input_corpus = abstracts$text, userid = "Jenny")
+#' oolong_test <- ti(input_model = abstracts_seededlda,
+#' input_corpus = abstracts$text, userid = "Jenny")
 #' ## Creation of oolong test with word set intrusion test
-#' oolong_test <- wsi(input_model = abstracts_keyatm, userid = "Garrett")
+#' oolong_test <- wsi(input_model = abstracts_seededlda, userid = "Garrett")
 #' ## Creation of gold standard
 #' oolong_test <- gs(input_corpus = trump2k, userid = "Yihui")
 #' ## Using create_oolong(); not recommended
-#' oolong_test <- create_oolong(input_model = abstracts_keyatm,
+#' oolong_test <- create_oolong(input_model = abstracts_seededlda,
 #' input_corpus = abstracts$text, userid = "JJ")
-#' oolong_test <- create_oolong(input_model = abstracts_keyatm,
+#' oolong_test <- create_oolong(input_model = abstracts_seededlda,
 #' input_corpus = abstracts$text, userid = "Mara", type = "ti")
 #' oolong_test <- create_oolong(input_corpus = abstracts$text, userid = "Winston", type = "gs")
 #' @author Chung-hong Chan, Marius Sältzer

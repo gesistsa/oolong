@@ -28,7 +28,7 @@ test_that("gs_turngold", {
 })
 
 test_that("check_calculation_topic_intrusion_multiobject (Printing)", {
-    obj1 <- create_oolong(abstracts_keyatm, abstracts$text, exact_n = 10)
+    obj1 <- create_oolong(abstracts_seededlda, abstracts$text, exact_n = 10)
     obj2 <- clone_oolong(obj1)
     obj1 <- genius_word(obj1)
     obj1 <- genius_topic(obj1)
@@ -41,15 +41,15 @@ test_that("check_calculation_topic_intrusion_multiobject (Printing)", {
 })
 
 test_that("ti only", {
-    expect_snapshot(create_oolong(input_model = abstracts_keyatm, input_corpus = abstracts$text, type = "ti"))
+    expect_snapshot(create_oolong(input_model = abstracts_seededlda, input_corpus = abstracts$text, type = "ti"))
 })
 
 test_that("wsi only", {
-    expect_snapshot(create_oolong(input_model = abstracts_keyatm, input_corpus = abstracts$text, type = "wsi", wsi_n_top_terms = 100))
+    expect_snapshot(create_oolong(input_model = abstracts_seededlda, input_corpus = abstracts$text, type = "wsi", wsi_n_top_terms = 100))
 })
 
 test_that("check_calculation_wsi_multiobject (printing)", {
-    obj1 <- wsi(abstracts_keyatm)
+    obj1 <- wsi(abstracts_seededlda)
     obj2 <- clone_oolong(obj1)
     obj3 <- clone_oolong(obj1)
     ## Mocking coding
@@ -70,7 +70,7 @@ test_that("check_calculation_wsi_multiobject (printing)", {
 
 test_that("export printing", {
     skip_on_cran()
-    obj1 <- wsi(abstracts_keyatm)
+    obj1 <- wsi(abstracts_seededlda)
     newdir <- "~/oolong_testing"
     expect_snapshot(export_oolong(obj1, dir = newdir, verbose = TRUE, use_full_path = FALSE))
     expect_snapshot(export_oolong(obj1, dir = newdir, verbose = FALSE, use_full_path = FALSE))

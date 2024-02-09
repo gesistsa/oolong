@@ -11,7 +11,7 @@ genius_topic <- function(obj1) {
 }
 
 test_that("defensive programming", {
-    obj1 <- create_oolong(abstracts_keyatm)
+    obj1 <- create_oolong(abstracts_seededlda)
     obj2 <- clone_oolong(obj1)
     ### Not lock
     expect_error(summarize_oolong(obj1))
@@ -21,10 +21,10 @@ test_that("defensive programming", {
     expect_error(summarize_oolong(obj1, obj2))
     ### Testing checking hash.
     set.seed(1212112)
-    obj1 <- create_oolong(abstracts_keyatm)
+    obj1 <- create_oolong(abstracts_seededlda)
     obj2 <- clone_oolong(obj1)
     set.seed(12121999)
-    obj3 <- create_oolong(abstracts_keyatm)
+    obj3 <- create_oolong(abstracts_seededlda)
     obj1 <- genius_word(obj1)
     obj2 <- genius_word(obj2)
     obj3 <- genius_word(obj3)
@@ -36,8 +36,7 @@ test_that("defensive programming", {
     ## obj2 is a clone of obj1
     expect_error(summarise_oolong(obj1, obj2), NA)
     ## Warning about premature locking
-    obj1 <- create_oolong(abstracts_keyatm)
+    obj1 <- create_oolong(abstracts_seededlda)
     obj1$lock(force = TRUE)
     expect_warning(summarize_oolong(obj1))
 })
-

@@ -28,7 +28,7 @@ In this guide, we assume you want to deploy a word set intrusion test online.
 
 ```{r}
 library(oolong)
-wsi_test <- wsi(abstracts_keyatm)
+wsi_test <- wsi(abstracts_seededlda)
 wsi_test
 ```
 

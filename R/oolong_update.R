@@ -42,7 +42,7 @@ update_oolong <- function(oolong, verbose = TRUE) {
     .cstop(!.check_oolong(oolong$.__enclos_env__$private), "This oolong object does not need to be updated.")
     if ("oolong_test_tm" %in% class(oolong)) {
         ## generate a dummy oolong object
-        new_oolong <- create_oolong(abstracts_keyatm)
+        new_oolong <- create_oolong(abstracts_seededlda)
         new_oolong$.__enclos_env__$private$finalized <- oolong$.__enclos_env__$private$finalized
         new_oolong$.__enclos_env__$private$test_content <- oolong$.__enclos_env__$private$test_content
         ## renaming test_content
@@ -65,7 +65,7 @@ update_oolong <- function(oolong, verbose = TRUE) {
         new_oolong$.__enclos_env__$private$construct <- oolong$.__enclos_env__$private$construct
         new_oolong$.__enclos_env__$private$hash <- .safe_hash(new_oolong$.__enclos_env__$private$test_content)
         new_oolong$.__enclos_env__$private$hash_input_corpus <- oolong$.__enclos_env__$private$hash_input_corpus
-        new_oolong$.__enclos_env__$private$meta <- .generate_meta()      
+        new_oolong$.__enclos_env__$private$meta <- .generate_meta()
     }
     if (is.null(new_oolong$userid)) {
         new_oolong$userid <- NA
