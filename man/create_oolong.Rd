@@ -175,9 +175,11 @@ data(abstracts_seededlda)
 data(abstracts)
 oolong_test <- wi(input_model = abstracts_seededlda, userid = "Hadley")
 ## Creation of oolong test with both word intrusion test and topic intrusion test
-oolong_test <- witi(input_model = abstracts_seededlda, input_corpus = abstracts$text, userid = "Julia")
+oolong_test <- witi(input_model = abstracts_seededlda,
+input_corpus = abstracts$text, userid = "Julia")
 ## Creation of oolong test with topic intrusion test
-oolong_test <- ti(input_model = abstracts_seededlda, input_corpus = abstracts$text, userid = "Jenny")
+oolong_test <- ti(input_model = abstracts_seededlda,
+input_corpus = abstracts$text, userid = "Jenny")
 ## Creation of oolong test with word set intrusion test
 oolong_test <- wsi(input_model = abstracts_seededlda, userid = "Garrett")
 ## Creation of gold standard
