@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">oolong</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -286,21 +286,23 @@ As suggested by Song et al. (2020), 1<!-- % of the articles from \code{input_cor
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co">## Creation of oolong test with only word intrusion test</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">abstracts_keyatm</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">abstracts_seededlda</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">abstracts</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">oolong_test</span> <span class="op">&lt;-</span> <span class="fu">wi</span><span class="op">(</span>input_model <span class="op">=</span> <span class="va">abstracts_keyatm</span>, userid <span class="op">=</span> <span class="st">"Hadley"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">oolong_test</span> <span class="op">&lt;-</span> <span class="fu">wi</span><span class="op">(</span>input_model <span class="op">=</span> <span class="va">abstracts_seededlda</span>, userid <span class="op">=</span> <span class="st">"Hadley"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="co">## Creation of oolong test with both word intrusion test and topic intrusion test</span></span></span>
-<span class="r-in"><span><span class="va">oolong_test</span> <span class="op">&lt;-</span> <span class="fu">witi</span><span class="op">(</span>input_model <span class="op">=</span> <span class="va">abstracts_keyatm</span>, input_corpus <span class="op">=</span> <span class="va">abstracts</span><span class="op">$</span><span class="va">text</span>, userid <span class="op">=</span> <span class="st">"Julia"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">oolong_test</span> <span class="op">&lt;-</span> <span class="fu">witi</span><span class="op">(</span>input_model <span class="op">=</span> <span class="va">abstracts_seededlda</span>,</span></span>
+<span class="r-in"><span>input_corpus <span class="op">=</span> <span class="va">abstracts</span><span class="op">$</span><span class="va">text</span>, userid <span class="op">=</span> <span class="st">"Julia"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="co">## Creation of oolong test with topic intrusion test</span></span></span>
-<span class="r-in"><span><span class="va">oolong_test</span> <span class="op">&lt;-</span> <span class="fu">ti</span><span class="op">(</span>input_model <span class="op">=</span> <span class="va">abstracts_keyatm</span>, input_corpus <span class="op">=</span> <span class="va">abstracts</span><span class="op">$</span><span class="va">text</span>, userid <span class="op">=</span> <span class="st">"Jenny"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">oolong_test</span> <span class="op">&lt;-</span> <span class="fu">ti</span><span class="op">(</span>input_model <span class="op">=</span> <span class="va">abstracts_seededlda</span>,</span></span>
+<span class="r-in"><span>input_corpus <span class="op">=</span> <span class="va">abstracts</span><span class="op">$</span><span class="va">text</span>, userid <span class="op">=</span> <span class="st">"Jenny"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="co">## Creation of oolong test with word set intrusion test</span></span></span>
-<span class="r-in"><span><span class="va">oolong_test</span> <span class="op">&lt;-</span> <span class="fu">wsi</span><span class="op">(</span>input_model <span class="op">=</span> <span class="va">abstracts_keyatm</span>, userid <span class="op">=</span> <span class="st">"Garrett"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">oolong_test</span> <span class="op">&lt;-</span> <span class="fu">wsi</span><span class="op">(</span>input_model <span class="op">=</span> <span class="va">abstracts_seededlda</span>, userid <span class="op">=</span> <span class="st">"Garrett"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="co">## Creation of gold standard</span></span></span>
 <span class="r-in"><span><span class="va">oolong_test</span> <span class="op">&lt;-</span> <span class="fu">gs</span><span class="op">(</span>input_corpus <span class="op">=</span> <span class="va">trump2k</span>, userid <span class="op">=</span> <span class="st">"Yihui"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="co">## Using create_oolong(); not recommended</span></span></span>
-<span class="r-in"><span><span class="va">oolong_test</span> <span class="op">&lt;-</span> <span class="fu">create_oolong</span><span class="op">(</span>input_model <span class="op">=</span> <span class="va">abstracts_keyatm</span>,</span></span>
+<span class="r-in"><span><span class="va">oolong_test</span> <span class="op">&lt;-</span> <span class="fu">create_oolong</span><span class="op">(</span>input_model <span class="op">=</span> <span class="va">abstracts_seededlda</span>,</span></span>
 <span class="r-in"><span>input_corpus <span class="op">=</span> <span class="va">abstracts</span><span class="op">$</span><span class="va">text</span>, userid <span class="op">=</span> <span class="st">"JJ"</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">oolong_test</span> <span class="op">&lt;-</span> <span class="fu">create_oolong</span><span class="op">(</span>input_model <span class="op">=</span> <span class="va">abstracts_keyatm</span>,</span></span>
+<span class="r-in"><span><span class="va">oolong_test</span> <span class="op">&lt;-</span> <span class="fu">create_oolong</span><span class="op">(</span>input_model <span class="op">=</span> <span class="va">abstracts_seededlda</span>,</span></span>
 <span class="r-in"><span>input_corpus <span class="op">=</span> <span class="va">abstracts</span><span class="op">$</span><span class="va">text</span>, userid <span class="op">=</span> <span class="st">"Mara"</span>, type <span class="op">=</span> <span class="st">"ti"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">oolong_test</span> <span class="op">&lt;-</span> <span class="fu">create_oolong</span><span class="op">(</span>input_corpus <span class="op">=</span> <span class="va">abstracts</span><span class="op">$</span><span class="va">text</span>, userid <span class="op">=</span> <span class="st">"Winston"</span>, type <span class="op">=</span> <span class="st">"gs"</span><span class="op">)</span></span></span>
 </code></pre></div>
