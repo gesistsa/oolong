@@ -31,6 +31,6 @@ test_that("locking", {
 })
 
 test_that("type override input_model", {
-    x <- create_oolong(abstracts_keyatm, abstracts$text, type = "gs")
+    x <- create_oolong(abstracts_seededlda, abstracts$text, type = "gs")
     expect_true("oolong_test_gs" %in% class(x))
 })

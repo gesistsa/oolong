@@ -13,8 +13,6 @@ genius_topic <- function(obj1) {
 ## seeded lda
 
 test_that("seeded lda: generate_test_content", {
-    skip_on_cran()
-    skip_if_not(exists("abstracts_seededlda"))
     x <- oolong:::.generate_test_content(abstracts_seededlda)
     expect_null(x$ti)
     x <- oolong:::.generate_test_content(abstracts_seededlda, quanteda::corpus(abstracts$text))
@@ -22,8 +20,6 @@ test_that("seeded lda: generate_test_content", {
 })
 
 test_that("seeded lda: check_complete", {
-    skip_on_cran()
-    skip_if_not(exists("abstracts_seededlda"))
     x <- oolong:::.generate_test_content(abstracts_seededlda)
     expect_false(oolong:::.check_test_content_complete(x))
     x$wi$answer <- 1
@@ -40,7 +36,7 @@ test_that("seeded lda: check_complete", {
 
 test_that("unseeded lda: generate_test_content", {
     skip_on_cran()
-    skip_if_not(exists("abstracts_seededlda"))
+    skip_if_not(exists("abstracts_unseededlda"))
     x <- oolong:::.generate_test_content(abstracts_unseededlda)
     expect_null(x$ti)
     x <- oolong:::.generate_test_content(abstracts_unseededlda, quanteda::corpus(abstracts$text))
@@ -49,7 +45,7 @@ test_that("unseeded lda: generate_test_content", {
 
 test_that("unseeded lda: check_complete", {
     skip_on_cran()
-    skip_if_not(exists("abstracts_seededlda"))
+    skip_if_not(exists("abstracts_unseededlda"))
     x <- oolong:::.generate_test_content(abstracts_unseededlda)
     expect_false(oolong:::.check_test_content_complete(x))
     x$wi$answer <- 1
@@ -66,7 +62,7 @@ test_that("unseeded lda: check_complete", {
 
 ## ui
 test_that("UI", {
-    skip_if_not(exists("abstracts_seededlda"))
+    skip_if_not(exists("abstracts_unseededlda"))
     expect_error(witi(abstracts_seededlda, abstracts$text), NA)
     expect_error(witi(abstracts_unseededlda, abstracts$text), NA)
     expect_error(ti(abstracts_seededlda, abstracts$text), NA)

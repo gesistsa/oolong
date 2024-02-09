@@ -17,7 +17,7 @@
 #' These are topic models trained with different topic model packages.
 "abstracts_seededlda"
 
-#' @rdname abstracts_keyatm
+#' @rdname abstracts_seededlda
 "abstracts_btm"
 
 #' AFINN dictionary

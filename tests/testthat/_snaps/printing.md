@@ -72,7 +72,7 @@
 # ti only
 
     Code
-      create_oolong(input_model = abstracts_keyatm, input_corpus = abstracts$text,
+      create_oolong(input_model = abstracts_seededlda, input_corpus = abstracts$text,
       type = "ti")
     Message
       
@@ -88,7 +88,7 @@
 # wsi only
 
     Code
-      create_oolong(input_model = abstracts_keyatm, input_corpus = abstracts$text,
+      create_oolong(input_model = abstracts_seededlda, input_corpus = abstracts$text,
       type = "wsi", wsi_n_top_terms = 100)
     Message
       
