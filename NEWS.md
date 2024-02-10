@@ -1,3 +1,7 @@
+# oolong 0.6.0
+
+* Use seededlda instead of keyATM as demo, so that we can reduce the version requirement.
+
 # oolong 0.5.1
 
 * Transfer ownership to `gesistsa`.
