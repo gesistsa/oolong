@@ -46,9 +46,6 @@ are welcome.
     request](https://docs.github.com/en/github/collaborating-with-issues-and-pull-requests/creating-a-pull-request-from-a-fork).
   - Issues, bug reports: [File a Github
     issue](https://github.com/chainsawriot/oolong).
-  - Github is not your thing? Contact Chung-hong Chan by e-mail, post,
-    or other methods listed on this
-    [page](https://www.mzes.uni-mannheim.de/d7/en/profiles/chung-hong-chan).
 
 ## Code of Conduct
 
