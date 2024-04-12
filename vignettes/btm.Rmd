@@ -101,12 +101,12 @@ oolong
 
 `btm_dataframe` must not be NULL.
 
-```{r, error = TRUE}
+```{r btm_error1, error = TRUE}
 oolong <- create_oolong(trump_btm, trump_corpus)
 ```
 
 `input_corpus` must be a quanteda corpus.
 
-```{r, error = TRUE}
+```{r btm_error2, error = TRUE}
 oolong <- create_oolong(trump_btm, trump2k, btm_dataframe = trump_dat)
 ```
