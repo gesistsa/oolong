@@ -327,7 +327,8 @@ In this example, we calculate the AFINN score for each tweet using quanteda. The
 
 ```{r}
 gold_standard <- oolong_test$turn_gold()
-dfm(gold_standard, remove_punct = TRUE) %>% dfm_lookup(afinn) %>% quanteda::convert(to = "data.frame") %>%
+gold_standard %>% tokens(remove_punct = TRUE) %>% dfm() %>% dfm_lookup(afinn) %>%
+    quanteda::convert(to = "data.frame") %>%
     mutate(matching_word_valence = (neg5 * -5) + (neg4 * -4) + (neg3 * -3) + (neg2 * -2) + (neg1 * -1)
            + (zero * 0) + (pos1 * 1) + (pos2 * 2) + (pos3 * 3) + (pos4 * 4) + (pos5 * 5),
            base = ntoken(gold_standard, remove_punct = TRUE), afinn_score = matching_word_valence / base) %>%
@@ -421,7 +422,8 @@ Calculate the target value (in this case, the AFINN score) by turning one object
 
 ```{r}
 gold_standard <- trump$turn_gold()
-dfm(gold_standard, remove_punct = TRUE) %>% dfm_lookup(afinn) %>% quanteda::convert(to = "data.frame") %>%
+gold_standard %>% tokens(remove_punct = TRUE) %>% dfm() %>%
+    dfm_lookup(afinn) %>% quanteda::convert(to = "data.frame") %>%
     mutate(matching_word_valence = (neg5 * -5) + (neg4 * -4) + (neg3 * -3) + (neg2 * -2) + (neg1 * -1)
            + (zero * 0) + (pos1 * 1) + (pos2 * 2) + (pos3 * 3) + (pos4 * 4) + (pos5 * 5),
            base = ntoken(gold_standard, remove_punct = TRUE), afinn_score = matching_word_valence / base) %>%
