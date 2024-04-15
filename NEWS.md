@@ -1,3 +1,7 @@
+# oolong 0.6.1
+
+* Add fixes for quanteda 4.0.0.
+
 # oolong 0.6.0
 
 * Use seededlda instead of keyATM as demo, so that we can reduce the version requirement.
