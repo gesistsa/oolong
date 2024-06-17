@@ -1,0 +1,5 @@
+project:
+  title: oolong
+  type: default
+  render:
+    - methodshub.qmd

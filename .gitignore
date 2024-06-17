@@ -2,3 +2,5 @@ doc
 Meta
 ^cran-comments\.md$
 docs
+
+/.quarto/
