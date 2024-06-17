@@ -33,7 +33,7 @@ et al. (2009) and Song et al. (2020)
 
 This package was used in the literature to valid topic models and
 prediction models trained on text data, e.g. [Rauchfleisch et
-al. (2023)](10.1080/17512786.2022.2110928), [Rothut, et
+al. (2023)](https://doi.org/10.1080/17512786.2022.2110928), [Rothut, et
 al. (2023)](https://doi.org/10.1177/14614448231164409), [Eisele, et
 al. (2023)](https://doi.org/10.1080/19312458.2023.2230560).
 
