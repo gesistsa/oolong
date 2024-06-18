@@ -45,3 +45,12 @@
 ^_pkgdown\.yml$
 ^docs$
 ^pkgdown$
+^install\.R$
+^postBuild$
+^_quarto\.yml$
+^apt\.txt$
+^\.jupyter$
+^methodshub
+^CITATION\.cff$
+^\.quarto$
+^runtime\.txt$

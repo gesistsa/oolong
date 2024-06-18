@@ -1,0 +1,622 @@
+# --------------------------------------------
+# CITATION file created with {cffr} R package
+# See also: https://docs.ropensci.org/cffr/
+# --------------------------------------------
+ 
+cff-version: 1.2.0
+message: 'To cite package "oolong" in publications use:'
+type: software
+license: LGPL-2.0-or-later
+title: 'oolong: Create Validation Tests for Automated Content Analysis'
+version: 0.6.1
+doi: 10.21105/joss.02461
+abstract: Intended to create standard human-in-the-loop validity tests for typical
+  automated content analysis such as topic modeling and dictionary-based methods.
+  This package offers a standard workflow with functions to prepare, administer and
+  evaluate a human-in-the-loop validity test. This package provides functions for
+  validating topic models using word intrusion, topic intrusion (Chang et al. 2009,
+  <https://papers.nips.cc/paper/3700-reading-tea-leaves-how-humans-interpret-topic-models>)
+  and word set intrusion (Ying et al. 2021) <https://doi.org/10.1017/pan.2021.33>
+  tests. This package also provides functions for generating gold-standard data which
+  are useful for validating dictionary-based methods. The default settings of all
+  generated tests match those suggested in Chang et al. (2009) and Song et al. (2020)
+  <https://doi.org/10.1080/10584609.2020.1723752>.
+authors:
+- family-names: Chan
+  given-names: Chung-hong
+  email: chainsawtiney@gmail.com
+  orcid: https://orcid.org/0000-0002-6232-7530
+- family-names: Sältzer
+  given-names: Marius
+  email: msaeltze@mail.uni-mannheim.de
+  orcid: https://orcid.org/0000-0002-8604-4666
+preferred-citation:
+  type: article
+  title: 'oolong: An R package for validating automated content analysis tools'
+  authors:
+  - family-names: Chan
+    given-names: Chung-hong
+    email: chainsawtiney@gmail.com
+    orcid: https://orcid.org/0000-0002-6232-7530
+  - family-names: Sältzer
+    given-names: Marius
+    email: msaeltze@mail.uni-mannheim.de
+    orcid: https://orcid.org/0000-0002-8604-4666
+  journal: Journal of Open Source Software
+  doi: 10.21105/joss.02461
+  url: https://github.com/gesistsa/oolong
+  volume: '5'
+  issue: '55'
+  year: '2020'
+  start: '2461'
+repository: https://CRAN.R-project.org/package=oolong
+repository-code: https://github.com/gesistsa/oolong
+url: https://gesistsa.github.io/oolong/
+contact:
+- family-names: Chan
+  given-names: Chung-hong
+  email: chainsawtiney@gmail.com
+  orcid: https://orcid.org/0000-0002-6232-7530
+keywords:
+- r
+- textanalysis
+- topicmodeling
+- validation
+references:
+- type: software
+  title: 'R: A Language and Environment for Statistical Computing'
+  notes: Depends
+  url: https://www.R-project.org/
+  authors:
+  - name: R Core Team
+  institution:
+    name: R Foundation for Statistical Computing
+    address: Vienna, Austria
+  year: '2024'
+  version: '>= 3.5.0'
+- type: software
+  title: seededlda
+  abstract: 'seededlda: Seeded Sequential LDA for Topic Modeling'
+  notes: Imports
+  url: https://koheiw.github.io/seededlda/
+  repository: https://CRAN.R-project.org/package=seededlda
+  authors:
+  - family-names: Watanabe
+    given-names: Kohei
+    email: watanabe.kohei@gmail.com
+  - family-names: Xuan-Hieu
+    given-names: Phan
+    email: pxhieu@gmail.com
+  year: '2024'
+- type: software
+  title: purrr
+  abstract: 'purrr: Functional Programming Tools'
+  notes: Imports
+  url: https://purrr.tidyverse.org/
+  repository: https://CRAN.R-project.org/package=purrr
+  authors:
+  - family-names: Wickham
+    given-names: Hadley
+    email: hadley@rstudio.com
+    orcid: https://orcid.org/0000-0003-4757-117X
+  - family-names: Henry
+    given-names: Lionel
+    email: lionel@rstudio.com
+  year: '2024'
+- type: software
+  title: tibble
+  abstract: 'tibble: Simple Data Frames'
+  notes: Imports
+  url: https://tibble.tidyverse.org/
+  repository: https://CRAN.R-project.org/package=tibble
+  authors:
+  - family-names: Müller
+    given-names: Kirill
+    email: kirill@cynkra.com
+    orcid: https://orcid.org/0000-0002-1416-3412
+  - family-names: Wickham
+    given-names: Hadley
+    email: hadley@rstudio.com
+  year: '2024'
+- type: software
+  title: shiny
+  abstract: 'shiny: Web Application Framework for R'
+  notes: Imports
+  url: https://shiny.posit.co/
+  repository: https://CRAN.R-project.org/package=shiny
+  authors:
+  - family-names: Chang
+    given-names: Winston
+    email: winston@posit.co
+    orcid: https://orcid.org/0000-0002-1576-2126
+  - family-names: Cheng
+    given-names: Joe
+    email: joe@posit.co
+  - family-names: Allaire
+    given-names: JJ
+    email: jj@posit.co
+  - family-names: Sievert
+    given-names: Carson
+    email: carson@posit.co
+    orcid: https://orcid.org/0000-0002-4958-2844
+  - family-names: Schloerke
+    given-names: Barret
+    email: barret@posit.co
+    orcid: https://orcid.org/0000-0001-9986-114X
+  - family-names: Xie
+    given-names: Yihui
+    email: yihui@posit.co
+  - family-names: Allen
+    given-names: Jeff
+  - family-names: McPherson
+    given-names: Jonathan
+    email: jonathan@posit.co
+  - family-names: Dipert
+    given-names: Alan
+  - family-names: Borges
+    given-names: Barbara
+  year: '2024'
+- type: software
+  title: digest
+  abstract: 'digest: Create Compact Hash Digests of R Objects'
+  notes: Imports
+  url: https://dirk.eddelbuettel.com/code/digest.html
+  repository: https://CRAN.R-project.org/package=digest
+  authors:
+  - family-names: Lucas
+    given-names: Dirk Eddelbuettel with contributions by Antoine
+    email: edd@debian.org
+  - family-names: Tuszynski
+    given-names: Jarek
+  - family-names: Bengtsson
+    given-names: Henrik
+  - family-names: Urbanek
+    given-names: Simon
+  - family-names: Frasca
+    given-names: Mario
+  - family-names: Lewis
+    given-names: Bryan
+  - family-names: Stokely
+    given-names: Murray
+  - family-names: Muehleisen
+    given-names: Hannes
+  - family-names: Murdoch
+    given-names: Duncan
+  - family-names: Hester
+    given-names: Jim
+  - family-names: Wu
+    given-names: Wush
+  - family-names: Kou
+    given-names: Qiang
+  - family-names: Onkelinx
+    given-names: Thierry
+  - family-names: Lang
+    given-names: Michel
+  - family-names: Simko
+    given-names: Viliam
+  - family-names: Hornik
+    given-names: Kurt
+  - family-names: Neal
+    given-names: Radford
+  - family-names: Bell
+    given-names: Kendon
+  - family-names: Queljoe
+    given-names: Matthew
+    name-particle: de
+  - family-names: Suruceanu
+    given-names: Ion
+  - family-names: Denney
+    given-names: Bill
+  - family-names: Schumacher
+    given-names: Dirk
+  - family-names: Chang
+    given-names: Winston
+  - family-names: Attali
+    given-names: Dean
+  - family-names: Chirico.
+    given-names: Michael
+  year: '2024'
+- type: software
+  title: R6
+  abstract: 'R6: Encapsulated Classes with Reference Semantics'
+  notes: Imports
+  url: https://r6.r-lib.org
+  repository: https://CRAN.R-project.org/package=R6
+  authors:
+  - family-names: Chang
+    given-names: Winston
+    email: winston@stdout.org
+  year: '2024'
+- type: software
+  title: quanteda
+  abstract: 'quanteda: Quantitative Analysis of Textual Data'
+  notes: Imports
+  url: https://quanteda.io
+  repository: https://CRAN.R-project.org/package=quanteda
+  authors:
+  - family-names: Benoit
+    given-names: Kenneth
+    email: kbenoit@lse.ac.uk
+    orcid: https://orcid.org/0000-0002-0797-564X
+  - family-names: Watanabe
+    given-names: Kohei
+    email: watanabe.kohei@gmail.com
+    orcid: https://orcid.org/0000-0001-6519-5265
+  - family-names: Wang
+    given-names: Haiyan
+    email: whyinsa@yahoo.com
+    orcid: https://orcid.org/0000-0003-4992-4311
+  - family-names: Nulty
+    given-names: Paul
+    email: paul.nulty@gmail.com
+    orcid: https://orcid.org/0000-0002-7214-4666
+  - family-names: Obeng
+    given-names: Adam
+    email: quanteda@binaryeagle.com
+    orcid: https://orcid.org/0000-0002-2906-4775
+  - family-names: Müller
+    given-names: Stefan
+    email: stefan.mueller@ucd.ie
+    orcid: https://orcid.org/0000-0002-6315-4125
+  - family-names: Matsuo
+    given-names: Akitaka
+    email: a.matsuo@essex.ac.uk
+    orcid: https://orcid.org/0000-0002-3323-6330
+  - family-names: Lowe
+    given-names: William
+    email: lowe@hertie-school.org
+    orcid: https://orcid.org/0000-0002-1549-6163
+  year: '2024'
+  version: '>= 3.0.0'
+- type: software
+  title: irr
+  abstract: 'irr: Various Coefficients of Interrater Reliability and Agreement'
+  notes: Imports
+  url: https://www.r-project.org
+  repository: https://CRAN.R-project.org/package=irr
+  authors:
+  - family-names: Gamer
+    given-names: Matthias
+    email: m.gamer@uke.uni-hamburg.de
+  - family-names: Lemon
+    given-names: Jim
+    email: jim@bitwrit.com.au
+  - email: puspendra.pusp22@gmail.com
+  year: '2024'
+- type: software
+  title: ggplot2
+  abstract: 'ggplot2: Create Elegant Data Visualisations Using the Grammar of Graphics'
+  notes: Imports
+  url: https://ggplot2.tidyverse.org
+  repository: https://CRAN.R-project.org/package=ggplot2
+  authors:
+  - family-names: Wickham
+    given-names: Hadley
+    email: hadley@posit.co
+    orcid: https://orcid.org/0000-0003-4757-117X
+  - family-names: Chang
+    given-names: Winston
+    orcid: https://orcid.org/0000-0002-1576-2126
+  - family-names: Henry
+    given-names: Lionel
+  - family-names: Pedersen
+    given-names: Thomas Lin
+    email: thomas.pedersen@posit.co
+    orcid: https://orcid.org/0000-0002-5147-4711
+  - family-names: Takahashi
+    given-names: Kohske
+  - family-names: Wilke
+    given-names: Claus
+    orcid: https://orcid.org/0000-0002-7470-9261
+  - family-names: Woo
+    given-names: Kara
+    orcid: https://orcid.org/0000-0002-5125-4188
+  - family-names: Yutani
+    given-names: Hiroaki
+    orcid: https://orcid.org/0000-0002-3385-7233
+  - family-names: Dunnington
+    given-names: Dewey
+    orcid: https://orcid.org/0000-0002-9415-4582
+  - family-names: Brand
+    given-names: Teun
+    name-particle: van den
+    orcid: https://orcid.org/0000-0002-9335-7468
+  year: '2024'
+- type: software
+  title: cowplot
+  abstract: 'cowplot: Streamlined Plot Theme and Plot Annotations for ''ggplot2'''
+  notes: Imports
+  url: https://wilkelab.org/cowplot/
+  repository: https://CRAN.R-project.org/package=cowplot
+  authors:
+  - family-names: Wilke
+    given-names: Claus O.
+    email: wilke@austin.utexas.edu
+    orcid: https://orcid.org/0000-0002-7470-9261
+  year: '2024'
+- type: software
+  title: cli
+  abstract: 'cli: Helpers for Developing Command Line Interfaces'
+  notes: Imports
+  url: https://cli.r-lib.org
+  repository: https://CRAN.R-project.org/package=cli
+  authors:
+  - family-names: Csárdi
+    given-names: Gábor
+    email: csardi.gabor@gmail.com
+  year: '2024'
+- type: software
+  title: stats
+  abstract: 'R: A Language and Environment for Statistical Computing'
+  notes: Imports
+  authors:
+  - name: R Core Team
+  institution:
+    name: R Foundation for Statistical Computing
+    address: Vienna, Austria
+  year: '2024'
+- type: software
+  title: utils
+  abstract: 'R: A Language and Environment for Statistical Computing'
+  notes: Imports
+  authors:
+  - name: R Core Team
+  institution:
+    name: R Foundation for Statistical Computing
+    address: Vienna, Austria
+  year: '2024'
+- type: software
+  title: stringr
+  abstract: 'stringr: Simple, Consistent Wrappers for Common String Operations'
+  notes: Imports
+  url: https://stringr.tidyverse.org
+  repository: https://CRAN.R-project.org/package=stringr
+  authors:
+  - family-names: Wickham
+    given-names: Hadley
+    email: hadley@posit.co
+  year: '2024'
+- type: software
+  title: keyATM
+  abstract: 'keyATM: Keyword Assisted Topic Models'
+  notes: Suggests
+  url: https://keyatm.github.io/keyATM/
+  repository: https://CRAN.R-project.org/package=keyATM
+  authors:
+  - family-names: Eshima
+    given-names: Shusei
+    email: shuseieshima@gmail.com
+    orcid: https://orcid.org/0000-0003-3613-4046
+  - family-names: Sasaki
+    given-names: Tomoya
+    email: tomoyas@mit.edu
+  - family-names: Imai
+    given-names: Kosuke
+    email: imai@harvard.edu
+  year: '2024'
+  version: '>= 0.2.2'
+- type: software
+  title: testthat
+  abstract: 'testthat: Unit Testing for R'
+  notes: Suggests
+  url: https://testthat.r-lib.org
+  repository: https://CRAN.R-project.org/package=testthat
+  authors:
+  - family-names: Wickham
+    given-names: Hadley
+    email: hadley@posit.co
+  year: '2024'
+  version: '>= 3.0.2'
+- type: software
+  title: text2vec
+  abstract: 'text2vec: Modern Text Mining Framework for R'
+  notes: Suggests
+  url: http://text2vec.org
+  repository: https://CRAN.R-project.org/package=text2vec
+  authors:
+  - family-names: Selivanov
+    given-names: Dmitriy
+    email: selivanov.dmitriy@gmail.com
+  - family-names: Bickel
+    given-names: Manuel
+  - family-names: Wang
+    given-names: Qing
+  year: '2024'
+  version: '>= 0.6'
+- type: software
+  title: BTM
+  abstract: 'BTM: Biterm Topic Models for Short Text'
+  notes: Suggests
+  url: https://github.com/bnosac/BTM
+  repository: https://CRAN.R-project.org/package=BTM
+  authors:
+  - family-names: Wijffels
+    given-names: Jan
+    email: jwijffels@bnosac.be
+  year: '2024'
+- type: software
+  title: dplyr
+  abstract: 'dplyr: A Grammar of Data Manipulation'
+  notes: Suggests
+  url: https://dplyr.tidyverse.org
+  repository: https://CRAN.R-project.org/package=dplyr
+  authors:
+  - family-names: Wickham
+    given-names: Hadley
+    email: hadley@posit.co
+    orcid: https://orcid.org/0000-0003-4757-117X
+  - family-names: François
+    given-names: Romain
+    orcid: https://orcid.org/0000-0002-2444-4226
+  - family-names: Henry
+    given-names: Lionel
+  - family-names: Müller
+    given-names: Kirill
+    orcid: https://orcid.org/0000-0002-1416-3412
+  - family-names: Vaughan
+    given-names: Davis
+    email: davis@posit.co
+    orcid: https://orcid.org/0000-0003-4777-038X
+  year: '2024'
+- type: software
+  title: topicmodels
+  abstract: 'topicmodels: Topic Models'
+  notes: Suggests
+  repository: https://CRAN.R-project.org/package=topicmodels
+  authors:
+  - family-names: Grün
+    given-names: Bettina
+    email: Bettina.Gruen@R-project.org
+    orcid: https://orcid.org/0000-0001-7265-4773
+  - family-names: Hornik
+    given-names: Kurt
+    orcid: https://orcid.org/0000-0003-4198-9911
+  year: '2024'
+- type: software
+  title: stm
+  abstract: 'stm: Estimation of the Structural Topic Model'
+  notes: Suggests
+  url: http://www.structuraltopicmodel.com/
+  repository: https://CRAN.R-project.org/package=stm
+  authors:
+  - family-names: Roberts
+    given-names: Margaret
+    email: meroberts@ucsd.edu
+  - family-names: Stewart
+    given-names: Brandon
+    email: bms4@princeton.edu
+  - family-names: Tingley
+    given-names: Dustin
+    email: dtingley@gov.harvard.edu
+  year: '2024'
+- type: software
+  title: covr
+  abstract: 'covr: Test Coverage for Packages'
+  notes: Suggests
+  url: https://covr.r-lib.org
+  repository: https://CRAN.R-project.org/package=covr
+  authors:
+  - family-names: Hester
+    given-names: Jim
+    email: james.f.hester@gmail.com
+  year: '2024'
+- type: software
+  title: knitr
+  abstract: 'knitr: A General-Purpose Package for Dynamic Report Generation in R'
+  notes: Suggests
+  url: https://yihui.org/knitr/
+  repository: https://CRAN.R-project.org/package=knitr
+  authors:
+  - family-names: Xie
+    given-names: Yihui
+    email: xie@yihui.name
+    orcid: https://orcid.org/0000-0003-0645-5666
+  year: '2024'
+- type: software
+  title: rmarkdown
+  abstract: 'rmarkdown: Dynamic Documents for R'
+  notes: Suggests
+  url: https://pkgs.rstudio.com/rmarkdown/
+  repository: https://CRAN.R-project.org/package=rmarkdown
+  authors:
+  - family-names: Allaire
+    given-names: JJ
+    email: jj@posit.co
+  - family-names: Xie
+    given-names: Yihui
+    email: xie@yihui.name
+    orcid: https://orcid.org/0000-0003-0645-5666
+  - family-names: Dervieux
+    given-names: Christophe
+    email: cderv@posit.co
+    orcid: https://orcid.org/0000-0003-4474-2498
+  - family-names: McPherson
+    given-names: Jonathan
+    email: jonathan@posit.co
+  - family-names: Luraschi
+    given-names: Javier
+  - family-names: Ushey
+    given-names: Kevin
+    email: kevin@posit.co
+  - family-names: Atkins
+    given-names: Aron
+    email: aron@posit.co
+  - family-names: Wickham
+    given-names: Hadley
+    email: hadley@posit.co
+  - family-names: Cheng
+    given-names: Joe
+    email: joe@posit.co
+  - family-names: Chang
+    given-names: Winston
+    email: winston@posit.co
+  - family-names: Iannone
+    given-names: Richard
+    email: rich@posit.co
+    orcid: https://orcid.org/0000-0003-3925-190X
+  year: '2024'
+- type: software
+  title: fs
+  abstract: 'fs: Cross-Platform File System Operations Based on ''libuv'''
+  notes: Suggests
+  url: https://fs.r-lib.org
+  repository: https://CRAN.R-project.org/package=fs
+  authors:
+  - family-names: Hester
+    given-names: Jim
+  - family-names: Wickham
+    given-names: Hadley
+    email: hadley@posit.co
+  - family-names: Csárdi
+    given-names: Gábor
+    email: csardi.gabor@gmail.com
+  year: '2024'
+- type: software
+  title: quanteda.textmodels
+  abstract: 'quanteda.textmodels: Scaling Models and Classifiers for Textual Data'
+  notes: Suggests
+  url: https://github.com/quanteda/quanteda.textmodels
+  repository: https://CRAN.R-project.org/package=quanteda.textmodels
+  authors:
+  - family-names: Benoit
+    given-names: Kenneth
+    email: kbenoit@lse.ac.uk
+    orcid: https://orcid.org/0000-0002-0797-564X
+  - family-names: Watanabe
+    given-names: Kohei
+    email: watanabe.kohei@gmail.com
+    orcid: https://orcid.org/0000-0001-6519-5265
+  - family-names: Wang
+    given-names: Haiyan
+    email: whyinsa@yahoo.com
+    orcid: https://orcid.org/0000-0003-4992-4311
+  - family-names: Perry
+    given-names: Patrick O.
+    email: patperry@gmail.com
+    orcid: https://orcid.org/0000-0001-7460-127X
+  - family-names: Lauderdale
+    given-names: Benjamin
+    email: b.e.lauderdale@lse.ac.uk
+    orcid: https://orcid.org/0000-0003-3090-0969
+  - family-names: Gruber
+    given-names: Johannes
+    email: JohannesB.Gruber@gmail.com
+    orcid: https://orcid.org/0000-0001-9177-1772
+  - family-names: Lowe
+    given-names: William
+    email: lowe@hertie-school.org
+    orcid: https://orcid.org/0000-0002-1549-6163
+  year: '2024'
+- type: software
+  title: shinytest2
+  abstract: 'shinytest2: Testing for Shiny Applications'
+  notes: Suggests
+  url: https://rstudio.github.io/shinytest2/
+  repository: https://CRAN.R-project.org/package=shinytest2
+  authors:
+  - family-names: Schloerke
+    given-names: Barret
+    email: barret@posit.co
+    orcid: https://orcid.org/0000-0001-9986-114X
+  year: '2024'
+
