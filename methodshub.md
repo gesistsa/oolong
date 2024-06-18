@@ -94,7 +94,7 @@ abstracts_seededlda
 
     10 topics; 2,500 documents; 3,908 features.
 
-The sample output is an oolong S3 object.
+The sample output is an oolong [R6 object](https://r6.r-lib.org/).
 
 ## How to Use
 

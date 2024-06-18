@@ -74,7 +74,7 @@ library(seededlda)
 abstracts_seededlda
 ```
 
-The sample output is an oolong S3 object.
+The sample output is an oolong [R6 object](https://r6.r-lib.org/).
 
 ## How to Use
 
