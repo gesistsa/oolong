@@ -53,3 +53,4 @@
 ^methodshub
 ^CITATION\.cff$
 ^\.quarto$
+^runtime\.txt$
