@@ -1,84 +1,30 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://gesistsa.github.io/oolong/404.html</loc>
-  </url>
-  <url>
-    <loc>https://gesistsa.github.io/oolong/CODE_OF_CONDUCT.html</loc>
-  </url>
-  <url>
-    <loc>https://gesistsa.github.io/oolong/LICENSE.html</loc>
-  </url>
-  <url>
-    <loc>https://gesistsa.github.io/oolong/articles/btm.html</loc>
-  </url>
-  <url>
-    <loc>https://gesistsa.github.io/oolong/articles/deploy.html</loc>
-  </url>
-  <url>
-    <loc>https://gesistsa.github.io/oolong/articles/index.html</loc>
-  </url>
-  <url>
-    <loc>https://gesistsa.github.io/oolong/articles/overview.html</loc>
-  </url>
-  <url>
-    <loc>https://gesistsa.github.io/oolong/authors.html</loc>
-  </url>
-  <url>
-    <loc>https://gesistsa.github.io/oolong/index.html</loc>
-  </url>
-  <url>
-    <loc>https://gesistsa.github.io/oolong/methodshub.html</loc>
-  </url>
-  <url>
-    <loc>https://gesistsa.github.io/oolong/news/index.html</loc>
-  </url>
-  <url>
-    <loc>https://gesistsa.github.io/oolong/reference/abstracts.html</loc>
-  </url>
-  <url>
-    <loc>https://gesistsa.github.io/oolong/reference/abstracts_seededlda.html</loc>
-  </url>
-  <url>
-    <loc>https://gesistsa.github.io/oolong/reference/afinn.html</loc>
-  </url>
-  <url>
-    <loc>https://gesistsa.github.io/oolong/reference/check_oolong.html</loc>
-  </url>
-  <url>
-    <loc>https://gesistsa.github.io/oolong/reference/clone_oolong.html</loc>
-  </url>
-  <url>
-    <loc>https://gesistsa.github.io/oolong/reference/create_oolong.html</loc>
-  </url>
-  <url>
-    <loc>https://gesistsa.github.io/oolong/reference/deploy_oolong.html</loc>
-  </url>
-  <url>
-    <loc>https://gesistsa.github.io/oolong/reference/export_oolong.html</loc>
-  </url>
-  <url>
-    <loc>https://gesistsa.github.io/oolong/reference/index.html</loc>
-  </url>
-  <url>
-    <loc>https://gesistsa.github.io/oolong/reference/newsgroup_nb.html</loc>
-  </url>
-  <url>
-    <loc>https://gesistsa.github.io/oolong/reference/print.oolong_gold_standard.html</loc>
-  </url>
-  <url>
-    <loc>https://gesistsa.github.io/oolong/reference/print.oolong_summary.html</loc>
-  </url>
-  <url>
-    <loc>https://gesistsa.github.io/oolong/reference/revert_oolong.html</loc>
-  </url>
-  <url>
-    <loc>https://gesistsa.github.io/oolong/reference/summarize_oolong.html</loc>
-  </url>
-  <url>
-    <loc>https://gesistsa.github.io/oolong/reference/trump2k.html</loc>
-  </url>
-  <url>
-    <loc>https://gesistsa.github.io/oolong/reference/update_oolong.html</loc>
-  </url>
+<urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
+<url><loc>https://gesistsa.github.io/oolong/404.html</loc></url>
+<url><loc>https://gesistsa.github.io/oolong/CODE_OF_CONDUCT.html</loc></url>
+<url><loc>https://gesistsa.github.io/oolong/LICENSE.html</loc></url>
+<url><loc>https://gesistsa.github.io/oolong/articles/btm.html</loc></url>
+<url><loc>https://gesistsa.github.io/oolong/articles/deploy.html</loc></url>
+<url><loc>https://gesistsa.github.io/oolong/articles/index.html</loc></url>
+<url><loc>https://gesistsa.github.io/oolong/articles/overview.html</loc></url>
+<url><loc>https://gesistsa.github.io/oolong/authors.html</loc></url>
+<url><loc>https://gesistsa.github.io/oolong/index.html</loc></url>
+<url><loc>https://gesistsa.github.io/oolong/methodshub.html</loc></url>
+<url><loc>https://gesistsa.github.io/oolong/news/index.html</loc></url>
+<url><loc>https://gesistsa.github.io/oolong/reference/abstracts.html</loc></url>
+<url><loc>https://gesistsa.github.io/oolong/reference/abstracts_seededlda.html</loc></url>
+<url><loc>https://gesistsa.github.io/oolong/reference/afinn.html</loc></url>
+<url><loc>https://gesistsa.github.io/oolong/reference/check_oolong.html</loc></url>
+<url><loc>https://gesistsa.github.io/oolong/reference/clone_oolong.html</loc></url>
+<url><loc>https://gesistsa.github.io/oolong/reference/create_oolong.html</loc></url>
+<url><loc>https://gesistsa.github.io/oolong/reference/deploy_oolong.html</loc></url>
+<url><loc>https://gesistsa.github.io/oolong/reference/export_oolong.html</loc></url>
+<url><loc>https://gesistsa.github.io/oolong/reference/index.html</loc></url>
+<url><loc>https://gesistsa.github.io/oolong/reference/newsgroup_nb.html</loc></url>
+<url><loc>https://gesistsa.github.io/oolong/reference/print.oolong_gold_standard.html</loc></url>
+<url><loc>https://gesistsa.github.io/oolong/reference/print.oolong_summary.html</loc></url>
+<url><loc>https://gesistsa.github.io/oolong/reference/revert_oolong.html</loc></url>
+<url><loc>https://gesistsa.github.io/oolong/reference/summarize_oolong.html</loc></url>
+<url><loc>https://gesistsa.github.io/oolong/reference/trump2k.html</loc></url>
+<url><loc>https://gesistsa.github.io/oolong/reference/update_oolong.html</loc></url>
 </urlset>
+
