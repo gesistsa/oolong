@@ -1,3 +1,7 @@
+# oolong 0.6.2 (development)
+
+* Add content for MH 
+
 # oolong 0.6.1
 
 * Add fixes for quanteda 4.0.0.
