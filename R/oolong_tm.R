@@ -44,7 +44,7 @@
 ## refer to oolong_stm.R for an example
 
 .generate_word_intrusion_test <- function(ingredients, bottom_terms_percentile = 0.6, n_top_terms) {
-    test_items <- purrr::map_dfr(seq_len(ingredients$K), .generate_candidates, terms = ingredients$terms, all_terms = ingredients$all_terms, bottom_terms_percentile = bottom_terms_percentile, n_top_terms = n_top_terms)
+    test_items <- .map_dfr(seq_len(ingredients$K), .generate_candidates, terms = ingredients$terms, all_terms = ingredients$all_terms, bottom_terms_percentile = bottom_terms_percentile, n_top_terms = n_top_terms)
     return(test_items)
 }
 
@@ -90,7 +90,7 @@
     target_theta <- ingredients$theta[sample_vec,]
     k <- ncol(target_theta)
     target_text <- input_corpus[sample_vec]
-    test_items <- purrr::map_dfr(seq_len(exact_n), .generate_topic_frame, target_text = target_text, target_theta = target_theta, model_terms = ingredients$model_terms, k = k, n_top_topics = n_top_topics)
+    test_items <- .map_dfr(seq_len(exact_n), .generate_topic_frame, target_text = target_text, target_theta = target_theta, model_terms = ingredients$model_terms, k = k, n_top_topics = n_top_topics)
     return(test_items)
 }
 
@@ -117,7 +117,7 @@
 }
 
 .generate_wsi <- function(ingredients, n_correct_ws = 3, n_topiclabel_words = 4, wsi_n_top_terms = 20) {
-    test_content <- purrr::map_dfr(seq_len(ingredients$K), .generate_candidates_wsi, terms = ingredients$terms, n_correct_ws = n_correct_ws, n_topiclabel_words = n_topiclabel_words, wsi_n_top_terms = wsi_n_top_terms)
+    test_content <- .map_dfr(seq_len(ingredients$K), .generate_candidates_wsi, terms = ingredients$terms, n_correct_ws = n_correct_ws, n_topiclabel_words = n_topiclabel_words, wsi_n_top_terms = wsi_n_top_terms)
     return(test_content)
 }
 
