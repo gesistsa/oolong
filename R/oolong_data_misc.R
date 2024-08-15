@@ -89,3 +89,7 @@ utils::globalVariables(c('cookd', 'diffxy', 'index', 'meanxy', 'word_length', 'a
     }
     return(digest::digest(x, algo = "sha1"))
 }
+
+.map_dfr <- function(x, f, ...) {
+    purrr::list_rbind(purrr::map(x, f, ...))
+}
