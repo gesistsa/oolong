@@ -7,7 +7,7 @@
     if (need_topic) {
         model_terms <- t(topicmodels::terms(input_model, k = n_topiclabel_words))
         dimnames(model_terms)[[1]] <- NULL
-        theta <- topicmodels::posterior(input_model)$topic
+        theta <- topicmodels::posterior(input_model)$topics
     } else {
         model_terms <- NULL
         theta <- NULL
