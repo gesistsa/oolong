@@ -52,7 +52,7 @@
             res$multiple_test <- NA
             res$rater_precision_p_value <- NA
         } else {
-            res$kripp_alpha <- irr::kripp.alpha(t(ifelse(correction_matrix, 2, 1)))$value
+            res$kripp_alpha <- icr::krippalpha(t(ifelse(correction_matrix, 2, 1)))$alpha
             res$multiple_test <- purrr::map(n_correct, ~binom.test(., n = nrow(correction_matrix), p = 1/n_choices, alternative = "greater"))
             res$rater_precision_p_value <- .combine_p_fisher(purrr::map_dbl(res$multiple_test, "p.value"))
         }
@@ -90,7 +90,7 @@
         if (length(obj_list) == 1) {
             res$kripp_alpha_wsi <- NA
         } else {
-            res$kripp_alpha_wsi <- irr::kripp.alpha(t(ifelse(correction_matrix, 2, 1)))$value
+            res$kripp_alpha_wsi <- icr::krippalpha(t(ifelse(correction_matrix, 2, 1)))$alpha
         }
     }
     return(res)

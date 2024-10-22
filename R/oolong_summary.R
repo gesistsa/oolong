@@ -3,7 +3,7 @@
 #' These functions print or plot a useful summary of the results from \code{\link{summarize_oolong}}. For details, please see the overview vignette: \code{vignette("overview", package = "oolong")}
 #'
 #' @section Summary:
-#' 
+#'
 #' Print function displays the following information:
 #' \describe{
 #'   \item{Mean model precision}{(wi, wsi) Higher value indicates better topic interpretability}
@@ -18,9 +18,9 @@
 #'   \item{Correlation (average answer)}{(gs) Pearson's correlation between average answer and target value}
 #'   \item{Corrlation (content length)}{(gs) Pearson's correlation between content length and target value}
 #' }
-#' 
+#'
 #' @section Diagnostic plot:
-#' 
+#'
 #' Plot function displays a diagnostic plot with the following subplots (gs only).
 #' \describe{
 #'   \item{Top left}{Correlation between answer from coders and target value to check for correlation between two values. Both axes are minmax transformed.}
@@ -28,7 +28,7 @@
 #'   \item{Bottom left}{Correlation between target value and content length to check for the influence of content length.}
 #'   \item{Bottom right}{Cook's distance to check for influential observations.}
 #' }
-#' 
+#'
 #' @param x an oolong_summary
 #' @param ... other parameters
 #' @method print oolong_summary
@@ -53,7 +53,7 @@ plot.oolong_summary <- function(x, ...) {
     } else {
         .cstop(TRUE, "Don't know how to plot this oolong_summary.")
     }
-    
+
 }
 
 .print_oolong_summary_tm <- function(oolong_summary) {
@@ -85,7 +85,7 @@ plot.oolong_summary <- function(x, ...) {
 
 .print_oolong_summary_gs <- function(oolong_summary) {
     cli::cli_h1("Summary (gold standard generation):")
-    .cp(oolong_summary$n_models > 1, "Krippendorff's Alpha: ", round(oolong_summary$kripp_alpha$value, 3))
+    .cp(oolong_summary$n_models > 1, "Krippendorff's Alpha: ", round(oolong_summary$kripp_alpha$alpha, 3))
     .cp(!is.null(oolong_summary$cor), "Correlation: ", round(oolong_summary$cor$estimate, 3), " (p = ", round(oolong_summary$cor$p.value, 4), ")")
     .cp(!is.null(oolong_summary$cor_length), "Effect of content length: ", round(oolong_summary$cor_length$estimate, 3), " (p = ", round(oolong_summary$cor_length$p.value, 4), ")")
 }
@@ -93,7 +93,7 @@ plot.oolong_summary <- function(x, ...) {
 #' Summarize oolong objects
 #'
 #' This function summarizes one or more oolong objects. All oolong objects must be locked.
-#' 
+#'
 #' @param ... (tm/gs) one or more oolong objects to be summarized
 #' @param target_value (gs) a vector of numeric values, the value you want to validate against the human-coded gold standard. One example of this target value is sentiment score extracted automatically from text
 #' @param n_iter (ti) number of iterations to calculate the median test
@@ -127,7 +127,7 @@ plot.oolong_summary <- function(x, ...) {
 #' @author Chung-hong Chan
 #' @references
 #'   Chang, J., Gerrish, S., Wang, C., Boyd-Graber, J. L., & Blei, D. M. (2009). Reading tea leaves: How humans interpret topic models. In Advances in neural information processing systems (pp. 288-296).
-#' 
+#'
 #'   Song et al. (2020) In validations we trust? The impact of imperfect human annotations as a gold standard on the quality of validation of automated content analysis. Political Communication.
 #'
 #'   Ying, L., Montgomery, J. M., & Stewart, B. M. (2021). Topics, Concepts, and Measurement: A Crowdsourced Procedure for Validating Topics as Measures. Political Analysis.

@@ -114,7 +114,7 @@
       i Mean model precision: 0.833333333333333
       i K Precision:
       0.3, 0.7, 0.7, 0.7, 1, 1, 1, 1, 1, 1
-      i Krippendorff's alpha: 0.056
+      i Krippendorff's alpha: 0.072
 
 ---
 

@@ -1,6 +1,6 @@
 Package: oolong
 Title: Create Validation Tests for Automated Content Analysis
-Version: 0.6.1
+Version: 0.6.2
 Authors@R: 
     c(person(given = "Chung-hong", family = "Chan", role = c("aut", "cre"), email = "chainsawtiney@gmail.com", comment = c(ORCID = "0000-0002-6232-7530")),
     person(given = "Marius", family = "Sältzer", role = c("aut"), email = "msaeltze@mail.uni-mannheim.de", comment = c(ORCID = "0000-0002-8604-4666")))
@@ -19,7 +19,7 @@ Imports:
     digest,
     R6,
     quanteda (>= 3.0.0),
-    irr,
+    icr,
     ggplot2,
     cowplot,
     cli,
