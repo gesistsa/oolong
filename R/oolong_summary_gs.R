@@ -1,5 +1,5 @@
 .minmax <- function(x) {
-    (x - min(x)) / (max(x) - min(x)) 
+    (x - min(x)) / (max(x) - min(x))
 }
 
 .corr_plot <- function(answers, target_value) {
@@ -37,7 +37,7 @@
     avg_answer <- apply(answers, 1, mean)
     answers$avg_answer <- avg_answer
     if (length(obj_list) > 1) {
-        kripp <- irr::kripp.alpha(t(as.matrix(answers[,grepl("^answer", colnames(answers))])), method = "ordinal")
+        kripp <- icr::krippalpha(t(as.matrix(answers[,grepl("^answer", colnames(answers))])), metric = "ordinal")
     } else {
         kripp <- NA
     }
