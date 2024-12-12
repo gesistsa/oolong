@@ -13,12 +13,12 @@ package provides functions for validating topic models using word
 intrusion, topic intrusion (Chang et al. 2009,
 <https://papers.nips.cc/paper/3700-reading-tea-leaves-how-humans-interpret-topic-models>)
 and word set intrusion (Ying et al. 2021)
-[\<doi:10.1017/pan.2021.33\>](https://doi.org/10.1017/pan.2021.33)
+[doi:10.1017/pan.2021.33](https://doi.org/10.1017/pan.2021.33)
 tests. This package also provides functions for generating gold-standard
 data which are useful for validating dictionary-based methods. The
 default settings of all generated tests match those suggested in Chang
 et al. (2009) and Song et al. (2020)
-[\<doi:10.1080/10584609.2020.1723752\>](https://doi.org/10.1080/10584609.2020.1723752).
+[doi:10.1080/10584609.2020.1723752](https://doi.org/10.1080/10584609.2020.1723752).
 
 ## Keywords
 
