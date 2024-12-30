@@ -13,11 +13,11 @@ package provides functions for validating topic models using word
 intrusion, topic intrusion (Chang et al. 2009,
 <https://papers.nips.cc/paper/3700-reading-tea-leaves-how-humans-interpret-topic-models>)
 and word set intrusion (Ying et al. 2021)
-[doi:10.1017/pan.2021.33](https://doi.org/10.1017/pan.2021.33)
-tests. This package also provides functions for generating gold-standard
-data which are useful for validating dictionary-based methods. The
-default settings of all generated tests match those suggested in Chang
-et al. (2009) and Song et al. (2020)
+[doi:10.1017/pan.2021.33](https://doi.org/10.1017/pan.2021.33) tests.
+This package also provides functions for generating gold-standard data
+which are useful for validating dictionary-based methods. The default
+settings of all generated tests match those suggested in Chang et
+al. (2009) and Song et al. (2020)
 [doi:10.1080/10584609.2020.1723752](https://doi.org/10.1080/10584609.2020.1723752).
 
 ## Keywords
@@ -29,6 +29,7 @@ et al. (2009) and Song et al. (2020)
 ## Science Usecase(s)
 
 <!-- - Include usecases from social sciences that would make this method applicable in a certain scenario.  -->
+
 <!-- The use cases or research questions mentioned should arise from the latest social science literature cited in the description. -->
 
 This package was used in the literature to valid topic models and
@@ -51,12 +52,15 @@ install.packages("oolong")
 ```
 
 <!-- ## Hardware Requirements (Optional) -->
+
 <!-- - The hardware requirements may be needed in specific cases when a method is known to require more memory/compute power.  -->
+
 <!-- - The method need to be executed on a specific architecture (GPUs, Hadoop cluster etc.) -->
 
 ## Input Data
 
 <!-- - The input data has to be a Digital Behavioral Data (DBD) Dataset -->
+
 <!-- - You can provide link to a public DBD dataset. GESIS DBD datasets (https://www.gesis.org/en/institute/digital-behavioral-data) -->
 
 The input data has to be a topic model or prediction model trained on
@@ -77,6 +81,7 @@ model <- textmodel_lda(x = dfm(trump_toks), k = 8, verbose = TRUE)
 ## Sample Input and Output Data
 
 <!-- - Show how the input data looks like through few sample instances -->
+
 <!-- - Providing a sample output on the sample input to help cross check  -->
 
 A sample input is a model trained on text data, e.g.
@@ -187,9 +192,12 @@ Issue Tracker: <https://github.com/gesistsa/oolong/issues>
 1.  Chan, C. H., & Sältzer, M. (2020). oolong: An R package for
     validating automated content analysis tools. The Journal of Open
     Source Software: JOSS, 5(55), 2461.
-    https:://doi.org/10.21105/joss.02461
+    <https://doi.org/10.21105/joss.02461>
 
 <!-- ## Acknowledgements -->
+
 <!-- - Acknowledgements if any -->
+
 <!-- ## Disclaimer -->
+
 <!-- - Add any disclaimers, legal notices, or usage restrictions for the method, if necessary. -->

@@ -131,7 +131,7 @@ Issue Tracker: [https://github.com/gesistsa/oolong/issues](https://github.com/ge
 
 ## Publication
 
-1. Chan, C. H., & Sältzer, M. (2020). oolong: An R package for validating automated content analysis tools. The Journal of Open Source Software: JOSS, 5(55), 2461. https:://doi.org/10.21105/joss.02461
+1. Chan, C. H., & Sältzer, M. (2020). oolong: An R package for validating automated content analysis tools. The Journal of Open Source Software: JOSS, 5(55), 2461. <https://doi.org/10.21105/joss.02461>
 
 <!-- ## Acknowledgements -->
 <!-- - Acknowledgements if any -->
