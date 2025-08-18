@@ -25,10 +25,6 @@ Intended to create standard human-in-the-loop validity tests for typical automat
 
 This package was used in the literature to valid topic models and prediction models trained on text data, e.g. [Rauchfleisch et al. (2023)](https://doi.org/10.1080/17512786.2022.2110928), [Rothut, et al. (2023)](https://doi.org/10.1177/14614448231164409), [Eisele, et al. (2023)](https://doi.org/10.1080/19312458.2023.2230560).
 
-## Repository structure
-
-This repository follows [the standard structure of an R package](https://cran.r-project.org/doc/FAQ/R-exts.html#Package-structure).
-
 ## Environment Setup
 
 With R installed:
