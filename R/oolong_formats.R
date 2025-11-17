@@ -1,6 +1,6 @@
 
 .is_topic_model <- function(x) {
-    if (any(class(x) %in% c("WarpLDA", "STM", "BTM", "keyATM_output","textmodel_lda", "textmodel_nb"))) {
+    if (any(class(x) %in% c("WarpLDA", "STM", "BTM", "keyATM_output","textmodel_lda", "textmodel_nb", "oolong_dummy_tm"))) {
         return(TRUE)
     }
     if (is.null(attr(class(x), "package"))) {
@@ -25,6 +25,9 @@
     }
     output <- list()
     output$model <- input_model
+    if ("oolong_dummy_tm" %in% class(input_model)) {
+        return(.add_class(output, "input_model_s3_dummy"))
+    }
     if ("WarpLDA" %in% class(input_model)) {
         return(.add_class(output, "input_model_s3_warplda"))
     }
