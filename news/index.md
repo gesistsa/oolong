@@ -1,6 +1,10 @@
 # Changelog
 
-## oolong 0.6.2 (development)
+## oolong 0.7.0
+
+- CRAN release
+
+## oolong 0.6.2
 
 - Add content for MH
 - Use `icr` for the calculation of Krippendorff’s Alpha
