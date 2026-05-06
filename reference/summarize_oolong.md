@@ -1,0 +1,116 @@
+# Summarize oolong objects
+
+This function summarizes one or more oolong objects. All oolong objects
+must be locked.
+
+## Usage
+
+``` r
+summarize_oolong(..., target_value = NULL, n_iter = 1500)
+
+summarise_oolong(..., target_value = NULL, n_iter = 1500)
+```
+
+## Arguments
+
+- ...:
+
+  (tm/gs) one or more oolong objects to be summarized
+
+- target_value:
+
+  (gs) a vector of numeric values, the value you want to validate
+  against the human-coded gold standard. One example of this target
+  value is sentiment score extracted automatically from text
+
+- n_iter:
+
+  (ti) number of iterations to calculate the median test
+
+## Value
+
+An oolong summary. Depends on purpose, an oolong summary object has the
+following values:
+
+- `$type`:
+
+  (gs/tm) type of analysis, either 'gs' or 'tm'
+
+- `$kripp_alpha`; `$kripp_alpha_wsi`:
+
+  (wi, wsi) Krippendorff's Alpha, if more than one oolong object is
+  analyzed.
+
+- `$rater_precision`; `$rater_precision_wsi`:
+
+  (wi, wsi) Model precision
+
+- `$res$rater_precision_p_value`:
+
+  (wi) Model precision's p-value calculated by one-sample binomial test
+  and Fisher's Omnibus method.
+
+- `$k_precision`; `$k_precision_wsi`:
+
+  (wi, wsi) precision for each topic
+
+- `$tlo`:
+
+  (ti) vector of topic log odds
+
+- `$tlo_pvalue`:
+
+  (ti) Median topic log odds's p-value calculated by permutation test.
+
+- `$cor`:
+
+  (gs) Pearson's correlation between average answer and target value
+
+- `$cor_length`:
+
+  (gs) Pearson's correlation between content length and target value
+
+- `$diag_plot`:
+
+  (gs) diagnostic plot.
+
+A useful summary of an object can be obtained either by
+[`print.oolong_summary`](https://gesistsa.github.io/oolong/reference/print.oolong_summary.md)
+or
+[`plot.oolong_summary`](https://gesistsa.github.io/oolong/reference/print.oolong_summary.md).
+For details, please see the overview vignette:
+[`vignette("overview", package = "oolong")`](https://gesistsa.github.io/oolong/articles/overview.md)
+
+## References
+
+Chang, J., Gerrish, S., Wang, C., Boyd-Graber, J. L., & Blei, D. M.
+(2009). Reading tea leaves: How humans interpret topic models. In
+Advances in neural information processing systems (pp. 288-296).
+
+Song et al. (2020) In validations we trust? The impact of imperfect
+human annotations as a gold standard on the quality of validation of
+automated content analysis. Political Communication.
+
+Ying, L., Montgomery, J. M., & Stewart, B. M. (2021). Topics, Concepts,
+and Measurement: A Crowdsourced Procedure for Validating Topics as
+Measures. Political Analysis.
+
+## Author
+
+Chung-hong Chan
+
+## Examples
+
+``` r
+# Please try this example in interactive R sessions only.
+if (interactive()) {
+   data(abstracts_stm)
+   oolong_test1 <- create_oolong(abstracts_stm)
+   oolong_test2 <- clone_oolong(oolong_test1)
+   oolong_test1$do_word_intrusion_test()
+   oolong_test2$do_word_intrusion_test()
+   oolong_test1$lock()
+   oolong_test2$lock()
+   summarize_oolong(oolong_test1, oolong_test2)
+}
+```
