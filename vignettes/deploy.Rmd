@@ -46,7 +46,7 @@ The directory has only two files
 fs::dir_tree("./wsi_test")
 ```
 
-This structure is called ["Single-file Shiny app."](https://shiny.rstudio.com/articles/app-formats.html) Experienced Shiny users might have their preferred method of deploying this app to whatever Shiny server they can master.
+This structure is called ["Single-file Shiny app."](https://shiny.rstudio.com/articles/app-formats.html) Experienced Shiny users might have their preferred method of deploying this app to whatever Shiny server.
 
 For less experienced users, the simplest way to deploy this app online is to use [shinyapps.io](https://www.shinyapps.io/) (free tier available with 25 hours of computational time per month). Please register for an account at shinyapps.io and configure rsconnect. Please refer to [this guide](https://shiny.rstudio.com/articles/shinyapps.html) for more information. Please remember to configure the tokens.
 
@@ -68,7 +68,7 @@ You will be asked for the title of the app, just give it a name, e.g. *wsi_test*
 
 <img src="figures/deploying_shinyappsio.png" align="center" height="400" />
 
-If there is no hiccup, you will get a URL to your deployed oolong test. Something like: *https://yourname.shinyapps.io/wsi_test/*
+If there is no hiccup, you will get a URL to your deployed oolong test.
 
 # Conduct the test
 
