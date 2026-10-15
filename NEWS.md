@@ -1,3 +1,7 @@
+# oolong (development version)
+
+* Avoid calling `quanteda::ntoken()` directly on corpus objects, which is deprecated; tokenise with `quanteda::tokens()` first. This prevents deprecation warnings with the upcoming quanteda release.
+
 # oolong 0.7.0
 
 * CRAN release

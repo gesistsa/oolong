@@ -331,7 +331,7 @@ gold_standard %>% tokens(remove_punct = TRUE) %>% dfm() %>% dfm_lookup(afinn) %>
     quanteda::convert(to = "data.frame") %>%
     mutate(matching_word_valence = (neg5 * -5) + (neg4 * -4) + (neg3 * -3) + (neg2 * -2) + (neg1 * -1)
            + (zero * 0) + (pos1 * 1) + (pos2 * 2) + (pos3 * 3) + (pos4 * 4) + (pos5 * 5),
-           base = ntoken(gold_standard, remove_punct = TRUE), afinn_score = matching_word_valence / base) %>%
+           base = ntoken(tokens(gold_standard, remove_punct = TRUE)), afinn_score = matching_word_valence / base) %>%
     pull(afinn_score) -> all_afinn_score
 all_afinn_score
 ```
@@ -426,7 +426,7 @@ gold_standard %>% tokens(remove_punct = TRUE) %>% dfm() %>%
     dfm_lookup(afinn) %>% quanteda::convert(to = "data.frame") %>%
     mutate(matching_word_valence = (neg5 * -5) + (neg4 * -4) + (neg3 * -3) + (neg2 * -2) + (neg1 * -1)
            + (zero * 0) + (pos1 * 1) + (pos2 * 2) + (pos3 * 3) + (pos4 * 4) + (pos5 * 5),
-           base = ntoken(gold_standard, remove_punct = TRUE), afinn_score = matching_word_valence / base) %>%
+           base = ntoken(tokens(gold_standard, remove_punct = TRUE)), afinn_score = matching_word_valence / base) %>%
     pull(afinn_score) -> target_value
 ```
 
