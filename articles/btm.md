@@ -19,7 +19,7 @@ require(BTM)
 #> Loading required package: BTM
 require(quanteda)
 #> Loading required package: quanteda
-#> Package version: 4.4
+#> Package version: 4.5.0
 #> Unicode version: 15.1
 #> ICU version: 74.2
 #> Parallel computing: disabled

@@ -65,7 +65,7 @@ fs::dir_tree("./wsi_test")
 This structure is called [“Single-file Shiny
 app.”](https://shiny.rstudio.com/articles/app-formats.html) Experienced
 Shiny users might have their preferred method of deploying this app to
-whatever Shiny server they can master.
+whatever Shiny server.
 
 For less experienced users, the simplest way to deploy this app online
 is to use [shinyapps.io](https://www.shinyapps.io/) (free tier available
@@ -99,7 +99,6 @@ the **Publish** button to initialize the deployment process.
 ![](figures/deploying_shinyappsio.png)
 
 If there is no hiccup, you will get a URL to your deployed oolong test.
-Something like: *<https://yourname.shinyapps.io/wsi_test/>*
 
 ## Conduct the test
 

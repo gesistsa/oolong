@@ -59,7 +59,7 @@ library(seededlda)
 #> 
 #>     terms
 library(quanteda)
-#> Package version: 4.4
+#> Package version: 4.5.0
 #> Unicode version: 15.1
 #> ICU version: 74.2
 #> Parallel computing: disabled
@@ -492,7 +492,7 @@ for further analysis. The corpus contains two `docvars`, ‘answer’.
 oolong_test$turn_gold()
 #> Corpus consisting of 20 documents and 1 docvar.
 #> text1 :
-#> "Thank you Eau Claire, Wisconsin.  #VoteTrump on Tuesday, Apr..."
+#> "Thank you Eau Claire, Wisconsin. #VoteTrump on Tuesday, Apr..."
 #> 
 #> text2 :
 #> ""@bobby990r_1: @realDonaldTrump would lead polls the second ..."
@@ -523,7 +523,7 @@ gold_standard %>% tokens(remove_punct = TRUE) %>% dfm() %>% dfm_lookup(afinn) %>
     quanteda::convert(to = "data.frame") %>%
     mutate(matching_word_valence = (neg5 * -5) + (neg4 * -4) + (neg3 * -3) + (neg2 * -2) + (neg1 * -1)
            + (zero * 0) + (pos1 * 1) + (pos2 * 2) + (pos3 * 3) + (pos4 * 4) + (pos5 * 5),
-           base = ntoken(gold_standard, remove_punct = TRUE), afinn_score = matching_word_valence / base) %>%
+           base = ntoken(tokens(gold_standard, remove_punct = TRUE)), afinn_score = matching_word_valence / base) %>%
     pull(afinn_score) -> all_afinn_score
 all_afinn_score
 #>       text1       text2       text3       text4       text5       text6 
@@ -584,7 +584,7 @@ gold_standard %>% tokens(remove_punct = TRUE) %>% dfm() %>%
     dfm_lookup(afinn) %>% quanteda::convert(to = "data.frame") %>%
     mutate(matching_word_valence = (neg5 * -5) + (neg4 * -4) + (neg3 * -3) + (neg2 * -2) + (neg1 * -1)
            + (zero * 0) + (pos1 * 1) + (pos2 * 2) + (pos3 * 3) + (pos4 * 4) + (pos5 * 5),
-           base = ntoken(gold_standard, remove_punct = TRUE), afinn_score = matching_word_valence / base) %>%
+           base = ntoken(tokens(gold_standard, remove_punct = TRUE)), afinn_score = matching_word_valence / base) %>%
     pull(afinn_score) -> target_value
 ```
 

@@ -1,6 +1,17 @@
 # Changelog
 
+## oolong (development version)
+
+- Avoid calling
+  [`quanteda::ntoken()`](https://quanteda.io/reference/ntoken.html)
+  directly on corpus objects, which is deprecated; tokenise with
+  [`quanteda::tokens()`](https://quanteda.io/reference/tokens.html)
+  first. This prevents deprecation warnings with the upcoming quanteda
+  release.
+
 ## oolong 0.7.0
+
+CRAN release: 2026-05-07
 
 - CRAN release
 
