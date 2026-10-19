@@ -19,7 +19,7 @@
 
 .length_plot <- function(oolong, target_value, ...) {
     gold <- oolong$turn_gold()
-    nwords <- quanteda::ntoken(gold, ...)
+    nwords <- quanteda::ntoken(quanteda::tokens(gold, ...))
     plot_data <- tibble::tibble(target_value = .minmax(target_value), word_length = nwords)
     ggplot2::ggplot(plot_data, ggplot2::aes(x = word_length, y = target_value)) + ggplot2::geom_point() + ggplot2::geom_smooth(method = lm) + ggplot2::xlab("Number of words") + ggplot2::ylab("Target value")
 }
@@ -57,7 +57,7 @@
     p4 <- .cook_plot(answers, target_value)
     res$diag_plot <- cowplot::plot_grid(p1, p2, p3, p4)
     res$cor <- cor.test(.minmax(target_value), .minmax(answers$avg_answer))
-    text_length <- quanteda::ntoken(obj_list[[1]]$turn_gold(), remove_punct = TRUE)
+    text_length <- quanteda::ntoken(quanteda::tokens(obj_list[[1]]$turn_gold(), remove_punct = TRUE))
     res$cor_length <- cor.test(.minmax(target_value), text_length)
     res$type <- "gs"
     class(res) <- append(class(res), "oolong_summary")
